@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Promotion.Vip"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="VipType" type="cPos.Model.Promotion.VipTypeInfo,cPos.Model"/>
+    <typeAlias alias="VipBase" type="cPos.Model.Promotion.VipBaseInfo,cPos.Model"/>
+    <typeAlias alias="Vip" type="cPos.Model.Promotion.VipInfo,cPos.Model"/>
+    <typeAlias alias="VipExchange" type="cPos.Model.Promotion.VipExchangeInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+    <resultMap id="VipTypeResult" class="VipType" >
+      <result property="ID" column="vip_type_id" type="string" />
+      <result property="Code" column="vip_type_code" type="string" />
+      <result property="Name" column="vip_type_name" type="string" />
+      <result property="EnglishName" column="vip_type_name_en" type="string" />
+    </resultMap>
+    
+    <resultMap id="VipBaseResult" class="VipBase" extends="Pos.Operate.ObjectOperateResult">
+      <result property="ID" column="vip_id" type="string" />
+      <result property="No" column="vip_no" type="string" />
+      <result property="Name" column="vip_name" type="string" />
+      <result property="Gender" column="vip_gender" type="string" />
+      <result property="EnglishName" column="vip_name_en" type="string" />
+      <result property="IdentityNo" column="vip_identity_no" type="string" />
+      <result property="Birthday" column="vip_birthday" type="string" />
+      <result property="Address" column="vip_address" type="string" />
+      <result property="Postcode" column="vip_postcode" type="string" />
+      <result property="Cell" column="vip_cell" type="string" />
+      <result property="Email" column="vip_email" type="string" />
+      <result property="QQ" column="vip_qq" type="string" />
+      <result property="MSN" column="vip_msn" type="string" />
+      <result property="Weibo" column="vip_weibo" type="string" />
+      <result property="Points" column="vip_points" type="int" />
+      <result property="ActivateTime" column="activate_time" type="DateTime" />
+      <result property="Status" column="vip_status" type="int" />
+      <result property="ExpiredDate" column="vip_expired_date" type="string" />
+      <result property="Remark" column="vip_remark" type="string" />
+      <result property="Version" column="vip_version" type="int" />
+    </resultMap>
+
+    <resultMap id="VipResult" class="Vip"  extends="VipBaseResult" >
+      <result property="StatusDescription" column="vip_status_desc" type="string" />
+      
+      <result property="ActivateUnit.Id" column="activate_unit_id" type="string" />
+      <result property="ActivateUnit.Code" column="activate_unit_code" type="string" />
+      <result property="ActivateUnit.Name" column="activate_unit_name" type="string" />
+      <result property="ActivateUnit.ShortName" column="activate_unit_name_short" type="string" />
+      
+      <result property="Type.ID" column="vip_type_id" type="string" />
+      <result property="Type.Code" column="vip_type_code" type="string" />
+      <result property="Type.Name" column="vip_type_name" type="string" />
+      
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <select id="SelectVipTypeList" resultMap="VipTypeResult">
+      select * from t_vip_type order by vip_type_code
+    </select>
+    
+    <insert id="Insert" parameterClass="VipExchange">
+      insert into t_vip(vip_id, vip_no, vip_name, vip_name_en, vip_identity_no, 
+      vip_birthday, vip_address, vip_postcode, vip_cell, vip_email, vip_qq, vip_msn,
+      vip_weibo, vip_points, activate_time, activate_unit_id, vip_status, vip_expired_date,
+      vip_remark, create_user_id, create_user_name, create_time, sys_modify_stamp, vip_gender, vip_type, vip_version) 
+      values(#ID#, #No#, #Name#, #EnglishName#, #IdentityNo#, 
+      #Birthday#, #Address#, #Postcode#, #Cell#, #Email#, #QQ#, #MSN#,
+      #Weibo#, #Points#, #ActivateTime#, #ActivateUnitID#, 1, #ExpiredDate#,
+      #Remark#, #CreateUserID#, #CreateUserName#, #CreateTime#, getdate(), #Gender#, #Type#, #Version#) 
+    </insert>
+
+    <update id="Update" parameterClass="VipExchange">
+      update t_vip set
+      vip_no = #No#,
+      vip_name = #Name#,
+      vip_name_en = #EnglishName#,
+      vip_identity_no = #IdentityNo#,
+      vip_birthday = #Birthday#,
+      vip_address = #Address#,
+      vip_postcode = #Postcode#,
+      vip_cell = #Cell#,
+      vip_email = #Email#,
+      vip_qq = #QQ#,
+      vip_msn = #MSN#,
+      vip_weibo = #Weibo#,
+      vip_points = #Points#,
+      vip_expired_date = #ExpiredDate#,
+      vip_remark = #Remark#,
+      modify_user_id = #ModifyUserID#,
+      modify_user_name = #ModifyUserName#,
+      modify_time = #ModifyTime#,
+      sys_modify_stamp = getdate(),
+      vip_gender = #Gender#,
+      vip_type = #Type#,
+      vip_version=vip_version+1
+      where vip_id = #ID# and ((vip_version = #Version#) or (vip_version = (#Version#-1)))
+    </update>
+
+    <select id="Select" resultMap="VipResult">
+      select a.vip_id, a.vip_no, a.vip_name, a.vip_name_en, a.vip_identity_no,
+      a.vip_birthday, a.vip_address, a.vip_postcode, a.vip_cell, a.vip_email, a.vip_qq,
+      a.vip_msn, a.vip_weibo, a.vip_points, a.activate_time, a.activate_unit_id, a.vip_status,
+      a.vip_expired_date, a.vip_remark, a.create_user_id, a.create_user_name, a.create_time, a.modify_user_id,
+      a.modify_user_name, a.modify_time, a.sys_modify_stamp, a.vip_gender, a.vip_type, a.vip_version,
+      case a.vip_status when 1 then '正常' when -1 then '停用' else '未知' end as vip_status_desc,
+      b.vip_type_id, b.vip_type_code, b.vip_type_name,
+      c.unit_code as activate_unit_code, c.unit_name as activate_unit_name, c.unit_name_short as activate_unit_name_short
+      from t_vip a, t_vip_type b, t_unit c
+      where a.vip_type=b.vip_type_code and a.activate_unit_id=c.unit_id
+    </select>
+
+    <select id="SelectByID" resultMap="VipResult" extends ="Select" parameterClass="string">
+      and a.vip_id=#value#
+    </select>
+
+    <select id="SelectByNo" resultMap="VipResult" extends ="Select" parameterClass="string">
+      and a.vip_no=#value#
+    </select>
+
+    <select id="SelectVipListCount" resultClass="int" parameterClass="hashtable">
+      select count(b.vip_id)
+      from t_unit a, t_vip b, t_vip_type c
+      where a.unit_id=b.activate_unit_id and b.vip_type=c.vip_type_code
+      <dynamic>
+        <isNotNull property="No" prepend="and">
+          b.vip_no like '%' + #No# + '%'
+        </isNotNull>
+        <isNotNull property="Type" prepend="and">
+          b.vip_type = #Type#
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          b.vip_name like '%' + #Name# + '%'
+        </isNotNull>
+        <isNotNull property="Cell" prepend="and">
+          b.vip_cell like '%' + #Cell# + '%'
+        </isNotNull>
+        <isNotNull property="UnitName" prepend="and">
+          (a.unit_name like '%' + #UnitName# + '%' or a.unit_code like '%' + #UnitName# + '%')
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          b.vip_status = #Status#
+        </isNotNull>
+        <isNotNull property="IdentityNo" prepend="and">
+          b.vip_identity_no like '%' + #IdentityNo# + '%'
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectVipList" resultMap="VipResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by b.vip_type,b.vip_no),
+      b.*,
+      case b.vip_status when 1 then '正常' when -1 then '停用' else '未知' end as vip_status_desc,
+      a.unit_code as activate_unit_code, a.unit_name as activate_unit_name, a.unit_name_short as activate_unit_name_short,
+      c.*
+      from t_unit a, t_vip b, t_vip_type c
+      where a.unit_id=b.activate_unit_id and b.vip_type=c.vip_type_code
+      <dynamic>
+        <isNotNull property="No" prepend="and">
+          b.vip_no like '%' + #No# + '%'
+        </isNotNull>
+        <isNotNull property="Type" prepend="and">
+          b.vip_type = #Type#
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          b.vip_name like '%' + #Name# + '%'
+        </isNotNull>
+        <isNotNull property="Cell" prepend="and">
+          b.vip_cell like '%' + #Cell# + '%'
+        </isNotNull>
+        <isNotNull property="UnitName" prepend="and">
+          (a.unit_name like '%' + #UnitName# + '%' or a.unit_code like '%' + #UnitName# + '%')
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          b.vip_status = #Status#
+        </isNotNull>
+        <isNotNull property="IdentityNo" prepend="and">
+          b.vip_identity_no like '%' + #IdentityNo# + '%'
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+    <select id="SelectVipListTerminal" resultMap="VipResult" parameterClass="hashtable">
+      select top $record_count$
+      b.*,
+      case b.vip_status when 1 then '正常' when -1 then '停用' else '未知' end as vip_status_desc,
+      a.unit_code as activate_unit_code, a.unit_name as activate_unit_name, a.unit_name_short as activate_unit_name_short,
+      c.*
+      from t_unit a, t_vip b, t_vip_type c
+      where a.unit_id=b.activate_unit_id and b.vip_type=c.vip_type_code
+      <dynamic>
+        <isNotNull property="vip_no" prepend="and">
+          b.vip_no like '%' + #vip_no# + '%'
+        </isNotNull>
+        <isNotNull property="vip_type" prepend="and">
+          b.vip_type = #vip_type#
+        </isNotNull>
+        <isNotNull property="vip_name" prepend="and">
+          b.vip_name like '%' + #vip_name# + '%'
+        </isNotNull>
+        <isNotNull property="vip_cell" prepend="and">
+          b.vip_cell like '%' + #vip_cell# + '%'
+        </isNotNull>
+        <isNotNull property="vip_identity_no" prepend="and">
+          b.vip_identity_no like '%' + #vip_identity_no# + '%'
+        </isNotNull>
+      </dynamic>
+      order by b.activate_time desc
+    </select>
+
+    <select id="CountVip" resultClass="int" parameterClass="hashtable">
+      select count(b.vip_id)
+      from t_vip b, t_vip_type c
+      where b.vip_type=c.vip_type_code
+      <dynamic>
+        <isNotNull property="vip_no" prepend="and">
+          b.vip_no = #vip_no# 
+        </isNotNull>
+        <isNotNull property="vip_id" prepend="and">
+          b.vip_id &lt;&gt; #vip_id#
+        </isNotNull>
+      </dynamic>
+    </select>
+  </statements>
+
+</sqlMap>

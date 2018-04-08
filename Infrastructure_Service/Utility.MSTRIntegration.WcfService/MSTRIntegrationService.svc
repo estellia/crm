@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="JIT.MSTRIntegration.WcfService.MSTRIntegrationService" CodeBehind="MSTRIntegrationService.svc.cs" %>

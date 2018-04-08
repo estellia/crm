@@ -1,0 +1,698 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Inout"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Inout" type="cPos.Admin.Model.InoutInfo,cPos.Admin.Model" />
+    <typeAlias alias="SearchInoutInfo" type="cPos.Admin.Model.OrderSearchInfo,cPos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="InoutResult" class="Inout">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_no" column="order_no" type="string" />
+      <result property="order_type_id" column="order_type_id" type="string"/>
+      <result property="order_reason_id" column="order_reason_id" type="string"/>
+      <result property="red_flag" column="red_flag" type="string"/>
+      <result property="ref_order_id" column="ref_order_id" type="string"/>
+      <result property="ref_order_no" column="ref_order_no" type="string"/>
+      <result property="warehouse_id" column="warehouse_id" type="string"/>
+      <result property="order_date" column="order_date" type="string"/>
+      <result property="request_date" column="request_date" type="string"/>
+      <result property="complete_date" column="complete_date" type="string"/>
+      <result property="create_unit_id" column="create_unit_id" type="string"/>
+      <result property="unit_id" column="unit_id" type="string"/>
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="related_unit_id" column="related_unit_id" type="string"/>
+      <result property="related_unit_code" column="related_unit_code" type="string"/>
+      <result property="pos_id" column="pos_id" type="string"/>
+      <result property="shift_id" column="shift_id" type="string"/>
+      <result property="sales_user" column="sales_user" type="string"/>
+      <result property="total_amount" column="total_amount" type="decimal"/>
+      <result property="discount_rate" column="discount_rate" type="decimal"/>
+      <result property="actual_amount" column="actual_amount" type="decimal"/>
+      <result property="receive_points" column="receive_points" type="decimal"/>
+      <result property="pay_points" column="pay_points" type="decimal"/>
+      <result property="print_times" column="print_times" type="int"/>
+      <result property="carrier_id" column="carrier_id" type="string"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="status_desc" column="status_desc" type="string"/>
+      <result property="total_qty" column="total_qty" type="decimal"/>
+      <result property="total_retail" column="total_retail" type="decimal"/>
+      <result property="keep_the_change" column="keep_the_change" type="decimal"/>
+      <result property="wiping_zero" column="wiping_zero" type="decimal"/>
+      <result property="vip_no" column="vip_no" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="approve_time" column="approve_time" type="string"/>
+      <result property="approve_user_id" column="approve_user_id" type="string"/>
+      <result property="send_time" column="send_time" type="string"/>
+      <result property="send_user_id" column="send_user_id" type="string"/>
+      <result property="accpect_time" column="accpect_time" type="string"/>
+      <result property="accpect_user_id" column="accpect_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="order_type_code" column="order_type_code" type="string"/>
+      <result property="order_reason_code" column="order_reason_code" type="string"/>
+      <result property="create_unit_name" column="create_unit_name" type="string"/>
+      <result property="create_user_name" column="create_user_name" type="string"/>
+      
+      <result property="modify_user_name" column="modify_user_name" type="string"/>
+      <result property="approve_user_name" column="approve_user_name" type="string"/>
+      <result property="accpect_user_name" column="accpect_user_name" type="string"/>
+      <result property="send_user_name" column="send_user_name" type="string"/>
+      <result property="sales_unit_id" column="sales_unit_id" type="string"/>
+      <result property="sales_unit_name" column="sales_unit_name" type="string"/>
+      <result property="purchase_unit_id" column="purchase_unit_id" type="string"/>
+      <result property="purchase_unit_name" column="purchase_unit_name" type="string"/>
+      <result property="warehouse_name" column="warehouse_name" type="string"/>
+      <result property="order_type_name" column="order_type_name" type="string"/>
+      <result property="order_reason_name" column="order_reason_name" type="string"/>
+      <result property="data_from_id" column="data_from_id" type="string"/>
+      <result property="data_from_name" column="data_from_name" type="string"/>
+    </resultMap>
+
+    <resultMap id="InoutSearchResult" class="Inout" extends="InoutResult">
+      <result property="Row_No" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="ICount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Select" resultMap="InoutResult">
+      select a.order_id
+      ,a.order_no
+      ,a.order_type_id
+      ,a.order_reason_id
+      ,a.red_flag
+      ,a.ref_order_id
+      ,a.ref_order_no
+      ,a.warehouse_id
+      ,a.order_date
+      ,a.request_date
+      ,a.complete_date
+      ,a.create_unit_id
+      ,a.unit_id
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,a.related_unit_id
+      ,a.related_unit_code
+      ,a.pos_id
+      ,a.shift_id
+      ,a.sales_user
+      ,convert(decimal(18,4),a.total_amount*red_flag) total_amount
+      ,a.discount_rate
+      ,convert(decimal(18,4),a.actual_amount*red_flag) actual_amount
+      ,a.receive_points
+      ,a.pay_points
+      ,a.pay_id
+      ,a.print_times
+      ,a.carrier_id
+      ,a.remark
+      ,a.status
+      ,a.status_desc
+      ,convert(decimal(18,4),a.total_qty*red_flag) total_qty
+      ,convert(decimal(18,4),a.total_retail*red_flag) total_retail
+      ,a.keep_the_change
+      ,a.wiping_zero
+      ,(select vip_name From t_vip where vip_id = a.vip_no) vip_no
+      ,a.create_time
+      ,a.create_user_id
+      ,a.approve_time
+      ,a.approve_user_id
+      ,a.send_time
+      ,a.send_user_id
+      ,a.accpect_time
+      ,a.accpect_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.sales_unit_id
+      ,a.purchase_unit_id
+      ,a.data_from_id
+      ,(select prop_name From T_Prop where prop_id = a.data_from_id) data_from_name
+      ,(select order_type_code From T_Order_Type where order_type_id = a.order_type_id) order_type_code
+      ,(select reason_type_code From T_Order_Reason_Type where reason_type_id = a.order_reason_id) order_reason_code
+      ,(select order_type_name From T_Order_Type where order_type_id = a.order_type_id) order_type_name
+      ,(select reason_type_name From T_Order_Reason_Type where reason_type_id = a.order_reason_id) order_reason_name
+      ,(select unit_name From t_unit where unit_id = a.create_unit_id) create_unit_name
+      ,(select USER_NAME From T_User where user_id = a.create_user_id) create_user_name
+      ,(select USER_NAME From T_User where user_id = a.modify_user_id) modify_user_name
+      ,(select USER_NAME From T_User where user_id = a.approve_user_id) approve_user_name
+      ,(select USER_NAME From T_User where user_id = a.accpect_user_id) accpect_user_name
+      ,(select USER_NAME From T_User where user_id = a.send_user_id) send_user_name
+      ,(select unit_name From t_unit where unit_id = a.sales_unit_id) sales_unit_name
+      ,(select unit_name From t_unit where unit_id = a.purchase_unit_id) purchase_unit_name
+      ,(select wh_name From t_warehouse where warehouse_id = a.warehouse_id) warehouse_name
+      From T_Inout a
+
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="InoutResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#;
+    </select>
+    <!--根据班次标识，获取pos小票信息 Jermyn2012-07-24-->
+    <select id="SelectByShiftId" extends="Select" resultMap="InoutResult" parameterClass="hashtable">
+      where a.shift_id=#ShiftId#;
+    </select>
+
+    <sql id="SearchPub">
+      Declare @TmpTable Table
+      (order_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_id,row_no)
+      select x.order_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by a.order_no)
+      ,order_id
+      from t_inout a
+
+      where 1=1
+      and a.status != '-1'
+      <dynamic>
+        <isNotNull property="order_id">
+          <isNotEmpty property="order_id" prepend="and">
+            a.order_id like '%' +  #order_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_no">
+          <isNotEmpty property="order_no" prepend="and">
+            a.order_no like '%' +  #order_no# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_type_id">
+          <isNotEmpty property="order_type_id" prepend="and">
+            a.order_type_id like '%' +  #order_type_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_reason_id">
+          <isNotEmpty property="order_reason_id" prepend="and">
+            a.order_reason_id like '%' +  #order_reason_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_id">
+          <isNotEmpty property="unit_id" prepend="and">
+            a.unit_id =  #unit_id# 
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_begin">
+          <isNotEmpty property="order_date_begin" prepend="and">
+            a.order_date    &gt;= #order_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_end">
+          <isNotEmpty property="order_date_end" prepend="and">
+            a.order_date    &lt;= #order_date_end#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="complete_date_begin">
+          <isNotEmpty property="complete_date_begin" prepend="and">
+            a.complete_date    &gt;= #complete_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="complete_date_end">
+          <isNotEmpty property="complete_date_end" prepend="and">
+            a.complete_date    &lt;= #complete_date_end#
+          </isNotEmpty>
+        </isNotNull>
+
+
+        <isNotNull property="status">
+          <isNotEmpty property="status" prepend="and">
+            a.status    = #status#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="warehouse_id">
+          <isNotEmpty property="warehouse_id" prepend="and">
+            a.warehouse_id    = #warehouse_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="ref_order_no">
+          <isNotEmpty property="ref_order_no" prepend="and">
+            a.ref_order_no  like '%' +  #ref_order_no# + '%' 
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="data_from_id">
+          <isNotEmpty property="data_from_id" prepend="and">
+            a.data_from_id    = #data_from_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="sales_unit_id">
+          <isNotEmpty property="sales_unit_id" prepend="and">
+            a.sales_unit_id    = #sales_unit_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="purchase_unit_id">
+          <isNotEmpty property="purchase_unit_id" prepend="and">
+            a.purchase_unit_id    = #purchase_unit_id#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+
+      and a.order_id in (select distinct x.order_id From t_inout_detail x
+      inner join T_Sku y
+      on(x.sku_id = y.sku_id)
+      inner join T_Item z
+      on(y.item_id = z.item_id)
+      where 1=1
+      <isNotEmpty property="item_name">
+      and (
+      <dynamic>
+        <isNotNull property="item_name">
+          <isNotEmpty property="item_name" prepend="">
+            z.item_name like '%' +  #item_name# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="item_name">
+          <isNotEmpty property="item_name" prepend="or">
+            z.item_code like '%' +  #item_name# + '%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      )
+    </isNotEmpty>
+      )
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="SearchCount" resultClass="int" parameterClass="SearchInoutInfo">
+      <include refid="SearchPub"/>
+
+      select @iCount;
+    </select>
+
+   
+
+    <select id="Search" resultMap="InoutSearchResult" parameterClass="SearchInoutInfo">
+      <include refid="SearchPub"/>
+
+      select a.order_id
+      ,a.order_no
+      ,a.order_type_id
+      ,a.order_reason_id
+      ,a.red_flag
+      ,a.ref_order_id
+      ,a.ref_order_no
+      ,a.warehouse_id
+      ,a.order_date
+      ,a.request_date
+      ,a.complete_date
+      ,a.create_unit_id
+      ,a.unit_id
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,a.related_unit_id
+      ,a.related_unit_code
+      ,a.pos_id
+      ,a.shift_id
+      ,a.sales_user
+      ,convert(decimal(18,4),a.total_amount*red_flag) total_amount
+      ,a.discount_rate
+      ,convert(decimal(18,4),a.actual_amount*red_flag) actual_amount
+      ,a.receive_points
+      ,a.pay_points
+      ,a.pay_id
+      ,a.print_times
+      ,a.carrier_id
+      ,a.remark
+      ,a.status
+      ,a.status_desc
+      ,convert(decimal(18,4),a.total_qty*red_flag) total_qty
+      ,convert(decimal(18,4),a.total_retail*red_flag) total_retail
+      ,a.keep_the_change
+      ,a.wiping_zero
+      ,a.vip_no
+      ,a.create_time
+      ,a.create_user_id
+      ,a.approve_time
+      ,a.approve_user_id
+      ,a.send_time
+      ,a.send_user_id
+      ,a.accpect_time
+      ,a.accpect_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.sales_unit_id
+      ,a.purchase_unit_id
+      ,a.data_from_id
+      ,(select prop_name From T_Prop where prop_id = a.data_from_id) data_from_name
+      ,(select order_type_code From T_Order_Type where order_type_id = a.order_type_id) order_type_code
+      ,(select reason_type_code From T_Order_Reason_Type where reason_type_id = a.order_reason_id) order_reason_code
+      ,(select order_type_name From T_Order_Type where order_type_id = a.order_type_id) order_type_name
+      ,(select reason_type_name From T_Order_Reason_Type where reason_type_id = a.order_reason_id) order_reason_name
+      ,(select unit_name From t_unit where unit_id = a.create_unit_id) create_unit_name
+      ,(select USER_NAME From T_User where user_id = a.create_user_id) create_user_name
+      ,(select USER_NAME From T_User where user_id = a.modify_user_id) modify_user_name
+      ,(select USER_NAME From T_User where user_id = a.approve_user_id) approve_user_name
+      ,(select USER_NAME From T_User where user_id = a.accpect_user_id) accpect_user_name
+      ,(select USER_NAME From T_User where user_id = a.send_user_id) send_user_name
+      ,(select unit_name From t_unit where unit_id = a.sales_unit_id) sales_unit_name
+      ,(select unit_name From t_unit where unit_id = a.purchase_unit_id) purchase_unit_name
+      ,(select wh_name From t_warehouse where warehouse_id = a.warehouse_id) warehouse_name
+      ,b.row_no
+      ,@iCount icount
+      From T_Inout a
+      inner join @TmpTable b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;= #EndRow#
+      ;
+    </select>
+
+      <!--修改商品表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="Inout">
+      update T_Inout
+      set [status] = #status#
+      ,status_desc = #status_desc#
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      <!--,approve_user_id = #approve_user_id#
+      ,approve_time = #approve_time#-->
+      <dynamic prepend=",">
+        <isNotNull prepend="," property="approve_user_id">approve_user_id=#approve_user_id#</isNotNull>
+        <isNotNull prepend="," property="approve_time">approve_time=#approve_time#</isNotNull>
+      </dynamic>
+      ,if_flag = '0'
+      where order_id = #order_id#
+    </update>
+
+    <!--判断用户工号是否存在-->
+    <select id="IsExsitOrderCode" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From T_Inout
+      where 1=1
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="OrderId">order_id != #OrderId#</isNotNull>
+      </dynamic>
+      and order_no = #OrderNo#
+    </select>
+     <!--处理inout表的信息 Jermyn 2012-06-27-->
+    <statement id="InsertOrUpdate" parameterClass="Inout">
+
+      update t_inout
+      set order_no = #order_no#
+     
+      <dynamic prepend=",">
+        <isNotNull prepend="," property="order_type_id">order_type_id=#order_type_id#</isNotNull>
+        <isNotNull prepend="," property="order_reason_id">order_reason_id=#order_reason_id#</isNotNull>
+        <isNotNull prepend="," property="red_flag">red_flag=#red_flag#</isNotNull>
+        <isNotNull prepend="," property="ref_order_id">ref_order_id=#ref_order_id#</isNotNull>
+        <isNotNull prepend="," property="ref_order_no">ref_order_no=#ref_order_no#</isNotNull>
+        <isNotNull prepend="," property="warehouse_id">warehouse_id=#warehouse_id#</isNotNull>
+        <isNotNull prepend="," property="order_date">order_date=#order_date#</isNotNull>
+        <isNotNull prepend="," property="request_date">request_date=#request_date#</isNotNull>
+        <isNotNull prepend="," property="complete_date">complete_date=#complete_date#</isNotNull>
+        <isNotNull prepend="," property="create_unit_id">create_unit_id=#create_unit_id#</isNotNull>
+        <isNotNull prepend="," property="unit_id">unit_id=#unit_id#</isNotNull>
+        <isNotNull prepend="," property="related_unit_id">related_unit_id=#related_unit_id#</isNotNull>
+        <isNotNull prepend="," property="related_unit_code">related_unit_code=#related_unit_code#</isNotNull>
+        <isNotNull prepend="," property="pos_id">pos_id=#pos_id#</isNotNull>
+        <isNotNull prepend="," property="shift_id">shift_id=#shift_id#</isNotNull>
+        <isNotNull prepend="," property="sales_user">sales_user=#sales_user#</isNotNull>
+        <isNotNull prepend="," property="total_amount">total_amount=#total_amount#</isNotNull>
+        <isNotNull prepend="," property="discount_rate">discount_rate=#discount_rate#</isNotNull>
+        <isNotNull prepend="," property="actual_amount">actual_amount=#actual_amount#</isNotNull>
+        <isNotNull prepend="," property="receive_points">receive_points=#receive_points#</isNotNull>
+        <isNotNull prepend="," property="pay_points">pay_points=#pay_points#</isNotNull>
+        <isNotNull prepend="," property="pay_id">pay_id=#pay_id#</isNotNull>
+        <isNotNull prepend="," property="print_times">print_times=#print_times#</isNotNull>
+        <isNotNull prepend="," property="carrier_id">carrier_id=#carrier_id#</isNotNull>
+        <isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+        <isNotNull prepend="," property="status">status=#status#</isNotNull>
+        <isNotNull prepend="," property="status_desc">status_desc=#status_desc#</isNotNull>
+        <isNotNull prepend="," property="total_qty">total_qty=#total_qty#</isNotNull>
+        <isNotNull prepend="," property="total_retail">total_retail=#total_retail#</isNotNull>
+        <isNotNull prepend="," property="keep_the_change">keep_the_change=#keep_the_change#</isNotNull>
+        <isNotNull prepend="," property="wiping_zero">wiping_zero=#wiping_zero#</isNotNull>
+        <isNotNull prepend="," property="vip_no">vip_no=#vip_no#</isNotNull>
+        <isNotNull prepend="," property="approve_time">approve_time=#approve_time#</isNotNull>
+        <isNotNull prepend="," property="approve_user_id">approve_user_id=#approve_user_id#</isNotNull>
+        <isNotNull prepend="," property="send_user_id">send_user_id=#send_user_id#</isNotNull>
+        <isNotNull prepend="," property="send_time">send_time=#send_time#</isNotNull>
+        <isNotNull prepend="," property="accpect_time">accpect_time=#accpect_time#</isNotNull>
+        <isNotNull prepend="," property="accpect_user_id">accpect_user_id=#accpect_user_id#</isNotNull>
+        <isNotNull prepend="," property="modify_time">modify_time=#modify_time#</isNotNull>
+        <isNotNull prepend="," property="modify_user_id">modify_user_id=#modify_user_id#</isNotNull>
+        <isNotNull prepend="," property="sales_unit_id">sales_unit_id=#sales_unit_id#</isNotNull>
+        <isNotNull prepend="," property="purchase_unit_id">purchase_unit_id=#purchase_unit_id#</isNotNull>
+        
+      </dynamic>
+      ,if_flag = #if_flag#
+      where order_id = #order_id#;
+
+      insert into t_inout(
+      order_id
+      ,order_no
+      ,order_type_id
+      ,order_reason_id
+      ,red_flag
+      ,ref_order_id
+      ,ref_order_no
+      ,warehouse_id
+      ,order_date
+      ,request_date
+      ,complete_date
+      ,create_unit_id
+      ,unit_id
+      ,related_unit_id
+      ,related_unit_code
+      ,pos_id
+      ,shift_id
+      ,sales_user
+      ,total_amount
+      ,discount_rate
+      ,actual_amount
+      ,receive_points
+      ,pay_points
+      ,pay_id
+      ,print_times
+      ,carrier_id
+      ,remark
+      ,status
+      ,status_desc
+      ,total_qty
+      ,total_retail
+      ,keep_the_change
+      ,wiping_zero
+      ,vip_no
+      ,create_time
+      ,create_user_id
+      ,approve_time
+      ,approve_user_id
+      ,send_time
+      ,send_user_id
+      ,accpect_time
+      ,accpect_user_id
+      ,modify_time
+      ,modify_user_id
+      ,sales_unit_id
+      ,purchase_unit_id
+      ,data_from_id
+      ,if_flag
+      )
+      select a.* From (
+      select #order_id# order_id
+      , #order_no# order_no
+      , #order_type_id# order_type_id
+      , #order_reason_id# order_reason_id
+      , #red_flag# red_flag
+      , #ref_order_id# ref_order_id
+      , #ref_order_no# ref_order_no
+      , #warehouse_id# warehouse_id
+      , #order_date# order_date
+      , #request_date# request_date
+      , #complete_date# complete_date
+      , #create_unit_id# create_unit_id
+      , #unit_id# unit_id
+      , #related_unit_id# related_unit_id
+      , #related_unit_code# related_unit_code
+      , #pos_id# pos_id
+      , #shift_id# shift_id
+      , #sales_user# sales_user
+      , #total_amount# total_amount
+      , #discount_rate# discount_rate
+      , #actual_amount# actual_amount
+      , #receive_points# receive_points
+      , #pay_points# pay_points
+      , #pay_id# pay_id
+      , #print_times# print_times
+      , #carrier_id# carrier_id
+      , #remark# remark
+      , #status# status
+      , #status_desc# status_desc
+      , #total_qty# total_qty
+      , #total_retail# total_retail
+      , #keep_the_change# keep_the_change
+      , #wiping_zero# wiping_zero
+      , #vip_no# vip_no
+      , #create_time# create_time
+      , #create_user_id# create_user_id
+      , #approve_time# approve_time
+      , #approve_user_id# approve_user_id
+      , #send_time# send_time
+      , #send_user_id# send_user_id
+      , #accpect_time# accpect_time
+      , #accpect_user_id# accpect_user_id
+      , #modify_time# modify_time
+      , #modify_user_id# modify_user_id
+      , #sales_unit_id# sales_unit_id
+      , #purchase_unit_id# purchase_unit_id
+      , #data_from_id# data_from_id
+      , #if_flag# if_flag
+      ) a
+      left join T_Inout b
+      on(a.order_id = b.order_id)
+      where b.order_id is null ;
+
+      <isNotEmpty property="InoutDetailList">
+      <!--删除明细-->
+      delete t_inout_detail
+      where order_id = #order_id#;
+      <!--插入明细-->
+        insert into t_inout_detail
+        (
+        order_detail_id
+        ,order_id
+        ,ref_order_detail_id
+        ,sku_id
+        ,unit_id
+        ,order_qty
+        ,enter_qty
+        ,enter_price
+        ,enter_amount
+        ,std_price
+        ,discount_rate
+        ,retail_price
+        ,retail_amount
+        ,plan_price
+        ,receive_points
+        ,pay_points
+        ,remark
+        ,pos_order_code
+        ,order_detail_status
+        ,display_index
+        ,create_time
+        ,create_user_id
+        ,modify_time
+        ,modify_user_id
+        ,ref_order_id
+        ,if_flag
+        )
+        SELECT a.order_detail_id
+        ,a.order_id
+        ,a.ref_order_detail_id
+        ,a.sku_id
+        ,a.unit_id
+        ,a.order_qty
+        ,a.enter_qty
+        ,a.enter_price
+        ,a.enter_amount
+        ,a.std_price
+        ,a.discount_rate
+        ,a.retail_price
+        ,a.retail_amount
+        ,a.plan_price
+        ,a.receive_points
+        ,a.pay_points
+        ,a.remark
+        ,a.pos_order_code
+        ,a.order_detail_status
+        ,a.display_index
+        ,a.create_time
+        ,a.create_user_id
+        ,a.modify_time
+        ,a.modify_user_id
+        ,a.ref_order_id
+        ,a.if_flag
+
+        FROM (
+        <iterate property="InoutDetailList" conjunction=" UNION ">
+          SELECT
+          #InoutDetailList[].order_detail_id# order_detail_id
+          ,#order_id# order_id
+          ,#InoutDetailList[].ref_order_detail_id# ref_order_detail_id
+          ,#InoutDetailList[].sku_id# sku_id
+          ,#InoutDetailList[].unit_id# unit_id
+          ,#InoutDetailList[].order_qty# order_qty
+          ,#InoutDetailList[].enter_qty# enter_qty
+          ,#InoutDetailList[].enter_price# enter_price
+          ,#InoutDetailList[].enter_amount# enter_amount
+          ,#InoutDetailList[].std_price# std_price
+          ,#InoutDetailList[].discount_rate# discount_rate
+          ,#InoutDetailList[].retail_price# retail_price
+          ,#InoutDetailList[].retail_amount# retail_amount
+          ,#InoutDetailList[].plan_price# plan_price
+          ,#InoutDetailList[].receive_points# receive_points
+          ,#InoutDetailList[].pay_points# pay_points
+          ,#InoutDetailList[].remark# remark
+          ,#InoutDetailList[].pos_order_code# pos_order_code
+          ,#InoutDetailList[].order_detail_status# order_detail_status
+          ,#InoutDetailList[].display_index# display_index
+          ,#create_time# create_time
+          ,#create_user_id# create_user_id
+          ,#modify_time# modify_time
+          ,#modify_user_id# modify_user_id
+          ,#ref_order_id# ref_order_id
+          ,#InoutDetailList[].if_flag# if_flag
+
+        </iterate>
+        ) a;
+      </isNotEmpty>
+    </statement>
+
+    <!--批量修改上传标志 Jermyn 2012-08-09-->
+    <update id="UpdateIfflag" parameterClass="Inout">
+      <isNotEmpty property="InoutInfoList">
+        update T_Inout
+        set Modify_Time = #modify_time#
+        ,Modify_User_Id = #modify_user_id#
+
+        ,if_flag = #if_flag#
+        where order_id in (select a.order_id From  (
+        <iterate property="InoutInfoList" conjuntion="UNION">
+          SELECT #InoutInfoList[].order_id# order_id
+        </iterate> ) a
+        );
+      </isNotEmpty>
+    </update>
+
+    <!--根据单据号获取当局ID-->
+    <select id="SelectOrderIdByOrderNo" resultClass="string" parameterClass="hashtable">
+      select top 1 order_id From (
+      select order_id From t_inout where order_no = #OrderNo#
+      union all
+      select order_id From T_CC where order_no = #OrderNo#
+      )x
+    </select>
+
+    <select id="CheckExistInout" resultClass="int" parameterClass="Inout">
+      select count(*)
+      from t_inout
+      where order_id=#order_id#
+    </select>
+    
+  </statements>
+</sqlMap>

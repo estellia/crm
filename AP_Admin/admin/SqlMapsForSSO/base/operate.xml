@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Base.Operate"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="SystemOperate" type="cpos.Admin.Model.Base.SystemOperateInfo,cpos.Admin.Model" />
+    <typeAlias alias="ObjectModify" type="cpos.Admin.Model.Base.ObjectModifyInfo,cpos.Admin.Model" />
+    <typeAlias alias="ObjectOperate" type="cpos.Admin.Model.Base.ObjectOperateInfo,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="SystemOperateResult" class="SystemOperate">
+      <result property="LastSystemModifyStamp" column="sys_modify_stamp" type="datetime" />
+    </resultMap>
+
+    <resultMap id="ObjectModifyResult" class="ObjectModify" extends="SystemOperateResult">
+      <result property="LastEditor.ID" column="modify_user_id" type="string"/>
+      <result property="LastEditor.Name" column="modify_user_name" type="string"/>
+      <result property="LastEditTime" column="modify_time" type="datetime"/>
+    </resultMap>
+    
+    <resultMap id="ObjectOperateResult" class="ObjectOperate" extends="ObjectModifyResult">
+      <result property="Creater.ID" column="create_user_id" type="string"/>
+      <result property="Creater.Name" column="create_user_name" type="string"/>
+      <result property="CreateTime" column="create_time" type="datetime"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="SelectTableStatus">
+      with tab_status
+      as
+      (
+      select * from vw_dic where dic_code='status'
+      )
+    </select>
+
+    <select id="SelectTableYesNo">
+      with tab_yesno
+      as
+      (
+      select * from vw_dic where dic_code='yes_no'
+      )
+    </select>
+  </statements>
+</sqlMap>

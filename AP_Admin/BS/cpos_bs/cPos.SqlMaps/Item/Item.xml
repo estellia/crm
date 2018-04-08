@@ -1,0 +1,413 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Item"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Item" type="cPos.Model.ItemInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ItemResult" class="Item">
+      <result property="Item_Id" column="item_id" type="string" />
+      <result property="Item_Code" column="item_code" type="string" />
+      <result property="Item_Name" column="item_name" type="string"/>
+      <result property="Pyzjm" column="pyzjm" type="string"/>
+      <result property="Item_Name_En" column="item_name_en" type="string"/>
+      <result property="Item_Name_Short" column="item_name_short" type="string"/>
+      <result property="Status" column="status" type="string"/>
+      <result property="Create_User_Id" column="create_user_id" type="string"/>
+      <result property="Create_Time" column="create_time" type="string"/>
+      <result property="Modify_User_Id" column="modify_user_id" type="string"/>
+      <result property="Modify_Time" column="modify_time" type="string"/>
+      <result property="Create_User_Name" column="create_user_name" type="string"/>
+      <result property="Modify_User_Name" column="modify_user_name" type="string"/>
+      <result property="Status_Desc" column="status_desc" type="string"/>
+      <result property="Item_Remark" column="item_remark" type="string"/>
+      <result property="Item_Category_Code" column="item_category_code" type="string"/>
+      <result property="Item_Category_Name" column="item_category_name" type="string"/>
+      <result property="Item_Category_Id" column="item_category_id" type="string"/>
+      <result property="ifgifts" column="ifgifts" type="int"/>
+      <result property="ifoften" column="ifoften" type="int"/>
+      <result property="ifservice" column="ifservice" type="int"/>
+      <result property="isGB" column="isGB" type="int"/>
+      <result property="data_from" column="data_from" type="string"/>
+      <result property="display_index" column="display_index" type="int"/>
+      <result property="imageUrl" column="imageUrl" type="string"/>
+      <result property="customerId" column="customerId" type="string"/>
+    </resultMap>
+
+    <resultMap id="ItemLikeResult" class ="Item">
+      <result property="Item_Id" column="item_id" type="string" />
+      <result property="Item_Name" column="item_name" type="string" />
+    </resultMap>
+    
+    <resultMap id="ItemSearchResult" class="Item" extends="ItemResult">
+      <result property="Row_No" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="ICount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="ItemResult">
+      select
+      a.item_id
+      ,a.item_category_id
+      ,a.item_code
+      ,a.item_name
+      ,a.item_name_en
+      ,a.item_name_short
+      ,a.pyzjm
+      ,a.item_remark
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select item_category_name from T_Item_Category x where x.item_category_id = a.item_category_id) item_category_name
+      ,(select item_category_code from T_Item_Category x where x.item_category_id = a.item_category_id) item_category_code
+      ,(select user_name from t_user x where x.user_id = a.create_user_id) create_user_name
+      ,(select user_name from t_user x where x.user_id = a.modify_user_id) modify_user_name
+      ,case when a.status = '1' then '正常' else '删除' end status_desc
+      ,a.ifgifts
+      ,a.ifoften
+      ,a.ifservice
+      ,a.isGB
+      ,a.data_from
+      ,a.display_index
+      ,a.imageUrl
+      From t_item a
+
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="ItemResult" parameterClass="hashtable">
+      where a.item_id=#Item_Id#
+    </select>
+
+    <select id="SelectAll" extends="Select" resultMap="ItemResult" >
+      where a.status='1'
+      order by a.item_code
+    </select>
+
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (item_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (item_id,row_no)
+      select x.item_id ,x.rownum_
+      From ( select rownum_=row_number() over(order by a.item_code)
+      ,item_id
+      from t_item a
+      where 1=1
+      <dynamic>
+        <isNotNull property="item_code">
+          <isNotEmpty property="item_code" prepend="and">
+            a.item_code like '%' +  #item_code# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="item_name">
+          <isNotEmpty property="item_name" prepend="and">
+            a.item_name like '%' +  #item_name# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="pyzjm">
+          <isNotEmpty property="pyzjm" prepend="and">
+            a.pyzjm like '%' + #pyzjm# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="status">
+          <isNotEmpty property="status" prepend="and">
+            a.status =  #status#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="item_category_id">
+          <isNotEmpty property="item_category_id" prepend="and">
+            (a.item_category_id =  #item_category_id#
+            or a.item_category_id in (select item_category_id From vw_item_category_level where path_item_category_id like '%' + #item_category_id# + '%' )
+            )
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>
+      ) x ;
+
+      Declare @iCount int;
+      select @iCount = COUNT(*) From @TmpTable;
+      
+    </sql>
+    <select id="SearchCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select @iCount;
+    </select>
+    <!--获取查询的商品类别集合 Jermyn 2012-05-29-->
+    <select id="Search" resultMap="ItemSearchResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select
+      a.item_id
+      ,a.item_category_id
+      ,a.item_code
+      ,a.item_name
+      ,a.item_name_en
+      ,a.item_name_short
+      ,a.pyzjm
+      ,a.item_remark
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select item_category_name from T_Item_Category x where x.item_category_id = a.item_category_id) item_category_name
+      ,(select item_category_code from T_Item_Category x where x.item_category_id = a.item_category_id) item_category_code
+      ,(select user_name from t_user x where x.user_id = a.create_user_id) create_user_name
+      ,(select user_name from t_user x where x.user_id = a.modify_user_id) modify_user_name
+      ,case when a.status = '1' then '正常' else '删除' end status_desc
+      ,b.row_no
+      ,@iCount icount
+      ,a.ifgifts
+      ,a.ifoften
+      ,a.ifservice
+      ,a.isGB
+      ,a.data_from
+      ,a.display_index
+      ,a.imageUrl
+      From T_Item a
+      inner join @TmpTable b
+      on(a.Item_Id = b.Item_Id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.item_code
+      ;
+    </select>
+
+    <!--修改商品表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="Item">
+      update t_item
+      set [status] = #Status#
+      ,Modify_Time = #Modify_Time#
+      ,Modify_User_Id = #Modify_User_Id#
+      ,if_flag = '0'
+      where item_id = #Item_Id#
+    </update>
+
+    <!--判断item  工号是否存在 Jermyn 2012-06-05 -->
+    <select id="IsExsitItemCode" resultClass="int" parameterString="hashtable">
+      select count(*)
+      From t_item
+      where 1=1
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="ItemId">item_id != #ItemId#</isNotNull>
+      </dynamic>
+      
+      and item_code = #ItemCode#;
+    </select>
+
+    <!--判断barcode  工号是否存在 Jermyn 2012-06-05 -->
+    <select id="IsExsitBarcode" resultClass="int" parameterString="hashtable">
+      select count(*)
+      From t_sku
+      where 1=1
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="SkuId">sku_id != #SkuId#</isNotNull>
+      </dynamic>
+
+      and barcode = #Barcode#;
+    </select>
+    
+    <!--用户信息修改或者新建 Jermyn2012-06-05-->
+    <statement id="InsertOrUpdate" parameterClass="Item">
+      update T_Item
+      set item_category_id = #Item_Category_Id#
+      , item_code = #Item_Code#
+      , item_name = #Item_Name#
+      ,item_name_en = #Item_Name_En#
+      , item_name_short = #Item_Name_Short#
+      ,pyzjm = #Pyzjm#
+      ,item_remark = #Item_Remark#
+      ,modify_user_id = #Modify_User_Id#
+      ,modify_time = #Modify_Time#
+      ,ifgifts = #ifgifts#
+      ,ifoften = #ifoften#
+      ,ifservice = #ifservice#
+      ,if_flag = '0'
+      ,isGB = #isGB#
+      ,data_from = '3'
+      ,display_index = #display_index#
+      where item_id = #Item_Id#;
+
+      insert into T_Item (
+      item_id
+      ,item_category_id
+      ,item_code
+      ,item_name
+      ,item_name_en
+      ,item_name_short
+      ,pyzjm
+      ,item_remark
+      ,status
+      ,status_desc
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,ifgifts
+      ,ifoften
+      ,ifservice
+      ,a.isGB
+      ,a.data_from
+      ,a.display_index
+      )
+
+      select a.* From (
+      select #Item_Id# item_id
+      ,#Item_Category_Id# item_category_id
+      ,#Item_Code# item_code
+      ,#Item_Name# item_name
+      ,#Item_Name_En# item_name_en
+      ,#Item_Name_Short# item_name_short
+      ,#Pyzjm# pyzjm
+      ,#Item_Remark# item_remark
+      ,#Status# status
+      ,#Status_Desc# status_desc
+      ,#Create_User_Id# create_user_id
+      ,#Create_Time# create_time
+      ,#Modify_User_Id# modify_user_id
+      ,#Modify_Time# modify_time
+      ,#ifgifts# ifgifts
+      ,#ifoften# ifoften
+      ,#ifservice# ifservice
+      ,#isGB# isGB
+      ,'3' data_from
+      ,#display_index# display_index
+      ) a
+      left join T_Item b
+      on(a.item_id = b.item_id)
+      where b.item_id is null ;
+    </statement>
+
+    <!--模糊查询商品信息Jermyn2012-06-20-->
+    <select id="SelectLikeItemName" resultMap="ItemLikeResult">
+      select top 10 item_id,item_name From t_item a
+      where status = '1'
+      and 1=1
+      and (
+      <dynamic>
+      <isNotNull property="ItemName">
+        <isNotEmpty property="ItemName" prepend="">
+          a.item_code like '%' +  #ItemName# + '%'
+        </isNotEmpty>
+      </isNotNull>
+
+          <isNotNull property="ItemName">
+            <isNotEmpty property="ItemName" prepend="or">
+              a.item_name like '%' +  #ItemName# + '%'
+            </isNotEmpty>
+          </isNotNull>
+    </dynamic>
+      ) order by a.item_code;
+    </select>
+
+    <!--获取未打包的商品数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From t_item
+      where isnull(if_flag,'0') = '0'
+      and data_from in ('2','3')
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="customerId">customerId = #customerId#</isNotNull>
+      </dynamic>
+        ;
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="ItemResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (item_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (item_id,row_no)
+      select item_id
+      ,row_number() over(order by item_code) row_no
+      From T_Item
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      and data_from in ('2','3')
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="customerId">customerId = #customerId#</isNotNull>
+      </dynamic>
+      ;
+
+      select
+      a.item_id
+      ,a.item_category_id
+      ,a.item_code
+      ,a.item_name
+      ,a.item_name_en
+      ,a.item_name_short
+      ,a.pyzjm
+      ,a.item_remark
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select item_category_name from T_Item_Category x where x.item_category_id = a.item_category_id) item_category_name
+      ,(select item_category_code from T_Item_Category x where x.item_category_id = a.item_category_id) item_category_code
+      ,(select user_name from t_user x where x.user_id = a.create_user_id) create_user_name
+      ,(select user_name from t_user x where x.user_id = a.modify_user_id) modify_user_name
+      ,case when a.status = '1' then '正常' else '删除' end status_desc
+      ,a.ifgifts
+      ,a.ifoften
+      ,a.ifservice
+      ,a.isGB
+      ,a.data_from
+      ,a.display_index
+      ,a.imageUrl
+      ,a.customerId
+      From t_item a
+      inner join @TmpTable b
+      on(a.item_id = b.item_id)
+      where b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.item_code
+      ;
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="Item">
+      <isNotEmpty property="ItemInfoList">
+        update t_item
+        set bat_id = #bat_id#
+        ,Modify_Time = #Modify_Time#
+        ,Modify_User_Id = #Modify_User_Id#
+        where item_id in (
+        <iterate property="ItemInfoList" conjunction=" UNION ">
+          SELECT #ItemInfoList[].Item_Id#
+        </iterate> );
+      </isNotEmpty>
+      
+    </update>
+    <!--更新Item表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="Item">
+      update t_item
+      set if_flag = '1'
+      ,Modify_Time = #Modify_Time#
+      ,Modify_User_Id = #Modify_User_Id#
+      where bat_id = #bat_id#;
+    </update>
+  </statements>
+</sqlMap>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="gb2312"?>
+<chart palette="1" caption="销售利润统计" shownames="1" showvalues="0" numberPrefix="￥" sYAxisValuesDecimals="2" connectNullData="0" PYAxisName="金额" SYAxisName="数量" numDivLines="4" formatNumberScale="0">
+  <categories>
+    <category label="2012-11-02" />
+    <category label="2012-11-05" />
+    <category label="2012-11-07" />
+  </categories>
+  <dataset seriesName="销售总额" color="AFD8F8" showValues="0">
+    <set value="82.5" />
+    <set value="81.65" />
+    <set value="16.5" />
+  </dataset>
+  <dataset seriesName="成本总额" color="F6BD0F" showValues="0">
+    <set value="78.1" />
+    <set value="63.9" />
+    <set value="14.2" />
+  </dataset>
+  <dataset seriesName="利润总额" color="FF0000" showValues="0">
+    <set value="4.4" />
+    <set value="17.75" />
+    <set value="2.3" />
+  </dataset>
+  <dataset seriesName="总数量" color="8BBA00" showValues="0" parentYAxis="S">
+    <set value="14" />
+    <set value="12" />
+    <set value="4" />
+  </dataset>
+</chart>

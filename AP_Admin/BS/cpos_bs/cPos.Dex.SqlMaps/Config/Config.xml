@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="ConfigInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="ConfigInfo" type="cPos.Dex.Model.ConfigInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ConfigInfoResult" class="ConfigInfo">
+      <result property="CfgId" column="Cfg_Id" type="string" />
+      <result property="CfgKey" column="Cfg_Key" type="string" />
+      <result property="CfgValue" column="Cfg_Value" type="string" />
+      <result property="CfgStatus" column="Cfg_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!-- ConfigInfo -->
+    <select id="GetConfigs" resultMap="ConfigInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_config a
+      where 1=1
+      <dynamic>
+        <isNotNull property="CfgId">
+          <isNotEmpty property="CfgId" prepend="and">
+            Cfg_Id = #CfgId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CfgKey">
+          <isNotEmpty property="CfgKey" prepend="and">
+            Cfg_Key = #CfgKey#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CfgValue">
+          <isNotEmpty property="CfgValue" prepend="and">
+            Cfg_Value = #CfgValue#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CfgStatus">
+          <isNotEmpty property="CfgStatus" prepend="and">
+            Cfg_Status = #CfgStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetConfigByKey" resultMap="ConfigInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_config a
+      where a.cfg_key=#value#
+    </select>
+
+    <insert id="InsertConfig" parameterClass="ConfigInfo">
+      insert into t_dex_config
+      (
+      cfg_id
+      ,cfg_key
+      ,cfg_value
+      ,cfg_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #CfgId#
+      ,#CfgKey#
+      ,#CfgValue#
+      ,#CfgStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateConfig" parameterClass="ConfigInfo">
+      update t_dex_config
+      set
+      cfg_value=#CfgValue#
+      ,cfg_status=#CfgStatus#
+      ,modify_time=#ModifyTime#
+      ,modify_user_id=#ModifyUserId#
+      where cfg_id=#CfgId#
+    </update>
+
+    <delete id="DeleteConfig" parameterClass="string">
+      delete t_dex_config
+      where cfg_id=#CfgId#
+    </delete>
+
+  </statements>
+
+</sqlMap>

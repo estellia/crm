@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{194BD897-5ED9-4BDC-BF3B-9D81EA0E6764}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.TradeCenter.BLL</RootNamespace>
+    <AssemblyName>TradeCenter.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Const, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Const.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJSON">
+      <HintPath>..\ReferenceDll\LitJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppBLL.cs" />
+    <Compile Include="AppOrderBLL.cs" />
+    <Compile Include="AppWhiteListBLL.cs" />
+    <Compile Include="CodeGeneration\WeiXinOrderQueryBLL.cs" />
+    <Compile Include="CodeGeneration\AppBLL.cs" />
+    <Compile Include="CodeGeneration\AppOrderBLL.cs" />
+    <Compile Include="CodeGeneration\AppWhiteListBLL.cs" />
+    <Compile Include="CodeGeneration\PayChannelBLL.cs" />
+    <Compile Include="CodeGeneration\PayRequestRecordBLL.cs" />
+    <Compile Include="HttpHelper.cs" />
+    <Compile Include="PayChannelBLL.cs" />
+    <Compile Include="PayRequestRecordBLL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OrderQueryBLL.cs" />
+    <Compile Include="TonysFarmRecharge\PrePaidCardUtil.cs" />
+    <Compile Include="TonysFarmRecharge\RechargeBLL.cs" />
+    <Compile Include="VipCardBLL.cs" />
+    <Compile Include="WxPayNotify\WxPayData.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TradeCenter.DataAccess\TradeCenter.DataAccess.csproj">
+      <Project>{0E226619-B729-4EA9-BCB8-38B3F677D12F}</Project>
+      <Name>TradeCenter.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TradeCenter.Entity\TradeCenter.Entity.csproj">
+      <Project>{AC8E0FE3-E731-4588-8454-F287F05CE7E7}</Project>
+      <Name>TradeCenter.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility.Pay\Utility.Pay.csproj">
+      <Project>{533490a3-2064-4229-8711-f99a2ec2f75d}</Project>
+      <Name>Utility.Pay</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

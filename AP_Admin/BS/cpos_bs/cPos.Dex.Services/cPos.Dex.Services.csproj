@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB8AFAF8-8287-484E-A500-A0D52E7B4BC9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Dex.Services</RootNamespace>
+    <AssemblyName>cPos.Dex.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.DynamicProxy">
+      <HintPath>..\Library\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel">
+      <HintPath>..\Library\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Model">
+      <HintPath>..\Library\Castle.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\Library\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\Library\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common.Logging.Log4Net">
+      <HintPath>..\Library\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\Library\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuthService.cs" />
+    <Compile Include="ConfigService.cs" />
+    <Compile Include="BasicService.cs" />
+    <Compile Include="PackageService.cs" />
+    <Compile Include="ServerService.cs" />
+    <Compile Include="LogDBService.cs" />
+    <Compile Include="DexService.cs" />
+    <Compile Include="ErrorService.cs" />
+    <Compile Include="LogService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\admin\Model\Model.csproj">
+      <Project>{3E3BA018-A902-4D2B-87AD-36FA10A13BEF}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\admin\Service\Service.csproj">
+      <Project>{970D9E05-294F-4614-909C-40892CF49BCA}</Project>
+      <Name>Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Common\cPos.Dex.Common.csproj">
+      <Project>{4E164CF5-3114-4C70-874F-1353FB6A6215}</Project>
+      <Name>cPos.Dex.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Components\cPos.Dex.Components.csproj">
+      <Project>{562555C3-1C06-4836-B471-827E4B06F814}</Project>
+      <Name>cPos.Dex.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.ContractModel\cPos.Dex.ContractModel.csproj">
+      <Project>{BEFD77C5-4762-4439-AA04-C512C9167943}</Project>
+      <Name>cPos.Dex.ContractModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Model\cPos.Dex.Model.csproj">
+      <Project>{362D546C-7404-4ECC-B39B-5C0E4025D872}</Project>
+      <Name>cPos.Dex.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Model\cPos.Model.csproj">
+      <Project>{F534EE31-0CEA-4ECB-9F58-5DD2FA5AE99D}</Project>
+      <Name>cPos.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

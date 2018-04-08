@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="cPos.Admin.Service.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MVS_mPos_Service_CP_AuthBsWebServices" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:6750/cPos.WebSite/webservice/AuthBsWebServices.asmx</Value>
+    </Setting>
+    <Setting Name="cPos_Admin_Service_CustomerWebServices_CustomerInfoInit" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.0.55:8201/webservice/CustomerInfoInit.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="gb2312"?>
+<chart palette="1" caption="销售利润对比" numberPrefix="￥" sYAxisValuesDecimals="2" connectNullData="0" PYAxisName="利润" numDivLines="4" formatNumberScale="0">
+  <categories>
+    <category label="2012-11-02:2012-10-02" />
+    <category label="2012-11-05:2012-10-05" />
+    <category label="2012-11-07:2012-10-07" />
+  </categories>
+  <dataset seriesName="销售日期" color="AFD8F8" showValues="0">
+    <set value="4.4" />
+    <set value="17.75" />
+    <set value="2.3" />
+  </dataset>
+  <dataset seriesName="对比日期" color="FF0000" showValues="0">
+    <set value="-0.8" />
+    <set value="-0.8" />
+    <set value="-1.8" />
+  </dataset>
+</chart>

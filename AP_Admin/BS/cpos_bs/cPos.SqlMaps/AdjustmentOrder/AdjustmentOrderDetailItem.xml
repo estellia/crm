@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AdjustmentOrderDetailItem"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AdjustmentOrderDetailItem" type="cPos.Model.AdjustmentOrderDetailItemInfo,cPos.Model" />
+    <typeAlias alias="AdjustmentOrder_Item" type="cPos.Model.AdjustmentOrderInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdjustmentOrderDetailItemResult" class="AdjustmentOrderDetailItem">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_detail_item_id" column="order_detail_item_id" type="string" />
+      <result property="item_id" column="item_id" type="string"/>
+      <result property="price" column="price" type="decimal"/>
+      <result property="item_name" column="item_name" type="string"/>
+      
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="AdjustmentOrderDetailItemResult">
+      select a.order_detail_item_id
+      ,a.order_id
+      ,a.item_id
+      ,a.price
+      ,(select item_name + '--' + item_code from T_Item where item_id = a.item_id) item_name
+      From T_Adjustment_Order_Detail_Item a
+    </select>
+
+    <select id="SelectByOrderId" extends="Select" resultMap="AdjustmentOrderDetailItemResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#
+    </select>
+
+    <!--处理调价单商品明细 Jermyn 2012-06-21-->
+    <statement id="InsertOrUpdate" parameterClass="AdjustmentOrder_Item">
+      <isNotEmpty property="AdjustmentOrderDetailItemList">
+
+        <!--删除该调价单商品明细-->
+        delete  T_Adjustment_Order_Detail_Item
+        where order_id = #order_id#;
+
+        
+
+        <!--插入新的关系-->
+        insert into T_Adjustment_Order_Detail_Item
+        (order_detail_item_id
+        ,order_id
+        ,item_id
+        ,price
+        )
+        SELECT P.order_detail_item_id
+        ,P.order_id
+        ,P.item_id
+        ,P.price
+
+        FROM (
+        <iterate property="AdjustmentOrderDetailItemList" conjunction=" UNION ">
+          SELECT
+          #order_id# order_id
+          , #AdjustmentOrderDetailItemList[].order_detail_item_id# order_detail_item_id
+          , #AdjustmentOrderDetailItemList[].item_id# item_id
+          , #AdjustmentOrderDetailItemList[].price# price
+
+        </iterate>
+        ) P;
+
+      
+      </isNotEmpty>
+    </statement>
+    
+  </statements>
+</sqlMap>

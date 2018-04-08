@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="LEventTemplate"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="LEventTemplate" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_LEventTemplateData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="LEventTemplateResult" class="LEventTemplate">
+      <result property="TemplateId" column="TemplateId" type="Guid" />
+      <result property="TemplateName" column="TemplateName" type="string" />
+      <result property="TemplateDesc" column="TemplateDesc" type="string" />
+      <result property="ActivityGroupId" column="ActivityGroupId" type="Guid"/>
+      <result property="TemplateStatus" column="TemplateStatus" type="int"/>
+      <result property="ImageId" column="ImageId" type="string"/>
+      <result property="StartDate" column="StartDate" type="datetime"/>
+      <result property="EndDate" column="EndDate" type="datetime"/>
+      <result property="IsLongTime" column="IsLongTime" type="int"/>
+      <result property="DisplayIndex" column="DisplayIndex" type="int"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <!--关联字段-->
+      <result property="ActivityGroupName" column="ActivityGroupName" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <!--动态sql语句-->
+    <select id="sql_SelectWhere" resultMap="LEventTemplateResult" parameterClass="hashtable">
+      SELECT * FROM (select ROW_NUMBER() Over(order by a.LastUpdateTime desc ) as rowNum, a.*,b.Name as ActivityGroupName from T_CTW_LEventTemplate as a
+      left join SysMarketingGroupType as b on a.ActivityGroupId=b.ActivityGroupId and b.IsDelete=0
+      where a.IsDelete=0
+      <dynamic>
+        <isNotNull property="TemplateName" prepend="and">
+          a.TemplateName like '%'+#TemplateName#+'%' 
+        </isNotNull>
+        <isNotNull property="ActivityGroupId" prepend="and">
+          a.ActivityGroupId = #ActivityGroupId# 
+        </isNotNull>
+        <isNotNull property="TemplateStatus" prepend="and">
+          a.TemplateStatus = #TemplateStatus# 
+        </isNotNull>
+      </dynamic>
+      ) as t where <![CDATA[rowNum > #StartPage# and rowNum <= #EndPage# ]]>
+    </select>
+    <!--获取总记录数-->
+    <select id="sql_GetCount" resultClass="int" parameterString="hashtable">
+      select count(1) From T_CTW_LEventTemplate where IsDelete=0 
+      <dynamic>
+      <isNotNull property="TemplateName" prepend="and">
+        TemplateName like '%'+#TemplateName#+'%' 
+      </isNotNull>
+      <isNotNull property="ActivityGroupId" prepend="and">
+        ActivityGroupId = #ActivityGroupId# 
+      </isNotNull>
+      <isNotNull property="TemplateStatus" prepend="and">
+        TemplateStatus = #TemplateStatus# 
+      </isNotNull>
+    </dynamic>
+    </select>
+    <!--获取对象-->
+    <select id="sql_SelectById" resultMap="LEventTemplateResult" parameterClass="hashtable">
+      select *,'' as ActivityGroupName from T_CTW_LEventTemplate where IsDelete=0 and TemplateId=#TemplateId#
+    </select>
+    <!--判断同一类型下，DisplayIndex是否存在相同数据-->
+    <select id="sql_IsExist" resultClass="int" parameterClass="hashtable">
+      select count(1) from T_CTW_LEventTemplate where IsDelete=0 and ActivityGroupId=#ActivityGroupId# and DisplayIndex=#DisplayIndex# 
+    </select>
+    <!--获取主题Key，Value-->
+    <select id="sql_DropDownList" resultMap="LEventTemplateResult">
+      SELECT *,'' as ActivityGroupName FROM T_CTW_LEventTemplate where IsDelete=0
+    </select>
+      <!--创建-->
+    <insert id="sql_Insert" parameterClass="LEventTemplate">
+      insert into T_CTW_LEventTemplate(
+      TemplateId
+      ,TemplateName
+      ,TemplateDesc
+      ,ActivityGroupId
+      ,TemplateStatus
+      ,ImageId
+      ,StartDate
+      ,EndDate
+      ,IsLongTime
+      ,DisplayIndex
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete)
+      VALUES
+      (
+      #TemplateId#, #TemplateName#, #TemplateDesc#, #ActivityGroupId#, 10, #ImageId#, #StartDate#,
+      #EndDate#, #IsLongTime#, #DisplayIndex#, Getdate(), #CreateBy#, Getdate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="LEventTemplate">
+      update T_CTW_LEventTemplate set
+      TemplateName=#TemplateName#
+      ,ActivityGroupId=#ActivityGroupId#
+      ,ImageId=#ImageId#
+      ,DisplayIndex=#DisplayIndex#
+      ,LastUpdateTime=Getdate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where TemplateId=#TemplateId#
+    </update>
+    <!--逻辑删除-->
+    <update id="sql_Delete" parameterClass="LEventTemplate">
+      update T_CTW_LEventTemplate set
+      IsDelete=1
+      ,LastUpdateTime=Getdate()
+      ,LastUpdateBy=#LastUpdateBy# 
+      where TemplateId=#TemplateId#
+    </update>
+    <!--设置状态-->
+    <update id="sql_UpdateStatus" parameterClass="LEventTemplate">
+      update T_CTW_LEventTemplate 
+      set 
+      TemplateStatus=#TemplateStatus#
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where TemplateId = #TemplateId# 
+    </update>
+    
+    <!--模板发布-->
+    <update id="sql_UpdateReleaseStatus" parameterClass="LEventTemplate">
+      update T_CTW_LEventTemplate
+      set
+      TemplateStatus=30 where IsDelete=0 and TemplateStatus=20 
+    </update>
+
+  </statements>
+</sqlMap>

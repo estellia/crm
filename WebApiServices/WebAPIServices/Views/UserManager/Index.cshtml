@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    input {
+        margin-bottom: 3px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+    <div class="row">
+        <div class="form-signin" >
+
+            <h2 class="form-signin-heading">添加管理员用户</h2>
+            <input id="token" type="text" class="form-control" placeholder="Token" required="" />
+        <button id="addAdminUser" onclick="addAdminUser()" class="btn btn-primary">添加管理员用户</button>
+            </div>
+
+</div>
+
+    <div class="row">
+        <div class="form-signin" >
+            <h2 class="form-signin-heading">欢迎登陆</h2>
+            <input id="userName" type="email" class="form-control" placeholder="Email address" required="" autocomplete=""/>
+            <input id="userPass"type="password" class="form-control" placeholder="Password" required=""/>
+            <button class="btn btn-primary" onclick="login()">登陆</button>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(function() {
+        //$("#token").val("FF35EC52-E2A1-4C17-B4F0-51ADDF14A947");
+    });
+
+    function addAdminUser(parameters) {
+        $.ajax({
+            type: 'post',
+            url: "/api/WebApiServices/AddAdminUser",
+            cache: false,
+            dataType: 'json',
+            data: { token: $("#token").val() },
+            success: function(data) {
+                debugger;
+                if (data.ErrMSG == null) //Session不存在
+                {
+                    alert("创建成功");
+
+                } else {
+                    alert(data.ErrMSG);
+                }
+            },
+            error: function(msg) {
+                alert(msg.responseText);
+            }
+        });
+    }
+
+    function login(parameters) {
+        var username = $("#userName").val();
+        var password = $("#userPass").val();     
+        $.ajax({
+            type: "POST",
+            url: "/token",
+//api_address为WebApi服务地址，由于OAuth的使用中设置了属性TokenEndpointPath = new PathString("/token")，所以请求到“token”链接时即可自动进入认证流程。
+            data: { grant_type: "password", username: username, password: password, ran: Math.random() },
+//传递用户名、密码、认证方式
+            dataType: "json",
+            success: function(result) {
+                if (result.access_token && result.access_token.length > 0) {
+                    sessionStorage.token = result.access_token;
+                    window.location.href = "/UserManager/AddUser";
+                    // alert(result.access_token);
+                    //result.access_token即是有效的服务调用凭证，可以把该值存入到Cookie中，以
+                } else {
+                    alert("获取token失败");
+                }
+
+            },
+            //error: function (msg) {
+            //    alert("login error");             
+            //    alert(msg.responseText);
+            //}
+
+            //XMLHttpRequest.readyState: 状态码的意思
+            //0 － （未初始化）还没有调用send()方法
+            //1 － （载入）已调用send()方法，正在发送请求
+            //2 － （载入完成）send()方法执行完成，已经接收到全部响应内容
+            //3 － （交互）正在解析响应内容
+            //4 － （完成）响应内容解析完成，可以在客户端调用了
+            ////textStatus: "timeout", "error", "notmodified" 和 "parsererror"。
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("XMLHttpRequest.status=" + XMLHttpRequest.status + ",XMLHttpRequest.readyState=" + XMLHttpRequest.readyState + ",textStatus=" + textStatus);               
+            }
+        });
+    }
+
+
+</script>

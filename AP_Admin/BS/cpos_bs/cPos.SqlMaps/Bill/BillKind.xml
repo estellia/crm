@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="BillKind"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillKind" type="cPos.Model.BillKindModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BillKindResult" class="BillKind">
+      <result property="Id" column="bill_kind_id" type="string" />
+      <result property="Code" column="bill_kind_code" type="string" />
+      <result property="MoneyFlag" column="money_flag" type="int"/>
+      <result property="QueryUrl" column="query_url" type="string"/>
+      <result property="CreateUrl" column="create_url" type="string"/>
+      <result property="ModifyUrl" column="modify_url" type="string"/>
+      <result property="ApproveUrl" column="approve_url" type="string"/>
+      <result property="Description" column="bill_kind_name" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="BillKindResult" parameterClass="hashtable">
+      select a.bill_kind_id, a.bill_kind_code, a.money_flag, a.create_url, a.modify_url, a.query_url, a.approve_url,
+      a.bill_kind_name as bill_kind_name
+      from t_def_bill_kind a
+
+      order by a.display_index
+    </select>
+
+    <select id="SelectById" resultMap="BillKindResult" parameterClass="hashtable">
+      select a.bill_kind_id, a.bill_kind_code, a.money_flag, a.create_url, a.modify_url, a.query_url, a.approve_url,
+      a.bill_kind_name 
+      from t_def_bill_kind a
+      where a.bill_kind_id=#BillKindId#
+    </select>
+
+    <select id="SelectByCode" resultMap="BillKindResult" parameterClass="hashtable">
+      select a.bill_kind_id, a.bill_kind_code, a.money_flag, a.create_url, a.modify_url, a.query_url, a.approve_url,
+      a.bill_kind_name
+      from t_def_bill_kind a
+
+      where a.bill_kind_code=#BillKindCode#
+    </select>
+   
+    <select id="GetQueryUrlByBillId" resultClass="string" parameterClass="string">
+      select b.query_url
+      from t_bill a
+      inner join t_def_bill_kind b on b.bill_kind_id=a.bill_kind_id
+      where a.bill_id=#value#
+    </select>
+
+   
+
+  </statements>
+</sqlMap>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Right.App"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="App" type="cpos.Admin.Model.Right.AppInfo,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="AppResult" class="App" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="app_id" type="string" />
+      <result property="Code" column="app_code" type="string"/>
+      <result property="Name" column="app_name" type="string"/>
+      <result property="EnglishName" column="app_name_en" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    
+    <select id="GetAllAppList" resultMap="AppResult">
+      select * from t_def_app
+    </select>
+
+    <select id="GetCustomerVisibleAppList" resultMap="AppResult">
+      select * from t_def_app
+      where app_code &lt;&gt; 'AP'
+    </select>
+
+  </statements>
+</sqlMap>

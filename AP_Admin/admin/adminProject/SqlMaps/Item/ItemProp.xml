@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="ItemProp"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="ItemProperty" type="cPos.Model.ItemPropInfo,cPos.Model" />
+    <typeAlias alias="itemInfo" type="cPos.Model.ItemInfo,cPos.Model" />
+    <typeAlias alias="PropByItemInfo" type="cPos.Model.PropByItemInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ItemPropertyResult" class="ItemProperty">
+      <result property="Item_Property_Id" column="item_property_id" type="string" />
+      <result property="Item_Id" column="item_id" type="string" />
+      <result property="PropertyCodeGroupId" column="PropertyCodeGroupId" type="string"/>
+      <result property="PropertyCodeId" column="PropertyCodeId" type="string"/>
+      <result property="PropertyDetailId" column="PropertyDetailId" type="string"/>
+      <result property="PropertyCodeValue" column="PropertyCodeValue" type="string"/>
+      <result property="Status" column="Status" type="int"/>
+      <result property="PropertyCodeGroupName" column="PropertyCodeGroupName" type="string"/>
+      <result property="PropertyCodeName" column="PropertyCodeName" type="string"/>
+    </resultMap>
+
+    <resultMap id="PropByItemInfoResult" class="PropByItemInfo">
+      <result property="prop_id" column="prop_id" type="string" />
+      <result property="prop_code" column="prop_code" type="string" />
+      <result property="prop_name" column="prop_name" type="string" />
+      <result property="display_index" column="display_index" type="int" />
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统-->
+    <select id="Select" resultMap="ItemPropertyResult">
+      select a.*
+      From (
+      select a.item_property_id
+      ,a.item_id
+      ,(select prop_id From t_prop where t_prop.prop_id = b.parent_prop_id) PropertyCodeGroupId
+      ,(select prop_name From t_prop where t_prop.prop_id = b.parent_prop_id) PropertyCodeGroupName
+      ,(select display_index From t_prop where t_prop.prop_id = b.parent_prop_id) PropertyCodeGroupDisplay
+      ,a.prop_id PropertyCodeId
+      ,b.prop_name PropertyCodeName
+      ,(select prop_id From t_prop where t_prop.prop_id = a.prop_value) PropertyDetailId
+      ,case when (select prop_name From t_prop where t_prop.prop_id = a.prop_value) is null
+      then a.prop_value
+      else (select prop_name From t_prop where t_prop.prop_id = a.prop_value)
+      end PropertyCodeValue
+      ,a.Status
+      ,b.display_index PropertyCodeDisplay
+      From T_Item_Property a
+      inner join T_Prop b
+      on(a.prop_id = b.prop_id)
+      where 1=1
+      and a.[status] = '1'
+      and b.[status] = '1'
+      ) a
+      where 1=1
+    </select>
+
+    <select id="SelectByItemId" extends="Select" resultMap="ItemPropertyResult" parameterClass="hashtable">
+      and a.item_id = isnull(#ItemId#,a.item_id)
+      order by a.PropertyCodeGroupDisplay,a.PropertyCodeDisplay
+    </select>
+
+    <!--处理表信息 Jermyn 2012-06-14-->
+    <statement id="InsertOrUpdate" parameterClass="itemInfo">
+      <isNotEmpty property="ItemPropList">
+        
+        <!--删除跟该商品相关的属性-->
+        update t_item_property
+        set status= '-1'
+        ,modify_user_id = a.modify_user_id
+        ,modify_time = a.modify_time
+        From (
+        <iterate property="ItemPropList" conjunction=" UNION ">
+          SELECT #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+        </iterate>
+        ) a
+        where ( t_item_property.item_id = a.item_id);
+        
+        <!--修改已经存在的关系-->
+        update t_item_property
+        set prop_value = a.prop_value
+        ,modify_user_id = a.modify_user_id
+        ,modify_time = a.modify_time
+        ,status = '1'
+        From (
+        <iterate property="ItemPropList" conjunction=" UNION ">
+          SELECT #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #ItemPropList[].PropertyCodeId# prop_id
+          , #ItemPropList[].Item_Property_Id# item_property_id
+          , #ItemPropList[].PropertyCodeValue# prop_value
+        </iterate>
+        ) a
+        where ( t_item_property.item_id = a.item_id
+        and t_item_property.prop_id = a.prop_id)
+        or (t_item_property.item_property_id = a.item_property_id);
+
+        <!--插入新的关系-->
+        insert into t_item_property
+        (item_property_id
+        ,item_id
+        ,prop_id
+        ,prop_value
+        ,status
+        ,create_user_id
+        ,create_time
+        ,modify_user_id
+        ,modify_time
+        )
+        SELECT P.item_property_id
+        ,P.item_id
+        ,P.prop_id
+        ,P.prop_value
+        ,P.status
+        ,P.create_user_id
+        ,P.create_time
+        ,P.modify_user_id
+        ,P.modify_time
+
+        FROM (
+        <iterate property="ItemPropList" conjunction=" UNION ">
+          SELECT
+          #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #ItemPropList[].PropertyCodeId# prop_id
+          , #ItemPropList[].Item_Property_Id# item_property_id
+          , #ItemPropList[].PropertyCodeValue# prop_value
+          , #Create_User_Id# create_user_id
+          , #Create_Time# create_time
+          , '1' status
+        </iterate>
+        ) P
+        left join t_item_property  b
+        on(P.item_property_id = b.item_property_id)
+        left join t_item_property c
+        on(P.item_id = c.item_id
+        and P.prop_id = c.prop_id)
+        where b.item_property_id is null
+        and c.item_id is null;
+
+      </isNotEmpty>
+    </statement>
+    
+    <!--单独获取商品属性-->
+    <select id="SelectItemProp" resultMap="PropByItemInfoResult">
+
+      select a.prop_id
+      ,a.prop_code
+      ,a.prop_name
+      ,a.display_index
+      From T_Prop a
+      inner join T_Prop b
+      on(a.parent_prop_id = b.prop_id)
+      where a.prop_domain='ITEM'
+      and a.prop_level = '2'
+      and a.status = '1'
+      order by b.display_index,a.display_index;
+
+    </select>
+  </statements>
+</sqlMap>

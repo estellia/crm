@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Monitor"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="MonitorLogInfo" type="cPos.Admin.Model.MonitorLogInfo,cPos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="MonitorLogInfoResult" class="MonitorLogInfo">
+      <result property="monitor_log_id" column="monitor_log_id" type="string" />
+      <result property="customer_id" column="customer_id" type="string" />
+      <result property="customer_code" column="customer_code" type="string" />
+      <result property="customer_name" column="customer_name" type="string" />
+      <result property="unit_id" column="unit_id" type="string" />
+      <result property="unit_code" column="unit_code" type="string" />
+      <result property="unit_name" column="unit_name" type="string" />
+      <result property="pos_id" column="pos_id" type="string" />
+      <result property="upload_time" column="upload_time" type="string" />
+      <result property="remark" column="remark" type="string" />
+      <result property="create_time" column="create_time" type="string" />
+      <result property="create_user_id" column="create_user_id" type="string" />
+      <result property="row_no" column="row_no" type="int"/>
+      <result property="icount" column="icount" type="int"/>
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+
+    <insert id="InsertMonitorLog" parameterClass="MonitorLogInfo">
+      insert into t_monitor_log
+      (
+      monitor_log_id
+      ,customer_id
+      ,unit_id
+      ,pos_id
+      ,upload_time
+      ,remark
+      ,create_time
+      ,create_user_id
+      )
+      values
+      (
+      #monitor_log_id#
+      ,#customer_id#
+      ,#unit_id#
+      ,#pos_id#
+      ,#upload_time#
+      ,#remark#
+      ,#create_time#
+      ,#create_user_id#
+      )
+    </insert>
+
+    <select id="CheckExistMonitorLog" resultClass="int" parameterClass="MonitorLogInfo">
+      select count(*) 
+      from t_monitor_log
+      where monitor_log_id=#monitor_log_id#
+    </select>
+
+    <sql id="SearchPub">
+      Declare @TmpTable Table
+      (monitor_log_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (monitor_log_id,row_no)
+      select x.monitor_log_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by a.upload_time desc)
+      ,monitor_log_id
+      from t_monitor_log a
+      left join t_customer b on a.customer_id=b.customer_id
+      left join t_customer_shop c on a.unit_id=c.customer_shop_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="customer_code">
+          <isNotEmpty property="customer_code" prepend="and">
+            b.customer_code = #customer_code#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="unit_id">
+          <isNotEmpty property="unit_id" prepend="and">
+            a.unit_id = #unit_id#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="unit_code">
+          <isNotEmpty property="unit_code" prepend="and">
+            c.cs_code = #unit_code#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="pos_id">
+          <isNotEmpty property="pos_id" prepend="and">
+            a.pos_id = #pos_id#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="date_begin">
+          <isNotEmpty property="date_begin" prepend="and">
+            a.upload_time &gt;= #date_begin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="date_end">
+          <isNotEmpty property="date_end" prepend="and">
+            a.upload_time &lt;= #date_end#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="SearchMonitorLogList" resultMap="MonitorLogInfoResult" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+
+      select
+      a.*
+      ,b.customer_code
+      ,b.customer_name
+      ,c.cs_code unit_code
+      ,c.cs_name unit_name
+      ,a1.row_no
+      ,@iCount icount
+      From t_monitor_log a
+      inner join @TmpTable a1 on(a.monitor_log_id = a1.monitor_log_id)
+      left join t_customer b on a.customer_id=b.customer_id
+      left join t_customer_shop c on a.unit_id=c.customer_shop_id
+      where 1=1
+      and a1.row_no &gt; #StartRow# and a1.row_no &lt;= #EndRow#;
+    </select>
+    
+  </statements>
+</sqlMap>

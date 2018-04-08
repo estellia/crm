@@ -1,0 +1,8 @@
+2013/10/23 9:00:17	btnLogin sessionId is :5t2yh3fy4sa1wtpxkrj5lhdc,count:1
+2013/10/23 9:17:52	btnLogin sessionId is :5t2yh3fy4sa1wtpxkrj5lhdc,count:1
+2013/10/23 9:20:25	System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1412
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1256
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 60
+2013/10/23 9:25:27	btnLogin sessionId is :5t2yh3fy4sa1wtpxkrj5lhdc,count:5
+2013/10/23 9:33:45	btnLogin sessionId is :5t2yh3fy4sa1wtpxkrj5lhdc,count:5

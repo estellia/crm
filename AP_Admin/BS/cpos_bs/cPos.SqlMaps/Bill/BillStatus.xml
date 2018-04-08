@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="BillStatus"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillStatus" type="cPos.Model.BillStatusModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BillStatusResult" class="BillStatus">
+      <result property="Id" column="bill_status_id" type="string" />
+      <result property="KindId" column="bill_kind_id" type="string" />
+      <result property="Status" column="bill_status" type="string" />
+      <result property="BeginFlag" column="begin_flag" type="int" />
+      <result property="EndFlag" column="end_flag" type="int" />
+      <result property="DeleteFlag" column="delete_flag" type="int"/>
+      <result property="CustomFlag" column="custom_flag" type="int"/>
+      <result property="Description" column="bill_status_name" type="string"/>
+      <result property="BillKindDescription" column="bill_kind_name" type="string"/>
+      <result property="customer_id" column="customer_id" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="BillStatusResult">
+      select a.*, c.bill_kind_name
+      from t_def_bill_status a
+      left join t_def_bill_kind c on a.bill_kind_id=c.bill_kind_id
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_status_id=#BillStatusId#
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="SelectByKindId" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId#
+      
+      order by a.bill_kind_id, a.bill_status
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <!--获取某种单据的所有状态-->
+    <select id="SelectByKindCode" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where 1=1
+      and a.delete_flag = '0'
+      
+      <dynamic>
+        <isNotNull property="bill_kind_code">
+          <isNotEmpty  property="bill_kind_code" prepend="and">
+            c.bill_kind_code=#bill_kind_code#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      order by a.bill_kind_id, a.bill_status
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="SelectByKindIdAndStatus" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.bill_status=#BillStatus# 
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetBeginStatusByKindId" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.begin_flag=1 
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetEndStatusByKindId" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.end_flag=1 
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetDeleteStatusByKindId" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.delete_flag=1
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="CountBeginStatusByKindId" resultClass="int" parameterClass="hashtable">
+      select nvl(sum(begin_flag),0) from t_def_bill_status
+      where bill_kind_id=#BillKindId#
+      
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="CountEndStatusByKindId" resultClass="int" parameterClass="hashtable">
+      select nvl(sum(end_flag),0) from t_def_bill_status
+      where bill_kind_id=#BillKindId#
+      
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="CountDeleteStatusByKindId" resultClass="int" parameterClass="hashtable">
+      select nvl(sum(delete_flag),0) from t_def_bill_status
+      where bill_kind_id=#BillKindId#
+      
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="CountByKindIdAndStatus" resultClass="int" parameterClass="string">
+      select nvl(count(*),0) from t_def_bill_status
+      where bill_kind_id=#BillKindId# and bill_status=#hashtable#
+    </select>
+
+    <insert id="Insert" parameterClass="BillStatus">
+      insert into t_def_bill_status
+      (bill_status_id, bill_kind_id, bill_status, bill_status_name, begin_flag, end_flag, delete_flag, custom_flag,
+      status, create_user_id, create_time,customer_id)
+      values
+      (#Id#, #KindId#, #Status#, #Description#, #BeginFlag#, #EndFlag#, #DeleteFlag#, #CustomFlag#,
+      1, #CreateUserID#, convert(varchar,getdate(),120),#customer_id#)
+    </insert>
+
+    <delete id="DeleteById" parameterClass="string" >
+      delete from t_def_bill_status
+      where bill_status_id=#value#
+    </delete>
+
+    <select id="CountUsingBillsById" resultClass="int" parameterClass="string">
+      select isnull(count(a.bill_id),0) 
+      from t_bill a, 
+      (select * from t_def_bill_status where bill_status_id=#value#) b
+      where a.bill_kind_id=b.bill_kind_id and a.bill_status=b.bill_status
+    </select>
+
+    <select id="CountUsingBillActionRolesById" resultClass="int" parameterClass="string">
+      select isnull(count(a.bill_action_role_id),0) 
+      from t_def_bill_action_role a, 
+      (select * from t_def_bill_status where bill_status_id=#value#) b
+      where a.bill_kind_id=b.bill_kind_id and (a.pre_bill_status=b.bill_status or a.cur_bill_status=b.bill_status)
+    </select>
+
+    <select id="SelectKPIStatusByKindId" extends="Select" resultMap="BillStatusResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.bill_status not like 'C%' and a.bill_status not like 'P%' and a.bill_status not like 'A%'
+      order by a.bill_kind_id, a.bill_status
+    </select>
+
+    <select id="GetPassStatusByBillKindId" parameterClass="string" resultClass="string">
+      select bill_status from t_def_bill_status where bill_kind_id=#value# and end_flag=1
+    </select>
+  </statements>
+</sqlMap>

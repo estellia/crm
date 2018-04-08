@@ -1,0 +1,18 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<table cellspacing="0" cellpadding="5" rules="all" border="1">
+<tr style="font-weight: bold; white-space: nowrap;">
+<td>组织</td>
+<td>仓库</td>
+<td>品质</td>
+<td>商品号码</td>
+<td>商品名称</td>
+<td>颜色</td>
+<td>尺码</td>
+<td>期初数</td>
+<td>入库数</td>
+<td>出库数</td>
+<td>调整入数</td>
+<td>调整出数</td>
+<td>期末数</td>
+</tr>
+</table>

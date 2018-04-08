@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="cPos.WebServices.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="cPos_WebServices_AuthManagerWebServices_AuthService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.0.55:8100/AuthService.asmx</Value>
+    </Setting>
+    <Setting Name="cPos_WebServices_CustomerDataExchangeWebService_CustomerDataExchangeService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.0.116:8077/customer/CustomerDataExchangeService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

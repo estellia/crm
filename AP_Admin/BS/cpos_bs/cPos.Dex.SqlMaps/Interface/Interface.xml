@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="InterfaceInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="InterfaceInfo" type="cPos.Dex.Model.InterfaceInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="InterfaceInfoResult" class="InterfaceInfo">
+      <result property="IfId" column="If_Id" type="string" />
+      <result property="IfCode" column="If_Code" type="string" />
+      <result property="IfName" column="If_Name" type="string" />
+      <result property="IfUrl" column="If_Url" type="string" />
+      <result property="IfDesc" column="If_Desc" type="string" />
+      <result property="IfStatus" column="If_Status" type="string" />
+      <result property="IfTypeId" column="If_Type_Id" type="string" />
+      <result property="QueueId" column="Queue_Id" type="string" />
+      <result property="RefreshTime" column="Refresh_Time" type="string" />
+      <result property="SortFlag" column="Sort_Flag" type="string" />
+      <result property="PerMaxCount" column="Per_Max_Count" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="GetInterfaces" resultMap="InterfaceInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_interface a
+    </select>
+    
+  </statements>  
+
+</sqlMap>

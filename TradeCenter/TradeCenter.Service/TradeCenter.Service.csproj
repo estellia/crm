@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC871816-F167-47CC-8AF3-0D9940ABAB41}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.TradeCenter.Service</RootNamespace>
+    <AssemblyName>TradeCenter.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Const, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Const.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\LitJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="ThoughtWorks.QRCode">
+      <HintPath>..\ReferenceDll\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ResultNotifyPage.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="wxm-pay-api-demo.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Notify\AliPayWapNotify.ashx.cs">
+      <DependentUpon>AliPayWapNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="API\TradeAPI.cs" />
+    <Compile Include="JumpPage\CallBack.ashx.cs">
+      <DependentUpon>CallBack.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="DevPayTest.ashx.cs">
+      <DependentUpon>DevPayTest.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Gateway.ashx.cs">
+      <DependentUpon>Gateway.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\AliPayOfflineNotify.ashx.cs">
+      <DependentUpon>AliPayOfflineNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\NegotiationNotify.ashx.cs">
+      <DependentUpon>NegotiationNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\PALifePayNotify.ashx.cs">
+      <DependentUpon>PALifePayNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\PAPayRetAmtNotify.ashx.cs">
+      <DependentUpon>PAPayRetAmtNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\PaySuccessBaseNotify.cs" />
+    <Compile Include="Notify\WeiXinPayNotify.ashx.cs">
+      <DependentUpon>WeiXinPayNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\WXNativePayNotify.ashx.cs">
+      <DependentUpon>WXNativePayNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\WxScanQrCodePayNotify.ashx.cs">
+      <DependentUpon>WxScanQrCodePayNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Notify\UnionPayIVRNotify.ashx.cs">
+      <DependentUpon>UnionPayIVRNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Notify\UnionPayWapNotify.ashx.cs">
+      <DependentUpon>UnionPayWapNotify.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ResultNotifyPage.aspx.cs">
+      <DependentUpon>ResultNotifyPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ResultNotifyPage.aspx.designer.cs">
+      <DependentUpon>ResultNotifyPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Helper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Gateway.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PayCenterNotifyService\PayCenterNotifyService.csproj">
+      <Project>{a94f6211-ff57-4a8b-955c-4684849cc0da}</Project>
+      <Name>PayCenterNotifyService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TradeCenter.BLL\TradeCenter.BLL.csproj">
+      <Project>{194BD897-5ED9-4BDC-BF3B-9D81EA0E6764}</Project>
+      <Name>TradeCenter.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TradeCenter.Entity\TradeCenter.Entity.csproj">
+      <Project>{AC8E0FE3-E731-4588-8454-F287F05CE7E7}</Project>
+      <Name>TradeCenter.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TradeCenter.Framework\TradeCenter.Framework.csproj">
+      <Project>{235745B0-4F2F-4A37-9497-CA44F5C573C4}</Project>
+      <Name>TradeCenter.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility.Pay\Utility.Pay.csproj">
+      <Project>{533490A3-2064-4229-8711-F99A2EC2F75D}</Project>
+      <Name>Utility.Pay</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\AliPayWapNotify.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="JumpPage\CallBack.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\UnionPayWapNotify.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\UnionPayIVRNotify.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\AliPayOfflineNotify.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DevPayTest.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\WXNativePayNotify.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\NegotiationNotify.ashx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notify\WeiXinPayNotify.ashx" />
+    <Content Include="Notify\WxScanQrCodePayNotify.ashx" />
+    <Content Include="Notify\PALifePayNotify.ashx" />
+    <Content Include="Notify\PAPayRetAmtNotify.ashx" />
+    <None Include="PayCenter\cer\xcf.cer" />
+    <None Include="PayCenter\pfx\173665683923359.pfx" />
+    <None Include="Properties\PublishProfiles\PayCenter.pubxml" />
+    <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1266</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

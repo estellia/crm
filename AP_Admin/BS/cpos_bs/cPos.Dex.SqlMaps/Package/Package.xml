@@ -1,0 +1,774 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="PackageInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="PackageInfo" type="cPos.Dex.Model.PackageInfo,cPos.Dex.Model" />
+    <typeAlias alias="PackageTypeInfo" type="cPos.Dex.Model.PackageTypeInfo,cPos.Dex.Model" />
+    <typeAlias alias="PackageGenTypeInfo" type="cPos.Dex.Model.PackageGenTypeInfo,cPos.Dex.Model" />
+    <typeAlias alias="PackageFileInfo" type="cPos.Dex.Model.PackageFileInfo,cPos.Dex.Model" />
+    <typeAlias alias="AppTypeInfo" type="cPos.Dex.Model.AppTypeInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="PackageInfoResult" class="PackageInfo">
+      <result property="PkgId" column="Pkg_Id" type="string" />
+      <result property="PkgTypeId" column="Pkg_Type_Id" type="string" />
+      <result property="PkgTypeCode" column="Pkg_Type_Code" type="string" />
+      <result property="PkgGenTypeId" column="Pkg_Gen_Type_Id" type="string" />
+      <result property="PkgGenTypeCode" column="Pkg_Gen_Type_Code" type="string" />
+      <result property="UnitId" column="Unit_Id" type="string" />
+      <result property="CustomerId" column="Customer_Id" type="string" />
+      <result property="UserId" column="User_Id" type="string" />
+      <result property="PkgName" column="Pkg_Name" type="string" />
+      <result property="PkgDesc" column="Pkg_Desc" type="string" />
+      <result property="PkgSeq" column="Pkg_Seq" type="int64" />
+      <result property="PkgStatus" column="Pkg_Status" type="string" />
+      <result property="BatId" column="Bat_Id" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="PackageTypeInfoResult" class="PackageTypeInfo">
+      <result property="PkgTypeId" column="Pkg_Type_Id" type="string" />
+      <result property="TypeCode" column="Type_Code" type="string" />
+      <result property="TypeName" column="Type_Name" type="string" />
+      <result property="TypeStatus" column="Type_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="PackageGenTypeInfoResult" class="PackageGenTypeInfo">
+      <result property="PkgTypeId" column="Pkg_Type_Id" type="string" />
+      <result property="TypeCode" column="Type_Code" type="string" />
+      <result property="TypeName" column="Type_Name" type="string" />
+      <result property="TypeStatus" column="Type_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="PackageFileInfoResult" class="PackageFileInfo">
+      <result property="PkgfId" column="Pkgf_Id" type="string" />
+      <result property="PkgId" column="Pkg_Id" type="string" />
+      <result property="PkgfName" column="Pkgf_Name" type="string" />
+      <result property="PkgfSeq" column="Pkgf_Seq" type="int64" />
+      <result property="PkgfPath" column="Pkgf_Path" type="string" />
+      <result property="PkgfStatus" column="Pkgf_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="AppTypeInfoResult" class="AppTypeInfo">
+      <result property="AppTypeId" column="App_Type_Id" type="string" />
+      <result property="TypeCode" column="Type_Code" type="string" />
+      <result property="TypeName" column="Type_Name" type="string" />
+      <result property="TypeStatus" column="Type_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!-- PackageInfo -->
+    <select id="GetPackages" resultMap="PackageInfoResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by a.Pkg_seq),
+      a.*
+      ,b.type_code Pkg_Type_Code
+      ,c.type_code Pkg_Gen_Type_Code
+      from t_dex_package a
+      left join t_dex_package_type b on a.pkg_type_id=b.pkg_type_id
+      left join t_dex_package_gen_type c on a.pkg_gen_type_id=c.pkg_type_id
+      left join t_dex_app_type d on a.app_type_id=d.app_type_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="PkgStatus">
+          <isNotEmpty property="PkgStatus" prepend="and">
+            a.pkg_status=#PkgStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgId">
+          <isNotEmpty property="PkgId" prepend="and">
+            a.Pkg_Id=#PkgId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgTypeId">
+          <isNotEmpty property="PkgTypeId" prepend="and">
+            a.Pkg_Type_Id=#PkgTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgTypeCode">
+          <isNotEmpty property="PkgTypeCode" prepend="and">
+            b.Type_Code=#PkgTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgGenTypeId">
+          <isNotEmpty property="PkgGenTypeId" prepend="and">
+            a.Pkg_Gen_Type_Id=#PkgGenTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgGenTypeCode">
+          <isNotEmpty property="PkgGenTypeCode" prepend="and">
+            c.Type_Code=#PkgGenTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AppTypeId">
+          <isNotEmpty property="AppTypeId" prepend="and">
+            a.App_Type_Id=#AppTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AppTypeCode">
+          <isNotEmpty property="AppTypeCode" prepend="and">
+            d.Type_Code=#AppTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            (a.unit_id=#UnitId# or a.unit_id is null)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            (a.Customer_Id=#CustomerId# or a.Customer_Id is null)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserId">
+          <isNotEmpty property="UserId" prepend="and">
+            (a.user_id=#UserId# or a.user_id is null)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgName">
+          <isNotEmpty property="PkgName" prepend="and">
+            a.Pkg_Name=#PkgName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgDesc">
+          <isNotEmpty property="PkgDesc" prepend="and">
+            a.Pkg_Desc=#PkgDesc#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgSeq">
+          <isNotEmpty property="PkgSeq" prepend="and">
+            a.Pkg_Seq &gt;= #PkgSeq#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BatId">
+          <isNotEmpty property="BatId" prepend="and">
+            a.Bat_Id=#BatId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeBegin">
+          <isNotEmpty property="CreateTimeBegin" prepend="and">
+            a.Create_Time &gt; #CreateTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeEnd">
+          <isNotEmpty property="CreateTimeEnd" prepend="and">
+            a.Create_Time &lt; #CreateTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            a.Create_User_Id=#CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeBegin">
+          <isNotEmpty property="ModifyTimeBegin" prepend="and">
+            a.Modify_Time &gt; #ModifyTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeEnd">
+          <isNotEmpty property="ModifyTimeEnd" prepend="and">
+            a.Modify_Time &lt; #ModifyTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            a.Modify_User_Id=#ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_ &lt;= #EndRow#
+    </select>
+
+    <select id="GetPackagesCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_dex_package a
+      left join t_dex_package_type b on a.pkg_type_id=b.pkg_type_id
+      left join t_dex_package_gen_type c on a.pkg_gen_type_id=c.pkg_type_id
+      left join t_dex_app_type d on a.app_type_id=d.app_type_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="PkgStatus">
+          <isNotEmpty property="PkgStatus" prepend="and">
+            a.pkg_status=#PkgStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgId">
+          <isNotEmpty property="PkgId" prepend="and">
+            a.Pkg_Id=#PkgId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgTypeId">
+          <isNotEmpty property="PkgTypeId" prepend="and">
+            a.Pkg_Type_Id=#PkgTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgTypeCode">
+          <isNotEmpty property="PkgTypeCode" prepend="and">
+            b.Type_Code=#PkgTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgGenTypeId">
+          <isNotEmpty property="PkgGenTypeId" prepend="and">
+            a.Pkg_Gen_Type_Id=#PkgGenTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgGenTypeCode">
+          <isNotEmpty property="PkgGenTypeCode" prepend="and">
+            c.Type_Code=#PkgGenTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AppTypeId">
+          <isNotEmpty property="AppTypeId" prepend="and">
+            a.App_Type_Id=#AppTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AppTypeCode">
+          <isNotEmpty property="AppTypeCode" prepend="and">
+            d.Type_Code=#AppTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            (a.unit_id=#UnitId# or a.unit_id is null)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            a.Customer_Id=#CustomerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgName">
+          <isNotEmpty property="PkgName" prepend="and">
+            a.Pkg_Name=#PkgName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgDesc">
+          <isNotEmpty property="PkgDesc" prepend="and">
+            a.Pkg_Desc=#PkgDesc#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgSeq">
+          <isNotEmpty property="PkgSeq" prepend="and">
+            a.Pkg_Seq &gt;= #PkgSeq#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BatId">
+          <isNotEmpty property="BatId" prepend="and">
+            a.Bat_Id=#BatId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeBegin">
+          <isNotEmpty property="CreateTimeBegin" prepend="and">
+            a.Create_Time &gt; #CreateTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeEnd">
+          <isNotEmpty property="CreateTimeEnd" prepend="and">
+            a.Create_Time &lt; #CreateTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            a.Create_User_Id=#CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeBegin">
+          <isNotEmpty property="ModifyTimeBegin" prepend="and">
+            a.Modify_Time &gt; #ModifyTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeEnd">
+          <isNotEmpty property="ModifyTimeEnd" prepend="and">
+            a.Modify_Time &lt; #ModifyTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            a.Modify_User_Id=#ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetPackageById" resultMap="PackageInfoResult" parameterClass="string">
+      select a.*
+      ,b.type_code Pkg_Type_Code
+      ,c.type_code Pkg_Gen_Type_Code
+      from t_dex_package a
+      left join t_dex_package_type b on a.pkg_type_id=b.pkg_type_id
+      left join t_dex_package_gen_type c on a.pkg_type_id=c.pkg_type_id
+      where a.pkg_id=#value#
+    </select>
+
+    <select id="GetPackageCountByBatId" resultClass="int" parameterClass="string">
+      select count(*)
+      from t_dex_package a
+      where a.bat_id=#value#
+    </select>
+
+    <select id="GetPackageCountByUnitIdAndPackageName" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_dex_package a
+      where a.unit_id=#UnitId# and a.pkg_name=#PkgName#
+    </select>
+
+    <insert id="InsertPackage" parameterClass="PackageInfo">
+      insert into t_dex_package
+      (
+      pkg_id
+      ,pkg_type_id
+      ,pkg_gen_type_id
+      ,app_type_id
+      ,unit_id
+      ,customer_id
+      ,user_id
+      ,pkg_name
+      ,pkg_desc
+      ,pkg_seq
+      ,pkg_status
+      ,bat_id
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #PkgId#
+      ,#PkgTypeId#
+      ,#PkgGenTypeId#
+      ,#AppTypeId#
+      ,#UnitId#
+      ,#CustomerId#
+      ,#UserId#
+      ,#PkgName#
+      ,#PkgDesc#
+      ,#PkgSeq#
+      ,#PkgStatus#
+      ,#BatId#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdatePackage" parameterClass="PackageInfo">
+      update t_dex_package
+      set
+      Pkg_Type_Id=#PkgTypeId#
+      ,Pkg_Gen_Type_Id=#PkgGenTypeId#
+      ,App_Type_Id=#AppTypeId#
+      ,Unit_Id=#UnitId#
+      ,Customer_Id=#CustomerId#
+      ,User_Id=#UserId#
+      ,Pkg_Name=#PkgName#
+      ,Pkg_Desc=#PkgDesc#
+      ,Pkg_Seq=#PkgSeq#
+      ,Pkg_Status=#PkgStatus#
+      ,Bat_Id=#BatId#
+      ,Modify_Time=#ModifyTime#
+      ,Modify_User_Id=#ModifyUserId#
+      where pkg_id=#PkgId#
+    </update>
+
+    <update id="PublishPackage" parameterClass="PackageInfo">
+      update t_dex_package
+      set
+      Pkg_Status='1'
+      ,Modify_Time=#ModifyTime#
+      ,Modify_User_Id=#ModifyUserId#
+      where pkg_id=#PkgId# and Pkg_Status='0'
+    </update>
+
+    <delete id="DeletePackage" parameterClass="string">
+      delete t_dex_package
+      where pkg_id=#PkgId#
+    </delete>
+
+    
+    <!-- PackageTypeInfo -->
+    <select id="GetPackageTypes" resultMap="PackageTypeInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_package_type a
+      where 1=1
+      <dynamic>
+        <isNotNull property="PkgTypeId">
+          <isNotEmpty property="PkgTypeId" prepend="and">
+            Pkg_Type_Id=#PkgTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeCode">
+          <isNotEmpty property="TypeCode" prepend="and">
+            Type_Code=#TypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeName">
+          <isNotEmpty property="TypeName" prepend="and">
+            Type_Name=#TypeName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeStatus">
+          <isNotEmpty property="TypeStatus" prepend="and">
+            Type_Status=#TypeStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetPackageTypeById" resultMap="PackageTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_package_type a
+      where a.pkg_type_id=#value#
+    </select>
+
+    <select id="GetPackageTypeByCode" resultMap="PackageTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_package_type a
+      where a.type_code=#value#
+    </select>
+
+    <insert id="InsertPackageType" parameterClass="PackageTypeInfo">
+      insert into t_dex_package_type
+      (
+      pkg_type_id
+      ,type_code
+      ,type_name
+      ,type_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #PkgTypeId#
+      ,#TypeCode#
+      ,#TypeName#
+      ,#TypeStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdatePackageType" parameterClass="PackageTypeInfo">
+      update t_dex_package_type
+      set
+      TypeCode=#TypeCode#
+      ,TypeName=#TypeName#
+      ,TypeStatus=#TypeStatus#
+      ,ModifyTime=#ModifyTime#
+      ,ModifyUserId=#ModifyUserId#
+      where pkg_type_id=#PkgTypeId#
+    </update>
+
+    <delete id="DeletePackageType" parameterClass="string">
+      delete t_dex_package_type
+      where pkg_type_id=#PkgTypeId#
+    </delete>
+
+    
+    <!-- PackageGenTypeInfo -->
+    <select id="GetPackageGenTypes" resultMap="PackageGenTypeInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_package_gen_type a
+      where 1=1
+      <dynamic>
+        <isNotNull property="PkgTypeId">
+          <isNotEmpty property="PkgTypeId" prepend="and">
+            Pkg_Type_Id=#PkgTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeCode">
+          <isNotEmpty property="TypeCode" prepend="and">
+            Type_Code=#TypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeName">
+          <isNotEmpty property="TypeName" prepend="and">
+            Type_Name=#TypeName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeStatus">
+          <isNotEmpty property="TypeStatus" prepend="and">
+            Type_Status=#TypeStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetPackageGenTypeById" resultMap="PackageGenTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_package_gen_type a
+      where a.pkg_type_id=#value#
+    </select>
+
+    <select id="GetPackageGenTypeByCode" resultMap="PackageGenTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_package_gen_type a
+      where a.type_code=#value#
+    </select>
+
+    <insert id="InsertPackageGenType" parameterClass="PackageGenTypeInfo">
+      insert into t_dex_package_gen_type
+      (
+      pkg_type_id
+      ,type_code
+      ,type_name
+      ,type_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #PkgTypeId#
+      ,#TypeCode#
+      ,#TypeName#
+      ,#TypeStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdatePackageGenType" parameterClass="PackageGenTypeInfo">
+      update t_dex_package_gen_type
+      set
+      TypeCode=#TypeCode#
+      ,TypeName=#TypeName#
+      ,TypeStatus=#TypeStatus#
+      ,ModifyTime=#ModifyTime#
+      ,ModifyUserId=#ModifyUserId#
+      where pkg_type_id=#PkgTypeId#
+    </update>
+
+    <delete id="DeletePackageGenType" parameterClass="string">
+      delete t_dex_package_gen_type
+      where pkg_type_id=#PkgTypeId#
+    </delete>
+
+
+    <!-- PackageFileInfo -->
+    <select id="GetPackageFiles" resultMap="PackageFileInfoResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by a.Pkgf_seq),
+      a.*
+      from t_dex_package_file a
+      where 1=1
+      <dynamic>
+        <isNotNull property="PkgfId">
+          <isNotEmpty property="PkgfId" prepend="and">
+            Pkgf_Id=#PkgfId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgId">
+          <isNotEmpty property="PkgId" prepend="and">
+            Pkg_Id=#PkgId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfName">
+          <isNotEmpty property="PkgfName" prepend="and">
+            Pkgf_Name=#PkgfName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfSeq">
+          <isNotEmpty property="PkgfSeq" prepend="and">
+            Pkgf_Seq=#PkgfSeq#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfPath">
+          <isNotEmpty property="PkgfPath" prepend="and">
+            Pkgf_Path=#PkgfPath#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfStatus">
+          <isNotEmpty property="PkgfStatus" prepend="and">
+            Pkgf_Status=#PkgfStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            Create_User_Id=#CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            Modify_User_Id=#ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_ &lt;= #EndRow#
+    </select>
+
+    <select id="GetPackageFilesCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_dex_package_file a
+      where 1=1
+      <dynamic>
+        <isNotNull property="PkgfId">
+          <isNotEmpty property="PkgfId" prepend="and">
+            Pkgf_Id=#PkgfId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgId">
+          <isNotEmpty property="PkgId" prepend="and">
+            Pkg_Id=#PkgId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfName">
+          <isNotEmpty property="PkgfName" prepend="and">
+            Pkgf_Name=#PkgfName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfSeq">
+          <isNotEmpty property="PkgfSeq" prepend="and">
+            Pkgf_Seq=#PkgfSeq#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfPath">
+          <isNotEmpty property="PkgfPath" prepend="and">
+            Pkgf_Path=#PkgfPath#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="PkgfStatus">
+          <isNotEmpty property="PkgfStatus" prepend="and">
+            Pkgf_Status=#PkgfStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            Create_User_Id=#CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            Modify_User_Id=#ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetPackageFileById" resultMap="PackageFileInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_package_file a
+      where a.pkgf_id=#value#
+    </select>
+
+    <select id="GetPackageFileByName" resultMap="PackageFileInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_package_file a
+      where a.pkgf_name=#value#
+    </select>
+
+    <insert id="InsertPackageFile" parameterClass="PackageFileInfo">
+      insert into t_dex_package_file
+      (
+      pkgf_id
+      ,pkg_id
+      ,pkgf_name
+      ,pkgf_seq
+      ,pkgf_path
+      ,pkgf_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #PkgfId#
+      ,#PkgId#
+      ,#PkgfName#
+      ,#PkgfSeq#
+      ,#PkgfPath#
+      ,#PkgfStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdatePackageFile" parameterClass="PackageFileInfo">
+      update t_dex_package_file
+      set
+      Pkg_Id=#PkgId#
+      ,Pkgf_Name=#PkgfName#
+      ,Pkgf_Seq=#PkgfSeq#
+      ,Pkgf_Path=#PkgfPath#
+      ,Pkgf_Status=#PkgfStatus#
+      ,Modify_Time=#ModifyTime#
+      ,Modify_User_Id=#ModifyUserId#
+      where Pkgf_Id=#PkgfId#
+    </update>
+
+    <delete id="DeletePackageFile" parameterClass="string">
+      delete t_dex_package_file
+      where pkgf_id=#PkgfId#
+    </delete>
+
+    <select id="GetPackageSeq" resultClass="int64">
+      declare @T Table(i int);
+      insert into @T
+      select count(*) from t_dex_seq where seq_type='Package';
+
+      insert into t_dex_seq
+      select 'Package' seq_type, '1' seq_value from @T where i is null or i=0;
+
+      update t_dex_seq set seq_value=ISNULL(seq_value,0)+1 where seq_type='Package';
+      select seq_value from t_dex_seq where seq_type='Package';
+    </select>
+
+    <select id="GetPackageFileSeq" resultClass="int64">
+      declare @T Table(i int);
+      insert into @T
+      select count(*) from t_dex_seq where seq_type='PackageFile';
+
+      insert into t_dex_seq
+      select 'PackageFile' seq_type, '1' seq_value from @T where i is null or i=0;
+
+      update t_dex_seq set seq_value=ISNULL(seq_value,0)+1 where seq_type='PackageFile';
+      select seq_value from t_dex_seq where seq_type='PackageFile';
+    </select>
+
+    <select id="GetAppTypeById" resultMap="AppTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_app_type a
+      where a.app_type_id=#value#
+    </select>
+
+    <select id="GetAppTypeByCode" resultMap="AppTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_app_type a
+      where a.type_code=#value#
+    </select>
+
+  </statements>
+
+</sqlMap>

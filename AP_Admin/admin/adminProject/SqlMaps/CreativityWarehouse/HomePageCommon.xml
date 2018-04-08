@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="HomePageCommon"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="HomePageCommon" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_HomePageCommonData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="HomePageCommonResult" class="HomePageCommon">
+      <result property="AdId" column="AdId" type="Guid" />
+      <result property="SetType" column="SetType" type="string" />
+      <result property="ImageId" column="ImageId" type="string" />
+      <result property="CommRemark" column="CommRemark" type="string"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!--动态sql语句-->
+    <select id="sql_SelectOne" resultMap="HomePageCommonResult">
+      SELECT top 1 * FROM T_CTW_HomePageCommon where IsDelete=0
+    </select>
+    <!--新增-->
+    <insert id="sql_Insert" parameterClass="HomePageCommon">
+      insert into T_CTW_HomePageCommon(
+      AdId
+      ,SetType
+      ,ImageId
+      ,CommRemark
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      )
+      VALUES
+      (
+      #AdId#,'SeasonPlan', #ImageId#, #CommRemark#,GetDate(), #CreateBy#, GetDate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="HomePageCommon">
+      update T_CTW_HomePageCommon
+      set
+      ImageId=#ImageId#
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where AdId = #AdId#
+    </update>
+  </statements>
+</sqlMap>

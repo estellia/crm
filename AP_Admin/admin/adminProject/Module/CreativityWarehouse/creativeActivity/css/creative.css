@@ -1,0 +1,46 @@
+﻿@charset "utf-8";
+.optionBtn{height: 70px;}
+.optionBtn div.r{ width: 198px;}
+.tip{ width: 100%;}
+.panelDiv{display: none;}
+.lineText .logo{ width: 265px; height: 265px;}
+.lineText .uploadTip{left: 285px; bottom: 23px;}
+.lineText .uploadTip .tip{ float: none;white-space:nowrap}
+.imgTable{ width: 100%; float: left;}
+.btnopt{margin: 0 auto; width:380px; display: block; }
+
+/*推广*/
+.spread{width: 970px; height: 500px; margin:50px 100px;}
+
+.spread  .spreadPanel{width: 280px; height:500px; text-align: center; float: left; background-color: #f7f7f7;position: relative;}
+.spreadPanel .contentDiv{width: 232px;margin: 0 auto}
+.spreadPanel .title{ margin: 20px 0 16px 24px;}
+.spreadPanel .contentDiv .tabDiv{height: 133px;padding: 10px}
+.spreadPanel .contentDiv .tabDiv.on{ background-color: #45d0bf; }
+.spreadPanel .contentDiv .tabDiv .l{width: 66px; height: 106px; border: 2px solid #fff;background-color: #d9dee1}
+.spreadPanel .contentDiv .tabDiv em{float: left; padding-left: 15px; line-height: 133px; white-space: nowrap;font-size: 13px; color:#666;}
+.spreadPanel .contentDiv .tabDiv.on em{color: #fff;}
+.spread .spreadPanel.center{ margin:0 60px;background: url("../images/wxPhone.png") no-repeat;  }
+.spread .spreadPanel.page{background: url("../images/pagePhone.png") no-repeat;}
+.spread .spreadPanel .phoneTitle{  position: absolute; top: 18px; left: 50px;color: #fff;width: 203px;height: 23px;line-height: 23px;font-size: 12px;}
+/*图文*/
+.spreadPanel .phoneWebDiv{ text-align:left;  width: 258px; margin: 0 auto;margin-top:60px;  background: #fff; border:1px solid #dadada; padding-left: 6px; border-radius: 4px;}
+.spreadPanel .phoneWebDiv  .txtTitle{line-height: 32px; font-size: 12px;color: #262626; text-align: left;}
+.spreadPanel .phoneWebDiv span{ color: #8d8d8d; line-height: 22px; font-size: 10px}
+
+/*分享*/
+.spreadPanel .phoneWebDiv.share{ width:182px;margin-top:66px; position: relative; float: left;margin-left: 42px;}
+.spreadPanel .phoneWebDiv .shareImg{ width:42px; height: 42px; text-align: center;vertical-align: middle;}
+.spreadPanel .phoneWebDiv .shareImg img{ width: 100%;}
+.shareIcon{position: absolute; top: -12px; left: -37px;}
+.spreadPanel .phoneWebDiv .jt_tip{background: url("../images/icon_jiantou.png") no-repeat ; width: 6px; height: 10px; position: absolute; left: -6px;top: 10px;}
+.spreadPanel .phoneWebDiv .bgPhone { max-width: 278px; max-height: 455px;}
+.spreadPanel .phoneWebDiv.attention{padding: 0; margin: 43px 0 0 0 }
+.spread .spreadPanel.attention{ background-image: url("../images/pagePhone.png")}
+.erweiMaPanel{position: absolute; top: 115px; left: 70px;width: 138px; }
+.erweiMaPanel p{ background: #fff;height: 30px; width: 100%; margin-bottom: 15px; line-height: 30px; font-size: 12px; border-radius: 3px;}
+.erWeiMa{ width: 138px; line-height: 138px; height: 138px; border-radius: 4px; background-color: #fff;  vertical-align:middle}
+
+
+
+

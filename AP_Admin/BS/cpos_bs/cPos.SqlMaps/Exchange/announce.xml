@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Exchange.Announce"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Announce" type="cPos.Model.Exchange.AnnounceInfo,cPos.Model"/>
+    <typeAlias alias="AnnounceQuery" type="cPos.Model.Exchange.AnnounceQueryInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="AnnounceResult" class="Announce" extends="Pos.Operate.ObjectOperateResult">
+      <result property="ID" column="announce_id" type="string" />
+      <result property="No" column="announce_no" type="int" />
+      <result property="Type" column="announce_type" type="string" />
+      <result property="Title" column="announce_title" type="string" />
+      <result property="Content" column="announce_content" type="string" />
+      <result property="Publisher" column="announce_publisher" type="string" />
+      <result property="BeginDate" column="begin_date" type="string" />
+      <result property="EndDate" column="end_date" type="string" />
+      <result property="AllowDownload" column="allow_download" type="int" />
+    </resultMap>
+
+    <resultMap id="AnnounceQueryResult" class="AnnounceQuery" extends="AnnounceResult">
+      <result property="AllowDownloadDescription" column="allow_download_desc" type="string" />
+    </resultMap>
+
+    <resultMap id="AnnounceQueryResult2" class="AnnounceQuery" extends="AnnounceQueryResult">
+      <result property="RecordCount" column="record_count" type="int" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="Announce">
+      insert into t_announce(announce_id, announce_type,
+      announce_title, announce_content, announce_publisher, begin_date, end_date, allow_download,
+      create_user_id, create_user_name, create_time)
+      values(#ID#, '1',
+      #Title#, #Content#, #Publisher#, #BeginDate#, #EndDate#, 0,
+      #CreateUserID#, #CreateUserName#, getdate())
+    </insert>
+
+    <update id="Update" parameterClass="Announce">
+      update t_announce set
+      announce_title = #Title#,
+      announce_content = #Content#,
+      announce_publisher = #Publisher#,
+      begin_date = #BeginDate#,
+      end_date = #EndDate#,
+      modify_user_id = #ModifyUserID#,
+      modify_user_name = #ModifyUserName#,
+      modify_time = getdate()
+      where announce_id = #ID# and allow_download=0
+    </update>
+
+    <update id="Publish" parameterClass="hashtable">
+      update t_announce set
+      allow_download=1,
+      modify_user_id = #UserID#,
+      modify_user_name = #UserName#,
+      modify_time = getdate()
+      where announce_id = #AnnounceID# and allow_download=0
+    </update>
+
+    <update id="StopPublish" parameterClass="hashtable">
+      update t_announce set
+      allow_download=0,
+      modify_user_id = #UserID#,
+      modify_user_name = #UserName#,
+      modify_time = getdate()
+      where announce_id = #AnnounceID# and allow_download=1
+    </update>
+
+    <delete id="DeleteByID" parameterClass="string">
+      delete from t_announce
+      where announce_id=#value# and allow_download=0
+    </delete>
+
+    <select id="Select" >
+      select a.*,
+      case a.allow_download when 1 then '是' else '否' end as allow_download_desc
+      from t_announce a
+    </select>
+
+    <select id="SelectByID" parameterClass="string" resultMap="AnnounceQueryResult" extends="Select">
+      where a.announce_id=#value#
+    </select>
+
+    <select id="SelectAnnounceListCount" resultClass="int" parameterClass="hashtable">
+      select count(a.announce_id)
+      from t_announce a, t_announce_type b
+      where a.announce_type=b.announce_type_code
+      <dynamic>
+        <isNotNull property="UnitID" prepend="and">
+          exists (select 1 from t_unit_level b1, t_unit_level b2, t_announce_unit b3
+          where b1.unit_id=#UnitID# and b2.path_unit_no like b1.path_unit_no + '%'
+          and b3.unit_id=b2.unit_id and b3.announce_id=a.announce_id)
+        </isNotNull>
+        <isNull property="UnitID" prepend="and">
+          exists (select 1 from
+          (select distinct unit_id from t_user_role where user_id=#UserID# and role_id=#RoleID#) b0
+          t_unit_level b1, t_unit_level b2, t_announce_unit b3,
+          where b0.unit_id=b1.unit_id and b2.path_unit_no like b1.path_unit_no + '%'
+          and b3.unit_id=b2.unit_id and b3.announce_id=a.announce_id)
+        </isNull>
+        <isNotNull property="Title" prepend="and">
+          a.announce_title like '%' + #Title# + '%'
+        </isNotNull>
+        <isNotNull property="BeginDate" prepend="and">
+          a.begin_date &lt;= #BeginDate# and a.end_date &gt;=#BeginDate#
+        </isNotNull>
+        <isNotNull property="EndDate" prepend="and">
+          a.begin_date &lt;= #EndDate# and a.end_date &gt;=#EndDate#
+        </isNotNull>
+        <isNotNull property="AllowDownload" prepend="and">
+          a.allow_download = #AllowDownload#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectAnnounceList" resultMap="AnnounceQueryResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by a.announce_no desc),
+      a.*,
+      case a.allow_download when 1 then '是' else '否' end as allow_download_desc
+      from t_announce a, t_announce_type b
+      where a.announce_type=b.announce_type_code
+      <dynamic>
+        <isNotNull property="UnitID" prepend="and">
+          exists (select 1 from t_unit_level b1, t_unit_level b2, t_announce_unit b3
+          where b1.unit_id=#UnitID# and b2.path_unit_no like b1.path_unit_no + '%'
+          and b3.unit_id=b2.unit_id and b3.announce_id=a.announce_id)
+        </isNotNull>
+        <isNull property="UnitID" prepend="and">
+          exists (select 1 from
+          (select distinct unit_id from t_user_role where user_id=#UserID# and role_id=#RoleID#) b0
+          t_unit_level b1, t_unit_level b2, t_announce_unit b3,
+          where b0.unit_id=b1.unit_id and b2.path_unit_no like b1.path_unit_no + '%'
+          and b3.unit_id=b2.unit_id and b3.announce_id=a.announce_id)
+        </isNull>
+        <isNotNull property="Title" prepend="and">
+          a.announce_title like '%' + #Title# + '%'
+        </isNotNull>
+        <isNotNull property="BeginDate" prepend="and">
+          a.begin_date &lt;= #BeginDate# and a.end_date &gt;=#BeginDate#
+        </isNotNull>
+        <isNotNull property="EndDate" prepend="and">
+          a.begin_date &lt;= #EndDate# and a.end_date &gt;=#EndDate#
+        </isNotNull>
+        <isNotNull property="AllowDownload" prepend="and">
+          a.allow_download = #AllowDownload#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+
+    <select id="SelectAnnounceList2" resultMap="AnnounceQueryResult2" parameterClass="hashtable">
+      $UnitSQL$
+
+      declare @tmp_announce table (announce_id varchar(32), row_no int);
+      declare @announce_count int;
+
+      insert into @tmp_announce(row_no, announce_id)
+      select rownum_=row_number() over(order by a.announce_no desc),a.announce_id
+      from t_announce a, t_announce_type b
+      where a.announce_type=b.announce_type_code
+      and exists (select 1 from @tmp_unit a1, t_announce_unit a2
+      where a1.unit_id=a2.unit_id and a2.announce_id=a.announce_id)
+      <dynamic>
+        <isNotNull property="Title" prepend="and">
+          a.announce_title like '%' + #Title# + '%'
+        </isNotNull>
+        <isNotNull property="BeginDate" prepend="and">
+          a.begin_date &lt;= #BeginDate# and a.end_date &gt;=#BeginDate#
+        </isNotNull>
+        <isNotNull property="EndDate" prepend="and">
+          a.begin_date &lt;= #EndDate# and a.end_date &gt;=#EndDate#
+        </isNotNull>
+        <isNotNull property="AllowDownload" prepend="and">
+          a.allow_download = #AllowDownload#
+        </isNotNull>
+        <isNotNull property="StartNo" prepend="and">
+          a.announce_no > #StartNo#
+        </isNotNull>
+      </dynamic>
+      ;
+
+      select @announce_count=count(*) from @tmp_announce;
+
+      select @announce_count as record_count,a.*,
+      case a.allow_download when 1 then '是' else '否' end as allow_download_desc
+      from @tmp_announce c, t_announce a, t_announce_type b
+      where c.announce_id=a.announce_id and a.announce_type=b.announce_type_code
+      and c.row_no &gt; #StartRow# and c.row_no &lt;=#EndRow#;
+    </select>
+
+    <select id="SelectAnnounceList3" resultMap="AnnounceQueryResult2" parameterClass="hashtable">
+      declare @tmp_announce table (announce_id varchar(32), row_no int);
+      declare @announce_count int;
+
+      insert into @tmp_announce(row_no, announce_id)
+      select rownum_=row_number() over(order by a.announce_no desc),a.announce_id
+      from t_announce a, t_announce_type b
+      where a.announce_type=b.announce_type_code
+      and exists (select 1 from t_announce_unit a1, vw_unit_level a2, vw_unit_level a3
+      where a1.announce_id=a.announce_id and a1.unit_id=a2.unit_id and a3.unit_id=#UnitID#
+      and a3.path_unit_id like a2.path_unit_id + '%') and a.allow_download = 1
+      and a.announce_no > #StartNo#;
+
+      select @announce_count=count(*) from @tmp_announce;
+
+      select @announce_count as record_count,a.*,
+      case a.allow_download when 1 then '是' else '否' end as allow_download_desc
+      from t_announce a, t_announce_type b, @tmp_announce c
+      where c.announce_id=a.announce_id and a.announce_type=b.announce_type_code
+      and c.row_no &gt; #StartRow# and c.row_no &lt;=#EndRow#;
+    </select>
+    
+  </statements>
+
+</sqlMap>

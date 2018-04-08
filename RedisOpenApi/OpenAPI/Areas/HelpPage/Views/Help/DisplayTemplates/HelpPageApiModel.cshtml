@@ -1,0 +1,67 @@
+@using System.Web.Http
+@using System.Web.Http.Description
+@using OpenAPI.Areas.HelpPage.Models
+@using OpenAPI.Areas.HelpPage.ModelDescriptions
+@model HelpPageApiModel
+
+@{
+    ApiDescription description = Model.ApiDescription;
+}
+<h1>@description.HttpMethod.Method @description.RelativePath</h1>
+<div>
+    <p>@description.Documentation</p>
+
+    <h2>请求参数</h2>
+
+    <h3>URI 参数</h3>
+    @Html.DisplayFor(m => m.UriParameters, "Parameters")
+
+    <h3>Body 参数</h3>
+
+    <p>@Model.RequestDocumentation</p>
+
+    @if (Model.RequestModelDescription != null)
+    {
+        @Html.DisplayFor(m => m.RequestModelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.RequestModelDescription })
+        if (Model.RequestBodyParameters != null)
+        {
+            @Html.DisplayFor(m => m.RequestBodyParameters, "Parameters")
+        }
+    }
+    else
+    {
+        <p>无</p>
+    }
+
+    @if (Model.SampleRequests.Count > 0)
+    {
+        <h3>请求格式</h3>
+        @Html.DisplayFor(m => m.SampleRequests, "Samples")
+    }
+
+    <h2>Response 信息</h2>
+
+    <h3>资源描述</h3>
+
+    <p>@description.ResponseDescription.Documentation</p>
+
+    @if (Model.ResourceDescription != null)
+    {
+        @Html.DisplayFor(m => m.ResourceDescription.ModelType, "ModelDescriptionLink", new { modelDescription = Model.ResourceDescription })
+        if (Model.ResourceProperties != null)
+        {
+            @Html.DisplayFor(m => m.ResourceProperties, "Parameters")
+        }
+    }
+    else
+    {
+        <p>无</p>
+    }
+
+    @if (Model.SampleResponses.Count > 0)
+    {
+        <h3>Response 格式</h3>
+        @Html.DisplayFor(m => m.SampleResponses, "Samples")
+    }
+
+</div>

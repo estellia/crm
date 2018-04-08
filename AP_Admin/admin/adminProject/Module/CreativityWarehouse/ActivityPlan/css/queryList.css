@@ -1,0 +1,13 @@
+
+
+.ImgDisplayArea {background: url("../../../static/images/upload.png")  no-repeat  center center;  border: 1px solid #ccc;float: left;}
+.TipsArea {float:left;}
+.FullWidth {width:100%;}
+.panlDiv {float:left;padding-left: 20px;}
+.panlDiv .title {margin: 10px 0px; color: #666666; border-left: 4px solid #00a0e8;padding-left: 4px;  float: left;}
+.dataTable {border:none;}
+.tableWrap {min-height:initial;}
+
+.lineText .tit {width:76px;}
+.lineText .uploadTip {left:initial;bottom:initial;width: 359px;}
+.textbox-text {height:20px;}

@@ -1,0 +1,18 @@
+2013/10/22 18:47:55	btnLogin sessionId is :oxezoyevlyrtr0hbzld4ucch,count:1
+2013/10/22 18:48:51	登录失败 :Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".
+2013/10/22 18:48:51	btnLogin sessionId is :oxezoyevlyrtr0hbzld4ucch,count:1
+2013/10/22 18:48:52	登录失败 :Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".
+2013/10/22 18:50:22	btnLogin sessionId is :oxezoyevlyrtr0hbzld4ucch,count:1
+2013/10/22 18:50:45	System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1411
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1256
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 60
+2013/10/22 18:50:45	System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> 角色号码已经存在。
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1411
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1256
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 60
+2013/10/22 19:03:13	btnLogin sessionId is :oxezoyevlyrtr0hbzld4ucch,count:1
+2013/10/22 19:03:28	System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1411
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1256
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 60

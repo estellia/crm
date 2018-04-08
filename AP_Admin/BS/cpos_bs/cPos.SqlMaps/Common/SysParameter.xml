@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="SysParameter"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+
+  </alias>
+
+
+
+  <statements>
+ 
+
+    <select id="GetNo" resultClass="int64">
+      Declare @T Table(i int);
+      
+      insert into  @T
+      select  count(*)  From t_seqno;
+
+      insert into t_seqno
+      select '1' From @T where i is null or i = 0;
+
+      update t_seqno
+      set no_value = ISNULL(no_value,0)+1;
+      select * From t_seqno;
+    </select>
+
+    
+  </statements>
+</sqlMap>

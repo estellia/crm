@@ -1,0 +1,6 @@
+2017/12/3 16:23:20	btnLogin sessionId is :tuc2sfkznm3qcq2c1py0yrmn,count:1
+2017/12/3 16:58:59	btnLogin sessionId is :tuc2sfkznm3qcq2c1py0yrmn,count:1
+2017/12/3 16:59:32	登录失败 :Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".
+2017/12/3 16:59:33	btnLogin sessionId is :tuc2sfkznm3qcq2c1py0yrmn,count:1
+2017/12/3 16:59:48	登录失败 :Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".
+2017/12/3 16:59:59	btnLogin sessionId is :tuc2sfkznm3qcq2c1py0yrmn,count:1

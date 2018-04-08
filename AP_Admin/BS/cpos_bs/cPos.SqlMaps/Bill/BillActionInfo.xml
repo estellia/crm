@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="BillActionInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="BillActionInfo" type="cPos.Model.BillActionInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BillActionInfoResult" class="BillActionInfo">
+      <result property="bill_id" column="bill_id" type="string" />
+      <result property="create_flag" column="create_flag" type="int" />
+      <result property="modify_flag" column="modify_flag" type="int" />
+      <result property="delete_flag" column="delete_flag" type="int" />
+      <result property="approve_flag" column="approve_flag" type="int" />
+      <result property="reject_flag" column="reject_flag" type="int" />
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="GetBillActionByBillId" resultMap="BillActionInfoResult" parameterClass="hashtable">
+      select isnull(max(c.create_flag),0) create_flag
+      ,isnull(max(c.modify_flag),0) modify_flag
+      ,isnull(max(c.approve_flag),0) approve_flag
+      ,isnull(max(c.reject_flag),0) reject_flag
+      ,isnull(max(c.cancel_flag),0) delete_flag
+      ,a.bill_id
+      From T_Bill a
+      inner join T_Def_Bill_Action_Role b
+      on(a.bill_kind_id = b.bill_kind_id
+      and a.bill_Status = b.pre_bill_status)
+      inner join T_Def_Bill_Action c
+      on(b.bill_action_id = c.bill_action_id)
+      where 1=1
+      and a.bill_id = #BillId#
+      and b.role_id = #RoleId#
+      and c.[status] = '1'
+      group by a.bill_id;
+    </select>
+
+    
+    
+  </statements>
+</sqlMap>

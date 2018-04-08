@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AdjustmentOrderDetailSku"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AdjustmentOrderDetailSku" type="cPos.Model.AdjustmentOrderDetailSkuInfo,cPos.Model" />
+    <typeAlias alias="AdjustmentOrder_Sku" type="cPos.Model.AdjustmentOrderInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdjustmentOrderDetailSkuResult" class="AdjustmentOrderDetailSku">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_detail_sku_id" column="order_detail_sku_id" type="string" />
+      <result property="sku_id" column="sku_id" type="string"/>
+      <result property="price" column="price" type="decimal"/>
+      <result property="item_name" column="item_name" type="string"/>
+      <result property="prop_1_detail_name" column="prop_1_detail_name" type="string"/>
+      <result property="prop_2_detail_name" column="prop_2_detail_name" type="string"/>
+      <result property="prop_3_detail_name" column="prop_3_detail_name" type="string"/>
+      <result property="prop_4_detail_name" column="prop_4_detail_name" type="string"/>
+      <result property="prop_5_detail_name" column="prop_5_detail_name" type="string"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="AdjustmentOrderDetailSkuResult">
+
+      select a.order_detail_sku_id
+      ,a.order_id
+      ,a.sku_id
+      ,a.price
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      From T_Adjustment_Order_Detail_Sku a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+    </select>
+
+    <select id="SelectByOrderId" extends="Select" resultMap="AdjustmentOrderDetailSkuResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#
+    </select>
+
+    <!--处理调价单商品明细 Jermyn 2012-06-21-->
+    <statement id="InsertOrUpdate" parameterClass="AdjustmentOrder_Sku">
+      <isNotEmpty property="AdjustmentOrderDetailSkuList">
+
+        <!--删除该调价单商品明细-->
+        delete  T_Adjustment_Order_Detail_Sku
+        where order_id = #order_id#;
+
+
+
+        <!--插入新的关系-->
+        insert into T_Adjustment_Order_Detail_Sku
+        (order_detail_sku_id
+        ,order_id
+        ,sku_id
+        ,price
+        )
+        SELECT P.order_detail_sku_id
+        ,P.order_id
+        ,P.sku_id
+        ,P.price
+
+        FROM (
+        <iterate property="AdjustmentOrderDetailSkuList" conjunction=" UNION ">
+          SELECT
+          #order_id# order_id
+          , #AdjustmentOrderDetailSkuList[].order_detail_sku_id# order_detail_sku_id
+          , #AdjustmentOrderDetailSkuList[].sku_id# sku_id
+          , #AdjustmentOrderDetailSkuList[].price# price
+
+        </iterate>
+        ) P;
+
+
+      </isNotEmpty>
+    </statement>
+    
+    <!--获取未下载的sku明细-->
+    <select id="SelectByOrderIdUnDownload" resultMap="AdjustmentOrderDetailSkuResult" parameterClass="hashtable">
+
+      select * From (
+      select a.order_detail_sku_id
+      ,a.order_id
+      ,a.sku_id
+      ,a.price
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      From T_Adjustment_Order_Detail_Sku a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+      union all
+      select REPLACE(newid(),'-','') order_detail_sku_id
+      ,a.order_id
+      ,b.sku_id
+      ,a.price
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      From T_Adjustment_Order_Detail_Item a
+      inner join vw_sku b
+      on(a.item_id = b.item_id)
+      ) x where 1=1
+      and x.order_id=#OrderId#
+    </select>
+  </statements>
+</sqlMap>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Exchange.AnnounceUnit"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="AnnounceType" type="cPos.Model.Exchange.AnnounceTypeInfo,cPos.Model"/>
+    <typeAlias alias="AnnounceUnit" type="cPos.Model.Exchange.AnnounceUnitInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="AnnounceTypeResult" class="AnnounceType" >
+      <result property="ID" column="announce_type_id" type="string" />
+      <result property="Code" column="announce_type_code" type="string" />
+      <result property="Name" column="announce_type_name" type="string" />
+      <result property="EnglishName" column="announce_type_name_en" type="string" />
+    </resultMap>
+
+    <resultMap id="AnnounceUnitResult" class="AnnounceUnit" >
+      <result property="Announce.ID" column="announce_id" type="string" />
+      <result property="Unit.Id" column="unit_id" type="string" />
+      <result property="Unit.Code" column="unit_code" type="string" />
+      <result property="Unit.Name" column="unit_name" type="string" />
+      <result property="Unit.ShortName" column="unit_name_short" type="string" />
+    </resultMap>
+
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="SelectAnnounceType" resultMap="AnnounceTypeResult">
+     select * from t_announce_type
+     order by announce_type_code
+    </select>
+
+    <select id="SelectByAnnounceID" resultMap="AnnounceUnitResult" parameterClass="string">
+      select a.*, c.unit_code, c.unit_name, c.unit_name_short
+      from t_announce_unit a, t_announce b, t_unit c
+      where a.announce_id=b.announce_id and a.unit_id=c.unit_id
+      and b.announce_id=#value#
+      order by c.unit_code
+    </select>
+
+    <statement id="SelectByCondition" resultMap="AnnounceUnitResult" parameterClass="string">
+      select a.*, c.unit_code, c.unit_name, c.unit_name_short
+      from t_announce_unit a, t_announce b, t_unit c
+      where a.announce_id=b.announce_id and a.unit_id=c.unit_id
+      and ($value$)
+      order by c.unit_code
+    </statement>
+
+    <insert id="InsertAnnounceUnit" parameterClass="AnnounceUnit">
+      insert into t_announce_unit(unit_id, announce_id)
+      select #Unit.Id#, #Announce.ID#
+    </insert>
+
+    <delete id="DeleteByAnnounceID" parameterClass="string">
+      delete from t_announce_unit
+      where announce_id=#value#
+    </delete>
+
+  </statements>
+
+</sqlMap>

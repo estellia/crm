@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+
+.listType{ width: 100%; height: 45px;}
+.listType span{cursor:pointer; width:35px; border: 1px solid #e1e7ea; height: 35px;margin-left: 8px; float:left; text-align: center; line-height: 35px; font-size: 14px;}
+.spreadPanel{ float: left; margin-left:45px;background: url("../images/pagePhone.png") no-repeat; width: 278px; text-align: center; height: 475px; padding-top: 42px;}
+.phonePanel{position:relative;overflow:hidden; background: url("../images/pageBg.png") no-repeat center center; margin: 0 auto; height: 438px; width: 278px; background-size: contain;}
+.phonePanel .draggable{position: absolute; left:15px; top: 15px; z-index: 99}
+.action{ position: absolute; width: 100%; bottom: 66px; margin: 0 auto;}
+.spreadPanel .action div{ margin: 0 auto; position:relative; width: 182px; height: auto}
+.spreadPanel .action div img{ width: 182px;}
+.spreadPanel .action div em { cursor: pointer; position:absolute; right: 13px; bottom: 6px;font-size:12px; color: #fff;}
+.spreadPanel .action div em i{ font-size: 20px;float: right;padding-left: 3px;}
+.subMitPanel{float: left; width: 300px; margin-left: 135px;height: 497px;}
+
+.lineText{ height: 72px;}
+.lineText .tip{font-size: 12px; text-align: left; background: none; padding-left: 0;float:none;}
+.picTextPanel{ padding-top: 22px;display: inline-block;}
+.picTextPanel textarea{ width: 200px; height: 72px; border:1px solid #e1e7ea}
+.picTextPanel .lineText{display: none;}
+.btnText{ color:#00a0e8; font-size: 12px; line-height: 22px; cursor: pointer; float: right;position: relative;z-index: 99;}
+.hide{display: none;}
+

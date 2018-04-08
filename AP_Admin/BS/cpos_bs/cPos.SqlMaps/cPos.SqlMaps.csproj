@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1CDF72F1-E30A-416A-B9CC-D61B3F739E54}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.SqlMaps</RootNamespace>
+    <AssemblyName>cPos.SqlMaps</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Advertise\Advertise.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Advertise\AdvertiseOrder.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AdjustmentOrder\AdjustmentOrder.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="AdjustmentOrder\AdjustmentOrderDetailItem.xml" />
+    <Content Include="AdjustmentOrder\AdjustmentOrderDetailSku.xml" />
+    <Content Include="AdjustmentOrder\AdjustmentOrderDetailUnit.xml" />
+    <Content Include="AppSys\AppSys.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="AppSys\City.xml" />
+    <Content Include="AppSys\Prop.xml" />
+    <Content Include="AppSys\PropertyUnit.xml" />
+    <Content Include="AppSys\Role.xml" />
+    <Content Include="AppSys\roleMenu.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="AppSys\Type.xml" />
+    <Content Include="Bill\Bill.xml" />
+    <Content Include="Bill\BillAction.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Bill\BillActionInfo.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Bill\BillActionRole.xml" />
+    <Content Include="Bill\BillKind.xml" />
+    <Content Include="Bill\BillStatus.xml" />
+    <Content Include="bin\Debug\cPos.SqlMaps.dll" />
+    <Content Include="bin\Debug\cPos.SqlMaps.pdb" />
+    <Content Include="Common\SysParameter.xml" />
+    <Content Include="Exchange\announce-unit.xml" />
+    <Content Include="Exchange\announce.xml" />
+    <Content Include="Item\Item.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\ItemCategory.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\ItemPrice.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\ItemPriceType.xml" />
+    <Content Include="Item\ItemProp.xml" />
+    <Content Include="Item\ObjectImages.xml" />
+    <Content Include="Item\Sku.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\SkuPrice.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\SkuProp.xml" />
+    <Content Include="Menu\Menu.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="MonitorLog\MonitorLog.xml" />
+    <Content Include="obj\Debug\cPos.SqlMaps.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\cPos.SqlMaps.dll" />
+    <Content Include="obj\Debug\cPos.SqlMaps.pdb" />
+    <Content Include="Order\CC.xml" />
+    <Content Include="Order\CCDetail.xml" />
+    <Content Include="Order\Inout.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Order\InoutDetail.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Order\OrderReasonType.xml" />
+    <Content Include="Order\OrderType.xml" />
+    <Content Include="Pos\Operate.xml" />
+    <Content Include="Pos\pos-unit.xml" />
+    <Content Include="Pos\pos.xml" />
+    <Content Include="Pos\unit_warehouse.xml" />
+    <Content Include="Pos\warehouse.xml" />
+    <Content Include="Promotion\vip.xml" />
+    <Content Include="Repair\Repair.xml" />
+    <Content Include="Report\ItemSalesReport.xml" />
+    <Content Include="Report\SalesReport.xml" />
+    <Content Include="Shift\Shift.xml" />
+    <Content Include="StockBalance\StockBalance.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Unit\Unit.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Unit\UnitRelationMode.xml" />
+    <Content Include="User\User.xml" />
+    <Content Include="User\UserRole.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

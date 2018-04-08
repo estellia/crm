@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Pos.Operate"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="ObjectOperate" type="cPos.Model.Pos.ObjectOperateInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="ObjectOperateResult" class="ObjectOperate">
+      <result property="CreateUserID" column="create_user_id" type="string"/>
+      <result property="CreateUserName" column="create_user_name" type="string"/>
+      <result property="CreateTime" column="create_time" type="datetime"/>
+      <result property="ModifyUserID" column="modify_user_id" type="string"/>
+      <result property="ModifyUserName" column="modify_user_name" type="string"/>
+      <result property="ModifyTime" column="modify_time" type="datetime"/>
+      <result property="SystemModifyStamp" column="sys_modify_stamp" type="datetime" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select 1">
+      select 1
+    </select>
+
+    <statement id="InsertUnitTemporaryTable" parameterClass="string">
+      $value$
+    </statement>
+  </statements>
+</sqlMap>

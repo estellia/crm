@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Right.App"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="App" type="cpos.Admin.Model.Right.AppInfo,cpos.Admin.Model" />
+    <typeAlias alias="Version" type="cpos.Admin.Model.Right.VersionInfo,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="AppResult" class="App" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="app_id" type="string" />
+      <result property="Code" column="app_code" type="string"/>
+      <result property="Name" column="app_name" type="string"/>
+      <result property="EnglishName" column="app_name_en" type="string"/>
+    </resultMap>
+
+    <resultMap id="VersionResult" class="Version" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="VocaVerMappingID" type="string" />
+      <result property="Name" column="VersionName" type="string"/>
+    </resultMap>
+    
+  </resultMaps>
+
+  <statements>
+    
+    <select id="GetAllAppList" resultMap="AppResult">
+      select * from t_def_app order by create_time desc
+    </select>
+
+    <select id="GetAllVersionList" resultMap="VersionResult" parameterClass="string">
+      select cast(svvm.VocaVerMappingID as varchar(50)) as VocaVerMappingID,
+      voc.VocationDesc + ' -- ' + ver.VersionDesc as VersionName,*
+      from SysVocationVersionMapping svvm
+      left join SysVersion ver on ver.VersionID = svvm.VersionID and ver.IsDelete = 0
+      left join SysVocation voc on voc.VocationID = svvm.VocationID and voc.IsDelete = 0
+      where svvm.IsDelete = 0
+      order by VersionName
+    </select>
+
+    <select id="GetCustomerVisibleAppList" resultMap="AppResult">
+      select * from t_def_app
+      where app_code &lt;&gt; 'AP'
+    </select>
+
+  </statements>
+</sqlMap>

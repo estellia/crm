@@ -1,0 +1,46 @@
+2014/3/19 13:47:42	btnLogin sessionId is :wethtiglp1431djttnk0erla,count:1
+2014/3/19 13:52:33	System.Web.Services.Protocols.SoapException: System.Web.Services.Protocols.SoapException: 服务器无法处理请求。 ---> System.Exception: 获取门店失败：System.Data.SqlClient.SqlException (0x80131904): 无法打开登录所请求的数据库 "cpos_bs_demo"。登录失败。
+用户 'dev' 登录失败。
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlInternalConnectionTds.CompleteLogin(Boolean enlistOK)
+   在 System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, Boolean redirectedUserInstance, SqlConnection owningObject, SqlConnectionString connectionOptions, TimeoutTimer timeout)
+   在 System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(SqlConnection owningObject, TimeoutTimer timeout, SqlConnectionString connectionOptions, String newPassword, Boolean redirectedUserInstance)
+   在 System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, Object providerInfo, String newPassword, SqlConnection owningObject, Boolean redirectedUserInstance)
+   在 System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection)
+   在 System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnection owningConnection, DbConnectionPool pool, DbConnectionOptions options)
+   在 System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject)
+   在 System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject)
+   在 System.Data.ProviderBase.DbConnectionPool.GetConnection(DbConnection owningObject)
+   在 System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   在 System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   在 System.Data.SqlClient.SqlConnection.Open()
+   在 JIT.Utility.DataAccess.DefaultSQLHelper.PrepareCommand(SqlCommand pCommand, SqlConnection pConnection, SqlTransaction pTransaction, CommandType pCommandType, String pCommandText, SqlParameter[] pCommandParameters) 位置 E:\Project\Infrastructure\Code\Utility\DataAccess\DefaultSQLHelper.cs:行号 660
+   在 JIT.Utility.DataAccess.DefaultSQLHelper.ExecuteDataset(CommandType pCommandType, String pCommandText, SqlParameter[] pCommandParameters) 位置 E:\Project\Infrastructure\Code\Utility\DataAccess\DefaultSQLHelper.cs:行号 574
+   在 JIT.Utility.DataAccess.DefaultSQLHelper.ExecuteDataset(String pCommandText) 位置 E:\Project\Infrastructure\Code\Utility\DataAccess\DefaultSQLHelper.cs:行号 627
+   在 JIT.CPOS.BS.DataAccess.UnitService.GetUnitById(String unitId)
+   在 JIT.CPOS.BS.BLL.UnitService.GetUnitById(String unitId) 位置 E:\Project\CPOS_New\Code\CPOS.BS.BLL\UnitService.cs:行号 38
+   在 JIT.CPOS.BS.BLL.InitialService.SetBSInitialInfo(String strCustomerInfo, String strUnitInfo, String strMenu, String typeId) 位置 E:\Project\CPOS_New\Code\CPOS.BS.BLL\InitialService.cs:行号 111
+   在 JIT.CPOS.BS.BLL.InitialService.SetBSInitialInfo(String strCustomerInfo, String strUnitInfo, String strMenu, String typeId) 位置 E:\Project\CPOS_New\Code\CPOS.BS.BLL\InitialService.cs:行号 430
+   在 JIT.CPOS.BS.Web.WebService.CustomerInfoInit.SetCustomerInfoInit(String sCustomerInfo, String strUnitInfo, String strMenu, String typeId)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1454
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1292
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 66
+2014/3/19 13:54:51	btnLogin sessionId is :wethtiglp1431djttnk0erla,count:5
+2014/3/19 13:55:15	btnLogin sessionId is :wethtiglp1431djttnk0erla,count:1
+2014/3/19 13:56:47	IBatisNet.DataMapper.Exceptions.DataMapperException: This SQL map does not contain a MappedStatement named Customer.customer.SetCustomerInfo
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1454
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1292
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 66
+2014/3/19 13:58:17	btnLogin sessionId is :wethtiglp1431djttnk0erla,count:1
+2014/3/19 14:06:31	btnLogin sessionId is :wethtiglp1431djttnk0erla,count:1
+2014/3/19 14:06:56	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1454
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1292
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 66
+2014/3/19 14:07:06	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 cPos.Admin.Service.Implements.CustomerService.SetMobileCustomerInfo(CustomerInfo customerInfo, CustomerShopInfo customerShopInfo, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1454
+   在 cPos.Admin.Service.Implements.CustomerService.SetBSSystemStart(String customer_id, String& strError) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1292
+   在 customer_customer_query.gvCustomer_RowCommand(Object sender, GridViewCommandEventArgs e) 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_query.aspx.cs:行号 66

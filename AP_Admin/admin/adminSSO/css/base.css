@@ -1,0 +1,54 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td, img { border: none; margin: 0; padding: 0;  }
+body, button, input, select, textarea { font-size: 12px; font-family: THeiti,"微软雅黑",Arial, Helvetica, sans-serif; word-break: break-all; word-wrap: break-word; color: #565656; resize: none; outline: none; }
+body { background-color:#fff;}
+h1, h2, h3, h4, h5, h6 { font-size: 14px; font-weight: normal; }
+em { font-style: normal; }
+ul, ol, img { list-style: none; border: 0; }
+table, th, td, tr { border-collapse: collapse; border-spacing: 0; border: 0; font-size: 12px; margin: 0; padding: 0; }
+textarea, input[type="text"],input[type="password"],input[type="button"],input[type="submit"]{ resize: none; outline: none; -webkit-appearance: none;   }
+.zoom { overflow: hidden; zoom: 1;  }
+.frdisplay{ float:right; display:block;}
+.fldisplay{ float:left; display:block; _display:inline;}
+a,a:hover{ text-decoration:none; color:#7c7c7c;}
+.common{ width:1000px; margin-left:auto; margin-right:auto;}
+.header{ height:80px; overflow:hidden; clear:both;}
+.header h1{ width:557px; height:43px; padding-top:20px;}
+.skin{ background-image:url(../images/skin.png); background-repeat:no-repeat;}
+.logo{ width:557px; height:43px; background-position:-15px -12px;}
+.bq{background:url(../images/bannerbg.jpg) repeat-x left top; height:409px;}
+.bannerBg{background:url(../images/bg.jpg) no-repeat center top; height:409px;}
+.bannerBox{ height:409px; position:relative;}
+.Wd{ width:700px; height:474px; background:url(../images/otoicn.png) no-repeat left top; position:absolute; left:-70px; top:30px;}
+.LoginBox{ width:371px; height:317px; background:url(../images/loginbg.png) no-repeat left top; position:absolute; right:0px; bottom:0;}
+.blank1{ height:1px; overflow:hidden; display:block; clear:both;}
+.Interduct{ clear:both; overflow:hidden;}
+.Interduct dt{ clear:both; width:196px; height:63px; overflow:hidden; padding-bottom:50px;}
+.InterductTile{ background-position:-15px -251px; width:196px; height:63px;}
+.Interduct dd{ width:200px; float:left; display:block; display:_inline; text-align:center; margin-left:64px;}
+.InterductDD1{ width:115px; margin-left:auto; margin-right:auto; height:142px; clear:both; overflow:hidden; background-position:-11px -76px;}
+.InterductDD2{ width:115px; margin-left:auto; margin-right:auto; height:142px; clear:both; overflow:hidden; background-position:-144px -76px;}
+.InterductDD3{ width:115px; margin-left:auto; margin-right:auto; height:142px; clear:both; overflow:hidden; background-position:-274px -76px;}
+.InterductDD4{ width:115px; margin-left:auto; margin-right:auto; height:142px; clear:both; overflow:hidden; background-position:-409px -76px;}
+.InterductDdTxt{ text-align:left; line-height:20px; font-size:14px; padding-top:5px;}
+.footer{ height:400px; clear:both; background:url(../images/footerbg.png) repeat left top; padding-top:30px;}
+.footerDiv1{ width:270px; color:#cccccc; font-size:14px; margin-right:100px;}
+.footerDivTitle{ width:85px; height:26px; background-position:-26px -356px; text-indent:-9999px;}
+.footerDivTitle2{ width:85px; height:26px; background-position:-26px -398px; text-indent:-9999px;}
+.footerDivTitle3{ width:120px; height:26px; background-position:-26px -436px; text-indent:-9999px;}
+.inputDiv{ width:256px; height:35px; background-position:-543px -251px; display:block; }
+.inputTextA{ width:256px; height:75px; background-position:-543px -314px; }
+.inputBtn{ clear:both; padding-top:10px; overflow:hidden;}
+a.BtnSend,a.BtnSend:hover{ width:84px; height:34px; background-position:-716px -79px; display: block; text-decoration:none; float:right;}
+.inputText{width:245px; height:30px; padding-top:3px; background:none; margin-left:5px; color:#fff; font-size:14px;}
+.inputTextarea{width:245px; height:70px; overflow:hidden;  padding-top:3px; background:none; margin-left:5px; color:#fff; font-size:14px;}
+.LoginConnext{width:266px; margin-left:52px; margin-top:50px;}
+.CompanyName{ height:42px; background-position:-222px -266px; margin-bottom:12px; position:relative;}
+.userName{ height:42px; background-position:-222px -319px;  margin-bottom:12px;  position:relative;}
+.pwd{ height:42px; background-position:-222px -372px; margin-bottom:18px;   position:relative;}
+.LoginText{ width:210px; margin-top:8px; height:22px;  font-size:14px; color:#565454; position:absolute; left:50px; top:2px; background:none; z-index:2}
+.Loginbtn{ height:50px; width:267px; background-position:-222px -434px; display:block; cursor:pointer}
+.saveLoginState{ width:121px; height:36px;  background-position:-222px -501px; display:block; margin-top:6px;}
+.tip{width:210px; margin-top:8px; height:22px;  font-size:14px; color:#cdcdcd; position:absolute; left:53px; top:2px; background:none; z-index:1}

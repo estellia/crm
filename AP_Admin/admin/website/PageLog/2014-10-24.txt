@@ -1,0 +1,4 @@
+2014/10/24 17:48:30	btnLogin sessionId is :svemo0lactcnyguolgkvqr0p,count:1
+2014/10/24 17:49:24	登录失败 :Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".
+2014/10/24 17:49:24	btnLogin sessionId is :svemo0lactcnyguolgkvqr0p,count:1
+2014/10/24 17:49:24	登录失败 :Unable to open connection to "Microsoft SQL Server, provider V2.0.0.0 in framework .NET V2.0".

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="PropertyUnit"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="UnitProperty" type="cPos.Model.UnitPropertyInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="UnitPropertyResult" class="UnitProperty">
+      <result property="Id" column="unit_property_id" type="string" />
+      <result property="UnitId" column="unit_id" type="string" />
+      <result property="PropertyCodeGroupId" column="PropertyCodeGroupId" type="string"/>
+      <result property="PropertyCodeId" column="PropertyCodeId" type="string"/>
+      <result property="PropertyDetailId" column="PropertyDetailId" type="string"/>
+      <result property="PropertyDetailName" column="PropertyDetailName" type="string"/>
+      <result property="PropertyDetailCode" column="PropertyDetailCode" type="string"/>
+      <result property="Status" column="Status" type="int"/>
+      <result property="PropertyCodeGroupName" column="PropertyCodeGroupName" type="string"/>
+      <result property="PropertyCodeGroupCode" column="PropertyCodeGroupCode" type="string"/>
+      <result property="PropertyCodeName" column="PropertyCodeName" type="string"/>
+      <result property="PropertyCodeCode" column="PropertyCodeCode" type="string"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统-->
+    <select id="Select" resultMap="UnitPropertyResult">
+      select a.unit_property_id
+      ,a.unit_id
+      ,(select prop_id From t_prop where t_prop.prop_id = b.parent_prop_id) PropertyCodeGroupId
+      ,(select prop_code From t_prop where t_prop.prop_id = b.parent_prop_id) PropertyCodeGroupCode
+      ,(select prop_name From t_prop where t_prop.prop_id = b.parent_prop_id) PropertyCodeGroupName
+      ,a.property_id PropertyCodeId
+      ,b.prop_name PropertyCodeName
+      ,b.prop_code PropertyCodeCode
+      ,(select prop_id From t_prop where t_prop.prop_id = a.property_value) PropertyDetailId
+      ,case when (select prop_code From t_prop where t_prop.prop_id = a.property_value) is null
+      then a.property_value
+      else (select prop_code From t_prop where t_prop.prop_id = a.property_value)
+      end PropertyDetailCode
+      ,case when (select prop_name From t_prop where t_prop.prop_id = a.property_value) is null
+      then a.property_value
+      else (select prop_name From t_prop where t_prop.prop_id = a.property_value)
+      end PropertyDetailName
+      ,a.Status
+      From T_Unit_Property a
+      inner join T_Prop b
+      on(a.property_id = b.prop_id)
+      where 1=1
+      and a.[status] = '1'
+      and b.[status] = '1'
+    </select>
+    
+    <select id="SelectByUnitId" extends="Select" resultMap="UnitPropertyResult" parameterClass="hashtable">
+      and a.unit_id = #UnitId#
+    </select>
+  </statements>
+</sqlMap>

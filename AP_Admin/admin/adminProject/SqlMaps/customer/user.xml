@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Customer.User"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="CustomerUser" type="cpos.Admin.Model.Customer.CustomerUserInfo,cpos.Admin.Model" />
+  </alias>
+  
+  <resultMaps>
+
+    <resultMap id="CustomerUserResult" class="CustomerUser" extends="Base.Operate.SystemOperateResult" >
+      <result property="ID" column="customer_user_id" type="string" />
+      <result property="Account" column="cu_account" type="string"/>
+      <result property="Name" column="cu_name" type="string"/>
+      <result property="Password" column="cu_pwd" type="string"/>
+      <result property="Status" column="cu_status" type="int" />
+      <result property="StatusDescription" column="cu_status_desc" type="string" />
+      <result property="ExpiredDate" column="cu_expired_date" type="string" />
+      <result property="Customer.ID" column="customer_id" type="string" />
+      <result property="Customer.Code" column="customer_code" type="string"/>
+      <result property="Customer.Name" column="customer_name" type="string"/>
+      <result property="Customer.StatusDescription" column="customer_status_desc" type="string"/>
+      <result property="UnitId" column="UnitId" type="string" />
+      <result property="unit_code" column="unit_code" type="string" />
+      <result property="unit_name" column="unit_name" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+    <select id="SelectUser" resultMap="CustomerUserResult">
+      select a.customer_code,a.customer_name,b.*,
+      e.dd_name as customer_status_desc
+      ,'' as UnitId ,'' as unit_code ,'' as unit_name
+      from t_customer a
+      inner join t_customer_user b on a.customer_id=b.customer_id
+      inner join vw_dic e on e.dic_code='status' and cast(a.customer_status as char)=e.dd_code
+    </select>
+
+    <select id="SelectUserByID" resultMap="CustomerUserResult" parameterClass="string" extends="SelectUser">
+      where b.customer_user_id=#value#
+    </select>
+    
+    <select id="SelectUserByAccount" resultMap="CustomerUserResult" parameterClass="hashtable" extends="SelectUser">  
+      where b.customer_id=#CustomerID# and b.cu_account=#UserAccount#
+    </select>
+    
+    <select id="SelectUserListCount" resultClass="int">
+      select count(a.customer_id)
+      from t_customer a, t_customer_user b	, TCustomerDataDeployMapping	  c
+      where a.customer_id=b.customer_id
+      and a.customer_id=c.customerid  and  c.isdelete=0
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          a.customer_id=#CustomerID#
+        </isNotNull>
+        <isNotNull property="CustomerName" prepend="and">
+          (a.customer_code like '%' + #CustomerName# + '%' or a.customer_name like '%' + #CustomerName# + '%')
+        </isNotNull>
+        <isNotNull property="CUAccount" prepend="and">
+          b.cu_account like '%' + #CUAccount# + '%'
+        </isNotNull>
+        <isNotNull property="CUName" prepend="and">
+          b.cu_name like '%' + #CUName# + '%'
+        </isNotNull>
+        <isNotNull property="CUStatus" prepend="and">
+          b.cu_status = #CUStatus#
+        </isNotNull>
+        <isNotNull property="unit_id" prepend="and">
+          c.unitid = #unit_id#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectUserList" resultMap="CustomerUserResult">
+      select a.* from (
+      select rownum_=row_number() over(order by a.customer_code,b.cu_account),
+      a.customer_code,a.customer_name,b.*,
+      e.dd_name as customer_status_desc
+      ,isnull(c.UnitId,'') UnitId
+      ,isnull((select unit_code From  T_unit y where c.unitid = y.unit_id ),'') unit_code
+      ,isnull((select unit_name From  T_unit y where  c.unitid = y.unit_id ),'') unit_name
+      from t_customer a, t_customer_user b, vw_dic e , TCustomerDataDeployMapping	  c
+      where a.customer_id=b.customer_id and e.dic_code='status'
+      and cast(a.customer_status as char)=e.dd_code
+      and a.customer_id=c.customerid  and  c.isdelete=0
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          a.customer_id=#CustomerID#
+        </isNotNull>
+        <isNotNull property="CustomerName" prepend="and">
+          (a.customer_code like '%' + #CustomerName# + '%' or a.customer_name like '%' + #CustomerName# + '%')
+        </isNotNull>
+        <isNotNull property="CUAccount" prepend="and">
+          b.cu_account like '%' + #CUAccount# + '%'
+        </isNotNull>
+        <isNotNull property="CUName" prepend="and">
+          b.cu_name like '%' + #CUName# + '%'
+        </isNotNull>
+        <isNotNull property="CUStatus" prepend="and">
+          b.cu_status = #CUStatus#
+        </isNotNull>
+        <isNotNull property="unit_id" prepend="and">
+          c.unitid = #unit_id#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+    <insert id="InsertCustomerUserFromCP" parameterClass="CustomerUser">
+      INSERT INTO [t_customer_user]
+      ([customer_id]
+      ,[customer_user_id]
+      ,[cu_account]
+      ,[cu_name]
+      ,[cu_pwd]
+      ,[cu_expired_date]
+      ,[sys_modify_stamp]
+      ,[cu_status]
+      ,[cu_status_desc])
+      VALUES
+      (#Customer.ID#,#ID#,#Account#,#Name#,#Password#,#ExpiredDate#,
+      getdate(),1,#StatusDescription#)
+    </insert>
+
+    <update id="UpdateCustomerUserFromCP" parameterClass="CustomerUser">
+      UPDATE [t_customer_user]
+      SET [cu_account] = #Account#
+            ,[cu_name] = #Name#
+              <!--,[cu_pwd] = #Password#-->
+                ,[cu_expired_date] = #ExpiredDate#
+                    ,[sys_modify_stamp] = getdate()
+                        ,[cu_status_desc] = #StatusDescription#
+                        where customer_user_id=#ID#
+    </update>
+
+    <update id="EnableCustomerUserFromCP" parameterClass="CustomerUser">
+      update t_customer_user set
+      sys_modify_stamp = getdate(),
+      cu_status_desc = #StatusDescription#,
+      cu_status=1
+      where customer_user_id=#ID#
+    </update>
+
+    <update id="DisableCustomerUserFromCP" parameterClass="CustomerUser">
+      update t_customer_user set
+      sys_modify_stamp = getdate(),
+      cu_status_desc = #StatusDescription#,
+      cu_status=-1
+      where customer_user_id=#ID#
+    </update>
+
+    <update id="ModifyCustomerUserPasswordFromCP" parameterClass="CustomerUser">
+      update t_customer_user set
+      sys_modify_stamp = getdate(),
+      cu_pwd = #Password#
+      where customer_user_id=#ID#
+    </update>
+
+    <insert id="InsertCustomerUserLoginToken" parameterClass="hashtable">
+      insert into t_customer_user_token(token_id,customer_user_id) 
+      values(#TokenID#,#CustomerUserID#)
+    </insert>
+
+    <select id="GetLoginCustomerUserIDByToken" parameterClass="hashtable" resultClass="string">
+      select customer_user_id
+      from t_customer_user_token where token_id=#Token# 
+      and datediff(Second,create_time,getdate())&lt;#ValidSeconds#
+    </select>
+
+    <delete id="DeleteUserLoginToken" parameterClass="string">
+      delete from t_customer_user_token where token_id=#value#
+    </delete>
+
+    <insert id="InsertLoginLog" parameterClass="hashtable">
+      INSERT INTO t_customer_user_login(customer_user_id ,login_ip,session_id,token_id)
+      VALUES(#CustomerUserID#,#LoginIP#,#SessionID#,#TokenID#)
+    </insert>
+    
+  </statements>
+</sqlMap>

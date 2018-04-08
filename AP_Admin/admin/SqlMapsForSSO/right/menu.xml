@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Right.Menu"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Menu" type="cpos.Admin.Model.Right.MenuInfo,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="MenuResult" class="Menu" extends="Base.Operate.ObjectOperateResult">
+      <result property="ApplicationID" column="app_id" type="string" />
+      <result property="ID" column="menu_id" type="string" />
+      <result property="Code" column="menu_code" type="string"/>
+      <result property="Name" column="menu_name" type="string"/>
+      <result property="EnglishName" column="menu_name_en" type="string" />
+      <result property="Level" column="menu_level" type="int" />
+      <result property="URLPath" column="url_path" type="string" />
+      <result property="IconPath" column="icon_path" type="string" />
+      <result property="DisplayIndex" column="display_index" type="int" />
+      <result property="CustomerVisible" column="customer_visible" type="int" />
+      <result property="Status" column="menu_status" type="int" />  
+      <result property="ParentMenuID" column="parent_menu_id" type="string" />
+    </resultMap>
+
+    <resultMap id="MenuResult2" class="Menu" extends="MenuResult">
+      <result property="CustomerVisibleDescription" column="customer_visible_desc" type="string" />
+      <result property="StatusDescription" column="menu_status_desc" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="GetAllMenuListByCustomer" resultMap="MenuResult" parameterClass="string">
+     select a.*
+     from t_def_menu a, t_customer_menu b
+     where a.menu_id=b.menu_id and b.customer_id=#value#
+    </select>
+
+    <select id="GetAllMenuListByRole" resultMap="MenuResult" parameterClass="string">
+      select a.*
+      from t_def_menu a, t_role_menu b
+      where a.menu_id=b.menu_id and b.role_id=#value#
+    </select>
+
+    <select id="GetMenuListByAppCodeAndUserID" resultMap="MenuResult" parameterClass="hashtable">
+      select a.*
+      from t_def_menu a,
+      (
+      select b.menu_id from t_role_menu b, t_user_role c, t_def_app d, t_role e
+      where b.role_id=c.role_id and c.role_id=e.role_id and e.app_id=d.app_id
+      and d.app_code=#AppCode# and c.user_id=#UserID#
+      group by b.menu_id
+      ) b
+      where a.menu_id=b.menu_id
+      order by a.menu_level,a.display_index
+    </select>
+
+    <select id="GetFirstLevelMenuListByAppCodeAndUserID" resultMap="MenuResult" parameterClass="hashtable">
+      select a.*
+      from t_def_menu a,
+      (
+      select b.menu_id from t_role_menu b, t_user_role c, t_def_app d, t_role e
+      where b.role_id=c.role_id and c.role_id=e.role_id and e.app_id=d.app_id
+      and d.app_code=#AppCode# and c.user_id=#UserID#
+      group by b.menu_id
+      ) b
+      where a.menu_id=b.menu_id and a.menu_level=1
+      order by a.display_index
+    </select>
+
+    <select id="GetSubMenuListByUserIDAndMenuID" resultMap="MenuResult" parameterClass="hashtable">
+      select a.*
+      from t_def_menu a,
+      (
+      select b.menu_id from t_role_menu b, t_user_role c
+      where b.role_id=c.role_id and c.user_id=#UserID#
+      group by b.menu_id
+      ) b
+      where a.menu_id=b.menu_id and a.parent_menu_id=#MenuID#
+      order by a.display_index
+    </select>
+
+    <select id="GetAllMenuListByAppID" resultMap="MenuResult" parameterClass="string">
+      select a.*
+      from t_def_menu a
+      where a.app_id=#value#
+    </select>
+
+    <select id="GetAllMenuListByAppCode" resultMap="MenuResult" parameterClass="string">
+      select a.*
+      from t_def_menu a, t_def_app b
+      where a.app_id=b.app_id and b.app_code=#value#
+    </select>
+
+    <select id="GetFirstLevelMenuListByAppID" resultMap="MenuResult2" parameterClass="string">
+      select a.*,
+      b.dd_name as menu_status_desc,
+      c.dd_name as customer_visible_desc
+      from t_def_menu a
+      inner join vw_dic b on b.dic_code='status' and cast(a.menu_status as char)=b.dd_code
+      inner join vw_dic c on c.dic_code='yes_no' and cast(a.customer_visible as char)=c.dd_code
+      where a.app_id=#value# and menu_level=1
+      order by a.display_index
+    </select>
+
+    <select id="GetSubMenuListByMenuID" resultMap="MenuResult2" parameterClass="string">
+      select a.*,
+      b.dd_name as menu_status_desc,
+      c.dd_name as customer_visible_desc
+      from t_def_menu a
+      inner join vw_dic b on b.dic_code='status' and cast(a.menu_status as char)=b.dd_code
+      inner join vw_dic c on c.dic_code='yes_no' and cast(a.customer_visible as char)=c.dd_code
+      where a.parent_menu_id=#value#
+      order by a.display_index
+    </select>
+
+    <select id="GetMenuByID" resultMap="MenuResult2" parameterClass="string">
+      select a.*,
+      b.dd_name as menu_status_desc,
+      c.dd_name as customer_visible_desc
+      from t_def_menu a
+      inner join vw_dic b on b.dic_code='status' and cast(a.menu_status as char)=b.dd_code
+      inner join vw_dic c on c.dic_code='yes_no' and cast(a.customer_visible as char)=c.dd_code
+      where a.menu_id=#value#
+    </select>
+
+    <select id="ExistMenuCode" parameterClass="hashtable">
+      select count(*) from t_def_menu
+      where menu_code=#MenuCode#
+      <dynamic>
+        <isNotNull property="MenuID" prepend="and">
+          menu_id &lt;&gt; #MenuID#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <insert id="InsertRootMenu" parameterClass="Menu">
+      insert into t_def_menu(app_id,menu_id,menu_code,menu_name,menu_name_en,menu_level,
+      url_path,icon_path,display_index,customer_visible,menu_status,parent_menu_id,
+      create_user_id,create_user_name,create_time)
+      values(#ApplicationID#,#ID#,#Code#,#Name#,#EnglishName#,1,
+      #URLPath#,#IconPath#,#DisplayIndex#,#CustomerVisible#,1,'--',
+      #Creater.ID#,#Creater.Name#,getdate())
+    </insert>
+
+    <insert id="InsertSubMenu" parameterClass="Menu">
+      insert into t_def_menu(app_id,menu_id,menu_code,menu_name,menu_name_en,menu_level,
+      url_path,icon_path,display_index,customer_visible,menu_status,parent_menu_id,
+      create_user_id,create_user_name,create_time)
+      select app_id,#ID#,#Code#,#Name#,#EnglishName#,menu_level+1,
+      #URLPath#,#IconPath#,#DisplayIndex#,#CustomerVisible#,1,menu_id,
+      #Creater.ID#,#Creater.Name#,getdate()
+      from t_def_menu
+      where menu_id=#ParentMenuID#
+    </insert>
+
+    <update id="Update" parameterClass="Menu">
+      update t_def_menu set
+      menu_code=#Code#,
+      menu_name=#Name#,
+      menu_name_en=#EnglishName#,
+      url_path=#URLPath#,
+      icon_path=#IconPath#,
+      display_index=#DisplayIndex#,
+      customer_visible=#CustomerVisible#,
+      modify_user_id=#LastEditor.ID#,
+      modify_user_name=#LastEditor.Name#,
+      modify_time=getdate()
+      where menu_id=#ID#
+    </update>
+
+    <update id="UpdateStatus" parameterClass="hashtable">
+      update t_def_menu set
+      menu_status = #Status#,
+      modify_user_id = #UserID#,
+      modify_user_name = #UserName#,
+      modify_time=getdate()
+      where menu_id=#ID#
+    </update>
+
+    <select id="CountSubMenus" parameterClass="hashtable" resultClass="int">
+      with t
+      as
+      (
+      select a.*
+      from t_def_menu a where a.menu_id=#MenuID#
+      union all
+      select a.*
+      from t_def_menu a inner join t b on a.parent_menu_id=b.menu_id
+      )
+      select count(*) from t where t.menu_id&lt;&gt;#MenuID#
+      <dynamic>
+        <isNotNull property="MenuStatus" prepend="and">
+          menu_status=#MenuStatus#
+        </isNotNull>
+      </dynamic>
+      ;
+    </select>
+  </statements>
+</sqlMap>

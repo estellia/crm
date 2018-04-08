@@ -1,0 +1,638 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Customer.Customer"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Customer" type="cpos.Admin.Model.Customer.CustomerInfo,cpos.Admin.Model" />
+    <typeAlias alias="BrandCustomerInfo" type="cPos.Admin.Model.BrandCustomerInfo,cPos.Admin.Model" />
+    <typeAlias alias="TDataDeployInfo" type="cpos.Admin.Model.Customer.TDataDeployInfo,cpos.Admin.Model" />
+    <typeAlias alias="TCustomerDataDeployMappingInfo" type="cpos.Admin.Model.Customer.TCustomerDataDeployMappingInfo,cpos.Admin.Model" />
+  </alias>
+  
+  <resultMaps>
+    <!--在这里，extends继承的是Base.Operate下的resultMap-->
+    <resultMap id="CustomerResult" class="Customer" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="customer_id" type="string" />
+      <result property="Code" column="customer_code" type="string" />
+      <result property="Name" column="customer_name" type="string" />
+      <result property="Address" column="customer_address" type="string" />
+      <result property="PostCode" column="customer_post_code" type="string" />
+      <result property="Contacter" column="customer_contacter" type="string" />
+      <result property="Tel" column="customer_tel" type="string" />
+      <result property="Fax" column="customer_fax" type="string" />
+      <result property="Email" column="customer_email" type="string" />
+      <result property="Cell" column="customer_cell" type="string" />
+      <result property="Memo" column="customer_memo" type="string" />
+      <result property="Status" column="customer_status" type="int" />
+      <result property="StatusDescription" column="customer_status_desc" type="string" />
+      <result property="EnglishName" column="customer_name_en" type="string" />
+      <result property="StartDate" column="customer_start_date" type="string" />
+      <result property="IsALD" column="IsALD" type="int" />
+      <result property="IsPad" column="IsPad" type="int" />
+      <result property="UnitId" column="UnitId" type="string" />
+      <result property="unit_code" column="unit_code" type="string" />
+      <result property="unit_name" column="unit_name" type="string" />
+      <result property="Units" column="Units" type="int" />
+      <result property="Units_zh" column="Units_zh" type="string" />
+    </resultMap>
+    <resultMap id="BrandCustomerInfoResult" class="BrandCustomerInfo">
+      <result property="brand_customer_id" column="brand_customer_id" type="string" />
+      <result property="brand_customer_code" column="brand_customer_code" type="string" />
+      <result property="brand_customer_name" column="brand_customer_name" type="string" />
+      <result property="brand_customer_eng" column="brand_customer_eng" type="string" />
+      <result property="brand_customer_address" column="brand_customer_address" type="string" />
+      <result property="brand_customer_post" column="brand_customer_post" type="string" />
+      <result property="brand_customer_contacter" column="brand_customer_contacter" type="string" />
+      <result property="brand_customer_tel" column="brand_customer_tel" type="string" />
+      <result property="brand_customer_email" column="brand_customer_email" type="string" />
+      <result property="status" column="status" type="string" />
+      <result property="create_user_id" column="create_user_id" type="string" />
+      <result property="create_user_name" column="create_user_name" type="string" />
+      <result property="create_time" column="create_time" type="string" />
+      <result property="modify_user_id" column="modify_user_id" type="string" />
+      <result property="modify_user_name" column="modify_user_name" type="string" />
+      <result property="modify_time" column="modify_time" type="string" />
+      <result property="row_no" column="row_no" type="int"/>
+      <result property="icount" column="icount" type="int"/>
+    </resultMap>
+    <resultMap id="TDataDeployInfoResult" class="TDataDeployInfo">
+      <result property="DataDeployId" column="DataDeployId" type="string" />
+      <result property="DataDeployName" column="DataDeployName" type="string" />
+      <result property="DataDeployDesc" column="DataDeployDesc" type="string" />
+      <result property="db_server" column="db_server" type="string" />
+      <result property="db_name" column="db_name" type="string" />
+      <result property="db_user" column="db_user" type="string" />
+      <result property="db_pwd" column="db_pwd" type="string" />
+      <result property="access_url" column="access_url" type="string" />
+      <result property="max_shop_count" column="max_shop_count" type="int" />
+      <result property="max_user_count" column="max_user_count" type="int" />
+      <result property="max_terminal_count" column="max_terminal_count" type="int" />
+      <result property="key_file" column="key_file" type="string" />
+      <result property="IsDelete" column="IsDelete" type="int" />
+      <result property="CustomerCount" column="CustomerCount" type="int" />
+      <result property="IsALD" column="IsALD" type="int" />
+      <result property="IsPad" column="IsPad" type="int" />
+      <!--<result property="UnitId" column="UnitId" type="string" />-->
+    </resultMap>
+  </resultMaps>
+
+  <parameterMaps>
+    <!--扣库存匹配-->
+    <parameterMap id="SetCustomerInfoMap" class="hashtable">
+      <parameter property="CustomerID" column="CustomerID"/>
+    </parameterMap>
+
+  </parameterMaps>
+  
+  <statements>
+
+    <select id="SelectCustomer" resultMap="CustomerResult" parameterClass="string">
+      select a.*,
+      c.dd_name as customer_status_desc,'' as unit_code,'' as unit_name
+      ,isnull((select IsALD From TCustomerDataDeployMapping x where x.CustomerId = a.customer_id and x.IsDelete = '0'),0) IsALD
+      ,isnull((select IsPad From TCustomerDataDeployMapping x where x.CustomerId = a.customer_id and x.IsDelete = '0'),0) IsPad
+      ,isnull((select UnitId From TCustomerDataDeployMapping x where x.CustomerId = a.customer_id and x.IsDelete = '0'),'') UnitId
+      ,'' as unit_code,'' as unit_name
+      ,isnull(tc.Units,-1) Units
+      ,CASE WHEN tc.Units = -1 THEN '不限制' WHEN tc.Units IS NULL THEN '不限制'ELSE CAST(tc.Units AS NVARCHAR(10)) end Units_zh
+      from t_customer a
+      inner join vw_dic c on c.dic_code='status' and cast(a.customer_status as char)=c.dd_code
+      left join T_CustomerEx  tc on a.customer_code=tc.customer_code
+    </select>
+
+    <select id="SelectCustomerByVersionID" resultMap="CustomerResult" parameterClass="string" extends="SelectCustomer">
+      inner join CustomerModuleMapping cmm on cmm.CustomerID = a.customer_id and VocaVerMappingID = #value#
+    </select>
+
+    <select id="SelectByID" resultMap="CustomerResult" parameterClass="string" extends="SelectCustomer">
+      where a.customer_id=#value#
+    </select>
+    <!--在这里，extends继承的是上面的那个select语句，通过这种方式，增加了sql语句的重用性-->
+    <select id="SelectByCode" resultMap="CustomerResult" parameterClass="string" extends="SelectCustomer">
+      where a.customer_code=#value#
+    </select>
+
+    <select id="SelectIdByCode" resultClass="string" parameterClass="string" >
+      select customer_id From t_customer
+      where customer_code=#value#
+    </select>
+    <!--根据手机用户标识获取相关的客户集合 20130121-->
+    <select id="SelectByMobileUser" resultMap="CustomerResult" parameterClass="string" extends="SelectCustomer">
+      inner join T_MobileUser_Customer d
+      on(a.customer_id = d.customer_id)
+      where d.user_id=#value#
+    </select>
+<!--动态sql语句-->    <!--这里怎么没有parameterclass-->
+    <select id="SelectCustomerListCount" resultClass="int">
+      select count(a.customer_id)
+      from t_customer a
+      inner join TCustomerDataDeployMapping	  c
+      on	a.customer_id=c.customerid
+      where 1=1  and c.isdelete=0
+      <dynamic>
+        <isNotNull property="Code" prepend="and">
+          a.customer_code like '%'+#Code#+'%'
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          a.customer_name like '%'+#Name#+'%' 
+        </isNotNull>
+        <isNotNull property="Contacter" prepend="and">
+          a.customer_contacter like '%'+#Contacter#+'%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          a.customer_status = #Status#
+        </isNotNull>
+        <isNotNull property="unit_id" prepend="and">
+          c.unitid = #unit_id#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectCustomerList" resultMap="CustomerResult">
+      select a.* from (
+      select rownum_=row_number() over(order by a.customer_code),
+      a.*,
+      b.dd_name as customer_status_desc
+      ,isnull(c.IsALD,0) IsALD
+      ,isnull(c.IsPad,0) IsPad
+      ,isnull(c.UnitId,'') UnitId
+      ,isnull((select unit_code From  T_unit y where c.unitid = y.unit_id ),'') unit_code
+      ,isnull((select unit_name From  T_unit y where  c.unitid = y.unit_id ),'') unit_name
+      ,tc.Units
+      ,CASE WHEN tc.Units = -1 THEN '不限制' WHEN tc.Units IS NULL THEN '不限制'ELSE CAST(tc.Units AS NVARCHAR(10)) end Units_zh
+      from t_customer a
+      INNER JOIN vw_dic b ON b.dic_code = 'status'
+      AND CAST(a.customer_status AS CHAR) = b.dd_code
+      INNER JOIN TCustomerDataDeployMapping c ON a.customer_id = c.customerid
+      AND c.isdelete = 0
+      LEFT JOIN T_CustomerEx tc ON a.customer_id = tc.CustomerId
+      where 1=1
+      <dynamic>
+        <isNotNull property="Code" prepend="and">
+          a.customer_code like '%'+#Code#+'%'
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          a.customer_name like '%'+#Name#+'%' 
+        </isNotNull>
+        <isNotNull property="Contacter" prepend="and">
+          a.customer_contacter like '%'+#Contacter#+'%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          a.customer_status = #Status#
+        </isNotNull>
+        <isNotNull property="unit_id" prepend="and">
+          c.unitid = #unit_id#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+    <select id="GetAllCustomerList" resultMap="CustomerResult" parameterClass="hashtable">
+      select a.*,
+      b.dd_name as customer_status_desc,'' as unit_code,'' as unit_name
+      ,isnull((select IsALD From TCustomerDataDeployMapping x where x.CustomerId = a.customer_id and x.IsDelete = '0'),0) IsALD
+      ,isnull((select IsPad From TCustomerDataDeployMapping x where x.CustomerId = a.customer_id and x.IsDelete = '0'),0) IsPad
+      ,isnull((select UnitId From TCustomerDataDeployMapping x where x.CustomerId = a.customer_id and x.IsDelete = '0'),'') UnitId
+      ,'' as unit_name,'' as unit_code
+      from t_customer a, vw_dic b
+      where b.dic_code='status' and cast(a.customer_status as char)=b.dd_code
+      <dynamic>
+        <isNotNull property="Status" prepend="and">
+          a.customer_status=#Status#
+        </isNotNull>
+      </dynamic>
+      order by a.customer_code
+    </select>
+
+    <select id="ExistCustomerCode" parameterClass="hashtable">
+      select count(*) from t_customer
+      where customer_code=#CustomerCode#
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          customer_id &lt;&gt; #CustomerID#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <insert id="Insert" parameterClass="Customer">
+      insert into t_customer(customer_id,customer_code,customer_name,customer_name_en,
+      customer_address,customer_post_code,customer_contacter,customer_tel,customer_fax,customer_email,customer_cell,
+      customer_memo,customer_status,customer_start_date,create_user_id,create_time,create_user_name)
+      values(#ID#, #Code#, #Name#, #EnglishName#,
+      #Address#, #PostCode#, #Contacter#, #Tel#, #Fax#, #Email#, #Cell#,
+      #Memo#, 1, #StartDate#, #Creater.ID#, getdate(), #Creater.Name#)
+    </insert>
+
+    <update id="Update" parameterClass="Customer">
+      update t_customer set
+      customer_code=#Code#,
+      customer_name=#Name#,
+      customer_address=#Address#,
+      customer_post_code=#PostCode#,
+      customer_contacter=#Contacter#,
+      customer_tel=#Tel#,
+      customer_fax=#Fax#,
+      customer_email=#Email#,
+      customer_cell=#Cell#,
+      customer_memo=#Memo#,
+      customer_name_en=#EnglishName#,
+      customer_start_date=#StartDate#,
+      modify_user_id=#LastEditor.ID#,
+      modify_user_name=#LastEditor.Name#,
+      modify_time=getdate()
+      where customer_id=#ID#
+    </update>
+
+    <update id="EnableCustomer" parameterClass="Customer">
+      update t_customer set
+      customer_status=1,
+      modify_user_id=#LastEditor.ID#,
+      modify_user_name=#LastEditor.Name#,
+      modify_time=getdate()
+      where customer_id=#ID#
+    </update>
+
+    <update id="DisableCustomer" parameterClass="Customer">
+      update t_customer set
+      customer_status=-1,
+      modify_user_id=#LastEditor.ID#,
+      modify_user_name=#LastEditor.Name#,
+      modify_time=getdate()
+      where customer_id=#ID#
+    </update>
+
+    <select id="CanCreateUser" parameterClass="string">
+      select case when a.max_user_count>a.user_count then 1 else 0 end
+      from (
+      select a.customer_id,a.max_user_count,count(b.customer_id) as user_count
+      from t_customer_connect a, t_customer_user b
+      where a.customer_id=b.customer_id and a.customer_id=#value#
+      group by a.customer_id,a.max_user_count
+      ) a
+    </select>
+
+    <select id="CanCreateShop" parameterClass="string">
+      select case when a.max_shop_count>a.shop_count then 1 else 0 end
+      from (
+      select a.customer_id,a.max_shop_count,count(b.customer_id) as shop_count
+      from t_customer_connect a, t_customer_shop b
+      where a.customer_id=b.customer_id and a.customer_id=#value#
+      group by a.customer_id,a.max_shop_count
+      ) a
+    </select>
+
+    <select id="CanCreateTerminal" parameterClass="string">
+      select case when a.max_terminal_count>a.terminal_count then 1 else 0 end
+      from (
+      select a.customer_id,a.max_terminal_count,count(b.customer_id) as terminal_count
+      from t_customer_connect a, t_customer_terminal b
+      where a.customer_id=b.customer_id and a.customer_id=#value#
+      group by a.customer_id,a.max_terminal_count
+      ) a
+    </select>
+
+    <update id="UpdateStatus" parameterClass="hashtable">
+      update t_customer set
+      customer_status = #Status#,
+      modify_user_id = #UserID#,
+      modify_user_name = #UserName#,
+      modify_time=getdate()
+      where customer_id=#ID#
+    </update>
+
+    <!-- brand_customer -->
+    <select id="CheckExistBrandCustomer" resultClass="int" parameterClass="BrandCustomerInfo">
+      select count(*)
+      from t_brand_customer
+      where brand_customer_code=#brand_customer_code#
+      <dynamic>
+        <isNotNull property="brand_customer_id" prepend="and">
+          brand_customer_id &lt;&gt; #brand_customer_id#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="CheckExistBrandCustomerById" resultClass="int" parameterClass="string">
+      select count(*)
+      from t_brand_customer
+      where brand_customer_id=#brand_customer_id#
+    </select>
+
+    <sql id="SearchBrandCustomerPub">
+      Declare @TmpTable Table
+      (brand_customer_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (brand_customer_id,row_no)
+      select x.brand_customer_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by a.brand_customer_code desc)
+      ,brand_customer_id
+      from t_brand_customer a
+      where 1=1
+      <dynamic>
+        <isNotNull property="brand_customer_code">
+          <isNotEmpty property="brand_customer_code" prepend="and">
+            a.brand_customer_code like '%'+#brand_customer_code#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="brand_customer_name">
+          <isNotEmpty property="brand_customer_name" prepend="and">
+            a.brand_customer_name like '%'+#brand_customer_name#+'%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="SearchBrandCustomerList" resultMap="BrandCustomerInfoResult" parameterClass="hashtable">
+      <include refid="SearchBrandCustomerPub"/>
+
+      select
+      a.*
+      ,a1.row_no
+      ,@iCount icount
+      ,b.user_name create_user_name
+      ,c.user_name modify_user_name
+      From t_brand_customer a
+      inner join @TmpTable a1 on(a.brand_customer_id = a1.brand_customer_id)
+      left join t_user b on a.create_user_id=b.user_id
+      left join t_user c on a.modify_user_id=c.user_id
+      where 1=1
+      and a1.row_no &gt; #StartRow# and a1.row_no &lt;= #EndRow#;
+    </select>
+
+    <select id="GetBrandCustomerById" resultMap="BrandCustomerInfoResult" parameterClass="string">
+      select a.*
+      ,1 row_no
+      ,1 icount
+      ,b.user_name create_user_name
+      ,c.user_name modify_user_name
+      from t_brand_customer a
+      left join t_user b on a.create_user_id=b.user_id
+      left join t_user c on a.modify_user_id=c.user_id
+      where a.brand_customer_id=#value#
+    </select>
+    
+    <insert id="InsertBrandCustomer" parameterClass="BrandCustomerInfo">
+      insert into t_brand_customer
+      (
+      brand_customer_id
+      ,brand_customer_code
+      ,brand_customer_name
+      ,brand_customer_eng
+      ,brand_customer_address
+      ,brand_customer_post
+      ,brand_customer_contacter
+      ,brand_customer_tel
+      ,brand_customer_email
+      ,status
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      )
+      values
+      (
+      #brand_customer_id#
+      ,#brand_customer_code#
+      ,#brand_customer_name#
+      ,#brand_customer_eng#
+      ,#brand_customer_address#
+      ,#brand_customer_post#
+      ,#brand_customer_contacter#
+      ,#brand_customer_tel#
+      ,#brand_customer_email#
+      ,#status#
+      ,#create_user_id#
+      ,#create_time#
+      ,#modify_user_id#
+      ,#modify_time#
+      )
+    </insert>
+
+    <update id="UpdateBrandCustomer" parameterClass="BrandCustomerInfo">
+      update t_brand_customer set
+      brand_customer_code=#brand_customer_code#
+      ,brand_customer_name=#brand_customer_name#
+      ,brand_customer_eng=#brand_customer_eng#
+      ,brand_customer_address=#brand_customer_address#
+      ,brand_customer_post=#brand_customer_post#
+      ,brand_customer_contacter=#brand_customer_contacter#
+      ,brand_customer_tel=#brand_customer_tel#
+      ,brand_customer_email=#brand_customer_email#
+      ,status=#status#
+      ,modify_user_id=#modify_user_id#
+      ,modify_time=#modify_time#
+      where brand_customer_id=#brand_customer_id#
+    </update>
+
+    <!-- 获取Mobile Customer打包数据 -->
+    <select id="GetMobileCustomerNotPackagedCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_customer a
+      inner join T_MobileUser_Customer b on a.customer_id=b.customer_id
+      where 1=1
+      and isnull(b.if_flag,'0') = '0'
+      <dynamic>
+        <isNotNull property="User_Id">
+          <isNotEmpty property="User_Id" prepend="and">
+            b.User_Id = #User_Id#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetMobileCustomerListNotPackaged" resultMap="CustomerResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (Customer_Id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (Customer_Id,row_no)
+      select Customer_Id
+      ,row_number() over(order by customer_id) row_no
+      From T_MobileUser_Customer
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      <dynamic>
+        <isNotNull property="User_Id">
+          <isNotEmpty property="User_Id" prepend="and">
+            User_Id = #User_Id#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ;
+
+      select a.*
+      ,c.dd_name as customer_status_desc
+      ,1 IsALD
+      ,1 IsPad
+      ,'' UnitId
+      From  t_customer a
+      inner join @TmpTable b on(a.customer_id = b.customer_id)
+      inner join vw_dic c on c.dic_code='status' and cast(a.customer_status as char)=c.dd_code
+      left join t_user e on(a.create_user_id = e.user_id)
+      left join t_user f on(a.modify_user_id = f.user_id)
+      where b.row_no &gt; #StartRow#
+      and b.row_no &lt;=  #EndRow#;
+
+    </select>
+
+    <update id="SetMobileCustomerBatInfo" parameterClass="Customer">
+      <isNotEmpty property="CustomerList">
+        update T_MobileUser_Customer
+        set bat_id = #BatId#
+        ,Modify_Time = #ModifyTime#
+        ,Modify_User_Id = #ModifyUserId#
+        where 1=1
+        and user_id=#ModifyUserId#
+        and customer_id in (
+        <iterate property="CustomerList" conjunction=" UNION ">
+          SELECT #CustomerList[].ID#
+        </iterate> );
+      </isNotEmpty>
+    </update>
+    
+    <update id="UpdateMobileCustomerNotPackagedIfFlag" parameterClass="Customer">
+      update T_MobileUser_Customer
+      set if_flag = '1'
+      ,Modify_Time = #ModifyTime#
+      ,Modify_User_Id = #ModifyUserId#
+      where bat_id = #BatId#;
+    </update>
+
+    <select id="GetTDataDeployList" resultMap="TDataDeployInfoResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by a.DataDeployName),
+      a.*,
+      CustomerCount=(select count(*) from TCustomerDataDeployMapping where DataDeployId=a.DataDeployId and IsDelete='0')
+      ,'0' IsALD
+      ,'0' IsPad
+      from TDataDeploy a
+      where 1=1
+      <dynamic>
+        <isNotNull property="DataDeployId" prepend="and">
+          a.DataDeployId=#DataDeployId#
+        </isNotNull>
+        <isNotNull property="IsDelete" prepend="and">
+          a.IsDelete=#IsDelete#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+    
+    <select id="GetTDataDeployListCount" resultClass="int">
+      select count(a.DataDeployId)
+      from TDataDeploy a
+      where 1=1
+      <dynamic>
+        <isNotNull property="DataDeployId" prepend="and">
+          a.DataDeployId=#DataDeployId#
+        </isNotNull>
+        <isNotNull property="IsDelete" prepend="and">
+          a.IsDelete=#IsDelete#
+        </isNotNull>
+      </dynamic>
+    </select>
+    
+    <select id="GetTDataDeployList2" resultMap="TDataDeployInfoResult" parameterClass="hashtable">
+      select a.*
+      ,CustomerCount=(select count(*) from TCustomerDataDeployMapping where DataDeployId=a.DataDeployId and IsDelete='0')
+      from TDataDeploy a
+      where 1=1
+      <dynamic>
+        <isNotNull property="DataDeployId" prepend="and">
+          a.DataDeployId=#DataDeployId#
+        </isNotNull>
+        <isNotNull property="IsDelete" prepend="and">
+          a.IsDelete=#IsDelete#
+        </isNotNull>
+      </dynamic>
+      order by a.DataDeployName
+    </select>
+
+    <select id="GetTDataDeployIdByCustomerId" resultClass="string" parameterClass="string">
+      select a.DataDeployId
+      from TCustomerDataDeployMapping a
+      where 1=1 and isDelete='0'
+      and a.CustomerId=#value#
+    </select>
+
+    <update id="DeleteTCustomerDataDeployMappingByCustomerId" parameterClass="hashtable">
+      update TCustomerDataDeployMapping
+      set IsDelete = '1'
+      ,LastUpdateTime = #LastUpdateTime#
+      ,LastUpdateBy = #LastUpdateBy#
+      where CustomerId = #CustomerId# and isDelete='0';
+    </update>
+
+    <insert id="InsertTCustomerDataDeployMapping" parameterClass="TCustomerDataDeployMappingInfo">
+      insert into TCustomerDataDeployMapping
+      (
+      MappingId
+      ,CustomerId
+      ,DataDeployId
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateBy
+      ,LastUpdateTime
+      ,IsDelete
+      ,IsALD
+      ,UnitId
+      )
+      values
+      (
+      #MappingId#
+      ,#CustomerId#
+      ,#DataDeployId#
+      ,#CreateTime#
+      ,#CreateBy#
+      ,#LastUpdateBy#
+      ,#LastUpdateTime#
+      ,'0'
+      ,#IsALD#
+      ,#UnitId#
+      )
+    </insert>
+    <insert id="CreateCustomerLimiUnit" parameterClass="Customer">
+      INSERT INTO [dbo].[T_CustomerEx]
+      ([customer_code]
+      ,[Units]
+      ,[CustomerId]
+      ,[CreateBy]
+      ,[CreateTime]
+      ,[LastUpdateBy]
+      ,[LastUpdateTime]
+      ,[IsDelete])
+      VALUES
+      (#Code#
+      ,#Units#
+      ,#ID#
+      ,#Creater.Name#
+      ,getdate()
+      ,#Creater.Name#
+      ,getdate()
+      ,0
+      )
+    </insert>
+    <update id="UpdateCustomerLimiUnit" parameterClass="Customer">
+      Update [dbo].[T_CustomerEx]
+      SET [Units]=#Units#
+        ,[LastUpdateBy]=#Creater.Name#
+        ,[LastUpdateTime]=getdate()
+      WHERE [customer_code]=#Code#
+    </update>
+    <!--Jermyn20140319 处理业务系统初始化-->
+    <procedure id="SetCustomerInfo" parameterMap="SetCustomerInfoMap">
+      spBasicSetting
+    </procedure>
+  </statements>
+</sqlMap>

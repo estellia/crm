@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{587EC4FC-FD50-43FC-BD28-DF5330C07341}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.Utility.MSTRIntegration</RootNamespace>
+    <AssemblyName>Utility.MSTRIntegration</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\DataRigthHierachy.cs" />
+    <Compile Include="Base\ElementsPromptAnswer.cs" />
+    <Compile Include="Base\IPromptAnswer.cs" />
+    <Compile Include="Base\MstrReportUtil.cs" />
+    <Compile Include="Base\PromptAnswerItem.cs" />
+    <Compile Include="Base\PromptAnswerType.cs" />
+    <Compile Include="Base\ReportType.cs" />
+    <Compile Include="Base\ValuePromptAnswer.cs" />
+    <Compile Include="Base\BaseReportDAO.cs" />
+    <Compile Include="Base\ReportUserInfo.cs" />
+    <Compile Include="Base\ObjectsPromptAnswer.cs" />
+    <Compile Include="BLL\CodeGeneration\MSTRIntegrationUserSessionBLL.cs" />
+    <Compile Include="BLL\CodeGeneration\MSTRProjectBLL.cs" />
+    <Compile Include="BLL\CodeGeneration\MSTRPromptBLL.cs" />
+    <Compile Include="BLL\CodeGeneration\MSTRReportBLL.cs" />
+    <Compile Include="BLL\CodeGeneration\MSTRReportPromptBLL.cs" />
+    <Compile Include="BLL\MSTRIntegrationUserSessionBLL.cs" />
+    <Compile Include="BLL\MSTRProjectBLL.cs" />
+    <Compile Include="BLL\MSTRPromptBLL.cs" />
+    <Compile Include="BLL\MSTRReportBLL.cs" />
+    <Compile Include="BLL\MSTRReportPromptBLL.cs" />
+    <Compile Include="DAO\CodeGeneration\MSTRIntegrationUserSessionDAO.cs" />
+    <Compile Include="DAO\CodeGeneration\MSTRProjectDAO.cs" />
+    <Compile Include="DAO\CodeGeneration\MSTRPromptDAO.cs" />
+    <Compile Include="DAO\CodeGeneration\MSTRReportDAO.cs" />
+    <Compile Include="DAO\CodeGeneration\MSTRReportPromptDAO.cs" />
+    <Compile Include="DAO\MSTRIntegrationUserSessionDAO.cs" />
+    <Compile Include="DAO\MSTRProjectDAO.cs" />
+    <Compile Include="DAO\MSTRPromptDAO.cs" />
+    <Compile Include="DAO\MSTRReportDAO.cs" />
+    <Compile Include="DAO\MSTRReportPromptDAO.cs" />
+    <Compile Include="Entity\CodeGeneration\MSTRIntegrationUserSessionEntity.cs" />
+    <Compile Include="Entity\CodeGeneration\MSTRProjectEntity.cs" />
+    <Compile Include="Entity\CodeGeneration\MSTRPromptEntity.cs" />
+    <Compile Include="Entity\CodeGeneration\MSTRReportEntity.cs" />
+    <Compile Include="Entity\CodeGeneration\MSTRReportPromptEntity.cs" />
+    <Compile Include="Entity\MSTRIntegrationUserSessionEntity.cs" />
+    <Compile Include="Entity\MSTRProjectEntity.cs" />
+    <Compile Include="Entity\MSTRPromptEntity.cs" />
+    <Compile Include="Entity\MSTRReportEntity.cs" />
+    <Compile Include="Entity\MSTRReportPromptEntity.cs" />
+    <Compile Include="JitMstrSSO.cs" />
+    <Compile Include="JitReportBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Const\Const.csproj">
+      <Project>{BB4C49E2-BD7C-4556-91C4-D3575433A8DB}</Project>
+      <Name>Const</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{1DFD5C01-71C0-41D9-82E4-CABA22331835}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

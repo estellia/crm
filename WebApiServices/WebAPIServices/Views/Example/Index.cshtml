@@ -1,0 +1,12 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>示例展示</h2>
+<script>
+    if (sessionStorage.token == undefined) {
+        window.location.href = "/UserManager/Index";
+    }
+</script>

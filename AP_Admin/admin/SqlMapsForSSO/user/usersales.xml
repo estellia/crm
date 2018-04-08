@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="User.UserSales"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="UserSales" type="cpos.Admin.Model.User.UserInfo,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="UserResult" class="UserSales" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="user_id" type="string" />
+      <result property="Account" column="user_account" type="string"/>
+      <result property="Name" column="user_name" type="string"/>
+      <result property="Status" column="user_status" type="int" />
+      <result property="StatusDescription" column="user_status_desc" type="string" />
+      <result property="Password" column="user_password" type="string"/>
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="UserResult">
+     
+      select a.*,
+      '正常' user_status_desc
+      from t_user_sales a
+      
+    </select>
+
+    <select id="SelectUserByAccount" resultMap="UserResult" parameterClass="string" extends="Select">
+      where a.user_account=#value#
+      and a.user_status = '1'
+    </select>
+
+    <select id="SelectUserByID" resultMap="UserResult" parameterClass="string" extends="Select">
+      where a.user_id=#value#
+    </select>
+
+    <insert id="InsertLoginLog" parameterClass="hashtable">
+      INSERT INTO t_user_login(user_id ,login_ip,session_id)
+      VALUES(#UserID#,#LoginIP#,#SessionID#)
+    </insert>
+
+    <select id="SelectUserPwd" resultClass="string" parameterClass="string">
+      select user_password from t_user_sales
+      where user_id=#value#
+    </select>
+
+    <update id="UpdateUserPwd" parameterClass="hashtable">
+      update t_user_sales
+      set user_password=#UserPwd#
+      where user_id=#UserID#
+      and user_status=1
+    </update>
+
+  </statements>
+</sqlMap>

@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="PosVersionInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="PosVersionInfo" type="cPos.Dex.Model.PosVersionInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="PosVersionInfoResult" class="PosVersionInfo">
+      <result property="VersionId" column="Version_Id" type="string" />
+      <result property="VersionNo" column="Version_No" type="string" />
+      <result property="VersionPath" column="Version_Path" type="string" />
+      <result property="VersionUrl" column="Version_Url" type="string" />
+      <result property="FileName" column="File_Name" type="string" />
+      <result property="VersionStatus" column="Version_Status" type="string" />
+      <result property="SortFlag" column="Sort_Flag" type="int" />
+      <result property="VersionSize" column="Version_Size" type="int" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+      <result property="Remark" column="Remark" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!-- VersionInfo -->
+    <select id="GetPosVersion" resultMap="PosVersionInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_pos_version a
+      where 1=1
+      <dynamic>
+        <isNotNull property="VersionId">
+          <isNotEmpty property="VersionId" prepend="and">
+            a.Version_Id = #VersionId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="VersionNo">
+          <isNotEmpty property="VersionNo" prepend="and">
+            a.Version_No = #VersionNo#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="SortFlag">
+          <isNotEmpty property="SortFlag" prepend="and">
+            a.Sort_Flag = #SortFlag#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="VersionStatus">
+          <isNotEmpty property="VersionStatus" prepend="and">
+            a.Version_Status = #VersionStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+    
+    <select id="GetLastPubPosVersion" resultMap="PosVersionInfoResult" parameterString="string">
+      select a.*
+      from t_dex_pos_version a
+      where a.version_status='1'
+      and a.sort_flag=(select max(sort_flag) from t_dex_pos_version where version_status='1')
+    </select>
+
+
+    <!--<insert id="InsertVersion" parameterClass="PosVersionInfo">
+      insert into t_dex_config
+      (
+      cfg_id
+      ,cfg_key
+      ,cfg_value
+      ,cfg_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #CfgId#
+      ,#CfgKey#
+      ,#CfgValue#
+      ,#CfgStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateVersion" parameterClass="VersionInfo">
+      update t_dex_config
+      set
+      cfg_value=#CfgValue#
+      ,cfg_status=#CfgStatus#
+      ,modify_time=#ModifyTime#
+      ,modify_user_id=#ModifyUserId#
+      where cfg_id=#CfgId#
+    </update>
+
+    <delete id="DeleteVersion" parameterClass="string">
+      delete t_dex_config
+      where cfg_id=#CfgId#
+    </delete>-->
+
+  </statements>
+
+</sqlMap>

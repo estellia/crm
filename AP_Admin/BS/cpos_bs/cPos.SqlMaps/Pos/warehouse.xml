@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Pos.Warehouse"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Warehouse" type="cPos.Model.Pos.WarehouseInfo,cPos.Model"/>
+    <typeAlias alias="WarehouseQuery" type="cPos.Model.Pos.WarehouseQueryInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="WarehouseResult" class="Warehouse" extends="Pos.Operate.ObjectOperateResult">
+      <result property="ID" column="warehouse_id" type="string" />
+      <result property="Code" column="wh_code" type="string" />
+      <result property="Name" column="wh_name" type="string" />
+      <result property="EnglishName" column="wh_name_en" type="string" />
+      <result property="Address" column="wh_address" type="string" />
+      <result property="Contacter" column="wh_contacter" type="string" />
+      <result property="Tel" column="wh_tel" type="string" />
+      <result property="Fax" column="wh_fax" type="string" />
+      <result property="Status" column="wh_status" type="int" />
+      <result property="StatusDescription" column="wh_status_desc" type="string" />
+      <result property="IsDefault" column="is_default" type="int" />
+      <result property="IsDefaultDescription" column="is_default_desc" type="string" />
+      <result property="Remark" column="wh_remark" type="string" />
+
+      <result property="Unit.Id" column="unit_id" type="string" />
+      <result property="Unit.Code" column="unit_code" type="string" />
+      <result property="Unit.Name" column="unit_name" type="string" />
+      <result property="Unit.ShortName" column="unit_name_short" type="string" />
+    </resultMap>
+
+    <resultMap id="WarehouseQueryResult" class="WarehouseQuery" extends="WarehouseResult">
+      <result property="RecordCount" column="record_count" type="int" />
+    </resultMap>
+    
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="Warehouse">
+      insert into t_warehouse(warehouse_id, wh_code, wh_name, wh_name_en,
+      wh_address, wh_contacter, wh_tel, wh_fax, wh_status, wh_remark, is_default,
+      create_user_id, create_user_name, create_time)
+      values(#ID#, #Code#, #Name#, #EnglishName#, 
+      #Address#, #Contacter#, #Tel#, #Fax#, 1, #Remark#, #IsDefault#,
+      #CreateUserID#, #CreateUserName#, getdate())
+    </insert>
+
+    <update id="Update" parameterClass="Warehouse">
+      update t_warehouse set
+      wh_code = #Code#,
+      wh_name = #Name#,
+      wh_name_en = #EnglishName#,
+      wh_address = #Address#,
+      wh_contacter = #Contacter#,
+      wh_tel = #Tel#,
+      wh_fax = #Fax#,
+      is_default = #IsDefault#,
+      wh_remark = #Remark#,
+      modify_user_id = #ModifyUserID#,
+      modify_user_name = #ModifyUserName#,
+      modify_time = getdate()
+      where warehouse_id = #ID#
+    </update>
+
+    <delete id="Delete" parameterClass="Warehouse">
+      delete from t_warehouse 
+      where 1=2 
+    </delete>
+
+    <select id="Select" parameterClass="Warehouse">
+      select a.warehouse_id, a.wh_code, a.wh_name, a.wh_name_en, a.wh_address,
+      a.wh_contacter, a.wh_tel, a.wh_fax, a.wh_status, a.wh_remark, a.is_default,
+      a.create_user_id, a.create_user_name, a.create_time,
+      a.modify_user_id, a.modify_user_name, a.modify_time, a.sys_modify_stamp,
+      case a.wh_status when 1 then '正常' else  '停用' end as wh_status_desc,
+      case a.is_default when 1 then '是' else '否' end as is_default_desc,
+      c.unit_id, c.unit_name, c.unit_code, c.unit_name_short
+      from t_warehouse a, t_unit_warehouse b, t_unit c
+      where a.warehouse_id=b.warehouse_id and b.unit_id=c.unit_id
+    </select>
+
+    <select id="SelectByID" parameterClass="string" resultMap="WarehouseResult" extends="Select">
+      and a.warehouse_id=#value#
+    </select>
+
+    <select id="SelectByUnitID" parameterClass="string" resultMap="WarehouseResult" extends="Select">
+      and b.unit_id=#value#
+    </select>
+
+    <select id="ExistWarehouseCode" parameterClass="hashtable">
+      select count(*) from t_warehouse
+      where wh_code=#WarehouseCode#
+      <dynamic>
+        <isNotNull property="WarehouseID" prepend="and">
+          warehouse_id &lt;&gt; #WarehouseID#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectWarehouseListCount" resultClass="int" parameterClass="hashtable">
+      select count(b.warehouse_id)
+      from t_warehouse b, t_unit_warehouse c, t_unit d
+      where b.warehouse_id=c.warehouse_id and c.unit_id=d.unit_id
+      <dynamic>
+        <isNotNull property="UnitName" prepend="and">
+          d.unit_name like '%' + #UnitName# + '%'
+        </isNotNull>
+        <isNotNull property="Code" prepend="and">
+          b.wh_code like '%' + #Code# + '%'
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          b.wh_name like '%' + #Name# + '%'
+        </isNotNull>
+        <isNotNull property="Contacter" prepend="and">
+          b.wh_contacter like '%' + #Contacter# + '%'
+        </isNotNull>
+        <isNotNull property="Tel" prepend="and">
+          b.wh_tel like '%' + #Tel# + '%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          b.wh_status = #Status#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectWarehouseList" resultMap="WarehouseResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by b.wh_code),
+      b.*,
+      case b.wh_status when 1 then '正常' else  '停用' end as wh_status_desc,
+      case b.is_default when 1 then '是' else '否' end as is_default_desc,
+      d.unit_id, d.unit_name, d.unit_code, d.unit_name_short
+      from t_warehouse b, t_unit_warehouse c, t_unit d
+      where b.warehouse_id=c.warehouse_id and c.unit_id=d.unit_id
+      <dynamic>
+        <isNotNull property="UnitName" prepend="and">
+          d.unit_name like '%' + #UnitName# + '%'
+        </isNotNull>
+        <isNotNull property="Code" prepend="and">
+          b.wh_code like '%' + #Code# + '%'
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          b.wh_name like '%' + #Name# + '%'
+        </isNotNull>
+        <isNotNull property="Contacter" prepend="and">
+          b.wh_contacter like '%' + #Contacter# + '%'
+        </isNotNull>
+        <isNotNull property="Tel" prepend="and">
+          b.wh_tel like '%' + #Tel# + '%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          b.wh_status = #Status#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+
+    <select id="SelectWarehouseList2" resultMap="WarehouseQueryResult" parameterClass="hashtable">
+      $UnitSQL$
+
+      declare @tmp_warehouse table (unit_warehouse_id varchar(32), row_no int);
+      declare @tmp_count int;
+
+      insert into @tmp_warehouse(row_no, unit_warehouse_id)
+      select rownum_=row_number() over(order by b.wh_code desc, e.unit_code),c.unit_warehouse_id
+      from t_warehouse b, t_unit_warehouse c, @tmp_unit d, t_unit e
+      where b.warehouse_id=c.warehouse_id and c.unit_id=d.unit_id and c.unit_id=e.unit_id
+      <dynamic>
+        <isNotNull property="Code" prepend="and">
+          b.wh_code like '%' + #Code# + '%'
+        </isNotNull>
+        <isNotNull property="Name" prepend="and">
+          b.wh_name like '%' + #Name# + '%'
+        </isNotNull>
+        <isNotNull property="Contacter" prepend="and">
+          b.wh_contacter like '%' + #Contacter# + '%'
+        </isNotNull>
+        <isNotNull property="Tel" prepend="and">
+          b.wh_tel like '%' + #Tel# + '%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          b.wh_status = #Status#
+        </isNotNull>
+      </dynamic>
+      ;
+
+      select @tmp_count=count(*) from @tmp_warehouse;
+
+      select @tmp_count as record_count,b.*,
+      case b.wh_status when 1 then '正常' else  '停用' end as wh_status_desc,
+      case b.is_default when 1 then '是' else '否' end as is_default_desc,
+      d.unit_id, d.unit_name, d.unit_code, d.unit_name_short
+      from t_warehouse b, t_unit_warehouse c, t_unit d, @tmp_warehouse e
+      where b.warehouse_id=c.warehouse_id and c.unit_id=d.unit_id and c.unit_warehouse_id=e.unit_warehouse_id
+      and e.row_no &gt; #StartRow# and e.row_no &lt;=#EndRow#;
+    </select>
+
+    <update id="UpdateWarehouseStatus" parameterClass="hashtable">
+      update t_warehouse
+      set wh_status = #WarehouseStatus#,
+      modify_user_id = #UserID#,
+      modify_time = getdate()
+      where warehouse_id = #WarehouseID#
+    </update>
+  </statements>
+
+</sqlMap>

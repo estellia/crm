@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AdjustmentOrderDetailUnit"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AdjustmentOrderDetailUnit" type="cPos.Model.AdjustmentOrderDetailUnitInfo,cPos.Model" />
+    <typeAlias alias="AdjustmentOrder_Unit" type="cPos.Model.AdjustmentOrderInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdjustmentOrderDetailUnitResult" class="AdjustmentOrderDetailUnit">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_detail_unit_id" column="order_detail_unit_id" type="string" />
+      <result property="unit_id" column="unit_id" type="string"/>
+   
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="AdjustmentOrderDetailUnitResult">
+      select a.order_detail_unit_id
+      ,a.order_id
+      ,a.unit_id
+      From T_Adjustment_Order_Detail_Unit a
+    </select>
+
+    <select id="SelectByOrderId" extends="Select" resultMap="AdjustmentOrderDetailUnitResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#
+    </select>
+
+    <!--处理调价单商品明细 Jermyn 2012-06-21-->
+    <statement id="InsertOrUpdate" parameterClass="AdjustmentOrder_Unit">
+      <isNotEmpty property="AdjustmentOrderDetailUnitList">
+
+        <!--删除该调价单商品明细-->
+        delete  T_Adjustment_Order_Detail_Unit
+        where order_id = #order_id#;
+
+
+
+        <!--插入新的关系-->
+        insert into T_Adjustment_Order_Detail_Unit
+        (order_detail_unit_id
+        ,order_id
+        ,unit_id
+        )
+        SELECT P.order_detail_unit_id
+        ,P.order_id
+        ,P.unit_id
+
+        FROM (
+        <iterate property="AdjustmentOrderDetailUnitList" conjunction=" UNION ">
+          SELECT
+          #order_id# order_id
+          , #AdjustmentOrderDetailUnitList[].order_detail_unit_id# order_detail_unit_id
+          , #AdjustmentOrderDetailUnitList[].unit_id# unit_id
+
+        </iterate>
+        ) P;
+
+
+      </isNotEmpty>
+    </statement>
+  </statements>
+</sqlMap>

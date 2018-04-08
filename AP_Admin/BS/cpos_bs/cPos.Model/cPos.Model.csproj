@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F534EE31-0CEA-4ECB-9F58-5DD2FA5AE99D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Model</RootNamespace>
+    <AssemblyName>cPos.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdjustmentOrderDetailItemInfo.cs" />
+    <Compile Include="AdjustmentOrderDetailSkuInfo.cs" />
+    <Compile Include="AdjustmentOrderDetailUnitInfo.cs" />
+    <Compile Include="AdjustmentOrderInfo.cs" />
+    <Compile Include="Advertise\AdvertiseInfo.cs" />
+    <Compile Include="Advertise\AdvertiseOrderAdvertiseInfo.cs" />
+    <Compile Include="Advertise\AdvertiseOrderInfo.cs" />
+    <Compile Include="Advertise\AdvertiseOrderUnitInfo.cs" />
+    <Compile Include="AppSysModel.cs" />
+    <Compile Include="BaseInfo.cs" />
+    <Compile Include="BillActionInfo.cs" />
+    <Compile Include="BillActionModel.cs" />
+    <Compile Include="BillActionRoleModel.cs" />
+    <Compile Include="BillActionType.cs" />
+    <Compile Include="BillKindModel.cs" />
+    <Compile Include="BillModel.cs" />
+    <Compile Include="BillStatusModel.cs" />
+    <Compile Include="CCDetailInfo.cs" />
+    <Compile Include="CCInfo.cs" />
+    <Compile Include="CityInfo.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="ObjectImagesInfo.cs" />
+    <Compile Include="SkuUnitPriceInfo.cs" />
+    <Compile Include="CustomerInfo.cs" />
+    <Compile Include="Exchange\AnnounceInfo.cs" />
+    <Compile Include="Exchange\AnnounceTypeInfo.cs" />
+    <Compile Include="Exchange\AnnounceUnitInfo.cs" />
+    <Compile Include="Exchange\AnnountQueryInfo.cs" />
+    <Compile Include="Exchange\SelectObjectResultsInfo.cs" />
+    <Compile Include="InitialInfo.cs" />
+    <Compile Include="InoutDetailInfo.cs" />
+    <Compile Include="InoutInfo.cs" />
+    <Compile Include="ItemCategoryInfo.cs" />
+    <Compile Include="ItemInfo.cs" />
+    <Compile Include="ItemPriceInfo.cs" />
+    <Compile Include="ItemPriceTypeInfo.cs" />
+    <Compile Include="ItemPropInfo.cs" />
+    <Compile Include="LoggingManager.cs" />
+    <Compile Include="LoggingSessionInfo.cs" />
+    <Compile Include="MenuModel.cs" />
+    <Compile Include="MonitorLogInfo.cs" />
+    <Compile Include="OrderReasonTypeInfo.cs" />
+    <Compile Include="OrderSearchInfo.cs" />
+    <Compile Include="OrderTypeInfo.cs" />
+    <Compile Include="PageInfo.cs" />
+    <Compile Include="Pos\ObjectOperateInfo.cs" />
+    <Compile Include="Pos\PosInfo.cs" />
+    <Compile Include="Pos\PosTypeInfo.cs" />
+    <Compile Include="Pos\PosUnitInfo.cs" />
+    <Compile Include="Pos\UnitWarehouseInfo.cs" />
+    <Compile Include="Pos\WarehouseInfo.cs" />
+    <Compile Include="Pos\WarehouseQueryInfo.cs" />
+    <Compile Include="Promotion\VipBaseInfo.cs" />
+    <Compile Include="Promotion\VipExchangeInfo.cs" />
+    <Compile Include="Promotion\VipInfo.cs" />
+    <Compile Include="Promotion\VipTypeInfo.cs" />
+    <Compile Include="PropByItemInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropInfo.cs" />
+    <Compile Include="RepairInfo.cs" />
+    <Compile Include="Report\ItemSalesReportInfo.cs" />
+    <Compile Include="Report\SalesReportInfo.cs" />
+    <Compile Include="RoleMenuModel.cs" />
+    <Compile Include="RoleModel.cs" />
+    <Compile Include="SelectBillActionRoleInfo.cs" />
+    <Compile Include="ShiftInfo.cs" />
+    <Compile Include="SkuInfo.cs" />
+    <Compile Include="SkuPriceInfo.cs" />
+    <Compile Include="SkuPropInfo.cs" />
+    <Compile Include="StockBalanceInfo.cs" />
+    <Compile Include="TypeInfo.cs" />
+    <Compile Include="UnitAccountTermInfo.cs" />
+    <Compile Include="UnitInfo.cs" />
+    <Compile Include="UnitPropertyInfo.cs" />
+    <Compile Include="UnitRelationModeInfo.cs" />
+    <Compile Include="Unit\UnitQueryCondition.cs" />
+    <Compile Include="User\UserInfo.cs" />
+    <Compile Include="User\UserRoleInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\cPos.Model.csproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

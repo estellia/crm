@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="StockBalance"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="StockBalance" type="cPos.Model.StockBalanceInfo,cPos.Model" />
+
+  </alias>
+
+  <resultMaps>
+    <resultMap id="StockBalanceResult" class="StockBalance">
+      <result property="stock_balance_id" column="stock_balance_id" type="string" />
+      <result property="unit_id" column="unit_id" type="string" />
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="warehouse_id" column="warehouse_id" type="string"/>
+      <result property="sku_id" column="sku_id" type="string"/>
+      <result property="begin_qty" column="begin_qty" type="decimal"/>
+      <result property="in_qty" column="in_qty" type="decimal"/>
+      <result property="out_qty" column="out_qty" type="decimal"/>
+      <result property="adjust_in_qty" column="adjust_in_qty" type="decimal"/>
+      <result property="adjust_out_qty" column="adjust_out_qty" type="decimal"/>
+      <result property="reserver_qty" column="reserver_qty" type="decimal"/>
+      <result property="on_way_qty" column="on_way_qty" type="decimal"/>
+      <result property="end_qty" column="end_qty" type="decimal"/>
+      <result property="price" column="price" type="decimal"/>
+      <result property="item_label_type_id" column="item_label_type_id" type="string"/>
+      <result property="item_label_type_code" column="item_label_type_code" type="string"/>
+      <result property="item_label_type_name" column="item_label_type_name" type="string"/>
+      <result property="item_code" column="item_code" type="string"/>
+      <result property="item_name" column="item_name" type="string"/>
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="warehouse_name" column="warehouse_name" type="string"/>
+      <result property="prop_1_detail_name" column="prop_1_detail_name" type="string"/>
+      <result property="prop_2_detail_name" column="prop_2_detail_name" type="string"/>
+      <result property="prop_3_detail_name" column="prop_3_detail_name" type="string"/>
+      <result property="prop_4_detail_name" column="prop_4_detail_name" type="string"/>
+      <result property="prop_5_detail_name" column="prop_5_detail_name" type="string"/>
+      <result property="row_no" column="row_no" type="int"/>
+    </resultMap>
+
+    <resultMap id="StockBalanceSearchResult" class ="StockBalance" extends="StockBalanceResult">
+      <result property="icount" column="icount" type="int"/>
+    </resultMap>
+  </resultMaps>
+  
+  <parameterMaps>
+    <!--扣库存匹配-->
+    <parameterMap id="SetStockBalanceMap" class="hashtable">
+      <parameter property="OrderId" column="OrderId"/>
+      <parameter property="UserId" column="UserId"/>
+    </parameterMap>
+
+  </parameterMaps>
+  <statements>
+    <!--查询公共部分 rownum_=row_number() over(order by a.order_no)-->
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (stock_balance_id nvarchar(100)
+      ,unit_id nvarchar(100)
+      ,warehouse_id nvarchar(100)
+      ,sku_id nvarchar(100)
+      ,item_label_type_id nvarchar(100)
+      ,begin_qty decimal(18,4)
+      ,in_qty decimal(18,4)
+      ,out_qty decimal(18,4)
+      ,adjust_in_qty decimal(18,4)
+      ,adjust_out_qty decimal(18,4)
+      ,reserver_qty decimal(18,4)
+      ,on_way_qty decimal(18,4)
+      ,end_qty decimal(18,4)
+      ,price decimal(18,4)
+      ,row_no int
+      );
+
+      if #TypeValue# = '1'
+      insert into @TmpTable
+      select a.stock_balance_id,a.unit_id,a.warehouse_id,a.sku_id,a.item_label_type_id,a.begin_qty,a.in_qty,a.out_qty,a.adjust_in_qty,a.adjust_out_qty,a.reserver_qty,a.on_way_qty,a.end_qty,a.price
+      ,row_number() over(order by a.warehouse_id,a.unit_id,a.item_label_type_id,a.sku_id) row_no
+      From T_Stock_Balance a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+      where 1=1
+      and a.status = '1'
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.unit_id = #UnitId#
+          </isNotEmpty>
+        </isNotNull>
+        
+        <isNotNull property="WarehouseId">
+          <isNotEmpty property="WarehouseId" prepend="and">
+            a.warehouse_id = #WarehouseId#
+          </isNotEmpty>
+        </isNotNull>
+        
+        <isNotNull property="ItemCode">
+          <isNotEmpty property="ItemCode" prepend="and">
+            b.item_code like '%' +  #ItemCode# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="ItemName">
+          <isNotEmpty property="ItemName" prepend="and">
+            b.item_name like '%' +  #ItemName# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>
+      else
+      select '' stock_balance_id,a.unit_id,a.warehouse_id,a.sku_id,a.item_label_type_id,a.begin_qty,a.in_qty,a.out_qty,a.adjust_in_qty,a.adjust_out_qty,a.reserver_qty,a.on_way_qty,a.end_qty,a.price
+      ,row_number() over(order by a.warehouse_id,a.unit_id,a.item_label_type_id,a.sku_id,a.stock_unit_id) row_no
+      From T_Stock_Balance_Month a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+      inner join T_Stock_Unit c
+      on(a.stock_unit_id = c.stock_unit_id)
+      where 1=1
+      and a.status = '1'
+      <dynamic>
+          <isNotNull property="UnitId">
+            <isNotEmpty property="UnitId" prepend="and">
+              a.unit_id = #UnitId#
+            </isNotEmpty>
+          </isNotNull>
+
+          <isNotNull property="WarehouseId">
+            <isNotEmpty property="WarehouseId" prepend="and">
+              a.warehouse_id = #WarehouseId#
+            </isNotEmpty>
+          </isNotNull>
+
+          <isNotNull property="ItemCode">
+            <isNotEmpty property="ItemCode" prepend="and">
+              b.item_code like '%' +  #ItemCode# + '%'
+            </isNotEmpty>
+          </isNotNull>
+
+          <isNotNull property="ItemName">
+            <isNotEmpty property="ItemName" prepend="and">
+              b.item_name like '%' +  #ItemName# + '%'
+            </isNotEmpty>
+          </isNotNull>
+          <isNotNull property="YearMonth">
+            <isNotEmpty property="YearMonth" prepend="and">
+              c.fee_month = #YearMonth#
+            </isNotEmpty>
+          </isNotNull>
+        </dynamic>
+      ;
+
+    </sql>
+
+    <select id="SearchCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select  COUNT(*)  From @TmpTable;
+    </select>
+
+    <select id="Search" resultMap="StockBalanceResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+      select a.*
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,(select wh_name From t_warehouse where warehouse_id = a.warehouse_id)  warehouse_name
+      ,b.item_label_type_code
+      ,b.item_label_type_name
+      ,c.item_code
+      ,c.item_name
+      ,c.prop_1_detail_name
+      ,c.prop_2_detail_name
+      ,c.prop_3_detail_name
+      ,c.prop_4_detail_name
+      ,c.prop_5_detail_name
+      From @TmpTable a
+      inner join T_Item_Label_Type b
+      on(a.item_label_type_id = b.item_label_type_id)
+      inner join vw_sku c
+      on(a.sku_id = c.sku_id)
+      where 1=1
+      and a.row_no &gt;= #StartRow# and a.row_no &lt;= #EndRow#
+    </select>
+
+    <!--根据组织标识获取实时库存数量 Jermyn 2012-07-24 -->
+    <sql id="SelectByUnitIdPublic">
+      Declare @TmpTable Table
+      (stock_balance_id nvarchar(100)
+      ,row_no int
+      );
+      insert into @TmpTable
+      select stock_balance_id
+      ,row_number() over(order by a.stock_balance_id) row_no
+      From t_stock_balance a
+     
+      inner join T_Item_Label_Type b
+      on(a.item_label_type_id = b.item_label_type_id)
+      inner join vw_sku c
+      on(a.sku_id = c.sku_id)
+      
+      where 1=1
+      and a.status = '1'
+      and a.end_qty != 0
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.unit_id = #UnitId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ;
+    </sql>
+
+    <select id="SelectByUnitIdCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SelectByUnitIdPublic"/>
+      select  COUNT(*)  From @TmpTable;
+    </select>
+
+    <select id="SelectByUnitId" resultMap="StockBalanceResult" parameterClass="hashtable">
+      <include refid="SelectByUnitIdPublic"/>
+      select a.stock_balance_id
+      ,a.row_no
+      ,d.unit_id
+      ,d.warehouse_id
+      ,d.sku_id
+      ,d.item_label_type_id
+      ,d.begin_qty
+      ,d.in_qty
+      ,d.out_qty
+      ,d.adjust_in_qty
+      ,d.adjust_out_qty
+      ,d.reserver_qty
+      ,d.on_way_qty
+      ,d.end_qty
+      ,d.price
+      ,(select unit_name From t_unit where unit_id = d.unit_id) unit_name
+      ,(select wh_name From t_warehouse where warehouse_id = d.warehouse_id)  warehouse_name
+      ,b.item_label_type_code
+      ,b.item_label_type_name
+      ,c.item_code
+      ,c.item_name
+      ,c.prop_1_detail_name
+      ,c.prop_2_detail_name
+      ,c.prop_3_detail_name
+      ,c.prop_4_detail_name
+      ,c.prop_5_detail_name
+      From @TmpTable a
+      inner join t_stock_balance d
+      on(a.stock_balance_id = d.stock_balance_id)
+      inner join T_Item_Label_Type b
+      on(d.item_label_type_id = b.item_label_type_id)
+      inner join vw_sku c
+      on(d.sku_id = c.sku_id)
+
+      where 1=1
+      and a.row_no &gt; #StartRow# and a.row_no &lt;= #EndRow#
+    </select>
+
+    <!--扣库存 Jermyn 2012-07-31-->
+    <procedure id="SetStockBalance" parameterMap="SetStockBalanceMap">
+      proc_set_stockbalance
+    </procedure>
+    
+
+  </statements>
+</sqlMap>

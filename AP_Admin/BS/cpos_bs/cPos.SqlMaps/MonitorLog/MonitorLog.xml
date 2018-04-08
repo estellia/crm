@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="MonitorLog"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="MonitorLog" type="cPos.Model.MonitorLogInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="MonitorLogResult" class="MonitorLog">
+      <result property="monitor_log_id" column="monitor_log_id" type="string" />
+      <result property="customer_id" column="customer_id" type="string" />
+      <result property="unit_id" column="unit_id" type="string"/>
+      <result property="pos_id" column="pos_id" type="string"/>
+      <result property="upload_time" column="upload_time" type="string"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="if_flag" column="if_flag" type="int"/>
+     
+    </resultMap>
+
+
+
+    <resultMap id="MonitorLogSearchResult" class="MonitorLog" extends="MonitorLogResult">
+      <result property="row_no" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="icount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+   
+
+    <!--修改新建-->
+    <statement id="InsertOrUpdate" parameterClass="MonitorLog">
+
+      update t_monitor_log
+      set customer_id = #customer_id#
+
+      <dynamic prepend=",">
+      <isNotNull prepend="," property="unit_id">unit_id=#unit_id#</isNotNull>
+      <isNotNull prepend="," property="pos_id">pos_id=#pos_id#</isNotNull>
+      <isNotNull prepend="," property="upload_time">upload_time=#upload_time#</isNotNull>
+      <isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+      
+        <isNotNull prepend="," property="create_time">create_time=#create_time#</isNotNull>
+        <isNotNull prepend="," property="create_user_id">create_user_id=#create_user_id#</isNotNull>
+        <isNotNull prepend="," property="if_flag">if_flag=#if_flag#</isNotNull>
+
+      </dynamic>
+      where monitor_log_id = #monitor_log_id#;
+
+      insert into t_monitor_log(
+      monitor_log_id
+      ,unit_id
+      ,pos_id
+      ,upload_time
+      ,remark
+      ,create_time
+      ,create_user_id
+      ,if_flag
+      ,customer_id
+      )
+      select a.* From (
+      select #monitor_log_id# monitor_log_id
+      ,#unit_id# unit_id
+      ,#pos_id# pos_id
+      ,#upload_time# upload_time
+      ,#remark# remark
+
+      ,#create_time# create_time
+      ,#create_user_id# create_user_id
+
+      ,#if_flag# if_flag
+      ,#customer_id# customer_id
+      ) a
+      left join t_monitor_log b
+      on(a.monitor_log_id = b.monitor_log_id)
+      where b.monitor_log_id is null ;
+
+
+    </statement>
+
+    
+    <!--获取未打包的监控日志数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From T_Monitor_Log
+      where isnull(if_flag,'0') = '0'
+      and customer_id = #CustomerId#
+      and unit_id = isnull(#UnitId#,unit_id);
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="MonitorLogResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (monitor_log_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (monitor_log_id,row_no)
+      select monitor_log_id
+      ,row_number() over(order by monitor_log_id) row_no
+      From T_Monitor_Log
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      and customer_id = #CustomerId#
+      and unit_id = isnull(#UnitId#,unit_id);
+
+      select
+      a.monitor_log_id
+      ,a.customer_id
+      ,a.unit_id
+      ,a.pos_id
+      ,a.upload_time
+      ,a.remark
+      ,a.create_user_id
+      ,a.create_time
+      ,a.if_flag
+      From T_Monitor_Log a
+      inner join @TmpTable b
+      on(a.monitor_log_id = b.monitor_log_id)
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.upload_time
+      ;
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="MonitorLog">
+      <isNotEmpty property="monitorLogInfoList">
+        update T_Monitor_Log
+        set bat_id = #bat_id#
+        where monitor_log_id in (
+        <iterate property="monitorLogInfoList" conjunction=" UNION ">
+          SELECT #monitorLogInfoList[].monitor_log_id#
+        </iterate> );
+      </isNotEmpty>
+
+    </update>
+    <!--更新Item表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="MonitorLog">
+      update T_Monitor_Log
+      set if_flag = '1'
+      where bat_id = #bat_id#;
+    </update>
+  </statements>
+</sqlMap>

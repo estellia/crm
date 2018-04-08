@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="UserRole"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="UserRoleInfo" type="cPos.Model.User.UserRoleInfo,cPos.Model" />
+    <typeAlias alias="UserInfo" type="cPos.Model.User.UserInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="UserRoleResult" class="UserRoleInfo">
+      <result property="Id" column="user_role_id" type="string" />
+      <result property="DefaultFlag" column="default_flag" type="int"/>
+      <result property="UserId" column="user_id" type="string"/>
+      <result property="UnitId" column="unit_id" type="string"/>
+      <result property="RoleId" column="role_id" type="string"/>
+      <result property="DefaultFlag" column="default_flag" type="int"/>
+
+      <result property="UserName" column="user_name" type="string"/>
+      <result property="UnitName" column="unit_name_short" type="string"/>
+      <result property="ApplicationDescription" column="app_desc" type="string"/>
+      <result property="RoleName" column="role_desc" type="string"/>
+    </resultMap>
+
+    
+  </resultMaps>
+
+  <statements>
+    <!--修改新建角色与用户,组织关系-->
+    <statement id="InsertOrUpdate" parameterClass="UserInfo">
+      
+     <isNotEmpty property="userRoleInfoList">
+       <!--1.先删除所有的符合条件的关系-->
+       update t_user_role
+       set [status] = '-1'
+       ,modify_time = getdate()
+       ,modify_user_id = #User_Id#
+       From (
+          <iterate property="userRoleInfoList" conjunction=" UNION ">
+           SELECT #userRoleInfoList[].UserId# user_id
+         </iterate>
+       ) a
+       where ( t_user_role.user_id = a.user_id);
+       
+       <!--2.更新-->
+       update t_user_role
+       set [status] = '1'
+       ,default_flag = a.default_flag
+       ,modify_time = #Modify_Time#
+       ,modify_user_id = #User_Id#
+       From (
+       <iterate property="userRoleInfoList" conjunction=" UNION ">
+         SELECT #userRoleInfoList[].UserId# user_id
+         ,#userRoleInfoList[].RoleId# role_id
+         ,#userRoleInfoList[].UnitId# unit_id
+         ,#userRoleInfoList[].DefaultFlag# default_flag
+       </iterate>
+       ) a
+       where ( t_user_role.user_id = a.user_id
+       and t_user_role.role_id = a.role_id
+       and t_user_role.unit_id = a.unit_id);
+
+     <!--3.插入不存在的关系-->
+       
+       INSERT INTO T_User_Role
+       (
+       user_role_id
+       ,user_id
+       ,role_id
+       ,unit_id
+       ,status
+       ,create_time
+       ,create_user_id
+       ,modify_time
+       ,modify_user_id
+       ,default_flag
+
+       )
+
+       SELECT P.user_role_id
+       ,P.user_id
+       ,P.role_id
+       ,P.unit_id
+       ,P.status
+       ,P.create_time
+       ,P.create_user_id
+       ,P.modify_time
+       ,P.modify_user_id
+       ,P.default_flag
+
+       FROM (
+       <iterate property="userRoleInfoList" conjunction=" UNION ">
+          SELECT
+          #userRoleInfoList[].Id# user_role_id
+          ,#userRoleInfoList[].UserId# user_id
+          ,#userRoleInfoList[].RoleId# role_id
+          ,#userRoleInfoList[].UnitId# unit_id
+          ,'1' status
+          ,#Create_Time# create_time
+          ,#User_Id# create_user_id
+          ,#Modify_Time# modify_time
+          ,#User_Id# modify_user_id
+          ,#userRoleInfoList[].DefaultFlag# default_flag
+
+        </iterate>
+       ) P
+       left join t_user_role  b
+       on(P.user_id = b.user_id
+       and p.role_id = b.role_id
+       and p.unit_id = b.unit_id)
+       where b.user_role_id is null;
+       
+       
+     </isNotEmpty>
+     
+    </statement>
+    
+    <select id="Select" resultMap="UserRoleResult">
+      select a.user_role_id
+      , a.user_id
+      , a.unit_id
+      , a.role_id
+      , a.default_flag
+      , e.role_name as role_desc
+      , c.unit_code + ' - ' + c.unit_name as unit_name_short
+      , d.user_name
+      , f.def_app_name as app_desc
+      from t_user_role a
+      inner join t_unit c on a.unit_id=c.unit_id
+      inner join t_user d on a.user_id=d.user_id
+      inner join t_role e on a.role_id=e.role_id
+      left join T_Def_App f
+      on e.def_app_id=f.def_app_id
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="UserRoleResult" parameterClass="hashtable">
+      where a.user_role_id=#UserRoleId#
+      and a.status = '1'
+    </select>
+
+    <select id="SelectByUnitId" extends="Select" resultMap="UserRoleResult" parameterClass="hashtable">
+      where a.unit_id=#UnitId#
+      and a.status = '1'
+      order by a.role_id,a.user_id
+    </select>
+
+    <select id="SelectByUserIdAndApplicationId" extends="Select" resultMap="UserRoleResult" parameterClass="hashtable">
+      where a.user_id=#UserId#
+      <dynamic>
+        <isNotNull property="ApplicationId">
+          <isNotEmpty property="ApplicationId" prepend="and">
+            e.def_app_id =#ApplicationId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      and  a.status = '1'
+      order by e.def_app_id, e.role_code, a.default_flag desc, c.unit_code
+    </select>
+
+    <select id="SelectDefaultByUserIdAndApplicationId" extends="Select" resultMap="UserRoleResult" parameterClass="hashtable">
+      where a.user_id=#UserId# and a.default_flag=1
+      <dynamic>
+        <isNotNull property="ApplicationId">
+          <isNotEmpty property="ApplicationId" prepend="and">
+            e.def_app_id =#ApplicationId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      and  a.status = '1'
+      order by e.reg_app_id, a.unit_id
+    </select>
+
+    <select id="SelectDefaultUserByUnitIdAndRoleCode" resultMap="UserRoleResult" parameterClass="hashtable">
+      select a.*,
+      null as user_name, null as unit_name_short, null as role_desc, null as app_desc
+      from t_user_role a inner join
+      (select unit_id, level_flag from mvw_unit_level t1,
+      (select path_code, unit_relation_mode_id from mvw_unit_level where unit_id=#UnitId#) t2,
+      (select * from t_def_unit_relation_mode where default_flag=1) t3
+      where t1.unit_relation_mode_id=t3.unit_relation_mode_id and t2.unit_relation_mode_id=t3.unit_relation_mode_id
+      and t2.path_code like t1.path_code + '%') b on a.unit_id=b.unit_id
+      inner join (select role_id from t_role where role_code=#RoleCode#) c on a.role_id=c.role_id
+      where a.default_flag=1
+      and  a.status = '1'
+      order by b.level_flag desc
+    </select>
+
+    <select id="SelectDefaultUnitByUserIdAndRoleId" resultMap="UserRoleResult" parameterClass="hashtable">
+      select user_role_id, user_id, role_id, unit_id, default_flag,
+      null as user_name, null as unit_name_short, null as role_desc, null as app_desc
+      from t_user_role
+      where default_flag=1 and user_id=#UserId# and role_id=#RoleId# and  status = '1'
+    </select>
+
+    <select id="SelectUnitByUserIdAndRoleId" resultClass="string" parameterClass="hashtable">
+      select unit_id from t_user_role
+      where user_id=#UserId# and role_id=#RoleId#
+      and status = '1'
+    </select>
+
+    <select id="CountUserByRoleId" parameterClass="string" resultClass="int">
+      select isnull(count(*),0) from t_user_role where role_id=#value# and status = '1'
+    </select>
+
+    <select id="CountByUserRoleUnit" parameterClass="UserRoleInfo" resultClass="int">
+      select isnull(count(*),0) from t_user_role where role_id=#RoleId#
+      and unit_id=#UnitId# and user_id=#UserId# and status = '1'
+    </select>
+
+    <insert id="Insert" parameterClass="UserRoleInfo">
+      insert into t_user_role
+      (user_role_id, user_id, unit_id, role_id, default_flag,create_time,create_user_id)
+      values
+      (#Id#, #UserId#, #UnitId#, #RoleId#, #DefaultFlag#,getdate(),#UserId#)
+    </insert>
+
+    <delete id="DeleteByRoleId" parameterClass="string">
+      delete from t_user_role where role_id=#value#
+    </delete>
+
+    <delete id="DeleteById" parameterClass="string">
+      delete from t_user_role where user_role_id=#value#
+    </delete>
+
+    <delete id="DeleteByUserIdAndRoleIdAndUnitId" parameterClass="UserRoleInfo">
+      delete from t_user_role where user_id=#UserId# and unit_id=#UnitId# and substr(role_id,1,32)=#RoleId#
+    </delete>
+
+   
+  </statements>
+</sqlMap>

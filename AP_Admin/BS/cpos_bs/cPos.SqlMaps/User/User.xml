@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="User"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="User" type="cPos.Model.User.UserInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <!--返回单个记录的对象-->
+    <resultMap id="UserResult" class="User">
+      <result property="User_Id" column="user_id" type="string" />
+      <result property="User_Name" column="user_name" type="string" />
+      <result property="User_Gender" column="user_gender" type="string"/>
+      <result property="User_Code" column="user_code" type="string"/>
+      <result property="User_Birthday" column="user_birthday" type="string"/>
+      <result property="User_Password" column="user_password" type="string"/>
+      <result property="User_Email" column="user_email" type="string"/>
+      <result property="User_Identity" column="user_identity" type="string"/>
+      <result property="User_Telephone" column="user_telephone" type="string"/>
+      <result property="User_Cellphone" column="user_cellphone" type="string"/>
+      <result property="User_Address" column="user_address" type="string"/>
+      <result property="User_Postcode" column="user_postcode" type="string"/>
+      <result property="QQ" column="qq" type="string"/>
+      <result property="MSN" column="msn" type="string"/>
+      <result property="Blog" column="blog" type="string"/>
+      <result property="Create_User_Id" column="create_user_id" type="string"/>
+      <result property="Create_Time" column="create_time" type="string"/>
+      <result property="Modify_User_Id" column="modify_user_id" type="string"/>
+      <result property="Modify_Time" column="modify_time" type="string"/>
+      <result property="User_Status_Desc" column="user_status_desc" type="string"/>
+      <result property="User_Status" column="user_status" type="string"/>
+      <result property="Fail_Date" column="fail_date" type="string"/><!--失效日期-->
+      <result property="User_Remark" column="user_remark" type="string"/>
+      <result property="User_Name_En" column="user_name_en" type="string"/>
+      
+
+    </resultMap>
+    <resultMap id="UserSalesUserResult" class="User">
+      <result property="User_Name" column="user_name" type="string" />
+    </resultMap>
+    <!--返回记录集对象-->
+    <resultMap id="UserListResult" class="User" extends="UserResult">
+      <result property="Row_No" column="row_no" type="int"/><!--行号-->
+      <result property="ICount" column="icount" type="int"/><!--总行号-->
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!--获取用户信息-->
+    <select id="Select" resultMap="UserResult">
+      select distinct a.*
+      from t_user a
+    </select>
+
+    <!--获取单个用户-->
+    <select id="SelectById" extends="Select" resultMap="UserResult" parameterClass="string">
+      where a.user_id=#value#
+    </select>
+    <!--根据客户获取默认用户2013/1/25-->
+    <select id="SelectUserDefaultByCustomerId" extends="Select" resultMap="UserResult" parameterClass="string">
+      where a.customer_id = #value#
+      and a.user_code = 'admin'
+    </select>
+    <!--根据组织标识，获取该组织的所有用户信息 Jermyn2012-06-25-->
+    <select id="SelectByUnitId" extends="Select" resultMap="UserResult" parameterClass="hashtable">
+      inner join T_User_Role b
+      on(a.user_id = b.user_id)
+      where b.unit_id = #UnitId#
+      and b.status = '1'
+      order by a.user_code;
+    </select>
+    <!--根据组织角色获取用户集合 Jermyn 2012-07-24-->
+    <select id="SelectByUnitIdRoleId" extends="Select" resultMap="UserResult" parameterClass="hashtable">
+      inner join T_User_Role b
+      on(a.user_id = b.user_id)
+      where b.unit_id = #UnitId#
+      and b.role_id = #RoleId#
+      and b.status = '1'
+      order by a.user_code;
+    </select>
+    
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (user_id nvarchar(100)
+      ,row_no int
+      );
+      Declare @iCount int;
+      insert into @TmpTable(user_id,row_no)
+      select a.user_id,rownum_=row_number() over(order by a.user_code)
+      from t_user a
+      where 1=1
+      <dynamic>
+        <isNotNull property="UserName">
+          <isNotEmpty property="UserName" prepend="and">
+            user_name like  '%' + #UserName# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserCode">
+          <isNotEmpty property="UserCode" prepend="and">
+            user_code like '%' + #UserCode# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="UserStatus">
+          <isNotEmpty property="UserStatus" prepend="and">
+            user_status=#UserStatus#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="CellPhone">
+          <isNotEmpty property="CellPhone" prepend="and">
+            user_cellphone like '%' + #CellPhone#+ '%'
+          </isNotEmpty>
+        </isNotNull>
+      
+      <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            customer_id=#CustomerId#
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>
+      ;
+
+      select @iCount = COUNT(*) From @TmpTable;
+      
+      
+    </sql>
+    <select id="SelectUsersCount" resultClass="int" parameterClass="hashtable">
+        <include refid="SearchPublic"/>
+
+        select @iCount;
+    </select>
+    
+    <!--获取查询的用户集合-->
+    <select id="SelectUsers" resultMap="UserListResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+      select
+      a.user_id
+      ,user_name
+      ,user_gender
+      ,user_code
+      ,user_birthday
+      ,user_password
+      ,user_email
+      ,user_identity
+      ,user_telephone
+      ,user_cellphone
+      ,user_address
+      ,user_postcode
+      ,user_remark
+      ,user_name_en
+      ,qq
+      ,msn
+      ,blog
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,user_status
+      ,user_status_desc
+      ,fail_date
+      ,b.row_no
+      , @iCount icount
+      From t_user a
+      inner join @TmpTable b
+      on(a.user_id = b.user_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      ;
+    </select>
+
+    <!--获取单独用户信息-->
+    <select id="SelectUsersByUserId" extends="Select" resultMap="UserResult" parameterClass="string">
+      where user_id=#value#
+    </select>
+
+    <insert id="Insert" parameterClass="User">
+      insert into t_user
+      (User_Id
+      ,User_Name
+      ,User_Gender
+      ,User_Code
+      ,User_Birthday
+      ,User_Password
+      ,User_Email
+      ,User_Identity
+      ,User_Telephone
+      ,User_Cellphone
+      ,User_Address
+      ,User_Postcode
+      ,QQ
+      ,MSN
+      ,Blog
+      ,Create_User_Id
+      ,Create_Time
+      ,Modify_User_Id
+      ,Modify_Time
+      ,User_Status_Desc)
+
+      values
+      (#User_Id#
+      ,#User_Name#
+      ,#User_Gender#
+      ,#User_Code#
+      ,#User_Birthday#
+      ,#User_Password#
+      ,#User_Email#
+      ,#User_Identity#
+      ,#User_Telephone#
+      ,#User_Cellphone#
+      ,#User_Address#
+      ,#User_Postcode#
+      ,#QQ#
+      ,#MSN#
+      ,#Blog#
+      ,#Create_User_Id#
+      ,#Create_Time#
+      ,#Modify_User_Id#
+      ,#Modify_Time#
+      ,#User_Status_Desc# )
+    </insert>
+
+  <!--判断用户是否存在-->
+    <select id="IsExsitUser" resultClass="int" parameterClass="string">
+      select count(*)
+      From t_user
+      where user_id=#value#
+    </select>
+
+    <!--判断用户工号是否存在-->
+    <select id="IsExsitUserCode" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From t_user
+      where 
+      1=1 
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="User_Id">user_id != #User_Id#</isNotNull>
+      </dynamic>
+      and user_code = #User_Code#
+      and customer_id = #CustomerId#
+    </select>
+
+    <!--修改用户表状态信息Jermyn2012-05-15-->
+    <update id="UpdateUserStatus" parameterClass="User">
+      update t_user
+      set user_status = #User_Status#
+      ,User_Status_Desc = #User_Status_Desc#
+      ,Modify_Time = #Modify_Time#
+      ,Modify_User_Id = #Modify_User_Id#
+      where user_id = #User_Id#
+    </update>
+
+    <update id="ModifyPassword2" parameterClass="hashtable">
+      update t_user
+      set user_password=#UserPassword#
+      ,modify_time = convert(nvarchar(20),getdate(),120)
+      ,modify_user_id = #UserId#
+      where user_id=#UserId#
+    </update>
+
+    <!--用户信息修改或者新建-->
+    <!--,user_password = #User_Password#-->
+    <statement id="InsertOrUpdate" parameterClass="User">
+      update t_user
+      set user_code = #User_Code#
+      ,user_name = #User_Name#
+      ,user_gender = #User_Gender#
+      ,user_birthday = #User_Birthday#
+      ,user_name_en = #User_Name_En#
+      ,user_email = #User_Email#
+      ,user_identity = #User_Identity#
+      ,user_telephone = #User_Telephone#
+      ,user_cellphone = #User_Cellphone#
+      ,user_address = #User_Address#
+      ,user_postcode = #User_Postcode#
+      ,user_remark = #User_Remark#
+      ,user_status = #User_Status#
+      ,qq = #QQ#
+      ,msn = #MSN#
+      ,blog = #Blog#
+      ,create_user_id = #Create_User_Id#
+      ,create_time = #Create_Time#
+      ,modify_user_id = #Modify_User_Id#
+      ,modify_time = #Modify_Time#
+      ,user_status_desc = #User_Status_Desc#
+      ,fail_date = #Fail_Date#
+      ,customer_id = #customer_id#
+      where user_id = #User_Id#;
+
+      insert into t_user (user_id
+      ,user_code
+      ,user_name
+      ,user_gender
+      ,user_birthday
+      ,user_password
+      ,user_email
+      ,user_identity
+      ,user_telephone
+      ,user_cellphone
+      ,user_address
+      ,user_postcode
+      ,user_remark
+      ,user_status
+      ,user_name_en
+      ,qq
+      ,msn
+      ,blog
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,user_status_desc
+      ,fail_date
+      ,customer_id)
+
+      select a.* From (
+      select #User_Id# user_id
+      ,#User_Code# user_code
+      ,#User_Name# user_name
+      ,#User_Gender# user_gender
+      ,#User_Birthday# user_birthday
+      ,#User_Password# user_password
+      ,#User_Email# user_email
+      ,#User_Identity# user_identity
+      ,#User_Telephone# user_telephone
+      ,#User_Cellphone# user_cellphone
+      ,#User_Address# user_address
+      ,#User_Postcode# user_postcode
+      ,#User_Remark# user_remark
+      ,#User_Status# user_status
+      ,#User_Name_En# user_name_en
+      ,#QQ# qq
+      ,#MSN# msn
+      ,#Blog# blog
+      ,#Create_User_Id# create_user_id
+      ,#Create_Time# create_time
+      ,#Modify_User_Id# modify_user_id
+      ,#Modify_Time# modify_time
+      ,#User_Status_Desc# user_status_desc
+      ,#Fail_Date# fail_date
+      ,#customer_id# customer_id
+      ) a
+      left join T_User b
+      on(a.user_id = b.user_id)
+      where b.user_id is null ;
+    </statement>
+
+    <!--获取组织下的开班人员Jermyn2012-08-30-->
+    <select id="SelectSalesUserByUnitIdRoleId"  resultMap="UserSalesUserResult" parameterClass="hashtable">
+      select distinct sales_user user_name
+      From T_Inout where order_type_id='1F0A100C42484454BAEA211D4C14B80F'
+      and order_reason_id = '2F6891A2194A4BBAB6F17B4C99A6C6F5'
+      and sales_user is not null
+      and create_unit_id = #UnitId#
+      order by sales_user;
+    </select>
+  </statements>  
+
+</sqlMap>

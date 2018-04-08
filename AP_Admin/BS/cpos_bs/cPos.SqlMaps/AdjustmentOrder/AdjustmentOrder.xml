@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AdjustmentOrder"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AdjustmentOrder" type="cPos.Model.AdjustmentOrderInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdjustmentOrderResult" class="AdjustmentOrder">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_no" column="order_no" type="string" />
+      <result property="order_date" column="order_date" type="string"/>
+      <result property="begin_date" column="begin_date" type="string"/>
+      <result property="end_date" column="end_date" type="string"/>
+      <result property="item_price_type_id" column="item_price_type_id" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="status_desc" column="status_desc" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="modify_user_name" column="modify_user_name" type="string"/>
+      <result property="create_user_name" column="create_user_name" type="string"/>
+      <result property="item_price_type_name" column="item_price_type_name" type="string"/>
+      <result property="no" column="no" type="int"/>
+    </resultMap>
+
+    <resultMap id="AdjustmentOrderSearchResult" class="AdjustmentOrder" extends="AdjustmentOrderResult">
+      <result property="Row_No" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="ICount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="AdjustmentOrderResult">
+      select a.order_id
+      ,a.order_no
+      ,a.order_date
+      ,a.begin_date
+      ,a.end_date
+      ,a.item_price_type_id
+      ,a.remark
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select USER_NAME From T_User where user_id = a.create_user_id) create_user_name
+      ,(select USER_NAME From T_User where user_id = a.modify_user_id) modify_user_name
+      ,(select item_price_type_name From T_Item_Price_Type where item_price_type_id = a.item_price_type_id) item_price_type_name
+      ,a.no
+      From T_Adjustment_Order a
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="AdjustmentOrderResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#
+    </select>
+
+    <select id="SelectAll" extends="Select" resultMap="AdjustmentOrderResult" >
+      where a.status='1'
+    </select>
+
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (order_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_id,row_no)
+      select x.order_id ,x.rownum_
+      From ( select rownum_=row_number() over(order by a.order_no)
+      ,order_id
+      from t_adjustment_order a
+
+      where 1=1
+      <dynamic>
+        <isNotNull property="OrderNo">
+          <isNotEmpty property="OrderNo" prepend="and">
+            a.order_no like '%' +  #OrderNo# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        
+      <isNotNull property="customer_id">
+        <isNotEmpty property="customer_id" prepend="and">
+          a.customer_id like '%' +  #customer_id# + '%'
+        </isNotEmpty>
+      </isNotNull>
+        
+        <isNotNull property="OrderDate">
+          <isNotEmpty property="OrderDate" prepend="and">
+            a.order_date like '%' + #OrderDate# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="BeginDate">
+          <isNotEmpty property="BeginDate" prepend="and">
+            a.order_date    &gt;= #BeginDate#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="EndDate">
+          <isNotEmpty property="EndDate" prepend="and">
+            a.order_date    &lt;= #EndDate#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="ItemPriceTypeId">
+          <isNotEmpty property="ItemPriceTypeId" prepend="and">
+            a.item_price_type_id =   #ItemPriceTypeId#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="Status">
+          <isNotEmpty property="Status" prepend="and">
+            a.status =   #Status#
+          </isNotEmpty>
+        </isNotNull>
+
+      </dynamic>
+      ) x ;
+      Declare @iCount int;
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+    <select id="SearchCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select @iCount;
+    </select>
+    <!--查询 2012-06-19-->
+    <select id="Search" resultMap="AdjustmentOrderSearchResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+      select a.order_id
+      ,a.order_no
+      ,a.order_date
+      ,a.begin_date
+      ,a.end_date
+      ,a.item_price_type_id
+      ,a.remark
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select USER_NAME From T_User where user_id = a.create_user_id) create_user_name
+      ,(select USER_NAME From T_User where user_id = a.modify_user_id) modify_user_name
+      ,(select item_price_type_name From T_Item_Price_Type where item_price_type_id = a.item_price_type_id) item_price_type_name
+      ,b.row_no
+      ,@iCount icount
+      ,a.no
+      From T_Adjustment_Order a
+      inner join @TmpTable b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.create_time desc
+      ;
+    </select>
+
+    <!--修改商品表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="AdjustmentOrder">
+      update T_Adjustment_Order
+      set [status] = #status#
+      ,status_desc = #status_desc#
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      where order_id = #order_id#
+    </update>
+
+    <!--判断用户工号是否存在-->
+    <select id="IsExsitOrderCode" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From T_Adjustment_Order
+      where 1=1
+      <dynamic prepend="and">
+      <isNotNull prepend="and" property="OrderId">order_id != #OrderId#</isNotNull>
+    </dynamic>
+      and order_no = #OrderNo#
+    </select>
+    
+    <!--处理表信息 Jermyn 2012-06-14-->
+    <statement id="InsertOrUpdate" parameterClass="AdjustmentOrder">
+      update T_Adjustment_Order
+      set order_date = #order_date#
+      ,item_price_type_id = #item_price_type_id#
+      ,begin_date = #begin_date#
+      ,end_date = #end_date#
+      ,remark = #remark#
+      ,status = #status#
+      ,status_desc = #status_desc#
+      ,create_user_id = #create_user_id#
+      ,create_time = #create_time#
+      ,modify_user_id = #modify_user_id#
+      ,modify_time = #modify_time#
+      where order_id = #order_id#;
+
+      insert into T_Adjustment_Order (
+      order_id
+      ,order_no
+      ,order_date
+      ,item_price_type_id
+      ,begin_date
+      ,end_date
+      ,remark
+      ,status
+      ,status_desc
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time,customer_id)
+
+      select a.* From (
+      select #order_id# order_id
+      ,#order_no# order_no
+      ,#order_date# order_date
+      ,#item_price_type_id# item_price_type_id
+      ,#begin_date# begin_date
+      ,#end_date# end_date
+      ,#remark# remark
+      ,#status# status
+      ,#status_desc# status_desc
+      ,#create_user_id# create_user_id
+      ,#create_time# create_time
+      ,#modify_user_id# modify_user_id
+      ,#modify_time# modify_time
+      ,#customer_id# customer_id
+      ) a
+      left join T_Adjustment_Order b
+      on(a.order_id = b.order_id)
+      where b.order_id is null ;
+    </statement>
+
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From T_Adjustment_Order a
+      inner join T_Adjustment_Order_Detail_Unit b
+      on(a.order_id = b.order_id)
+      inner join vw_unit_level c
+      on(b.unit_id = c.unit_id)
+      where a.status = '10'
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            c.path_unit_id like '%' +  #UnitId# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="ItemPriceTypeId">
+          <isNotEmpty property="ItemPriceTypeId" prepend="and">
+            a.item_price_type_id  = #ItemPriceTypeId#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="No">
+          <isNotEmpty property="No" prepend="and">
+            a.no > #No#
+          </isNotEmpty>
+        </isNotNull>
+
+      </dynamic>;
+    </select>
+    
+    <!--下载调价单-->
+    <select id="SelectUnDownload" resultMap="AdjustmentOrderResult" parameterClass="hashtable">
+
+      Declare @TmpTable Table
+      (order_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_id,row_no)
+      select a.order_id
+      ,row_number() over(order by a.no) row_no
+      From T_Adjustment_Order a
+      inner join T_Adjustment_Order_Detail_Unit b
+      on(a.order_id = b.order_id)
+      inner join vw_unit_level c
+      on(b.unit_id = c.unit_id)
+      where a.status = '10'
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            c.path_unit_id like '%' +  #UnitId# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="ItemPriceTypeId">
+          <isNotEmpty property="ItemPriceTypeId" prepend="and">
+            a.item_price_type_id  = #ItemPriceTypeId#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="No">
+          <isNotEmpty property="No" prepend="and">
+            a.no > #No#
+          </isNotEmpty>
+        </isNotNull>
+
+      </dynamic>
+      ;
+
+
+      select a.order_id
+      ,a.order_no
+      ,a.order_date
+      ,a.begin_date
+      ,a.end_date
+      ,a.item_price_type_id
+      ,a.remark
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select USER_NAME From T_User where user_id = a.create_user_id) create_user_name
+      ,(select USER_NAME From T_User where user_id = a.modify_user_id) modify_user_name
+      ,(select item_price_type_name From T_Item_Price_Type where item_price_type_id = a.item_price_type_id) item_price_type_name
+      ,a.no
+      From T_Adjustment_Order a
+      inner join @TmpTable b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.no
+      ;
+    </select>
+  </statements>
+</sqlMap>

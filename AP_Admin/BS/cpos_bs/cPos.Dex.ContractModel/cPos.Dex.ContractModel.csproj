@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BEFD77C5-4762-4439-AA04-C512C9167943}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Dex.ContractModel</RootNamespace>
+    <AssemblyName>cPos.Dex.ContractModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseContract.cs" />
+    <Compile Include="CcOrderContract.cs" />
+    <Compile Include="CcOrderDetailContract.cs" />
+    <Compile Include="Announce.cs" />
+    <Compile Include="CheckVersionContract.cs" />
+    <Compile Include="ApplyCustomerAndUnitContract.cs" />
+    <Compile Include="GetDeliveryOrdersContract.cs" />
+    <Compile Include="MobileContract.cs" />
+    <Compile Include="GetItemInfoContract.cs" />
+    <Compile Include="GetUnitXmlConfigInfoContract.cs" />
+    <Compile Include="GetAdOrderContract.cs" />
+    <Compile Include="MonitorLogContract.cs" />
+    <Compile Include="ObjectImages.cs" />
+    <Compile Include="ObjectImagesContract.cs" />
+    <Compile Include="RepairContract.cs" />
+    <Compile Include="PriceOrderContract.cs" />
+    <Compile Include="GetPriceOrdersContract.cs" />
+    <Compile Include="GetAnnsContract.cs" />
+    <Compile Include="ShiftContract.cs" />
+    <Compile Include="ItemPropDef.cs" />
+    <Compile Include="ItemPropDefsContract.cs" />
+    <Compile Include="DownloadCcOrdersContract.cs" />
+    <Compile Include="DownloadInoutOrdersContract.cs" />
+    <Compile Include="DownloadOrdersContract.cs" />
+    <Compile Include="ExistVipNoContract.cs" />
+    <Compile Include="GetVipContract.cs" />
+    <Compile Include="VipQueryInfo.cs" />
+    <Compile Include="GetVipsContract.cs" />
+    <Compile Include="UploadContract.cs" />
+    <Compile Include="VipContract.cs" />
+    <Compile Include="UploadOrdersContract.cs" />
+    <Compile Include="UploadCcOrdersContract.cs" />
+    <Compile Include="OrderContract.cs" />
+    <Compile Include="OrderDetailContract.cs" />
+    <Compile Include="ItemPricesContract.cs" />
+    <Compile Include="ItemPrice.cs" />
+    <Compile Include="SkuPrice.cs" />
+    <Compile Include="SkuPricesContract.cs" />
+    <Compile Include="ValidateContract.cs" />
+    <Compile Include="GetUserUnitRelationsContract.cs" />
+    <Compile Include="GetUsersProfileContract.cs" />
+    <Compile Include="GetPosCodeContract.cs" />
+    <Compile Include="GetPackagesContract.cs" />
+    <Compile Include="GetPackageFilesContract.cs" />
+    <Compile Include="GetPackagesCountContract.cs" />
+    <Compile Include="GetPackageFilesCountContract.cs" />
+    <Compile Include="GetStockBalanceContract.cs" />
+    <Compile Include="UnitProp.cs" />
+    <Compile Include="Warehouse.cs" />
+    <Compile Include="ItemProp.cs" />
+    <Compile Include="ItemPropsContract.cs" />
+    <Compile Include="SkuPropsContract.cs" />
+    <Compile Include="SkuProp.cs" />
+    <Compile Include="ItemCategory.cs" />
+    <Compile Include="ItemCategorysContract.cs" />
+    <Compile Include="StockBalance.cs" />
+    <Compile Include="UnitsContract.cs" />
+    <Compile Include="Sku.cs" />
+    <Compile Include="SkusContract.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemsContract.cs" />
+    <Compile Include="GetCountContract.cs" />
+    <Compile Include="GetLogContract.cs" />
+    <Compile Include="InoutOrderContract.cs" />
+    <Compile Include="UploadInoutOrdersContract.cs" />
+    <Compile Include="InoutOrderDetailContract.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="PackageFile.cs" />
+    <Compile Include="Package.cs" />
+    <Compile Include="UserRole.cs" />
+    <Compile Include="RoleMenu.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="UsersProfileContract.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="GetLogsContract.cs" />
+    <Compile Include="LogContract.cs" />
+    <Compile Include="LogQueryInfo.cs" />
+    <Compile Include="Test\TransData.cs" />
+    <Compile Include="Unit.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cPos.Dex.Common\cPos.Dex.Common.csproj">
+      <Project>{4e164cf5-3114-4c70-874f-1353fb6a6215}</Project>
+      <Name>cPos.Dex.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Model\cPos.Dex.Model.csproj">
+      <Project>{362d546c-7404-4ecc-b39b-5c0e4025d872}</Project>
+      <Name>cPos.Dex.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

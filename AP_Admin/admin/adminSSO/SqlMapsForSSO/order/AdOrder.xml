@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AdOrder"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AdvertiseOrderInfo" type="cPos.Model.Advertise.AdvertiseOrderInfo,cPos.Model" />
+    <typeAlias alias="AdvertiseInfo" type="cPos.Model.Advertise.AdvertiseInfo,cPos.Model" />
+    <typeAlias alias="AdvertiseOrderAdvertiseInfo" type="cPos.Model.Advertise.AdvertiseOrderAdvertiseInfo,cPos.Model" />
+    <typeAlias alias="AdvertiseOrderUnitInfo" type="cPos.Model.Advertise.AdvertiseOrderUnitInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdvertiseOrderInfoResult" class="AdvertiseOrderInfo">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_code" column="order_code" type="string" />
+      <result property="order_date" column="order_date" type="string" />
+      <result property="date_start" column="date_start" type="string" />
+      <result property="date_end" column="date_end" type="string" />
+      <result property="time_start" column="time_start" type="string" />
+      <result property="time_end" column="time_end" type="string" />
+      <result property="playbace_no" column="playbace_no" type="int" />
+      <result property="url_address" column="url_address" type="string" />
+      <result property="status" column="status" type="string" />
+      <result property="status_desc" column="status_desc" type="string" />
+      <result property="create_user_id" column="create_user_id" type="string" />
+      <result property="create_time" column="create_time" type="string" />
+      <result property="modify_user_id" column="modify_user_id" type="string" />
+      <result property="modify_time" column="modify_time" type="string" />
+    </resultMap>
+    <resultMap id="AdvertiseInfoResult" class="AdvertiseInfo">
+      <result property="advertise_id" column="advertise_id" type="string" />
+      <result property="advertise_name" column="advertise_name" type="string" />
+      <result property="advertise_code" column="advertise_code" type="string" />
+      <result property="file_size" column="file_size" type="string" />
+      <result property="file_format" column="file_format" type="string" />
+      <result property="display" column="display" type="string" />
+      <result property="playback_time" column="playback_time" type="string" />
+      <result property="url_address" column="url_address" type="string" />
+      <result property="brand_customer_id" column="brand_customer_id" type="string" />
+      <result property="brand_id" column="brand_id" type="string" />
+      <result property="status" column="status" type="string" />
+      <result property="create_time" column="create_time" type="string" />
+      <result property="create_user_id" column="create_user_id" type="string" />
+      <result property="modify_time" column="modify_time" type="string" />
+      <result property="modify_user_id" column="modify_user_id" type="string" />
+    </resultMap>
+    <resultMap id="AdvertiseOrderAdvertiseInfoResult" class="AdvertiseOrderAdvertiseInfo">
+      <result property="id" column="id" type="string" />
+      <result property="order_id" column="order_id" type="string" />
+      <result property="advertise_id" column="advertise_id" type="string" />
+    </resultMap>
+    <resultMap id="AdvertiseOrderUnitInfoResult" class="AdvertiseOrderUnitInfo">
+      <result property="order_unit_id" column="order_unit_id" type="string" />
+      <result property="order_id" column="order_id" type="string" />
+      <result property="unit_id" column="unit_id" type="string" />
+    </resultMap>
+  </resultMaps>
+  
+  <statements>
+
+    <insert id="InsertAdvertiseOrder" parameterClass="AdvertiseOrderInfo">
+      <!--insert into t_advertise_order
+      (
+      monitor_log_id
+      ,customer_id
+      ,unit_id
+      ,pos_id
+      ,upload_time
+      ,remark
+      ,create_time
+      ,create_user_id
+      )
+      values
+      (
+      #monitor_log_id#
+      ,#customer_id#
+      ,#unit_id#
+      ,#pos_id#
+      ,#upload_time#
+      ,#remark#
+      ,#create_time#
+      ,#create_user_id#
+      )-->
+    </insert>
+
+    <select id="CheckExistAdvertiseOrder" resultClass="int" parameterClass="AdvertiseOrderInfo">
+      select count(*)
+      from t_advertise_order
+      where order_id=#order_id#
+    </select>
+
+    <sql id="SearchPub">
+      Declare @TmpTable Table
+      (order_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_id,row_no)
+      select x.order_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by a.order_date desc)
+      ,a.order_id
+      from t_advertise_order a
+      inner join t_advertise_order_unit b on a.order_id=b.order_id
+      inner join t_customer_shop c on b.unit_id=c.customer_shop_id
+      inner join t_customer d on c.customer_id=d.customer_id
+      where 1=1
+      and a.status='10'
+      and (b.if_flag='0' or b.if_flag is null)
+      <dynamic>
+        <isNotNull property="customer_id">
+          <isNotEmpty property="customer_id" prepend="and">
+            (d.customer_id = #customer_id#)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="customer_code">
+          <isNotEmpty property="customer_code" prepend="and">
+            d.customer_code = #customer_code#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="unit_id">
+          <isNotEmpty property="unit_id" prepend="and">
+            (c.unit_id = #unit_id#)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="unit_code">
+          <isNotEmpty property="unit_code" prepend="and">
+            c.cs_code = #unit_code#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="date_begin">
+          <isNotEmpty property="date_begin" prepend="and">
+            a.order_date &gt;= #date_begin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="date_end">
+          <isNotEmpty property="date_end" prepend="and">
+            a.order_date &lt;= #date_end#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="if_flag">
+          <isNotEmpty property="if_flag" prepend="and">
+            b.if_flag = #if_flag#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="GetAdOrderListPackaged" resultMap="AdvertiseOrderInfoResult" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+
+      select distinct
+      a.*
+      ,d.customer_code
+      ,d.customer_name
+      ,c.cs_code unit_code
+      ,c.cs_name unit_name
+      ,a1.row_no
+      ,@iCount icount
+      From t_advertise_order a
+      inner join @TmpTable a1 on(a.order_id = a1.order_id)
+      inner join t_advertise_order_unit b on a.order_id=b.order_id
+      inner join t_customer_shop c on b.unit_id=c.customer_shop_id
+      inner join t_customer d on c.customer_id=d.customer_id
+      where 1=1
+      and a1.row_no &gt; #StartRow# and a1.row_no &lt;= #EndRow#;
+    </select>
+
+    <select id="GetAdOrderCountPackaged" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+      select COUNT(*) From @TmpTable;
+    </select>
+
+    <update id="SetAdOrderBatId" parameterClass="hashtable">
+      update T_Advertise_Order_Unit
+      set bat_no = #bat_id#
+      From T_Advertise_order_unit a
+      inner join t_customer_shop b
+      on(a.unit_id = b.customer_shop_id)
+      where order_id=#order_id#
+      and b.customer_id=#customer_id#
+    </update>
+    
+    <update id="SetAdOrderListFlagByBatId" parameterClass="hashtable">
+      update T_Advertise_Order_Unit
+      set if_flag='1'
+      where bat_no=#bat_id#
+    </update>
+    
+    <select id="GetAdList" resultMap="AdvertiseInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_advertise a
+      inner join t_advertise_order_advertise b on a.advertise_id=b.advertise_id
+      inner join t_advertise_order c on b.order_id=c.order_id
+      where 1=1
+      and c.order_id=#order_id#
+    </select>
+    
+    <select id="GetOrderAdList" resultMap="AdvertiseOrderAdvertiseInfoResult" parameterClass="hashtable">
+      select a.* 
+      from t_advertise_order_advertise a 
+      where 1=1
+      and a.order_id=#order_id#
+    </select>
+    
+    <select id="GetOrderUnitList" resultMap="AdvertiseOrderUnitInfoResult" parameterClass="hashtable">
+      select a.* 
+      from t_advertise_order_unit a 
+      inner join t_customer_shop b on a.unit_id=b.customer_shop_id
+      where 1=1
+      and a.order_id=#order_id#
+      and b.customer_id=#customer_id#
+    </select>
+
+  </statements>
+</sqlMap>

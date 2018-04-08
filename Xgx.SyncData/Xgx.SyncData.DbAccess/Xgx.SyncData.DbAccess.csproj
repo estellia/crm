@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{358A898D-906B-4653-B508-5916C67C40C3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xgx.SyncData.DbAccess</RootNamespace>
+    <AssemblyName>Xgx.SyncData.DbAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net40\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net40\Dapper.Contrib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConnectionString.cs" />
+    <Compile Include="ObjectEvaluation\ObjectEvaluationFacade.cs" />
+    <Compile Include="ObjectEvaluation\ObjectEvaluationQuery.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysVipCardType\SysVipCardTypeCMD.cs" />
+    <Compile Include="SysVipCardType\SysVipCardTypeFacade.cs" />
+    <Compile Include="SysVipCardType\SysVipCardTypeQuery.cs" />
+    <Compile Include="TInoutStatus\TInoutStatusCMD.cs" />
+    <Compile Include="TInoutStatus\TInoutStatusFacade.cs" />
+    <Compile Include="T_City\T_CityCMD.cs" />
+    <Compile Include="T_City\T_CityFacade.cs" />
+    <Compile Include="T_City\T_CityQuery.cs" />
+    <Compile Include="t_customer_shop\t_customer_shopCMD.cs" />
+    <Compile Include="t_customer_shop\t_customer_shopFacade.cs" />
+    <Compile Include="t_customer_user\t_customer_userCMD.cs" />
+    <Compile Include="t_customer_user\t_customer_userFacade.cs" />
+    <Compile Include="T_Inout\T_InoutCMD.cs" />
+    <Compile Include="T_Inout\T_InoutDetailCMD.cs" />
+    <Compile Include="T_Inout\T_InoutDetailFacade.cs" />
+    <Compile Include="T_Inout\T_InoutDetailQuery.cs" />
+    <Compile Include="T_Inout\T_InoutFacade.cs" />
+    <Compile Include="T_Inout\T_InoutQuery.cs" />
+    <Compile Include="T_ItemSkuProp\T_ItemSkuPropCMD.cs" />
+    <Compile Include="T_ItemSkuProp\T_ItemSkuPropFacade.cs" />
+    <Compile Include="T_Item\T_ItemCMD.cs" />
+    <Compile Include="T_Item\T_ItemFacade.cs" />
+    <Compile Include="T_Item\T_ItemQuery.cs" />
+    <Compile Include="T_Item_Category\T_Item_CategoryCMD.cs" />
+    <Compile Include="T_Item_Category\T_Item_CategoryFacade.cs" />
+    <Compile Include="T_Item_Delivery_Mapping\T_Item_Delivery_MappingCMD.cs" />
+    <Compile Include="T_Item_Delivery_Mapping\T_Item_Delivery_MappingFacade.cs" />
+    <Compile Include="T_Item_Property\T_Item_PropertyCMD.cs" />
+    <Compile Include="T_Item_Property\T_Item_PropertyFacade.cs" />
+    <Compile Include="T_Payment_detail\PaymentDetailCMD.cs" />
+    <Compile Include="T_Payment_detail\PaymentDetailFacade.cs" />
+    <Compile Include="T_Payment_detail\PaymentDetailQuery.cs" />
+    <Compile Include="T_Prop\T_PropCMD.cs" />
+    <Compile Include="T_Prop\T_PropFacade.cs" />
+    <Compile Include="T_Role\T_RoleCMD.cs" />
+    <Compile Include="T_Role\T_RoleFacade.cs" />
+    <Compile Include="T_Role\T_RoleQuery.cs" />
+    <Compile Include="T_Sku\T_Sku_CMD.cs" />
+    <Compile Include="T_Sku\T_Sku_Facade.cs" />
+    <Compile Include="T_Sku_Price\T_Sku_PriceCMD.cs" />
+    <Compile Include="T_Sku_Price\T_Sku_PriceFacade.cs" />
+    <Compile Include="T_Sku_Property\T_Sku_PropertyCMD.cs" />
+    <Compile Include="T_Sku_Property\T_Sku_PropertyFacade.cs" />
+    <Compile Include="T_Type\T_TypeCMD.cs" />
+    <Compile Include="T_Type\T_TypeFacade.cs" />
+    <Compile Include="T_Type\T_TypeQuery.cs" />
+    <Compile Include="t_unit\t_unitCMD.cs" />
+    <Compile Include="t_unit\t_unitFacade.cs" />
+    <Compile Include="t_unit\t_unitQuery.cs" />
+    <Compile Include="T_Unit_Relation\T_Unit_RelationCMD.cs" />
+    <Compile Include="T_Unit_Relation\T_Unit_RelationFacade.cs" />
+    <Compile Include="T_Unit_Relation\T_Unit_RelationQuery.cs" />
+    <Compile Include="T_User\T_UserCMD.cs" />
+    <Compile Include="T_User\T_UserFacade.cs" />
+    <Compile Include="T_User\T_UserQuery.cs" />
+    <Compile Include="T_User_Role\T_User_RoleCMD.cs" />
+    <Compile Include="T_User_Role\T_User_RoleFacade.cs" />
+    <Compile Include="T_User_Role\T_User_RoleQuery.cs" />
+    <Compile Include="VipAmountDetail\VipAmountDetailCMD.cs" />
+    <Compile Include="VipAmountDetail\VipAmountDetailFacade.cs" />
+    <Compile Include="VipAmount\VipAmountCMD.cs" />
+    <Compile Include="VipAmount\VipAmountFacade.cs" />
+    <Compile Include="VipAmount\VipAmountQuery.cs" />
+    <Compile Include="VipCardVipMapping\VipCardVipMappingCMD.cs" />
+    <Compile Include="VipCardVipMapping\VipCardVipMappingFacade.cs" />
+    <Compile Include="VipCardVipMapping\VipCardVipMappingQuery.cs" />
+    <Compile Include="VipCard\VipCardCMD.cs" />
+    <Compile Include="VipCard\VipCardFacade.cs" />
+    <Compile Include="VipIntegralDetail\VipIntegralDetailCMD.cs" />
+    <Compile Include="VipIntegralDetail\VipIntegralDetailFacade.cs" />
+    <Compile Include="VipIntegral\VipIntegralCMD.cs" />
+    <Compile Include="VipIntegral\VipIntegralFacade.cs" />
+    <Compile Include="VipIntegral\VipIntegralQuery.cs" />
+    <Compile Include="Vip\VipCMD.cs" />
+    <Compile Include="Vip\VipFacade.cs" />
+    <Compile Include="T_Prop\T_PropQuery.cs" />
+    <Compile Include="Vip\VipQuery.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Xgx.SyncData.DbEntity\Xgx.SyncData.DbEntity.csproj">
+      <Project>{cc63c5b1-2308-4602-a17a-26b47fe45054}</Project>
+      <Name>Xgx.SyncData.DbEntity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="LEvents"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="LEvents" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_LEventsData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="LEventsResult" class="LEvents">
+      <result property="EventID" column="EventID" type="string" />
+      <result property="EventCode" column="EventCode" type="string" />
+      <result property="Title" column="Title" type="string" />
+      <result property="EventLevel" column="EventLevel" type="int" />
+      <result property="ParentEventID" column="ParentEventID" type="string"/>
+      <result property="Description" column="Description" type="string"/>
+      <result property="ImageURL" column="ImageURL" type="string"/>
+      <result property="URL" column="URL" type="string"/>
+      <result property="IsSubEvent" column="IsSubEvent" type="int"/>
+      <result property="EventStatus" column="EventStatus" type="int"/>
+      <result property="DisplayIndex" column="DisplayIndex" type="int"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <result property="DrawMethodId" column="DrawMethodId" type="int"/>
+      <result property="EventFlag" column="EventFlag" type="string"/>
+
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <select id="sql_SelectById" resultMap="LEventsResult" parameterString="hashtable">
+      select * from T_CTW_LEvents where IsDelete=0 and EventID=#EventID#
+    </select>
+
+    <select id="sql_SelectAll" resultMap="LEventsResult" >
+      select * from T_CTW_LEvents where IsDelete=0 
+    </select>
+
+    <!--新增-->
+    <insert id="sql_Insert" parameterString="LEvents">
+      insert into T_CTW_LEvents(
+      EventID
+      ,EventCode
+      ,Title
+      ,EventLevel
+      ,ParentEventID
+      ,Description
+      ,ImageURL
+      ,URL
+      ,IsSubEvent
+      ,EventStatus
+      ,DisplayIndex
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      ,DrawMethodId
+      ,EventFlag
+      )
+      VALUES
+      (
+      #EventID#,#EventCode#, #Title#,#EventLevel#,#ParentEventID#,#Description#,#ImageURL#,#URL#,#IsSubEvent#,#EventStatus#,#DisplayIndex#
+      ,GetDate(),#CreateBy#,GetDate(),#LastUpdateBy#,0
+      ,#DrawMethodId#,#EventFlag#
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="LEvents">
+      update T_CTW_LEvents set
+       Title=#Title#
+      ,Description=#Description#
+      ,LastUpdateTime=GetDate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where EventID=#EventID#
+    </update>
+
+    <!--逻辑删除-->
+    <update id="sql_Delete" parameterClass="LEvents">
+      update T_CTW_LEvents set
+      Isdelete=1
+      ,LastUpdateTime=GetDate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where EventID=#EventID#
+    </update>
+  </statements>
+</sqlMap>

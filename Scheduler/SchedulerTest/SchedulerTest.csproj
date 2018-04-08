@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{727E8509-7B53-4798-A2BD-7C5951EA3DF1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ConsoleApplication1.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging">
+      <HintPath>..\Lib\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>..\Lib\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\Lib\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="RedisOpenAPIClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\RedisOpenAPIClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TradeCenter.BLL">
+      <HintPath>..\Lib\TradeCenter.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="TradeCenter.DataAccess">
+      <HintPath>..\Lib\TradeCenter.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="TradeCenter.Entity">
+      <HintPath>..\Lib\TradeCenter.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Utility.Pay">
+      <HintPath>..\Lib\Utility.Pay.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Order\HelloJob.cs" />
+    <Compile Include="Order\HelloJob2.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CustomerManage\CPOS.BS.BLL\CPOS.BS.BLL.csproj">
+      <Project>{9adf4825-9b7c-4bb1-a05c-9c137b33d81b}</Project>
+      <Name>CPOS.BS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CustomerManage\CPOS.BS.DataAccess\CPOS.BS.DataAccess.csproj">
+      <Project>{928c0a63-f799-49b5-a566-65be4abc9f56}</Project>
+      <Name>CPOS.BS.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CustomerManage\CPOS.BS.Entity\CPOS.BS.Entity.csproj">
+      <Project>{6d911430-7243-4ab2-b70e-4daffc4d1b22}</Project>
+      <Name>CPOS.BS.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CustomerManage\CPOS.BS.Web\CPOS.BS.Web.csproj">
+      <Project>{d5725cd5-20aa-4a3e-b72e-146f781c4fda}</Project>
+      <Name>CPOS.BS.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CustomerManage\CPOS.Common\CPOS.Common.csproj">
+      <Project>{4e164cf5-3114-4c70-874f-1353fb6a6215}</Project>
+      <Name>CPOS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CustomerManage\CPOS.DTO\CPOS.DTO.csproj">
+      <Project>{e90b49c0-4c8e-42ec-88ef-daccfd56f2b5}</Project>
+      <Name>CPOS.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scheduler\Scheduler.csproj">
+      <Project>{d1154104-782b-435c-9c98-8aae8832ec1b}</Project>
+      <Name>Scheduler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

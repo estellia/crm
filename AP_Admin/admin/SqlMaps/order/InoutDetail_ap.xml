@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="InoutDetail"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="InoutDetail" type="cPos.Admin.Model.InoutDetailInfo,cPos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="InoutDetailResult" class="InoutDetail">
+      <result property="order_detail_id" column="order_detail_id" type="string" />
+      <result property="order_id" column="order_id" type="string" />
+      <result property="ref_order_detail_id" column="ref_order_detail_id" type="string"/>
+      <result property="sku_id" column="sku_id" type="string"/>
+      <result property="unit_id" column="unit_id" type="string"/>
+      <result property="order_qty" column="order_qty" type="decimal"/>
+      <result property="enter_qty" column="enter_qty" type="decimal"/>
+      <result property="enter_price" column="enter_price" type="decimal"/>
+      <result property="enter_amount" column="enter_amount" type="decimal"/>
+      <result property="std_price" column="std_price" type="decimal"/>
+      <result property="order_discount_rate" column="order_discount_rate" type="decimal"/>
+      <result property="discount_rate" column="discount_rate" type="decimal"/>
+      <result property="retail_price" column="retail_price" type="decimal"/>
+      <result property="retail_amount" column="retail_amount" type="decimal"/>
+      <result property="plan_price" column="plan_price" type="decimal"/>
+      <result property="receive_points" column="receive_points" type="decimal"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="pos_order_code" column="pos_order_code" type="string"/>
+      <result property="order_detail_status" column="order_detail_status" type="string"/>
+      <result property="display_index" column="display_index" type="int"/>
+      <result property="order_detail_status" column="order_detail_status" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="ref_order_id" column="ref_order_id" type="string"/>
+      <result property="if_flag" column="if_flag" type="int"/>
+      <result property="item_code" column="item_code" type="string"/>
+      <result property="item_name" column="item_name" type="string"/>
+      <result property="prop_1_detail_name" column="prop_1_detail_name" type="string"/>
+      <result property="prop_2_detail_name" column="prop_2_detail_name" type="string"/>
+      <result property="prop_3_detail_name" column="prop_3_detail_name" type="string"/>
+      <result property="prop_4_detail_name" column="prop_4_detail_name" type="string"/>
+      <result property="prop_5_detail_name" column="prop_5_detail_name" type="string"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="InoutDetailResult">
+      select a.order_detail_id
+      ,a.order_id
+      ,a.ref_order_detail_id
+      ,a.sku_id
+      ,a.unit_id
+      ,convert(decimal(18,4),a.order_qty*c.red_flag) order_qty
+      ,convert(decimal(18,4),a.enter_qty*c.red_flag) enter_qty
+      ,convert(decimal(18,4),a.enter_price*c.red_flag) enter_price
+      ,convert(decimal(18,4),a.enter_amount*c.red_flag) enter_amount
+      ,convert(decimal(18,4),a.std_price) std_price
+      ,a.discount_rate
+      ,convert(decimal(18,4),a.retail_price*c.red_flag) retail_price
+      ,convert(decimal(18,4),a.retail_amount*c.red_flag) retail_amount
+      ,convert(decimal(18,4),a.plan_price) plan_price
+      ,a.receive_points
+      ,a.pay_points
+      ,a.remark
+      ,a.pos_order_code
+      ,a.order_detail_status
+      ,a.display_index
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.ref_order_id
+      ,a.if_flag
+      ,b.item_code
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      ,(select discount_rate from t_inout where order_id = a.order_id)  order_discount_rate
+      From t_inout_detail a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+      inner join t_inout c
+      on(a.order_id = c.order_id)
+    </select>
+
+    <select id="SelectByOrderId" extends="Select" resultMap="InoutDetailResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#
+      order by b.item_code
+    </select>
+    
+  </statements>
+</sqlMap>

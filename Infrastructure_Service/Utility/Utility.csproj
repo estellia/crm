@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1DFD5C01-71C0-41D9-82E4-CABA22331835}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.Utility</RootNamespace>
+    <AssemblyName>Utility</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Utility.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Utility.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\ReferenceDll\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="C5, Version=1.1.0.0, Culture=neutral, PublicKeyToken=06a1b38866503b69, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\ReferenceDll\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Memcached.ClientLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42c0400964dcc297, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Memcached.ClientLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz">
+      <HintPath>..\ReferenceDll\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicTenantUserInfo.cs" />
+    <Compile Include="BasicUserInfo.cs" />
+    <Compile Include="Cache2\BaseCache.cs" />
+    <Compile Include="Cache2\CacheFactory.cs" />
+    <Compile Include="Cache2\Caches2.cs" />
+    <Compile Include="Cache2\IJITCache2.cs" />
+    <Compile Include="Cache2\JITDistributedCache.cs" />
+    <Compile Include="Cache2\JITMemoryCache.cs" />
+    <Compile Include="Cache\Caches.cs" />
+    <Compile Include="Cache\IJITCache.cs" />
+    <Compile Include="Cache\JITMemoryCache.cs" />
+    <Compile Include="CommonMenuButton.cs" />
+    <Compile Include="CommonRegexs.cs" />
+    <Compile Include="DataAccess\BaseDAO.cs" />
+    <Compile Include="DataAccess\ConnectionString.cs" />
+    <Compile Include="DataAccess\DefaultConnectionStringManager.cs" />
+    <Compile Include="DataAccess\DefaultSQLHelper.cs" />
+    <Compile Include="DataAccess\DirectConnectionStringManager.cs" />
+    <Compile Include="DataAccess\IConnectionStringManager.cs" />
+    <Compile Include="DataAccess\ICRUDable.cs" />
+    <Compile Include="DataAccess\IQueryable.cs" />
+    <Compile Include="DataAccess\ISQLHelper.cs" />
+    <Compile Include="DataAccess\PagedQueryResult.cs" />
+    <Compile Include="DataAccess\Query\ComplexCondition.cs" />
+    <Compile Include="DataAccess\Query\DateTimeAccuracys.cs" />
+    <Compile Include="DataAccess\Query\DirectCondition.cs" />
+    <Compile Include="DataAccess\Query\EqualsCondition.cs" />
+    <Compile Include="DataAccess\Query\InCondition.cs" />
+    <Compile Include="DataAccess\Query\IsNullCondition.cs" />
+    <Compile Include="DataAccess\Query\IWhereCondition.cs" />
+    <Compile Include="DataAccess\Query\LessThanCondition.cs" />
+    <Compile Include="DataAccess\Query\LikeCondition.cs" />
+    <Compile Include="DataAccess\Query\LogicalOperators.cs" />
+    <Compile Include="DataAccess\Query\MoreThanCondition.cs" />
+    <Compile Include="DataAccess\Query\OrderBy.cs" />
+    <Compile Include="DataAccess\Query\OrderByDirections.cs" />
+    <Compile Include="DataAccess\Query\WhereConditions.cs" />
+    <Compile Include="DataAccess\SqlCommandExecutionEventArgs.cs" />
+    <Compile Include="DataAccess\PagedQueryObjectResult.cs" />
+    <Compile Include="DataAccess\BaseOracleDAO.cs" />
+    <Compile Include="DataAccess\DefaultOracleHelper.cs" />
+    <Compile Include="DataAccess\OracleCommandExecutionEventArgs.cs" />
+    <Compile Include="DEncrypt.cs" />
+    <Compile Include="DistributeTran\TerminalInfo.cs" />
+    <Compile Include="DistributeTran\TranInfo.cs" />
+    <Compile Include="DistributeTran\TransPool.cs" />
+    <Compile Include="Entity\BaseEntity.cs" />
+    <Compile Include="Entity\IEntity.cs" />
+    <Compile Include="Entity\IExtensionable.cs" />
+    <Compile Include="Entity\PersistenceEntityException.cs" />
+    <Compile Include="Entity\PersistenceHandle.cs" />
+    <Compile Include="Entity\PersistenceStatus.cs" />
+    <Compile Include="ErrorInfo.cs" />
+    <Compile Include="ETCL2\BaseETCL.cs" />
+    <Compile Include="ETCL2\BaseDB2DBETCL.cs" />
+    <Compile Include="ETCL2\DataItem\DataRowItem.cs" />
+    <Compile Include="ETCL2\DataSource\DBDataSource.cs" />
+    <Compile Include="ETCL2\DataSource\DBDestination.cs" />
+    <Compile Include="ETCL2\ICheckingFailedHandler.cs" />
+    <Compile Include="ETCL2\IDataSource.cs" />
+    <Compile Include="ETCL2\IDestination.cs" />
+    <Compile Include="ETCL2\IETCL.cs" />
+    <Compile Include="ETCL2\ITransferor.cs" />
+    <Compile Include="ETCL2\ValueObject\CheckResult.cs" />
+    <Compile Include="ETCL2\ValueObject\CheckTypes.cs" />
+    <Compile Include="ETCL2\ValueObject\ETCLProcessResult.cs" />
+    <Compile Include="ETCL2\IETCLDataItem.cs" />
+    <Compile Include="ETCL2\ValueObject\ServerityLevels.cs" />
+    <Compile Include="ETCL\Base\BaseExcelETCL.cs" />
+    <Compile Include="ETCL\Base\BaseETCL.cs" />
+    <Compile Include="DataTableExporter.cs" />
+    <Compile Include="ETCL\DataStructure\CommonExcelDataItem.cs" />
+    <Compile Include="ETCL\Checker\EMailChecker.cs" />
+    <Compile Include="ETCL\DataStructure\ServerityLevel.cs" />
+    <Compile Include="ETCL\DataStructure\ImportingResult.cs" />
+    <Compile Include="ETCL\Interface\IETCLResultItem.cs" />
+    <Compile Include="ETCL\Checker\IDCardChecker.cs" />
+    <Compile Include="ETCL\Interface\IETCLDataItem.cs" />
+    <Compile Include="ETCL\Interface\IExcelDataItem.cs" />
+    <Compile Include="ETCL\Checker\MobilePhoneChecker.cs" />
+    <Compile Include="ETCL\Checker\RegexChecker.cs" />
+    <Compile Include="ETCL\DataStructure\RegularExrepssions.cs" />
+    <Compile Include="ETCL\Checker\UintChecker.cs" />
+    <Compile Include="ETCL\Checker\ValueRangeChecker.cs" />
+    <Compile Include="ETCL\Checker\DefaultDuplicateChecker.cs" />
+    <Compile Include="ETCL\CommonExcelETCL.cs" />
+    <Compile Include="ETCL\Extractor\DefaultExtractor.cs" />
+    <Compile Include="ETCL\Loader\DefaultLoader.cs" />
+    <Compile Include="ETCL\Checker\DefaultNullValueChecker.cs" />
+    <Compile Include="ETCL\Checker\DefaultReferenceChecker.cs" />
+    <Compile Include="ETCL\Transformer\DefaultTransformer.cs" />
+    <Compile Include="ETCL\DataStructure\ETCLException.cs" />
+    <Compile Include="ETCL\DataStructure\ETCLCommonResultItem.cs" />
+    <Compile Include="ETCL\DataStructure\ETCLWorkSheetInfo.cs" />
+    <Compile Include="ETCL\DataStructure\ETCLColumn.cs" />
+    <Compile Include="ETCL\DataStructure\ETCLTable.cs" />
+    <Compile Include="ETCL\Interface\IExtractor.cs" />
+    <Compile Include="ETCL\Interface\ITransformer.cs" />
+    <Compile Include="ETCL\Interface\IChecker.cs" />
+    <Compile Include="ETCL\Interface\ILoader.cs" />
+    <Compile Include="ETCL\DataStructure\OperationType.cs" />
+    <Compile Include="ETCL\Base\XMLHandler.cs" />
+    <Compile Include="ETCL\DataStructure\ETCLTemplateInfo.cs" />
+    <Compile Include="ETCL\Interface\IETCL.cs" />
+    <Compile Include="ExtensionMethod\BooleanExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\CharExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\DateTimeExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\EnumExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\GenericsExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\GroupResult.cs" />
+    <Compile Include="ExtensionMethod\GuidExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\HttpContextExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\IEnumerableExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\ObjectExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\OrderOptions.cs" />
+    <Compile Include="ExtensionMethod\PageExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\SqlCommandExtensionMethods.cs.cs" />
+    <Compile Include="ExtensionMethod\StringArrayExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\StringExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\TypeExtensionMethods.cs" />
+    <Compile Include="ExtensionMethod\XMLExtensionMethods.cs" />
+    <Compile Include="FixedSizeQueue.cs" />
+    <Compile Include="GIS\Block.cs" />
+    <Compile Include="GIS\Coordinate.cs" />
+    <Compile Include="GIS\MapMethods.cs" />
+    <Compile Include="GIS\Polygon.cs" />
+    <Compile Include="IO\FileSystem.cs" />
+    <Compile Include="JITException.cs" />
+    <Compile Include="Keyboard.cs" />
+    <Compile Include="Locale\Languages.cs" />
+    <Compile Include="Log\DefaultLogger.cs" />
+    <Compile Include="Log\IJITLogger.cs" />
+    <Compile Include="Log\Loggers.cs" />
+    <Compile Include="Log\LogInfoes\BaseLogInfo.cs" />
+    <Compile Include="Log\LogInfoes\DatabaseLogInfo.cs" />
+    <Compile Include="Log\LogInfoes\DebugLogInfo.cs" />
+    <Compile Include="Log\LogInfoes\ExceptionLogInfo.cs" />
+    <Compile Include="Log\ObjectRenderers\DatabaseLogInfoRenderer.cs" />
+    <Compile Include="Log\ObjectRenderers\DebugLogInfoRenderer.cs" />
+    <Compile Include="Log\ObjectRenderers\ExceptionLogInfoRenderer.cs" />
+    <Compile Include="Log\ObjectRenderers\MailLogInfoRenderer.cs" />
+    <Compile Include="MD5Helper.cs" />
+    <Compile Include="Msmq\Base\IMessageConfig.cs" />
+    <Compile Include="Msmq\Base\IMSMQ.cs" />
+    <Compile Include="Msmq\Base\BaseMSMQ.cs" />
+    <Compile Include="Msmq\Builder\MsmqBulder.cs" />
+    <Compile Include="Msmq\Config\MessageConfig.cs" />
+    <Compile Include="Msmq\LogMsmq.cs" />
+    <Compile Include="Msmq\JobMsmq.cs" />
+    <Compile Include="Notification\FromSetting.cs" />
+    <Compile Include="Notification\Mail.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionUtils.cs" />
+    <Compile Include="Reflection\DataLoader.cs" />
+    <Compile Include="Reflection\DictionaryPropertyNameMapping.cs" />
+    <Compile Include="Reflection\DirectPropertyNameMapping.cs" />
+    <Compile Include="Reflection\DynamicMethodFactory.cs" />
+    <Compile Include="Reflection\DynamicReflectionHandler.cs" />
+    <Compile Include="Reflection\IPropertyNameMapping.cs" />
+    <Compile Include="Reflection\SetValueDelegate.cs" />
+    <Compile Include="RegularExpressions.cs" />
+    <Compile Include="Report\AnalysisReportContextMenuIcons.cs" />
+    <Compile Include="Report\AnalysisReportQuery.cs" />
+    <Compile Include="Report\AnalysisReportTypes.cs" />
+    <Compile Include="Report\Analysis\AnalysisReportDrilling.cs" />
+    <Compile Include="Report\Analysis\CommonSummary.cs" />
+    <Compile Include="Report\Analysis\CustomizeDataSourceColumn.cs" />
+    <Compile Include="Report\Analysis\DrillingTypes.cs" />
+    <Compile Include="Report\Analysis\IReportDataSource.cs" />
+    <Compile Include="Report\Analysis\SQLBasedReportDataSource.cs" />
+    <Compile Include="Report\Analysis\SQLMeasureColumn.cs" />
+    <Compile Include="Report\Analysis\SummaryCalculationTypes.cs" />
+    <Compile Include="Report\BaseAnalysisReport.cs" />
+    <Compile Include="Report\BaseMemoryAnalysisReport.cs" />
+    <Compile Include="Report\BaseSQLAnalyasisReport.cs" />
+    <Compile Include="Report\DataFilter\ColumnDataRetriever.cs" />
+    <Compile Include="Report\DataFilter\CommonDataFilter.cs" />
+    <Compile Include="Report\DataFilter\DataFilterTypes.cs" />
+    <Compile Include="Report\DataFilter\FilteringColumn.cs" />
+    <Compile Include="Report\DataFilter\IDataFilter.cs" />
+    <Compile Include="Report\DataFilter\RowDataRetriever.cs" />
+    <Compile Include="Report\Export\DataFormatter\Excel\CommonExcelDataFormatter.cs" />
+    <Compile Include="Report\Export\DataFormatter\IDataFormatter.cs" />
+    <Compile Include="Report\FactData\DirectlyDimension.cs" />
+    <Compile Include="Report\Analysis\AnalysisColumnList.cs" />
+    <Compile Include="Report\Analysis\CustomizeCalculateColumn.cs" />
+    <Compile Include="Report\Analysis\MemoryMeasureColumn.cs" />
+    <Compile Include="Report\Analysis\AnalysisModel.cs" />
+    <Compile Include="Report\Analysis\DimColumn.cs" />
+    <Compile Include="Report\Analysis\AnalysisReportDrillSection.cs" />
+    <Compile Include="Report\Analysis\ISummary.cs" />
+    <Compile Include="Report\FactData\DataModelColumn.cs" />
+    <Compile Include="Report\FactData\DataModelColumnTypes.cs" />
+    <Compile Include="Report\Analysis\AnalysisColumnTypes.cs" />
+    <Compile Include="Report\Analysis\AnalysisColumn.cs" />
+    <Compile Include="Report\Analysis\IDrillRouting.cs" />
+    <Compile Include="Report\Analysis\MeasureCalculationDelegate.cs" />
+    <Compile Include="Report\Analysis\MeasureCalculatorFactory.cs" />
+    <Compile Include="Report\Analysis\MeasureCalculatorTypes.cs" />
+    <Compile Include="Report\Analysis\SequenceDrillRouting.cs" />
+    <Compile Include="Report\FactData\FactDataModel.cs" />
+    <Compile Include="Report\FactData\SqlTemplateDimension.cs" />
+    <Compile Include="Report\AnalysisReportOutput.cs" />
+    <Compile Include="Report\GroupingItem.cs" />
+    <Compile Include="Report\IAnalysisReport.cs" />
+    <Compile Include="Report\FactData\IDimension.cs" />
+    <Compile Include="Report\IFactData.cs" />
+    <Compile Include="Report\Analysis\CustomizeCalculationDataRetriever.cs" />
+    <Compile Include="Report\Operations.cs" />
+    <Compile Include="Report\Export\SummaryFormatter\Excel\CommonExcelSummaryFormatter.cs" />
+    <Compile Include="Report\Export\SummaryFormatter\ISummaryFormatter.cs" />
+    <Compile Include="Report\ReportDataRetriever.cs" />
+    <Compile Include="Report\Utils\JSFunctionFactory.cs" />
+    <Compile Include="StackTraceInfo.cs" />
+    <Compile Include="StringUtils.cs" />
+    <Compile Include="SystemRuntimeInfo.cs" />
+    <Compile Include="SystemUtils.cs" />
+    <Compile Include="TaskScheduler\JITJobBuilder.cs" />
+    <Compile Include="TaskScheduler\JITTaskJob.cs" />
+    <Compile Include="TaskScheduler\JITTriggerBuilder.cs" />
+    <Compile Include="TaskScheduler\JobOperationType.cs" />
+    <Compile Include="TaskScheduler\MsmqJobHandler.cs" />
+    <Compile Include="TaskScheduler\Scheduler.cs" />
+    <Compile Include="TSQL.cs" />
+    <Compile Include="ObjectParse\TypeParse.cs" />
+    <Compile Include="Web\Action.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\ComponentModel\ExtJS\ChildrenAligns.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Container\Container.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Data\Model.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Data\Field.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Data\Proxy\Proxy.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Data\Reader\Reader.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Data\Store.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Data\StoreManager.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\DockStyles.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\ExtJSEventHandler.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Ext.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\ExtJSClass.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\ExtJSComponent.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\ExtJSListeners.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Form\Label.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Grid\Column\Column.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Grid\Column\ColumnListExtensionMethods.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Grid\Column\ColumnTypes.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Grid\Column\ColumnTypesExtensionMethods.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Grid\Panel.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\HideModes.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Layout\Container\Container.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Layout\Container\HBox.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Layout\Container\Table.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Layout\Container\VBox.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Menu\CheckItem.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Menu\Item.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Menu\Menu.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Toolbar\Item.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Toolbar\TextItem.cs" />
+    <Compile Include="Web\ComponentModel\ExtJS\Toolbar\Toolbar.cs" />
+    <Compile Include="Web\ComponentModel\TreeNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\ComponentModel\TreeNodes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\ComponentModel\ExtJS\App\Application.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\ComponentModel\ExtJS\Loader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\HTML.cs" />
+    <Compile Include="Web\HttpClient.cs" />
+    <Compile Include="Web\HttpHelper.cs" />
+    <Compile Include="Web\HttpWebClient.cs" />
+    <Compile Include="Web\IJavascriptObject.cs" />
+    <Compile Include="Web\JavascriptBlock.cs" />
+    <Compile Include="Web\JITAjaxHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\JITAnalysisReportHandler.cs" />
+    <Compile Include="Web\JitBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web\JITMVCAjaxHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\JITTreeHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\JSFunction.cs" />
+    <Compile Include="Web\JSFunctionTypes.cs" />
+    <Compile Include="Web\JSONConst.cs" />
+    <Compile Include="Web\ResponseResult.cs" />
+    <Compile Include="Web\UrlEncoder.cs" />
+    <Compile Include="Web\View.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Log\loggers.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ETCL\Base\ETCLConfig.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Log\loggersRollingBySize.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="JSON\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Const\Const.csproj">
+      <Project>{bb4c49e2-bd7c-4556-91c4-d3575433a8db}</Project>
+      <Name>Const</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

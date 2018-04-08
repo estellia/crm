@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="ObjectImages"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="ObjectImages" type="cpos.Admin.Model.CreativityWarehouse.ObjectImagesData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ObjectImagesResult" class="ObjectImages">
+      <result property="ImageId" column="ImageId" type="string" />
+      <result property="ObjectId" column="ObjectId" type="string" />
+      <result property="ImageURL" column="ImageURL" type="string" />
+      <result property="DisplayIndex" column="DisplayIndex" type="int"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <result property="Title" column="Title" type="string" />
+      <result property="Description" column="Description" type="string" />
+      <result property="BatId" column="BatId" type="string" />
+      <result property="RuleId" column="RuleId" type="int"/>
+      <result property="RuleContent" column="RuleContent" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="sql_SelectById" resultMap="ObjectImagesResult" parameterString="hashtable">
+      select * from ObjectImages where IsDelete=0 and ImageId=#ImageId#
+    </select>
+    <select id="sql_SelectByObjectId" resultMap="ObjectImagesResult" parameterString="hashtable">
+      select * from ObjectImages where IsDelete=0 and ObjectId=#ObjectId#
+    </select>
+    <!--保存图片图片信息-->
+    <insert id="sql_Insert" parameterClass="ObjectImages">
+      insert into ObjectImages(
+      ImageId
+      ,ObjectId
+      ,ImageURL
+      ,DisplayIndex
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      ,Title
+      ,Description
+      ,BatId
+      ,RuleId
+      ,RuleContent
+      )
+      VALUES
+      (
+      #ImageId#,#ObjectId#,#ImageURL#,#DisplayIndex#,getdate(),#CreateBy#,GETDATE(),#LastUpdateBy#,0
+      ,#Title#,#Description#,#BatId#,#RuleId#,#RuleContent#
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="ObjectImages">
+      update ObjectImages set ImageURL=#ImageURL#,LastUpdateBy=#LastUpdateBy#,LastUpdateTime=getdate() where ImageId=#ImageId#
+    </update>
+    <!--修改ObjectId-->
+    <update id="sql_UpdateByObjectId" parameterClass="ObjectImages">
+      update ObjectImages set ObjectId=#ObjectId# where ImageId=#ImageId#
+    </update>
+  </statements>
+</sqlMap>

@@ -1,0 +1,1388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A5A4829C-5109-4518-83F7-A8A434FA4205}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>adminProject</RootNamespace>
+    <AssemblyName>adminProject</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=1.0.20229.20821, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL" />
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
+    <Reference Include="Castle.MicroKernel, Version=1.0.0.2, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
+    <Reference Include="Castle.Model, Version=1.0.0.2, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
+    <Reference Include="Castle.Windsor, Version=1.0.0.2, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL" />
+    <Reference Include="CPOS.BS.BLL">
+      <HintPath>..\Library\CPOS.BS.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="CPOS.BS.DataAccess">
+      <HintPath>..\Library\CPOS.BS.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="CPOS.BS.Entity">
+      <HintPath>..\Library\CPOS.BS.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="CPOS.Common">
+      <HintPath>..\Library\CPOS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="cPos.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\cPos.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common, Version=1.6.1.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL" />
+    <Reference Include="IBatisNet.Common.Logging.Log4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="IBatisNet.DataMapper, Version=1.6.1.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL" />
+    <Reference Include="Jayrock, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Jayrock.Json, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="LitJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\连锁云掌柜\CPOS.BS.Web\bin\LitJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="RedisOpenAPIClient">
+      <HintPath>..\Library\RedisOpenAPIClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="ThoughtWorks.QRCode">
+      <HintPath>..\..\..\开发环境\CPOS.Web\bin\ThoughtWorks.QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Utility">
+      <HintPath>..\Library\Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Utility.Message">
+      <HintPath>..\Library\Utility.Message.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="403.htm" />
+    <Content Include="404.htm" />
+    <Content Include="500.htm" />
+    <Content Include="bill\bill_action.aspx" />
+    <Content Include="bill\bill_action_log.aspx" />
+    <Content Include="bin\AjaxControlToolkit.dll" />
+    <Content Include="bin\Castle.DynamicProxy.dll" />
+    <Content Include="bin\Castle.MicroKernel.dll" />
+    <Content Include="bin\Castle.Model.dll" />
+    <Content Include="bin\Castle.Windsor.dll" />
+    <Content Include="bin\cPos.Admin.Component.dll" />
+    <Content Include="bin\cPos.Admin.Component.pdb" />
+    <Content Include="bin\cPos.Admin.DataCrypt.dll" />
+    <Content Include="bin\cPos.Admin.DataCrypt.pdb" />
+    <Content Include="bin\cPos.Admin.Model.dll" />
+    <Content Include="bin\cPos.Admin.Model.pdb" />
+    <Content Include="bin\cPos.Admin.Service.dll" />
+    <Content Include="bin\cPos.Admin.Service.pdb" />
+    <Content Include="bin\CPOS.BS.BLL.dll" />
+    <Content Include="bin\CPOS.BS.DataAccess.dll" />
+    <Content Include="bin\CPOS.BS.Entity.dll" />
+    <Content Include="bin\CPOS.Common.dll" />
+    <Content Include="bin\cPos.Model.dll" />
+    <Content Include="bin\IBatisNet.Common.dll" />
+    <Content Include="bin\IBatisNet.Common.Logging.Log4Net.dll" />
+    <Content Include="bin\IBatisNet.DataMapper.dll" />
+    <Content Include="bin\Jayrock.dll" />
+    <Content Include="bin\Jayrock.Json.dll" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Utility.dll" />
+    <Content Include="bin\Utility.Message.dll" />
+    <Content Include="bin\WebComponent.dll" />
+    <Content Include="bin\WebComponent.pdb" />
+    <Content Include="common\empty.aspx" />
+    <Content Include="common\homepage.aspx" />
+    <Content Include="controls\DropDownTree.ascx" />
+    <Content Include="controls\Pager.ascx" />
+    <Content Include="csconfig\configAdd.aspx" />
+    <Content Include="csconfig\configList.aspx" />
+    <Content Include="css\basic.css" />
+    <Content Include="css\common.css" />
+    <Content Include="css\images\icons\add.png" />
+    <Content Include="css\images\icons\addStep.gif" />
+    <Content Include="css\images\icons\addStep_dsbl.gif" />
+    <Content Include="css\images\icons\btn-arrow.gif" />
+    <Content Include="css\images\icons\Btn.Close.gif" />
+    <Content Include="css\images\icons\Btn.Refresh.gif" />
+    <Content Include="css\images\icons\cal.gif" />
+    <Content Include="css\images\icons\checkbox_0.gif" />
+    <Content Include="css\images\icons\checkbox_1.gif" />
+    <Content Include="css\images\icons\checkbox_2.gif" />
+    <Content Include="css\images\icons\circle_animation.gif" />
+    <Content Include="css\images\icons\delete.png" />
+    <Content Include="css\images\icons\delItem.gif" />
+    <Content Include="css\images\icons\delItem_dsbl.gif" />
+    <Content Include="css\images\icons\edit.png" />
+    <Content Include="css\images\icons\folder_close.gif" />
+    <Content Include="css\images\icons\ico1.gif" />
+    <Content Include="css\images\icons\ico2.gif" />
+    <Content Include="css\images\icons\ico3.gif" />
+    <Content Include="css\images\icons\ico4-1-1.gif" />
+    <Content Include="css\images\icons\ico4-1.gif" />
+    <Content Include="css\images\icons\ico4-2.gif" />
+    <Content Include="css\images\icons\ico4-3.gif" />
+    <Content Include="css\images\icons\ico4-4.gif" />
+    <Content Include="css\images\icons\ico4.gif" />
+    <Content Include="css\images\icons\ico5.gif" />
+    <Content Include="css\images\icons\ico6-1.gif" />
+    <Content Include="css\images\icons\ico6-2.gif" />
+    <Content Include="css\images\icons\ico6.gif" />
+    <Content Include="css\images\icons\indicator.gif" />
+    <Content Include="css\images\icons\information.png" />
+    <Content Include="css\images\icons\Item.Add.gif" />
+    <Content Include="css\images\icons\Item.Delete.gif" />
+    <Content Include="css\images\icons\Item.Edit.gif" />
+    <Content Include="css\images\icons\Item.Input.gif" />
+    <Content Include="css\images\icons\Item.Save.gif" />
+    <Content Include="css\images\icons\Item.Search.gif" />
+    <Content Include="css\images\icons\none.gif" />
+    <Content Include="css\images\icons\note.gif" />
+    <Content Include="css\images\icons\rowdelete.png" />
+    <Content Include="css\images\icons\s.gif" />
+    <Content Include="css\images\icons\table_refresh.png" />
+    <Content Include="css\images\icons\view.png" />
+    <Content Include="css\images\tree\arrows.gif" />
+    <Content Include="css\images\tree\cbs.gif" />
+    <Content Include="css\images\tree\drop-yes.gif" />
+    <Content Include="css\images\tree\elbow-end-minus-nl.gif" />
+    <Content Include="css\images\tree\elbow-end-minus.gif" />
+    <Content Include="css\images\tree\elbow-end-plus-nl.gif" />
+    <Content Include="css\images\tree\elbow-end-plus.gif" />
+    <Content Include="css\images\tree\elbow-end.gif" />
+    <Content Include="css\images\tree\elbow-line.gif" />
+    <Content Include="css\images\tree\elbow-minus-nl.gif" />
+    <Content Include="css\images\tree\elbow-minus.gif" />
+    <Content Include="css\images\tree\elbow-plus-nl.gif" />
+    <Content Include="css\images\tree\elbow-plus.gif" />
+    <Content Include="css\images\tree\elbow.gif" />
+    <Content Include="css\images\tree\folder-open.gif" />
+    <Content Include="css\images\tree\folder.gif" />
+    <Content Include="css\images\tree\leaf.gif" />
+    <Content Include="css\images\tree\loading.gif" />
+    <Content Include="css\pagination.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\style3.css" />
+    <Content Include="css\theme.css" />
+    <Content Include="css\tree.css" />
+    <Content Include="customer\brand_customer_query.aspx" />
+    <Content Include="customer\brand_customer_show.aspx" />
+    <Content Include="customer\CustomerDataExchangeService.asmx" />
+    <Content Include="customer\customer_query.aspx" />
+    <Content Include="customer\customer_show.aspx" />
+    <Content Include="customer\customer_test.aspx" />
+    <Content Include="customer\shop_query.aspx" />
+    <Content Include="customer\shop_show.aspx" />
+    <Content Include="customer\terminal_query.aspx" />
+    <Content Include="customer\terminal_show.aspx" />
+    <Content Include="customer\user_amount.aspx" />
+    <Content Include="customer\user_query.aspx" />
+    <Content Include="customer\user_show.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="images\ad.png" />
+    <Content Include="images\btn-login.jpg" />
+    <Content Include="images\checkbox-bg.jpg" />
+    <Content Include="images\checkboxRight.gif" />
+    <Content Include="images\cloud.png" />
+    <Content Include="images\footer-bg.jpg" />
+    <Content Include="images\icon-bi-on.png" />
+    <Content Include="images\icon-bi-out.png" />
+    <Content Include="images\icon-bi-small-on.png" />
+    <Content Include="images\icon-bi-small-out.png" />
+    <Content Include="images\icon-check-on.png" />
+    <Content Include="images\icon-check-out.png" />
+    <Content Include="images\icon-check-small-on.png" />
+    <Content Include="images\icon-check-small-out.png" />
+    <Content Include="images\icon-data-on.png" />
+    <Content Include="images\icon-data-out.png" />
+    <Content Include="images\icon-data-small-on.png" />
+    <Content Include="images\icon-data-small-out.png" />
+    <Content Include="images\icon-phone-on.png" />
+    <Content Include="images\icon-phone-out.png" />
+    <Content Include="images\icon-phone-small-on.png" />
+    <Content Include="images\icon-phone-small-out.png" />
+    <Content Include="images\icon-picture-on.png" />
+    <Content Include="images\icon-picture-out.png" />
+    <Content Include="images\icon-picture-small-on.png" />
+    <Content Include="images\icon-picture-small-out.png" />
+    <Content Include="images\icon-pos-on.png" />
+    <Content Include="images\icon-pos-out.png" />
+    <Content Include="images\icon-pos-small-on.png" />
+    <Content Include="images\icon-pos-small-out.png" />
+    <Content Include="images\icon-promos-on.png" />
+    <Content Include="images\icon-promos-out.png" />
+    <Content Include="images\icon-promos-small-on.png" />
+    <Content Include="images\icon-promos-small-out.png" />
+    <Content Include="images\img\index-img-1.jpg" />
+    <Content Include="images\img\index-img-2.jpg" />
+    <Content Include="images\img\index-img-3.jpg" />
+    <Content Include="images\img\index-img-4.jpg" />
+    <Content Include="images\index-items-bg.jpg" />
+    <Content Include="images\index-main-bg.jpg" />
+    <Content Include="images\left-menu-li-bg.png" />
+    <Content Include="images\left-menu-shadow.png" />
+    <Content Include="images\list-header-bg.png" />
+    <Content Include="images\list-header-li-bg.png" />
+    <Content Include="images\login-bg.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\password-bg.jpg" />
+    <Content Include="images\qrcode.jpg" />
+    <Content Include="images\sub-menu-item-bg.jpg" />
+    <Content Include="images\sub-menu-til-bg.jpg" />
+    <Content Include="images\username-bg.jpg" />
+    <Content Include="img\approve.png" />
+    <Content Include="img\bg.png" />
+    <Content Include="img\butt01.png" />
+    <Content Include="img\create.png" />
+    <Content Include="img\delete.png" />
+    <Content Include="img\disable.png" />
+    <Content Include="img\document.png" />
+    <Content Include="img\dot_b.png" />
+    <Content Include="img\dot_bc.png" />
+    <Content Include="img\dot_f.png" />
+    <Content Include="img\dot_fh.png" />
+    <Content Include="img\dot_fz.png" />
+    <Content Include="img\dot_go.png" />
+    <Content Include="img\dot_l.png" />
+    <Content Include="img\dot_lb.png" />
+    <Content Include="img\dot_ls.png" />
+    <Content Include="img\dot_rb.png" />
+    <Content Include="img\dot_rs.png" />
+    <Content Include="img\dot_s.png" />
+    <Content Include="img\dot_z.png" />
+    <Content Include="img\download.png" />
+    <Content Include="img\dropdown.png" />
+    <Content Include="img\edit.png" />
+    <Content Include="img\enable.png" />
+    <Content Include="img\exchange.png" />
+    <Content Include="img\foot_bg.png" />
+    <Content Include="img\history.png" />
+    <Content Include="img\image.png" />
+    <Content Include="img\img_lmt.png" />
+    <Content Include="img\img_mt.png" />
+    <Content Include="img\img_yz.png" />
+    <Content Include="img\lab_bg.png" />
+    <Content Include="img\left_bg.png" />
+    <Content Include="img\loginbut.png" />
+    <Content Include="img\logo_m.png" />
+    <Content Include="img\logo_t.png" />
+    <Content Include="img\logo_tit.png" />
+    <Content Include="img\logo_tita.png" />
+    <Content Include="img\modify.png" />
+    <Content Include="img\offline.png" />
+    <Content Include="img\online.png" />
+    <Content Include="img\pa_te.png" />
+    <Content Include="img\price.png" />
+    <Content Include="img\price2.png" />
+    <Content Include="img\property.png" />
+    <Content Include="img\publish.png" />
+    <Content Include="img\reject.png" />
+    <Content Include="img\reset_pwd.png" />
+    <Content Include="img\shop.png" />
+    <Content Include="img\sku.png" />
+    <Content Include="img\stop_publish.png" />
+    <Content Include="img\terminal.png" />
+    <Content Include="img\text_b.png" />
+    <Content Include="img\text_s.png" />
+    <Content Include="img\tit_bg.png" />
+    <Content Include="img\tit_dr.png" />
+    <Content Include="img\tit_r.png" />
+    <Content Include="img\tree_dropdown_button.gif" />
+    <Content Include="img\upload.png" />
+    <Content Include="img\user.png" />
+    <Content Include="img\view.png" />
+    <Content Include="img\y_bgt.png" />
+    <Content Include="InfoBoxPage.aspx" />
+    <Content Include="inout\pos_receipt_query.aspx" />
+    <Content Include="inout\pos_receipt_show.aspx" />
+    <Content Include="item\category_query.aspx" />
+    <Content Include="item\category_show.aspx" />
+    <Content Include="item\itemSearch.aspx" />
+    <Content Include="item\item_price.aspx" />
+    <Content Include="item\item_price_adjust_query.aspx" />
+    <Content Include="item\item_price_adjust_show.aspx" />
+    <Content Include="item\item_property.aspx" />
+    <Content Include="item\item_query.aspx" />
+    <Content Include="item\item_show.aspx" />
+    <Content Include="item\item_sku_show.aspx" />
+    <Content Include="js\csconfig\configAdd.js" />
+    <Content Include="js\csconfig\configList.js" />
+    <Content Include="js\csconfig\main.js" />
+    <Content Include="js\csconfig\tempModel.js" />
+    <Content Include="js\csconfig\util.js" />
+    <Content Include="js\DD_belatedPNG_0.0.8a-min.js" />
+    <Content Include="js\ie6.js" />
+    <Content Include="js\jquery-1.4.2.min.js" />
+    <Content Include="js\jquery-1.8.3.min.js" />
+    <Content Include="js\lib\jquery-1.8.3.min.js" />
+    <Content Include="js\lib\require.js" />
+    <Content Include="js\lib\tools-lib.js" />
+    <Content Include="js\plugin\artDialog\artDialog.css" />
+    <Content Include="js\plugin\artDialog\artDialog.js" />
+    <Content Include="js\plugin\jquery.jqpagination.js" />
+    <Content Include="js\plugin\kindeditor.js" />
+    <Content Include="js\plugin\template.js" />
+    <Content Include="js\plugin\touchslider.js" />
+    <Content Include="js\public.js" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\bin\LitJSON.dll" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\demo.aspx" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\README.txt" />
+    <Content Include="ApplicationInterface\kindeditor\asp\demo.asp" />
+    <Content Include="ApplicationInterface\kindeditor\asp\file_manager_json.asp" />
+    <Content Include="ApplicationInterface\kindeditor\asp\JSON_2.0.4.asp" />
+    <Content Include="ApplicationInterface\kindeditor\asp\UpLoad_Class.asp" />
+    <Content Include="ApplicationInterface\kindeditor\asp\upload_json.asp" />
+    <Content Include="ApplicationInterface\kindeditor\examples\auto-height.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\colorpicker.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\custom-plugin.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\custom-theme.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\default.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\dialog.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\dynamic-load.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\file-dialog.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\file-manager.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\filter-mode.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\image-dialog.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\index.css" />
+    <Content Include="ApplicationInterface\kindeditor\examples\index.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\jquery-ui-1.9.2.custom.css" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\css\smoothness\jquery-ui-1.9.2.custom.min.css" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\js\jquery-ui-1.9.2.custom.js" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery-ui\js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\jquery.js" />
+    <Content Include="ApplicationInterface\kindeditor\examples\multi-image-dialog.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\multi-language.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\newline.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\node.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\paste-type.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\qqstyle.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\readonly.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\simple.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\uploadbutton.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\url-type.html" />
+    <Content Include="ApplicationInterface\kindeditor\examples\word-count.html" />
+    <Content Include="ApplicationInterface\kindeditor\jsp\lib\commons-fileupload-1.2.1.jar" />
+    <Content Include="ApplicationInterface\kindeditor\jsp\lib\commons-io-1.4.jar" />
+    <Content Include="ApplicationInterface\kindeditor\jsp\lib\json_simple-1.1.jar" />
+    <Content Include="ApplicationInterface\kindeditor\jsp\README.txt" />
+    <Content Include="ApplicationInterface\kindeditor\kindeditor-all-min.js" />
+    <Content Include="ApplicationInterface\kindeditor\kindeditor-all.js" />
+    <Content Include="ApplicationInterface\kindeditor\kindeditor-min.js" />
+    <Content Include="ApplicationInterface\kindeditor\kindeditor.js" />
+    <Content Include="ApplicationInterface\kindeditor\lang\ar.js" />
+    <Content Include="ApplicationInterface\kindeditor\lang\en.js" />
+    <Content Include="ApplicationInterface\kindeditor\lang\ko.js" />
+    <Content Include="ApplicationInterface\kindeditor\lang\zh_CN.js" />
+    <Content Include="ApplicationInterface\kindeditor\lang\zh_TW.js" />
+    <Content Include="ApplicationInterface\kindeditor\license.txt" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\anchor\anchor.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\autoheight\autoheight.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\baidumap\baidumap.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\baidumap\index.html" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\baidumap\map.html" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\clearhtml\clearhtml.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\code\code.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\code\prettify.css" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\code\prettify.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\emoticons.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\0.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\1.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\10.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\100.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\101.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\102.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\103.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\104.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\105.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\106.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\107.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\108.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\109.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\11.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\110.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\111.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\112.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\113.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\114.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\115.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\116.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\117.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\118.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\119.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\12.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\120.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\121.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\122.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\123.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\124.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\125.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\126.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\127.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\128.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\129.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\13.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\130.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\131.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\132.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\133.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\134.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\14.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\15.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\16.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\17.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\18.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\19.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\2.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\20.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\21.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\22.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\23.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\24.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\25.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\26.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\27.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\28.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\29.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\3.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\30.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\31.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\32.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\33.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\34.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\35.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\36.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\37.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\38.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\39.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\4.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\40.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\41.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\42.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\43.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\44.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\45.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\46.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\47.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\48.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\49.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\5.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\50.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\51.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\52.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\53.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\54.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\55.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\56.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\57.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\58.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\59.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\6.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\60.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\61.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\62.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\63.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\64.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\65.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\66.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\67.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\68.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\69.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\7.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\70.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\71.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\72.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\73.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\74.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\75.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\76.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\77.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\78.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\79.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\8.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\80.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\81.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\82.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\83.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\84.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\85.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\86.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\87.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\88.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\89.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\9.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\90.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\91.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\92.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\93.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\94.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\95.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\96.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\97.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\98.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\99.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\emoticons\images\static.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\filemanager\filemanager.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\filemanager\images\file-16.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\filemanager\images\file-64.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\filemanager\images\folder-16.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\filemanager\images\folder-64.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\filemanager\images\go-up.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\flash\flash.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\image\image.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\image\images\align_left.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\image\images\align_right.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\image\images\align_top.gif" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\image\images\refresh.png" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\insertfile\insertfile.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\lineheight\lineheight.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\link\link.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\map\map.html" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\map\map.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\media\media.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\multiimage\images\image.png" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\multiimage\images\select-files-en.png" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\multiimage\images\select-files-zh_CN.png" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\multiimage\images\swfupload.swf" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\multiimage\multiimage.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\pagebreak\pagebreak.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\plainpaste\plainpaste.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\preview\preview.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\quickformat\quickformat.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\table\table.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\template\html\1.html" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\template\html\2.html" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\template\html\3.html" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\template\template.js" />
+    <Content Include="ApplicationInterface\kindeditor\plugins\wordpaste\wordpaste.js" />
+    <Content Include="ApplicationInterface\kindeditor\themes\common\anchor.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\common\blank.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\common\flash.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\common\loading.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\common\media.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\common\rm.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\default\background.png" />
+    <Content Include="ApplicationInterface\kindeditor\themes\default\default.css" />
+    <Content Include="ApplicationInterface\kindeditor\themes\default\default.png" />
+    <Content Include="ApplicationInterface\kindeditor\themes\qq\editor.gif" />
+    <Content Include="ApplicationInterface\kindeditor\themes\qq\qq.css" />
+    <Content Include="ApplicationInterface\kindeditor\themes\simple\simple.css" />
+    <Content Include="login\authcodeimage.aspx" />
+    <Content Include="login\images\checkBox.png" />
+    <Content Include="login\images\checkBox_on.png" />
+    <Content Include="login\images\home_icon.png" />
+    <Content Include="login\images\login_banner_bg.png" />
+    <Content Include="login\images\login_box_bg.png" />
+    <Content Include="login\images\logo_icon.png" />
+    <Content Include="login\images\map01.png" />
+    <Content Include="login\images\map02.png" />
+    <Content Include="login\images\password_icon.png" />
+    <Content Include="login\images\server01.png" />
+    <Content Include="login\images\server02.png" />
+    <Content Include="login\images\server03.png" />
+    <Content Include="login\images\server04.png" />
+    <Content Include="login\images\user_icon.png" />
+    <Content Include="login\login.aspx" />
+    <Content Include="login\styles\reset-pc.css" />
+    <Content Include="log\log_query.aspx" />
+    <Content Include="log\log_view.aspx" />
+    <Content Include="Module\CreativityWarehouse\creativeActivity\creative.aspx" />
+    <Content Include="Module\CreativityWarehouse\creativeActivity\css\queryList.css" />
+    <Content Include="Module\CreativityWarehouse\creativeActivity\js\queryList.js" />
+    <Content Include="Module\CreativityWarehouse\creativeActivity\queryList.aspx" />
+    <Content Include="Module\static\css\easyui.css" />
+    <Content Include="Module\static\css\images\accordion_arrows.png" />
+    <Content Include="Module\static\css\images\blank.gif" />
+    <Content Include="Module\static\css\images\calendar_arrows.png" />
+    <Content Include="Module\static\css\images\combo_arrow.png" />
+    <Content Include="Module\static\css\images\datagrid_icons.png" />
+    <Content Include="Module\static\css\images\datebox_arrow.png" />
+    <Content Include="Module\static\css\images\hintClose.png" />
+    <Content Include="Module\static\css\images\layout_arrows.png" />
+    <Content Include="Module\static\css\images\linkbutton_bg.png" />
+    <Content Include="Module\static\css\images\loading.gif" />
+    <Content Include="Module\static\css\images\menu_arrows.png" />
+    <Content Include="Module\static\css\images\messager_icons.png" />
+    <Content Include="Module\static\css\images\moreIcon.png" />
+    <Content Include="Module\static\css\images\pagination_icons.png" />
+    <Content Include="Module\static\css\images\panel_tools.png" />
+    <Content Include="Module\static\css\images\searchbox_button.png" />
+    <Content Include="Module\static\css\images\slider_handle.png" />
+    <Content Include="Module\static\css\images\spinner_arrows.png" />
+    <Content Include="Module\static\css\images\tabs_icons.png" />
+    <Content Include="Module\static\css\images\tou.png" />
+    <Content Include="Module\static\css\images\tree_icons.png" />
+    <Content Include="Module\static\css\images\validatebox_warning.png" />
+    <Content Include="Module\static\css\kkpager.css" />
+    <Content Include="Module\static\images\back_disabled.png" />
+    <Content Include="Module\static\images\back_enabled.png" />
+    <Content Include="Module\static\images\back_enabled_hover.png" />
+    <Content Include="Module\static\images\favicon.ico" />
+    <Content Include="Module\static\images\forward_disabled.png" />
+    <Content Include="Module\static\images\forward_enabled.png" />
+    <Content Include="Module\static\images\forward_enabled_hover.png" />
+    <Content Include="Module\static\images\loading.gif" />
+    <Content Include="Module\static\images\sort_asc.png" />
+    <Content Include="Module\static\images\sort_asc_disabled.png" />
+    <Content Include="Module\static\images\sort_both.png" />
+    <Content Include="Module\static\images\sort_desc.png" />
+    <Content Include="Module\static\images\sort_desc_disabled.png" />
+    <Content Include="Module\static\js\lib\easyui-lang-zh_CN.js" />
+    <Content Include="Module\static\js\lib\jquery-1.8.3.min.js" />
+    <Content Include="Module\static\js\lib\jquery.easyui.min.js" />
+    <Content Include="Module\static\js\lib\MD5.js" />
+    <Content Include="Module\static\js\lib\require.js" />
+    <Content Include="Module\static\js\lib\tools-lib.js" />
+    <Content Include="Module\static\js\main.js" />
+    <Content Include="Module\static\js\plugin\bdTemplate.js" />
+    <Content Include="Module\static\js\plugin\highcharts-3d.js" />
+    <Content Include="Module\static\js\plugin\highcharts-3d.src.js" />
+    <Content Include="Module\static\js\plugin\highcharts-more.js" />
+    <Content Include="Module\static\js\plugin\highcharts-more.src.js" />
+    <Content Include="Module\static\js\plugin\highcharts.js" />
+    <Content Include="Module\static\js\plugin\highcharts.src.js" />
+    <Content Include="Module\static\js\plugin\kindeditor.js" />
+    <Content Include="Module\static\js\plugin\kkpager.js" />
+    <Content Include="Module\static\js\plugin\template.js" />
+    <Content Include="Module\static\js\plugin\touchslider.js" />
+    <Content Include="Module\styles\css\newYear\skin02.css" />
+    <Content Include="Module\styles\images\newYear\addstr.png" />
+    <Content Include="Module\styles\images\newYear\check.png" />
+    <Content Include="Module\styles\images\newYear\checkon.png" />
+    <Content Include="Module\styles\images\newYear\del.png" />
+    <Content Include="Module\styles\images\newYear\del11.png" />
+    <Content Include="Module\styles\images\newYear\down.png" />
+    <Content Include="Module\styles\images\newYear\Download.png" />
+    <Content Include="Module\styles\images\newYear\exit.png" />
+    <Content Include="Module\styles\images\newYear\hitClose.png" />
+    <Content Include="Module\styles\images\newYear\icon-tips.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_dzhh_dzhh.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_hyjk_dsj.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_hyjk_hyk.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_hyjk_zcd.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_jysj_jysj.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_qdcx_hy.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_qdcx_wbqd.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_qdcx_yg.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_sz_sz.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_wx_wx.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yd_dd.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yd_sc.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yd_sp.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_ygjl_ygjl.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yxlq_cyck.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yxlq_schd.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yxlq_yhqgl.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_yxlq_yxgj.png" />
+    <Content Include="Module\styles\images\newYear\icon\icon_zbxx_zbxx.png" />
+    <Content Include="Module\styles\images\newYear\icon_add.png" />
+    <Content Include="Module\styles\images\newYear\icon_download.png" />
+    <Content Include="Module\styles\images\newYear\icon_duihao.png" />
+    <Content Include="Module\styles\images\newYear\icon_export.png" />
+    <Content Include="Module\styles\images\newYear\icon_import.png" />
+    <Content Include="Module\styles\images\newYear\icon_playlist.png" />
+    <Content Include="Module\styles\images\newYear\icon_save.png" />
+    <Content Include="Module\styles\images\newYear\icon_up.png" />
+    <Content Include="Module\styles\images\newYear\jiantou.png" />
+    <Content Include="Module\styles\images\newYear\loading.gif" />
+    <Content Include="Module\styles\images\newYear\logo.png" />
+    <Content Include="Module\styles\images\newYear\moreIcon.png" />
+    <Content Include="Module\styles\images\newYear\nodel.png" />
+    <Content Include="Module\styles\images\newYear\pagebtn.png" />
+    <Content Include="Module\styles\images\newYear\pagebtn1.png" />
+    <Content Include="Module\styles\images\newYear\pauseBtn.png" />
+    <Content Include="Module\styles\images\newYear\radio.png" />
+    <Content Include="Module\styles\images\newYear\radioOn.png" />
+    <Content Include="Module\styles\images\newYear\reset.png" />
+    <Content Include="Module\styles\images\newYear\runningBtn.png" />
+    <Content Include="Module\styles\images\newYear\set-tip-bg.png" />
+    <Content Include="Module\styles\images\newYear\setBoxBot.png" />
+    <Content Include="Module\styles\images\newYear\settings.png" />
+    <Content Include="Module\styles\images\newYear\set_top\abacus.png" />
+    <Content Include="Module\styles\images\newYear\set_top\abacuson.png" />
+    <Content Include="Module\styles\images\newYear\set_top\fsxx.png" />
+    <Content Include="Module\styles\images\newYear\set_top\fsxxon.png" />
+    <Content Include="Module\styles\images\newYear\set_top\settings.png" />
+    <Content Include="Module\styles\images\newYear\set_top\unlock.png" />
+    <Content Include="Module\styles\images\newYear\set_top\unlockon.png" />
+    <Content Include="Module\styles\images\newYear\set_top\upload.png" />
+    <Content Include="Module\styles\images\newYear\set_top\uploadon.png" />
+    <Content Include="Module\styles\images\newYear\set_top\weixin.png" />
+    <Content Include="Module\styles\images\newYear\stop.png" />
+    <Content Include="pos\main.js" />
+    <Content Include="pos\monitor_log_query.aspx" />
+    <Content Include="readme.txt" />
+    <Content Include="right\menu_SetRoleMenuCache.aspx" />
+    <Content Include="right\menu_version_query.aspx" />
+    <Content Include="right\menu_query.aspx" />
+    <Content Include="right\menu_show.aspx" />
+    <Content Include="Scripts\calendar.js" />
+    <Content Include="Scripts\common.js" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\menu.js" />
+    <Content Include="Scripts\Plugins\jquery.tree.js" />
+    <Content Include="Scripts\region.js" />
+    <Content Include="SqlMaps.csproj.user" />
+    <Content Include="SqlMaps\AppSys\AppSys.xml" />
+    <Content Include="SqlMaps\AppSys\City.xml" />
+    <Content Include="SqlMaps\AppSys\Prop.xml" />
+    <Content Include="SqlMaps\AppSys\PropertyUnit.xml" />
+    <Content Include="SqlMaps\AppSys\Role.xml" />
+    <Content Include="SqlMaps\AppSys\roleMenu.xml" />
+    <Content Include="SqlMaps\AppSys\Type.xml" />
+    <Content Include="SqlMaps\base\dictionary.xml" />
+    <Content Include="SqlMaps\base\dictionary_detail.xml" />
+    <Content Include="SqlMaps\base\operate.xml" />
+    <Content Include="SqlMaps\bill\action.xml" />
+    <Content Include="SqlMaps\bill\action_log.xml" />
+    <Content Include="SqlMaps\bill\bill.xml" />
+    <Content Include="SqlMaps\bill\kind.xml" />
+    <Content Include="SqlMaps\bill\status.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\Banner.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\HomePageCommon.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\LEventDrawMethod.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\LEventInteraction.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\LEvents.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\LEventTemplate.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\LEventTheme.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\ObjectImages.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\PanicbuyingEvent.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\SeasonPlan.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\SpreadSetting.xml" />
+    <Content Include="SqlMaps\CreativityWarehouse\SysMarketingGroupType.xml" />
+    <Content Include="SqlMaps\customer\connect.xml" />
+    <Content Include="SqlMaps\customer\customer.xml" />
+    <Content Include="SqlMaps\customer\menu.xml" />
+    <Content Include="SqlMaps\customer\shop.xml" />
+    <Content Include="SqlMaps\customer\terminal.xml" />
+    <Content Include="SqlMaps\customer\user.xml" />
+    <Content Include="SqlMaps\Item\Item.xml" />
+    <Content Include="SqlMaps\Item\ItemCategory.xml" />
+    <Content Include="SqlMaps\Item\ItemPrice.xml" />
+    <Content Include="SqlMaps\Item\ItemPriceType.xml" />
+    <Content Include="SqlMaps\Item\ItemProp.xml" />
+    <Content Include="SqlMaps\Item\Sku.xml" />
+    <Content Include="SqlMaps\Item\SkuPrice.xml" />
+    <Content Include="SqlMaps\Item\SkuProp.xml" />
+    <Content Include="SqlMaps\Monitor\Monitor.xml" />
+    <Content Include="SqlMaps\order\AdOrder.xml" />
+    <Content Include="SqlMaps\order\CC.xml" />
+    <Content Include="SqlMaps\order\CCDetail.xml" />
+    <Content Include="SqlMaps\order\Inout.xml" />
+    <Content Include="SqlMaps\order\InoutDetail.xml" />
+    <Content Include="SqlMaps\order\InoutDetail_ap.xml" />
+    <Content Include="SqlMaps\order\Inout_ap.xml" />
+    <Content Include="SqlMaps\order\OrderReasonType.xml" />
+    <Content Include="SqlMaps\order\OrderType.xml" />
+    <Content Include="SqlMaps\right\app.xml" />
+    <Content Include="SqlMaps\right\menu.xml" />
+    <Content Include="SqlMaps\right\role.xml" />
+    <Content Include="SqlMaps\right\role_menu.xml" />
+    <Content Include="SqlMaps\StockBalance\StockBalance.xml" />
+    <Content Include="SqlMaps\Unit\Unit.xml" />
+    <Content Include="SqlMaps\Unit\UnitRelationMode.xml" />
+    <Content Include="SqlMaps\user\mobileuser.xml" />
+    <Content Include="SqlMaps\user\user.xml" />
+    <Content Include="SqlMaps\user\user_role.xml" />
+    <Content Include="SqlMaps\Warehouse\Warehouse.xml" />
+    <Content Include="user\modify_user_pwd.aspx" />
+    <Content Include="user\user_query.aspx" />
+    <Content Include="user\user_show.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="WebServices\BasicService.asmx" />
+    <Content Include="WebServices\MenuService.asmx" />
+    <Content Include="WebServices\OrderService.asmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationInterface\BaseGateway.cs" />
+    <Compile Include="ApplicationInterface\CreativityWarehouse\CreativityWarehouseHandle.ashx.cs">
+      <DependentUpon>CreativityWarehouseHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationInterface\DTO\Base\APIException.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\APIRequest.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\APIResponse.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\EmptyRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\EmptyRequest.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\EmptyRequestParameter.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\EmptyResponseData.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\ErrorResponse.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\ERROR_CODES.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\IAPIRequestParameter.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\IAPIResponseData.cs" />
+    <Compile Include="ApplicationInterface\DTO\Base\SuccessResponse.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\BannerRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\HomePageCommonRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\LEventInteractionRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\LEventsRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\LEventTemplateRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\LEventThemeRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\ObjectImagesRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\PanicbuyingEventRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\SeasonPlanRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Request\SpreadSettingRP.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\BannerRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\HomePageCommonRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\LEventDropDownRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\LEventInteractionRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\LEventsRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\LEventTemplateRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\LEventThemeRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\ObjectImagesRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\PanicbuyingEventRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\PreviewRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\SeasonPlanRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\SetLEventTemplateRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\SpreadSettingRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\CreativityWarehouse\Response\SysMarketingGroupTypeRD.cs" />
+    <Compile Include="ApplicationInterface\DTO\ValueObject\APITypes.cs" />
+    <Compile Include="ApplicationInterface\DTO\ValueObject\Modules.cs" />
+    <Compile Include="ApplicationInterface\LogContent.cs" />
+    <Compile Include="ApplicationInterface\Upload\FtpMapping.cs" />
+    <Compile Include="ApplicationInterface\Upload\UploadFile.ashx.cs">
+      <DependentUpon>UploadFile.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="bill\bill_action.aspx.designer.cs">
+      <DependentUpon>bill_action.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="bill\bill_action_log.aspx.designer.cs">
+      <DependentUpon>bill_action_log.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="common\empty.aspx.designer.cs">
+      <DependentUpon>empty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="common\homepage.aspx.designer.cs">
+      <DependentUpon>homepage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="common\Site.master.designer.cs">
+      <DependentUpon>Site.master</DependentUpon>
+    </Compile>
+    <Compile Include="controls\DropDownTree.ascx.designer.cs">
+      <DependentUpon>DropDownTree.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="controls\Pager.ascx.designer.cs">
+      <DependentUpon>Pager.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="csconfig\configAdd.aspx.designer.cs">
+      <DependentUpon>configAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="csconfig\configList.aspx.designer.cs">
+      <DependentUpon>configList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\brand_customer_query.aspx.designer.cs">
+      <DependentUpon>brand_customer_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\brand_customer_show.aspx.designer.cs">
+      <DependentUpon>brand_customer_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\CustomerDataExchangeService.cs">
+      <DependentUpon>CustomerDataExchangeService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="customer\customer_query.aspx.designer.cs">
+      <DependentUpon>customer_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\customer_show.aspx.designer.cs">
+      <DependentUpon>customer_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\customer_test.aspx.designer.cs">
+      <DependentUpon>customer_test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\shop_query.aspx.designer.cs">
+      <DependentUpon>shop_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\shop_show.aspx.designer.cs">
+      <DependentUpon>shop_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\terminal_query.aspx.designer.cs">
+      <DependentUpon>terminal_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\terminal_show.aspx.designer.cs">
+      <DependentUpon>terminal_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\user_amount.aspx.designer.cs">
+      <DependentUpon>user_amount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\user_query.aspx.designer.cs">
+      <DependentUpon>user_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="customer\user_show.aspx.designer.cs">
+      <DependentUpon>user_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InfoBoxPage.aspx.designer.cs">
+      <DependentUpon>InfoBoxPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="inout\pos_receipt_query.aspx.designer.cs">
+      <DependentUpon>pos_receipt_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="inout\pos_receipt_show.aspx.designer.cs">
+      <DependentUpon>pos_receipt_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\category_query.aspx.designer.cs">
+      <DependentUpon>category_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\category_show.aspx.designer.cs">
+      <DependentUpon>category_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\itemSearch.aspx.designer.cs">
+      <DependentUpon>itemSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_price.aspx.designer.cs">
+      <DependentUpon>item_price.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_price_adjust_query.aspx.designer.cs">
+      <DependentUpon>item_price_adjust_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_price_adjust_show.aspx.designer.cs">
+      <DependentUpon>item_price_adjust_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_property.aspx.designer.cs">
+      <DependentUpon>item_property.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_query.aspx.designer.cs">
+      <DependentUpon>item_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_show.aspx.designer.cs">
+      <DependentUpon>item_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="item\item_sku_show.aspx.designer.cs">
+      <DependentUpon>item_sku_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login\authcodeimage.aspx.designer.cs">
+      <DependentUpon>authcodeimage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login\login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="log\log_query.aspx.designer.cs">
+      <DependentUpon>log_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="log\log_view.aspx.designer.cs">
+      <DependentUpon>log_view.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="bill\bill_action.aspx.cs">
+      <DependentUpon>bill_action.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bill\bill_action_log.aspx.cs">
+      <DependentUpon>bill_action_log.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="common\empty.aspx.cs">
+      <DependentUpon>empty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="common\homepage.aspx.cs">
+      <DependentUpon>homepage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="common\Site.master.cs">
+      <DependentUpon>Site.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controls\DropDownTree.ascx.cs">
+      <DependentUpon>DropDownTree.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controls\Pager.ascx.cs">
+      <DependentUpon>Pager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="csconfig\configAdd.aspx.cs">
+      <DependentUpon>configAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="csconfig\configList.aspx.cs">
+      <DependentUpon>configList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\brand_customer_query.aspx.cs">
+      <DependentUpon>brand_customer_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\brand_customer_show.aspx.cs">
+      <DependentUpon>brand_customer_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\customer_query.aspx.cs">
+      <DependentUpon>customer_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\customer_show.aspx.cs">
+      <DependentUpon>customer_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\customer_test.aspx.cs">
+      <DependentUpon>customer_test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\shop_query.aspx.cs">
+      <DependentUpon>shop_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\shop_show.aspx.cs">
+      <DependentUpon>shop_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\terminal_query.aspx.cs">
+      <DependentUpon>terminal_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\terminal_show.aspx.cs">
+      <DependentUpon>terminal_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\user_amount.aspx.cs">
+      <DependentUpon>user_amount.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\user_query.aspx.cs">
+      <DependentUpon>user_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="customer\user_show.aspx.cs">
+      <DependentUpon>user_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InfoBoxPage.aspx.cs">
+      <DependentUpon>InfoBoxPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="inout\pos_receipt_query.aspx.cs">
+      <DependentUpon>pos_receipt_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="inout\pos_receipt_show.aspx.cs">
+      <DependentUpon>pos_receipt_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\category_query.aspx.cs">
+      <DependentUpon>category_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\category_show.aspx.cs">
+      <DependentUpon>category_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\itemSearch.aspx.cs">
+      <DependentUpon>itemSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_price.aspx.cs">
+      <DependentUpon>item_price.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_price_adjust_query.aspx.cs">
+      <DependentUpon>item_price_adjust_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_price_adjust_show.aspx.cs">
+      <DependentUpon>item_price_adjust_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_property.aspx.cs">
+      <DependentUpon>item_property.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_query.aspx.cs">
+      <DependentUpon>item_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_show.aspx.cs">
+      <DependentUpon>item_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="item\item_sku_show.aspx.cs">
+      <DependentUpon>item_sku_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login\authcodeimage.aspx.cs">
+      <DependentUpon>authcodeimage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login\login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="log\log_query.aspx.cs">
+      <DependentUpon>log_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="log\log_view.aspx.cs">
+      <DependentUpon>log_view.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Old_App_Code\ALDOrderRequest.cs" />
+    <Compile Include="Old_App_Code\Const.cs" />
+    <Compile Include="Old_App_Code\HttpClient.cs" />
+    <Compile Include="Old_App_Code\ObjectExtensionMethods.cs" />
+    <Compile Include="Old_App_Code\PageBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Old_App_Code\PageHelper.cs" />
+    <Compile Include="Old_App_Code\PropHelper.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Old_App_Code\StringExtensionMethods.cs" />
+    <Compile Include="pos\monitor_log_query.aspx.cs">
+      <DependentUpon>monitor_log_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pos\monitor_log_query.aspx.designer.cs">
+      <DependentUpon>monitor_log_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="right\menu_SetRoleMenuCache.aspx.cs">
+      <DependentUpon>menu_SetRoleMenuCache.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="right\menu_SetRoleMenuCache.aspx.designer.cs">
+      <DependentUpon>menu_SetRoleMenuCache.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="right\menu_version_query.aspx.cs">
+      <DependentUpon>menu_version_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="right\menu_version_query.aspx.designer.cs">
+      <DependentUpon>menu_version_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="right\menu_query.aspx.cs">
+      <DependentUpon>menu_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="right\menu_query.aspx.designer.cs">
+      <DependentUpon>menu_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="right\menu_show.aspx.cs">
+      <DependentUpon>menu_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="right\menu_show.aspx.designer.cs">
+      <DependentUpon>menu_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user\modify_user_pwd.aspx.cs">
+      <DependentUpon>modify_user_pwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\modify_user_pwd.aspx.designer.cs">
+      <DependentUpon>modify_user_pwd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user\user_query.aspx.cs">
+      <DependentUpon>user_query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\user_query.aspx.designer.cs">
+      <DependentUpon>user_query.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="user\user_show.aspx.cs">
+      <DependentUpon>user_show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="user\user_show.aspx.designer.cs">
+      <DependentUpon>user_show.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebServices\BasicService.cs">
+      <DependentUpon>BasicService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebServices\MenuService.cs">
+      <DependentUpon>MenuService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebServices\OrderService.cs">
+      <DependentUpon>OrderService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ajaxhandler\query.ashx" />
+    <Content Include="ajaxhandler\tree_query.ashx" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\file_manager_json.ashx" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\upload_homepage_json.ashx" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\upload_json.ashx" />
+    <Content Include="ApplicationInterface\kindeditor\asp.net\upload_thumbnails_json.ashx" />
+    <None Include="ApplicationInterface\kindeditor\jsp\demo.jsp" />
+    <None Include="ApplicationInterface\kindeditor\jsp\file_manager_json.jsp" />
+    <None Include="ApplicationInterface\kindeditor\jsp\upload_json.jsp" />
+    <None Include="ApplicationInterface\kindeditor\php\demo.php" />
+    <None Include="ApplicationInterface\kindeditor\php\file_manager_json.php" />
+    <None Include="ApplicationInterface\kindeditor\php\JSON.php" />
+    <None Include="ApplicationInterface\kindeditor\php\upload_json.php" />
+    <Content Include="ApplicationInterface\CreativityWarehouse\CreativityWarehouseHandle.ashx" />
+    <Content Include="ApplicationInterface\Upload\UploadFile.ashx" />
+    <None Include="Module\static\images\Sorting icons.psd" />
+    <None Include="bin\AjaxControlToolkit.dll.refresh" />
+    <None Include="bin\Newtonsoft.Json.dll.refresh" />
+    <Content Include="common\Site.master" />
+    <None Include="Keys\apself.key" />
+    <None Include="Keys\baih.key" />
+    <Content Include="MSSqlMap.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="mssqlmap.dat" />
+    <Content Include="providers.config" />
+    <Content Include="Old_App_Code\ClassDiagram.cd" />
+    <None Include="Properties\PublishProfiles\Alvin_XGX_Admin.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Component\Component.csproj">
+      <Project>{36060058-ed3e-446b-b2ce-bf8e6af2d78c}</Project>
+      <Name>Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cpos.Admin.Task\cpos.Admin.Task.csproj">
+      <Project>{05d7fc4c-b586-42cb-b897-cd1f55bf9c78}</Project>
+      <Name>cpos.Admin.Task</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataCrypt\DataCrypt.csproj">
+      <Project>{B57F524E-A964-4BD5-9261-F11D90E6DD3D}</Project>
+      <Name>DataCrypt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3E3BA018-A902-4D2B-87AD-36FA10A13BEF}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{970d9e05-294f-4614-909c-40892cf49bca}</Project>
+      <Name>Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlMaps\SqlMaps.csproj">
+      <Project>{66B3FEEE-FFF4-4E57-B621-F6373B158DCC}</Project>
+      <Name>SqlMaps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebComponent\WebComponent.csproj">
+      <Project>{E56E12EC-010B-467F-BA60-FC26C7BBF11B}</Project>
+      <Name>WebComponent</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApplicationInterface\kindeditor\attached\media\20150721\" />
+    <Folder Include="ApplicationInterface\kindeditor\jsp\jsp\" />
+    <Folder Include="ApplicationInterface\Upload\File\" />
+    <Folder Include="ApplicationInterface\Upload\Image\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="images\QRImages\" />
+    <Folder Include="Module\CreativityWarehouse\ creativeActivity\" />
+    <Folder Include="obj\" />
+    <Folder Include="PageLog\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>10362</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

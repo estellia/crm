@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Pos.Pos"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Pos" type="cPos.Model.Pos.PosInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="PosResult" class="Pos" extends="Pos.Operate.ObjectOperateResult">
+      <result property="ID" column="pos_id" type="string" />
+      <result property="HoldType" column="pos_hold_type" type="string" />
+      <result property="HoldTypeDescription" column="pos_hold_type_desc" type="string" />
+      <result property="Type" column="pos_type" type="string" />
+      <result property="TypeDescription" column="pos_type_desc" type="string" />
+      <result property="Code" column="pos_code" type="string" />
+      <result property="SN" column="pos_sn" type="string" />
+      <result property="PurchaseDate" column="pos_purchase_date" type="string" />
+      <result property="InsuranceDate" column="pos_insurance_date" type="string" />
+      <result property="WS" column="pos_ws" type="string" />
+      <result property="WS2" column="pos_ws2" type="string" />
+      <result property="SoftwareVersion" column="pos_software_version" type="string" />
+      <result property="DBVersion" column="pos_db_version" type="string" />
+      <result property="Remark" column="pos_remark" type="string" />
+      <result property="Brand" column="pos_brand" type="string" />
+      <result property="Model" column="pos_model" type="string" />
+      <result property="HaveCashbox" column="pos_have_cashbox" type="int" />
+      <result property="CashboxNo" column="pos_cashbox_no" type="string" />
+      <result property="HaveEcard" column="pos_have_ecard" type="int" />
+      <result property="EcardNo" column="pos_ecard_no" type="string" />
+      <result property="HavePrinter" column="pos_have_printer" type="int" />
+      <result property="PrinterNo" column="pos_printer_no" type="string" />
+      <result property="HaveHolder" column="pos_have_holder" type="int" />
+      <result property="HolderNo" column="pos_holder_no" type="string" />
+      <result property="HaveScanner" column="pos_have_scanner" type="int" />
+      <result property="ScannerNo" column="pos_scanner_no" type="string" />
+      <result property="HaveClientDisplay" column="pos_have_client_display" type="int" />
+      <result property="ClientDisplayNo" column="pos_client_display_no" type="string" />
+      <result property="HaveOtherDevice" column="pos_have_other_device" type="int" />
+      <result property="OtherDeviceNo" column="pos_other_device_no" type="string" />  
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="SelectPosListCount" resultClass="int" parameterClass="hashtable">
+      select count(b.pos_id)
+      from t_pos b, t_pos_type a
+      where b.pos_type=a.pos_type_code
+      <dynamic>
+        <isNotNull property="HoldType" prepend="and">
+          b.pos_hold_type = #HoldType# 
+        </isNotNull>
+        <isNotNull property="Type" prepend="and">
+          b.pos_type = #Type# 
+        </isNotNull>
+        <isNotNull property="Code" prepend="and">
+          b.pos_code like '%' + #Code# + '%'
+        </isNotNull>
+        <isNotNull property="SN" prepend="and">
+          b.pos_sn like '%' + #SN# + '%'
+        </isNotNull>
+        <isNotNull property="PurchaseDateBegin" prepend="and">
+          b.pos_purchase_date &gt;= #PurchaseDateBegin#
+        </isNotNull>
+        <isNotNull property="PurchaseDateEnd" prepend="and">
+          b.pos_purchase_date &lt;= #PurchaseDateEnd#
+        </isNotNull>
+        <isNotNull property="InsuranceDateBegin" prepend="and">
+          b.pos_insurance_date &gt;= #InsuranceDateBegin#
+        </isNotNull>
+        <isNotNull property="InsuranceDateEnd" prepend="and">
+          b.pos_insurance_date &lt;= #InsuranceDateEnd#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectPosList" resultMap="PosResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by b.pos_hold_type,b.pos_type,b.pos_code),
+      b.*,
+      case b.pos_hold_type when '1' then '租赁' when '2' then '自有' else b.pos_hold_type end as pos_hold_type_desc,
+      a.pos_type_name as pos_type_desc
+      from t_pos b, t_pos_type a
+      where b.pos_type=a.pos_type_code
+      <dynamic>
+        <isNotNull property="HoldType" prepend="and">
+          b.pos_hold_type = #HoldType#
+        </isNotNull>
+        <isNotNull property="Type" prepend="and">
+          b.pos_type = #Type#
+        </isNotNull>
+        <isNotNull property="Code" prepend="and">
+          b.pos_code like '%' + #Code# + '%'
+        </isNotNull>
+        <isNotNull property="SN" prepend="and">
+          b.pos_sn like '%' + #SN# + '%'
+        </isNotNull>
+        <isNotNull property="PurchaseDateBegin" prepend="and">
+          b.pos_purchase_date &gt;= #PurchaseDateBegin#
+        </isNotNull>
+        <isNotNull property="PurchaseDateEnd" prepend="and">
+          b.pos_purchase_date &lt;= #PurchaseDateEnd#
+        </isNotNull>
+        <isNotNull property="InsuranceDateBegin" prepend="and">
+          b.pos_insurance_date &gt;= #InsuranceDateBegin#
+        </isNotNull>
+        <isNotNull property="InsuranceDateEnd" prepend="and">
+          b.pos_insurance_date &lt;= #InsuranceDateEnd#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+    <select id="ExistPosCode" parameterClass="hashtable">
+      select count(*) from t_pos
+      where pos_code=#PosCode#
+      <dynamic>
+        <isNotNull property="PosID" prepend="and">
+          pos_id &lt;&gt; #PosID#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="ExistPosSN" parameterClass="hashtable">
+      select count(*) from t_pos
+      where pos_sn=#PosSN#
+      <dynamic>
+        <isNotNull property="PosID" prepend="and">
+          pos_id &lt;&gt; #PosID#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <insert id="InsertPosFromAP" parameterClass="Pos">
+      insert into t_pos(pos_id, pos_hold_type, pos_type, pos_brand, pos_model, pos_code, pos_sn,
+      pos_purchase_date, pos_insurance_date, pos_ws, pos_ws2, pos_software_version, pos_db_version,
+      pos_have_cashbox, pos_cashbox_no, pos_have_ecard, pos_ecard_no, pos_have_scanner, pos_scanner_no,
+      pos_have_client_display, pos_client_display_no, pos_have_printer, pos_printer_no,
+      pos_have_other_device, pos_other_device_no, pos_have_holder, pos_holder_no,
+      pos_remark, sys_modify_stamp)
+      values(#ID#, #HoldType#, #Type#, #Brand#, #Model#, #Code#, #SN#,
+      #PurchaseDate#, #InsuranceDate#, #WS#, #WS2#, #SoftwareVersion#, #DBVersion#,
+      #HaveCashbox#, #CashboxNo#, #HaveEcard#, #EcardNo#, #HaveScanner#, #ScannerNo#,
+      #HaveClientDisplay#, #ClientDisplayNo#, #HavePrinter#, #PrinterNo#,
+      #HaveOtherDevice#, #OtherDeviceNo#, #HaveHolder#, #HolderNo#,
+      #Remark#, getdate())
+    </insert>
+
+    <insert id="Insert" parameterClass="Pos">
+      insert into t_pos(pos_id, pos_hold_type, pos_type, pos_brand, pos_model, pos_code, pos_sn,
+      pos_purchase_date, pos_insurance_date, 
+      pos_ws, pos_ws2, pos_software_version, pos_db_version,
+      pos_have_cashbox, pos_cashbox_no, pos_have_ecard, pos_ecard_no, pos_have_scanner, pos_scanner_no,
+      pos_have_client_display, pos_client_display_no, pos_have_printer, pos_printer_no,
+      pos_have_other_device, pos_other_device_no, pos_have_holder, pos_holder_no,
+      pos_remark, create_user_id, create_user_name, create_time)
+      values(#ID#, 2, #Type#, #Brand#, #Model#, #Code#, #SN#,
+      #PurchaseDate#, #InsuranceDate#, 
+      <!--#WS#, #WS2#, #SoftwareVersion#, #DBVersion#,-->
+      'http://192.168.0.55:8101','http://192.168.0.55:8101','1.1.1000','20120827080808',
+      #HaveCashbox#, #CashboxNo#, #HaveEcard#, #EcardNo#, #HaveScanner#, #ScannerNo#,
+      #HaveClientDisplay#, #ClientDisplayNo#, #HavePrinter#, #PrinterNo#,
+      #HaveOtherDevice#, #OtherDeviceNo#, #HaveHolder#, #HolderNo#,
+      #Remark#, #CreateUserID#, #CreateUserName#, getdate())
+    </insert>
+
+    <insert id="InsertPosFromCT" parameterClass="Pos">
+      insert into t_pos(pos_id, pos_hold_type, pos_type, pos_sn, sys_modify_stamp)
+      values(#ID#, 2, #Type#, #SN#, getdate())
+    </insert>
+
+    <update id="Update" parameterClass="Pos">
+      update t_pos set
+      pos_type = #Type#,
+      pos_brand = #Brand#,
+      pos_model = #Model#,
+      pos_code = #Code#,
+      pos_sn = #SN#,
+      pos_purchase_date = #PurchaseDate#,
+      pos_insurance_date = #InsuranceDate#,
+      pos_ws = #WS#,
+      pos_ws2 = #WS2#,
+      pos_db_version = #DBVersion#,
+      pos_software_version = #SoftwareVersion#,
+      pos_have_cashbox = #HaveCashbox#,
+      pos_cashbox_no = #CashboxNo#,
+      pos_have_ecard = #HaveEcard#,
+      pos_ecard_no = #EcardNo#,
+      pos_have_scanner = #HaveScanner#,
+      pos_scanner_no = #ScannerNo#,
+      pos_have_client_display = #HaveClientDisplay#,
+      pos_client_display_no = #ClientDisplayNo#,
+      pos_have_printer = #HavePrinter#,
+      pos_printer_no = #PrinterNo#,
+      pos_have_other_device = #HaveOtherDevice#,
+      pos_other_device_no = #OtherDeviceNo#,
+      pos_have_holder = #HaveHolder#,
+      pos_holder_no = #HolderNo#,
+      pos_remark = #Remark#,
+      modify_user_id= #ModifyUserID#,
+      modify_user_name = #ModifyUserName#,
+      modify_time = getdate()
+      where pos_id = #ID#
+    </update>
+
+    <update id="UpdatePosFromAP" parameterClass="Pos">
+      update t_pos set
+      pos_type = #Type#,
+      pos_brand = #Brand#,
+      pos_model = #Model#,
+      pos_code = #Code#,
+      pos_sn = #SN#,
+      pos_purchase_date = #PurchaseDate#,
+      pos_insurance_date = #InsuranceDate#,
+      pos_ws = #WS#,
+      pos_ws2 = #WS2#,
+      pos_db_version = #DBVersion#,
+      pos_software_version = #SoftwareVersion#,
+      pos_have_cashbox = #HaveCashbox#,
+      pos_cashbox_no = #CashboxNo#,
+      pos_have_ecard = #HaveEcard#,
+      pos_ecard_no = #EcardNo#,
+      pos_have_scanner = #HaveScanner#,
+      pos_scanner_no = #ScannerNo#,
+      pos_have_client_display = #HaveClientDisplay#,
+      pos_client_display_no = #ClientDisplayNo#,
+      pos_have_printer = #HavePrinter#,
+      pos_printer_no = #PrinterNo#,
+      pos_have_other_device = #HaveOtherDevice#,
+      pos_other_device_no = #OtherDeviceNo#,
+      pos_have_holder = #HaveHolder#,
+      pos_holder_no = #HolderNo#,
+      pos_remark = #Remark#,
+      sys_modify_stamp = getdate()
+      where pos_id = #ID#
+    </update>
+
+    <update id="UpdateVersion" parameterClass="hashtable">
+      update t_pos set
+      pos_db_version = #DBVersion#,
+      pos_software_version = #SoftwareVersion#
+      modify_user_id= #UserID#,
+      modify_user_name = #UserName#,
+      modify_time = getdate()
+      where pos_sn = #SN#
+    </update>
+
+    <select id="SelectPos" resultMap="PosResult">
+      select a.pos_type_name as pos_type_desc,
+      b.*,
+      case b.pos_hold_type when '1' then '租赁' when '2' then '自有' else b.pos_hold_type end as pos_hold_type_desc
+      from t_pos_type a
+      inner join t_pos b on a.pos_type_code=b.pos_type
+    </select>
+
+    <select id="SelectPosByID" resultMap="PosResult" parameterClass="string" extends="SelectPos">
+      where b.pos_id=#value#
+    </select>
+
+    <select id="SelectPosBySN" resultMap="PosResult" parameterClass="string" >
+      select *,'自有' pos_hold_type_desc,'' pos_type_desc From t_pos b
+      where b.pos_sn=#value#
+    </select>
+
+    <select id="SelectPosIDBySN" resultClass="string">
+      select pos_id from t_pos where pos_sn=#value#
+    </select>
+  </statements>
+
+</sqlMap>

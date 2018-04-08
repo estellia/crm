@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="JIT.Utility.MobileDeviceManagement.WcfService.MobileDeviceManagementService" CodeBehind="MobileDeviceManagementService.svc.cs" %>

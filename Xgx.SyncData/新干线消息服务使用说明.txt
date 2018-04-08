@@ -1,0 +1,25 @@
+一 示例调试
+a.发送消息：执行Xgx.SyncData.Client，
+    浏览器访问http://123.206.211.52:15672/
+    用zmind zmind123登录，选择xgx这个virtual host
+    在Queues这个菜单项下可以看到Xgx.SyncData.Contract.IZmindToXgx:Xgx.SyncData.Contract_main中消息数量的增加，
+    还可以点进去查看消息内容是否和我们发送的一致
+b.接收消息：执行Xgx.SyncData.Service
+二 开发
+   1.在Xgx.SyncData.Contract中可以增加消息契约，实现参考SampleContract1和SampleContract2这两个消息契约实现类;
+   2.在ServiceRunner类的HandleIZmindToXgx方法中实现对消息的处理，例如写入数据库;
+   3.在主平台中用Xgx.SyncData.Client的方式在需要发送消息的地方发送消息
+三 生产部署
+   在windows命令行切换到Xgx.SyncData.Service生成目录所在文件夹，执行
+       Xgx.SyncData.Service.exe install
+   即可部署为windows service
+   开始命令：
+       Xgx.SyncData.Service.exe start
+   卸载命令：
+       Xgx.SyncData.Service.exe uninstall
+
+
+四、为了使每个项目的独特性跟产品解耦，现在cpos产品代码里在我们发消息给客户的erp之前也建立一个消息队列。
+这个消息队列的内容里只包含基本的信息（如消息类型（vip\user）,操作类型（添加、删除、修改），主标识）
+因此建了Xgx.SyncData.PublishService用来从我们的cpos平台里传过来的消息队列里读数据，还用来发送信息给客户的erp那边的队列
+Xgx.SyncData.SubscribeService是用来从客户那边传过来的消息队列

@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="LogInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="LogInfo" type="cPos.Dex.Model.LogInfo,cPos.Dex.Model" />
+    <typeAlias alias="LogTypeInfo" type="cPos.Dex.Model.LogTypeInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="LogInfoResult" class="LogInfo">
+      <result property="LogId" column="Log_Id" type="string" />
+      <result property="BizId" column="Biz_Id" type="string" />
+      <result property="BizName" column="Biz_Name" type="string" />
+      <result property="LogTypeId" column="Log_Type_Id" type="string" />
+      <result property="LogTypeCode" column="log_type_code" type="string" />
+      <result property="LogCode" column="Log_Code" type="string" />
+      <result property="LogBody" column="Log_Body" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+      <result property="CustomerCode" column="customer_code" type="string" />
+      <result property="CustomerId" column="customer_id" type="string" />
+      <result property="UnitCode" column="unit_code" type="string" />
+      <result property="UnitId" column="unit_id" type="string" />
+      <result property="UserCode" column="user_code" type="string" />
+      <result property="UserId" column="user_id" type="string" />
+      <result property="IfCode" column="if_code" type="string" />
+      <result property="AppCode" column="app_code" type="string" />
+    </resultMap>
+    <resultMap id="LogTypeInfoResult" class="LogTypeInfo">
+      <result property="LogTypeId" column="Log_Type_Id" type="string" />
+      <result property="TypeCode" column="Type_Code" type="string" />
+      <result property="TypeName" column="Type_Name" type="string" />
+      <result property="TypeStatus" column="Type_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    
+    <!-- LogInfo -->
+    <select id="GetLogs" resultMap="LogInfoResult" parameterClass="hashtable">
+      select a.* from (
+      select rownum_=row_number() over(order by a.biz_name,a.create_time),
+      a.*
+      ,b.type_code log_type_code
+      from t_dex_log a
+      left join t_dex_log_type b on a.log_type_id=b.log_type_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="LogId">
+          <isNotEmpty property="LogId" prepend="and">
+            a.Log_Id = #LogId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BizId">
+          <isNotEmpty property="BizId" prepend="and">
+            a.Biz_Id = #BizId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BizName">
+          <isNotEmpty property="BizName" prepend="and">
+            a.Biz_Name = #BizName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogTypeId">
+          <isNotEmpty property="LogTypeId" prepend="and">
+            a.Log_Type_Id = #LogTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogTypeCode">
+          <isNotEmpty property="LogTypeCode" prepend="and">
+            b.type_code = #LogTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogCode">
+          <isNotEmpty property="LogCode" prepend="and">
+            a.Log_Code = #LogCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogBody">
+          <isNotEmpty property="LogBody" prepend="and">
+            a.Log_Body like '%' + #LogBody# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeBegin">
+          <isNotEmpty property="CreateTimeBegin" prepend="and">
+            a.Create_Time &gt;= #CreateTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeEnd">
+          <isNotEmpty property="CreateTimeEnd" prepend="and">
+            a.Create_Time &lt;= #CreateTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            a.Create_User_Id = #CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeBegin">
+          <isNotEmpty property="ModifyTimeBegin" prepend="and">
+            a.Modify_Time &gt;= #ModifyTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeEnd">
+          <isNotEmpty property="ModifyTimeEnd" prepend="and">
+            a.Modify_Time &lt;= #ModifyTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            a.Modify_User_Id = #ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerCode">
+          <isNotEmpty property="CustomerCode" prepend="and">
+            a.Customer_Code = #CustomerCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            a.Customer_Id = #CustomerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitCode">
+          <isNotEmpty property="UnitCode" prepend="and">
+            a.Unit_Code = #UnitCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.Unit_Id = #UnitId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserCode">
+          <isNotEmpty property="UserCode" prepend="and">
+            a.User_Code = #UserCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserId">
+          <isNotEmpty property="UserId" prepend="and">
+            a.User_Id = #UserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="IfCode">
+          <isNotEmpty property="IfCode" prepend="and">
+            a.If_Code = #IfCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AppCode">
+          <isNotEmpty property="AppCode" prepend="and">
+            a.App_Code = #AppCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_ &lt;= #EndRow#
+    </select>
+
+    <select id="GetLogsCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_dex_log a
+      left join t_dex_log_type b on a.log_type_id=b.log_type_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="LogId">
+          <isNotEmpty property="LogId" prepend="and">
+            a.Log_Id = #LogId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BizId">
+          <isNotEmpty property="BizId" prepend="and">
+            a.Biz_Id = #BizId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BizName">
+          <isNotEmpty property="BizName" prepend="and">
+            a.Biz_Name = #BizName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogTypeId">
+          <isNotEmpty property="LogTypeId" prepend="and">
+            a.Log_Type_Id = #LogTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogTypeCode">
+          <isNotEmpty property="LogTypeCode" prepend="and">
+            b.type_code = #LogTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogCode">
+          <isNotEmpty property="LogCode" prepend="and">
+            a.Log_Code = #LogCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LogBody">
+          <isNotEmpty property="LogBody" prepend="and">
+            a.Log_Body like '%' + #LogBody# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeBegin">
+          <isNotEmpty property="CreateTimeBegin" prepend="and">
+            a.Create_Time &gt;= #CreateTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeEnd">
+          <isNotEmpty property="CreateTimeEnd" prepend="and">
+            a.Create_Time &lt;= #CreateTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            a.Create_User_Id = #CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeBegin">
+          <isNotEmpty property="ModifyTimeBegin" prepend="and">
+            a.Modify_Time &gt;= #ModifyTimeBegin#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTimeEnd">
+          <isNotEmpty property="ModifyTimeEnd" prepend="and">
+            a.Modify_Time &lt;= #ModifyTimeEnd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            a.Modify_User_Id = #ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerCode">
+          <isNotEmpty property="CustomerCode" prepend="and">
+            a.Customer_Code = #CustomerCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            a.Customer_Id = #CustomerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitCode">
+          <isNotEmpty property="UnitCode" prepend="and">
+            a.Unit_Code = #UnitCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.Unit_Id = #UnitId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserCode">
+          <isNotEmpty property="UserCode" prepend="and">
+            a.User_Code = #UserCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserId">
+          <isNotEmpty property="UserId" prepend="and">
+            a.User_Id = #UserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="IfCode">
+          <isNotEmpty property="IfCode" prepend="and">
+            a.If_Code = #IfCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AppCode">
+          <isNotEmpty property="AppCode" prepend="and">
+            a.App_Code = #AppCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetLogById" resultMap="LogInfoResult" parameterClass="string">
+      select a.*, 
+      b.type_code log_type_code
+      from t_dex_log a
+      left join t_dex_log_type b on a.log_type_id=b.log_type_id
+      where a.log_id=#value#
+    </select>
+
+    <insert id="InsertLog" parameterClass="LogInfo">
+      insert into t_dex_log
+      (
+      log_id
+      ,biz_id
+      ,biz_name
+      ,log_type_id
+      ,log_code
+      ,log_body
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      ,customer_code
+      ,customer_id
+      ,unit_code
+      ,unit_id
+      ,user_code
+      ,user_id
+      ,if_code
+      ,app_code
+      )
+      values
+      (
+      #LogId#
+      ,#BizId#
+      ,#BizName#
+      ,#LogTypeId#
+      ,#LogCode#
+      ,#LogBody#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      ,#CustomerCode#
+      ,#CustomerId#
+      ,#UnitCode#
+      ,#UnitId#
+      ,#UserCode#
+      ,#UserId#
+      ,#IfCode#
+      ,#AppCode#
+      )
+    </insert>
+
+    <update id="UpdateLog" parameterClass="LogInfo">
+      update t_dex_log
+      set
+      biz_id=#BizId#
+      ,biz_name=#BizName#
+      ,log_type_id=#LogTypeId#
+      ,log_code=#LogCode#
+      ,log_body=#LogBody#
+      ,modify_time=#ModifyTime#
+      ,modify_user_id=#ModifyUserId#
+      where log_id=#LogId#
+    </update>
+
+    <delete id="DeleteLog" parameterClass="string">
+      delete t_dex_log
+      where log_id=#LogId#
+    </delete>
+
+    <!-- LogTypeInfo -->
+    <select id="GetLogTypes" resultMap="LogTypeInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_log_type a
+      where 1=1
+      <dynamic>
+        <isNotNull property="LogTypeId">
+          <isNotEmpty property="LogTypeId" prepend="and">
+            Log_Type_Id = #LogTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeCode">
+          <isNotEmpty property="TypeCode" prepend="and">
+            Type_Code = #TypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeName">
+          <isNotEmpty property="TypeName" prepend="and">
+            Type_Name = #TypeName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeStatus">
+          <isNotEmpty property="TypeStatus" prepend="and">
+            Type_Status = #TypeStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetLogTypeById" resultMap="LogTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_log_type a
+      where a.log_type_id=#value#
+    </select>
+
+    <select id="GetLogTypeByCode" resultMap="LogTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_log_type a
+      where a.type_code=#value#
+    </select>
+
+    <insert id="InsertLogType" parameterClass="LogTypeInfo">
+      insert into t_dex_log_type
+      (
+      log_type_id
+      ,type_code
+      ,type_name
+      ,type_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #LogTypeId#
+      ,#TypeCode#
+      ,#TypeName#
+      ,#TypeStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateLogType" parameterClass="LogTypeInfo">
+      update t_dex_log_type
+      set
+      TypeCode=#TypeCode#
+      ,TypeName=#TypeName#
+      ,TypeStatus=#TypeStatus#
+      ,ModifyTime=#ModifyTime#
+      ,ModifyUserId=#ModifyUserId#
+      where log_type_id=#LogTypeId#
+    </update>
+
+    <delete id="DeleteLogType" parameterClass="string">
+      delete t_dex_log_type
+      where log_type_id=#LogTypeId#
+    </delete>
+    
+  </statements>
+
+</sqlMap>

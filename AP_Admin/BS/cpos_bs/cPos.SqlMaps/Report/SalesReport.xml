@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="SalesReport"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SalesReport" type="cPos.Model.Report.SalesReportInfo,cPos.Model" />
+    <typeAlias alias="InoutSales" type="cPos.Model.InoutInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SalesReportResult" class="SalesReport">
+      <result property="order_date" column="order_date" type="string" />
+      <result property="unit_id" column="unit_id" type="string" />
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="sales_qty" column="sales_qty" type="decimal"/>
+      <result property="sales_amount" column="sales_amount" type="decimal"/>
+      <result property="row_no" column="row_no" type="int"/>
+      
+    </resultMap>
+
+    <resultMap id="SalesReportTotalResult" class ="SalesReport">
+      <result property="sales_total_qty" column="sales_total_qty" type="decimal"/>
+      <result property="sales_total_amount" column="sales_total_amount" type="decimal"/>
+      <result property="icount" column="icount" type="int"/>
+    </resultMap>
+
+    <resultMap id="InoutSalesDetailReportResult" class="InoutSales">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="create_time" column="create_time" type="string" />
+      <result property="sales_user" column="sales_user" type="string" />
+      <result property="order_no" column="order_no" type="string" />
+      <result property="vip_no" column="vip_no" type="string" />
+      <result property="payment_name" column="payment_name" type="string" />
+      <result property="total_amount" column="total_amount" type="decimal" />
+      <result property="create_user_name" column="create_user_name" type="string" />
+      
+    </resultMap>
+    
+  </resultMaps>
+  <statements>
+      <!--查询公共部分 rownum_=row_number() over(order by a.order_no)-->
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (order_date nvarchar(100)
+      ,unit_id nvarchar(100)
+      ,sales_qty decimal
+      ,sales_amount decimal(18,4)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_date,unit_id,sales_qty,sales_amount,row_no)
+      select a.order_date
+      ,a.unit_id
+      ,COUNT(order_no) sales_qty
+      ,SUM(total_amount) sales_amount
+      ,row_number() over(order by a.order_date,a.unit_id) row_no
+      From (
+
+      select order_date
+      ,unit_id
+      ,a.order_no
+      ,convert(decimal(18,4),a.total_amount*red_flag) total_amount
+      from T_Inout a
+
+      where 1=1
+      and a.order_type_id = '1F0A100C42484454BAEA211D4C14B80F'
+      and a.order_reason_id = '2F6891A2194A4BBAB6F17B4C99A6C6F5'
+      <dynamic>
+        <isNotNull property="UnitIds">
+          <isNotEmpty property="UnitIds" prepend="and">
+            a.unit_id in (  $UnitIds$  )
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="order_no">
+          <isNotEmpty property="order_no" prepend="and">
+            a.order_no like '%' +  #order_no# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        
+        <isNotNull property="order_date_begin">
+          <isNotEmpty property="order_date_begin" prepend="and">
+            a.order_date    &gt;= #order_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_end">
+          <isNotEmpty property="order_date_end" prepend="and">
+            a.order_date    &lt;= #order_date_end#
+          </isNotEmpty>
+        </isNotNull>
+    </dynamic>
+      ) a group by a.order_date ,a.unit_id;
+    </sql>
+
+    <select id="SearchTotal" resultMap="SalesReportTotalResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select  COUNT(*) icount
+      ,sum(sales_qty) sales_total_qty
+      ,sum(sales_amount) sales_total_amount 
+      From @TmpTable;
+    </select>
+
+    <select id="Search" resultMap="SalesReportResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+      select a.order_date
+      ,b.unit_name
+      ,a.unit_id
+      ,a.sales_qty
+      ,a.sales_amount
+      ,a.row_no
+      From @TmpTable a
+      left join t_unit b
+      on(a.unit_id = b.unit_id)
+      where 1=1
+      and a.row_no &gt; #StartRow# and a.row_no &lt;= #EndRow#
+      order by a.sales_amount desc,a.order_date
+    </select>
+    <!--获取明细-->
+    <select id="GetSalesReportDetail" resultMap="InoutSalesDetailReportResult" parameterClass="hashtable">
+      select a.order_id
+      ,a.create_time
+      ,a.sales_user
+      ,a.order_no
+      ,(select vip_name From t_vip where vip_id = a.vip_no) vip_no
+      ,'' payment_name
+      ,convert(decimal(18,4),a.total_amount*a.red_flag) total_amount
+      ,(select user_name From t_user where user_id = a.create_user_id) create_user_name
+      From t_inout a
+      where 1=1
+      and a.order_type_id = '1F0A100C42484454BAEA211D4C14B80F'
+      and a.order_reason_id = '2F6891A2194A4BBAB6F17B4C99A6C6F5'
+      and a.order_date = #OrderDate#
+      and a.unit_id = #UnitId#
+      order by a.total_amount desc;
+    </select>
+  </statements>
+</sqlMap>

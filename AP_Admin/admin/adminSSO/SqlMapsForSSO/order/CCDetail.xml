@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="CCDetail"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="CCDetail" type="cPos.Admin.Model.CCDetailInfo,cPos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="CCDetailResult" class="CCDetail">
+      <result property="order_detail_id" column="order_detail_id" type="string" />
+      <result property="order_id" column="order_id" type="string" />
+      <result property="ref_order_detail_id" column="ref_order_detail_id" type="string"/>
+      <result property="sku_id" column="sku_id" type="string"/>
+      <result property="warehouse_id" column="warehouse_id" type="string"/>
+      <result property="order_qty" column="order_qty" type="decimal"/>
+      <result property="end_qty" column="end_qty" type="decimal"/>
+      <result property="difference_qty" column="difference_qty" type="decimal"/>
+      <result property="stock_balance_id" column="stock_balance_id" type="string"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="display_index" column="display_index" type="int"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="order_no" column="order_no" type="string"/>
+      <result property="if_flag" column="if_flag" type="int"/>
+      <result property="item_code" column="item_code" type="string"/>
+      <result property="item_name" column="item_name" type="string"/>
+      <result property="prop_1_detail_name" column="prop_1_detail_name" type="string"/>
+      <result property="prop_2_detail_name" column="prop_2_detail_name" type="string"/>
+      <result property="prop_3_detail_name" column="prop_3_detail_name" type="string"/>
+      <result property="prop_4_detail_name" column="prop_4_detail_name" type="string"/>
+      <result property="prop_5_detail_name" column="prop_5_detail_name" type="string"/>
+    </resultMap>
+    
+    <resultMap id="CCSearchResult" class="CCDetail" extends="CCDetailResult">
+      <result property="row_no" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="icount" column="icount" type="int"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="CCDetailResult">
+      select a.order_detail_id
+      ,a.order_id
+      ,a.ref_order_detail_id
+      ,a.order_no
+      ,a.stock_balance_id
+      ,a.sku_id
+      ,a.warehouse_id
+      ,a.end_qty
+      ,a.order_qty
+      ,a.remark
+      ,a.display_index
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.if_flag
+      ,a.end_qty - a.order_qty difference_qty
+      ,b.item_code
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      From t_cc_detail a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+    </select>
+
+    <!--<select id="SelectByOrderId" extends="Select" resultMap="CCDetailResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#
+    </select>-->
+    <select id="SelectByOrderDetailId" extends="Select" resultMap="CCDetailResult" parameterClass="hashtable">
+      where a.order_detail_id=#OrderDetailId#
+    </select>
+     <!--根据订单标识，获取订单明细-->
+    <sql id="SearchPub">
+      Declare @TmpTable Table
+      (order_detail_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_detail_id,row_no)
+      select x.order_detail_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by a.order_detail_id)
+      ,order_detail_id
+      from t_cc_detail a
+
+      where 1=1
+      and a.order_id = #OrderId#) x;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="SelectByOrderIdCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+
+      select @iCount;
+    </select>
+
+    <select id="SelectByOrderId" resultMap="CCSearchResult" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+      select a.order_detail_id
+      ,a.order_id
+      ,a.ref_order_detail_id
+      ,a.order_no
+      ,a.stock_balance_id
+      ,a.sku_id
+      ,a.warehouse_id
+      ,a.end_qty
+      ,a.order_qty
+      ,a.remark
+      ,a.display_index
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.if_flag
+      ,a.end_qty - a.order_qty difference_qty
+      ,b.item_code
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      ,c.row_no
+      ,@iCount icount
+      From t_cc_detail a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+      inner join @TmpTable c
+      on(a.order_detail_id = c.order_detail_id)
+      where 1=1
+      and c.row_no &gt; #StartRow# and c.row_no &lt;= #EndRow#
+      order by b.item_code
+      ;
+    </select>
+    
+    <!--获取商品明细-->
+    <sql id="SelectStockBalancePublic">
+      Declare @TmpTable Table
+      (stock_balance_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (stock_balance_id,row_no)
+      select x.stock_balance_id ,x.rownum_ From (
+      
+      select a.stock_balance_id
+      ,rownum_=row_number() over(order by a.stock_balance_id)
+      From T_Stock_Balance a
+      where 1=1
+      and a.status = '1'
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.unit_id =  #UnitId# 
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="WarehouseId">
+          <isNotEmpty property="WarehouseId" prepend="and">
+            a.warehouse_id =  #WarehouseId#
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>
+
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+      
+    </sql>
+
+    <select id="SelectStockBanlanceCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SelectStockBalancePublic"/>
+
+      select @iCount;
+    </select>
+
+    <select id="SelectStockBanlance" resultMap="CCSearchResult" parameterClass="hashtable">
+      <include refid="SelectStockBalancePublic"/>
+      select '' order_detail_id
+      ,#OrderId# order_id
+      ,'' ref_order_detail_id
+      ,'' order_no
+      ,a.stock_balance_id
+      ,a.sku_id
+      ,a.warehouse_id
+      ,a.end_qty
+      ,a.end_qty order_qty
+      ,'' remark
+      ,null display_index
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,'0' if_flag
+      ,null difference_qty
+      ,b.item_code
+      ,b.item_name
+      ,b.prop_1_detail_name
+      ,b.prop_2_detail_name
+      ,b.prop_3_detail_name
+      ,b.prop_4_detail_name
+      ,b.prop_5_detail_name
+      ,c.row_no
+      ,@iCount icount
+      From T_Stock_Balance a
+      inner join vw_sku b
+      on(a.sku_id = b.sku_id)
+      inner join @TmpTable c
+      on(a.stock_balance_id = c.stock_balance_id)
+      where 1=1
+      and c.row_no &gt; #StartRow# and c.row_no &lt;= #EndRow#
+      order by b.item_code;
+    </select>
+
+    <!--判断盘点单是否有差异-->
+    <select id="IsCCDifference" resultClass="int" parameterClass="hashtable">
+      select COUNT(*) From T_CC_Detail
+      where end_qty &lt;&gt; order_qty
+        and order_id = #OrderId#
+      </select>
+  </statements>
+</sqlMap>

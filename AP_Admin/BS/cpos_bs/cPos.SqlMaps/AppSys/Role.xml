@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Role"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Role" type="cPos.Model.RoleModel,cPos.Model" />
+    <typeAlias alias="RoleMenuInfo" type="cPos.Model.RoleMenuModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="RoleResult" class="Role">
+      <result property="Role_Id" column="role_id" type="string" />
+      <result property="Role_Code" column="role_code" type="string"/>
+      <result property="Def_App_Id" column="reg_app_id" type="string" />
+      <result property="Create_User_Id" column="add_user_id" type="string"/>
+      <result property="Create_Time" column="add_date" type="string"/>
+      <result property="Modify_User_id" column="modify_user_id" type="string"/>
+      <result property="Modify_Time" column="modify_date" type="string"/>
+      <result property="Is_Sys" column="is_sys" type="int"/>
+
+      <result property="Create_User_Name" column="add_user_name" type="string"/>
+      <result property="Modify_User_Name" column="modify_user_name" type="string"/>
+      <result property="Role_Name" column="role_name" type="string"/>
+      <result property="Role_Eng_Name" column="Role_Eng_Name" type="string"/>
+      
+      <result property="Default_Flag_Desc" column="default_flag_desc" type="string"/>
+    </resultMap>
+
+    <resultMap id="RoleSearchResult" class="Role" extends="RoleResult">
+      <result property="Row_No" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="ICount" column="icount" type="int"/>
+    </resultMap>
+    
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="RoleResult">
+      select distinct a.role_id
+      , a.def_app_id reg_app_id
+      , a.role_code
+      , a.create_user_id add_user_id
+      , a.create_time add_date
+      , a.role_name
+      , a.Role_Eng_Name
+      , a.modify_user_id
+      , a.modify_time modify_date
+      , a.is_sys
+      , b.user_name as add_user_name
+      , c.user_name as modify_user_name
+      , a.role_name as role_desc
+      , case when ISNULL(is_sys,0) = 1 then '是' else '否' end default_flag_desc
+      from t_role a
+      left join t_user b on a.create_user_id=b.user_id
+      left join t_user c on a.modify_user_id=c.user_id
+    </select>
+
+    <select id="SelectAllRoles" resultMap="RoleResult" extends="Select" parameterClass="string">
+      where a.customer_id = #value#
+      order by a.def_app_id, a.role_code
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="RoleResult" parameterClass="hashtable">
+      where a.role_id=#RoleId#
+      and a.customer_id = #CustomerId# 
+    </select>
+    <!--根据客户获取默认用户信息-->
+    <select id="SelectDefaultByCustomerId" extends="Select" resultMap="RoleResult" parameterClass="hashtable">
+      where 1=1
+      and a.customer_id = #CustomerId#
+      and a.role_code = 'Admin'
+    </select>
+    
+    
+    <!--根据组织获取角色集合 Jermyn2006-12-25-->
+    <select id="SelectByUnitId" extends="Select" resultMap="RoleResult" parameterClass="hashtable">
+      inner join T_User_Role x
+      on(a.role_id = x.role_id)
+      where 1=1
+      and a.[status] = '1'
+      and x.unit_id=#UnitId#
+      and a.customer_id = #CustomerId# 
+    </select>
+    
+    <select id="SelectByUserId" extends="Select" resultMap="RoleResult" parameterClass="hashtable">
+      where a.[status] = '1'
+      and a.reg_app_id=#ApplicationId# 
+      and a.role_id in
+      (select distinct role_id from t_user_role where user_id=#UserId#)
+    </select>
+
+    <sql id="SearchPublic">
+
+      Declare @TmpTable Table
+      (role_id nvarchar(100)
+      ,row_no int
+      );
+      Declare @iCount int;
+      insert into @TmpTable(role_id,row_no)
+      select a.role_id
+      ,row_no=row_number() over(order by a.role_code)
+      From t_role a
+      where 1=1 and a.[status] = '1'
+      <dynamic>
+        <isNotNull property="ApplicationId">
+          <isNotEmpty property="ApplicationId" prepend="and">
+            a.def_app_id=#ApplicationId#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            a.Customer_Id=#CustomerId#
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>;
+      select @iCount = COUNT(*) From @TmpTable;
+    </sql>
+
+    <select id="SelectByApplicationIdCount" resultClass="int" parameterClass="hashtable">
+        <include refid="SearchPublic"/>
+
+      select @iCount;
+    </select>
+    
+    <select id="SelectByApplicationId"  resultMap="RoleSearchResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select distinct a.role_id
+      , a.def_app_id reg_app_id
+      , a.role_code
+      , a.create_user_id add_user_id
+      , a.create_time add_date
+      , a.role_name
+      , a.Role_Eng_Name
+      , a.modify_user_id
+      , a.modify_time modify_date
+      , a.is_sys
+      , b.user_name as add_user_name
+      , c.user_name as modify_user_name
+      , a.role_name as role_desc
+      , case when ISNULL(is_sys,0) = 1 then '是' else '否' end default_flag_desc
+      , d.row_no
+      , @iCount icount
+      from t_role a
+      left join t_user b on a.create_user_id=b.user_id
+      left join t_user c on a.modify_user_id=c.user_id
+      inner join @TmpTable d
+      on(a.role_id = d.role_id)
+      where 1=1 and a.[status] = '1'
+      and d.row_no &gt; #StartRow# and d.row_no &lt;=#EndRow#
+      ;
+    </select>
+
+    <select id="SelectByApplicationIdAndRoleCode" extends="Select" resultMap="RoleResult" parameterClass="hashtable">
+      where a.def_app_id=#ApplicationId# and a.role_code=#RoleCode#
+      and a.[status] = '1'
+    </select>
+
+    <select id="CountPageByRoleIdAndPageCode" resultClass="int" parameterClass="hashtable">
+      select isnull(count(b.page_id),0) from
+      t_role_menu a, t_menu_page b
+      where a.role_id=#RoleId# and a.menu_id=b.menu_id and b.page_code=#PageCode#
+    </select>
+
+    <select id="CountPageByRoleIdAndPageUrl" resultClass="int" parameterClass="hashtable">
+      select isnull(count(b.page_id),0) from
+      t_role_menu a, t_menu_page b
+      where a.role_id=#RoleId# and a.menu_id=b.menu_id and lower(b.page_url)=lower(#PageUrl#)
+    </select>
+
+    <select id="CountRoleByApplicationId" resultClass="int" parameterClass="string">
+      select isnull(count(*),0) from t_role where reg_app_id=#value# and [status] = '1'
+    </select>
+
+    <select id="CountByApplicationIdAndRoleCode" resultClass="int" parameterClass="hashtable">
+      select isnull(count(*),0) from t_role where reg_app_id=#ApplicationId# and role_code=#RoleCode#
+      <dynamic>
+        <isNotNull property="RoleId">
+          <isNotEmpty property="RoleId" prepend="and">
+            and role_id!=#RoleId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <insert id="Insert" parameterClass="Role">
+      <!--insert into t_role
+      (role_id, reg_app_id, role_code, add_user_id, add_date, is_sys,last_changed)
+      values
+      (#Id#, #AppSysId#, #Code#, #AddUserId#, #AddDate#, #IsSystem#,Fn_Mpos_Get_LastChanged())-->
+    </insert>
+
+    <update id="Update" parameterClass="Role">
+      <!--update t_role
+      set reg_app_id = #AppSysId#,
+      role_code = #Code#,
+      modify_user_id = #ModifyUserId#,
+      modify_date = #ModifyDate#,
+      is_sys = #IsSystem#
+      ,last_changed = Fn_Mpos_Get_LastChanged()
+      where role_id = #Id#-->
+    </update>
+
+    <!--<delete id="DeleteById" parameterClass="string">
+      delete from t_role where role_id=#value#
+    </delete>-->
+    <update id="DeleteById" parameterClass="string">
+      update t_role
+      set [status] = '-1'
+      where role_id=#value#;
+    </update>
+
+
+    <!--处理角色信息保存,包含角色与菜单关系-->
+    <statement id="InsertOrUpdate" parameterClass="Role">
+      <!--处理角色-->
+
+      update t_role
+      set def_app_id = #Def_App_Id#
+      ,role_code = #Role_Code#
+      ,role_name = #Role_Name#
+      ,role_eng_name = #Role_Eng_Name#
+      ,is_sys = #Is_Sys#
+      ,modify_time = #Modify_Time#
+      ,modify_user_id = #Modify_User_id#
+      where role_id = #Role_Id#;
+
+      insert into t_role (role_id
+      ,def_app_id
+      ,role_code
+      ,role_name
+      ,role_eng_name
+      ,is_sys
+      ,status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      ,customer_id)
+      select a.* From (
+      select #Role_Id# Role_Id
+      ,#Def_App_Id# Def_App_Id
+      ,#Role_Code# Role_Code
+      ,#Role_Name# Role_Name
+      ,#Role_Eng_Name# Role_Eng_Name
+      ,#Is_Sys# Is_Sys
+      ,'1' [Status]
+      ,#Create_Time# Crete_Time
+      ,#Create_User_Id# Create_user_Id
+      ,#Modify_Time# Modify_Time
+      ,#Modify_User_id# Modify_User_Id
+      ,#customer_id# customer_id
+      ) a
+      left join (select * From t_role where [status]='1') b
+      on(a.role_code = b.role_code and a.customer_id = b.customer_id)
+      where b.role_code is null
+      ;
+
+      <!--处理角色与菜单关系-->
+      <isNotEmpty property="RoleMenuInfoList">
+       <!--1.先删除所有的符合条件的关系-->
+        update T_Role_Menu
+        set [status] = '-1'
+        ,modify_time = #Create_Time#
+        ,modify_user_id = #Create_User_Id#
+        From (
+        <iterate property="RoleMenuInfoList" conjunction=" UNION ">
+          SELECT #RoleMenuInfoList[].Role_Id# role_id
+        </iterate>
+        ) a
+        where ( T_Role_Menu.role_id = a.role_id);
+
+        <!--2.更新-->
+        update T_Role_Menu
+        set [status] = '1'
+        ,modify_time = #Create_Time#
+        ,modify_user_id = #Create_User_Id#
+        From (
+        <iterate property="RoleMenuInfoList" conjunction=" UNION ">
+          SELECT #RoleMenuInfoList[].Role_Id# role_id
+          ,#RoleMenuInfoList[].Menu_Id# menu_id
+        </iterate>
+        ) a
+        where ( T_Role_Menu.role_id = a.role_id
+        and T_Role_Menu.menu_id = a.menu_id);
+
+        <!--3.插入不存在的关系-->
+
+        INSERT INTO T_Role_Menu
+        (
+        role_menu_Id
+        ,role_id
+        ,menu_id
+        ,status
+        ,create_time
+        ,create_user_id
+        ,modify_time
+        ,modify_user_id
+
+        )
+
+        SELECT P.role_menu_Id
+        ,P.role_id
+        ,P.menu_id
+        ,P.status
+        ,P.create_time
+        ,P.create_user_id
+        ,P.modify_time
+        ,P.modify_user_id
+
+        FROM (
+        <iterate property="RoleMenuInfoList" conjunction=" UNION ">
+          SELECT
+          replace(NEWID(),'-','') role_menu_Id
+          ,#RoleMenuInfoList[].Role_Id# role_id
+          ,#RoleMenuInfoList[].Menu_Id# menu_id
+          ,'1' status
+          ,#Create_Time# create_time
+          ,#Create_User_Id# create_user_id
+          ,#Create_Time# modify_time
+          ,#Create_User_Id# modify_user_id
+
+        </iterate>
+        ) P
+        left join T_Role_Menu  b
+        on(p.role_id = b.role_id
+        and p.menu_id = b.menu_id)
+        where b.role_menu_id is null;
+
+
+      </isNotEmpty>
+
+    </statement>
+
+    <!--判断unit工号是否存在 Jermyn 2012-05-29 -->
+    <select id="IsExsitRoleCode" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From t_role
+      where 1=1
+      <dynamic prepend="and">
+      <isNotNull prepend="and" property="Role_Id">role_id != #Role_Id#</isNotNull>
+      <isNotNull prepend="and" property="Customer_Id">customer_id = #Customer_Id#</isNotNull>
+    </dynamic>
+
+      and role_code = #Role_Code#
+      and [status] = '1';
+    </select>
+  </statements>
+</sqlMap>

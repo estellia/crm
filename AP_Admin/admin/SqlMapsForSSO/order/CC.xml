@@ -1,0 +1,702 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="CC"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="CC" type="cPos.Admin.Model.CCInfo,cPos.Admin.Model" />
+    <typeAlias alias="SearchCCInfo" type="cPos.Model.OrderSearchInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="CCResult" class="CC">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_no" column="order_no" type="string" />
+      <result property="order_type_id" column="order_type_id" type="string"/>
+      <result property="order_reason_id" column="order_reason_id" type="string"/>
+      <result property="ref_order_id" column="ref_order_id" type="string"/>
+      <result property="ref_order_no" column="ref_order_no" type="string"/>
+      <result property="warehouse_id" column="warehouse_id" type="string"/>
+      <result property="order_date" column="order_date" type="string"/>
+      <result property="request_date" column="request_date" type="string"/>
+      <result property="complete_date" column="complete_date" type="string"/>
+      <result property="unit_id" column="unit_id" type="string"/>
+      <result property="pos_id" column="pos_id" type="string"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="status_desc" column="status_desc" type="string"/>
+     
+      <result property="data_from_id" column="data_from_id" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="approve_time" column="approve_time" type="string"/>
+      <result property="approve_user_id" column="approve_user_id" type="string"/>
+      <result property="send_time" column="send_time" type="string"/>
+      <result property="send_user_id" column="send_user_id" type="string"/>
+      <result property="accpect_time" column="accpect_time" type="string"/>
+      <result property="accpect_user_id" column="accpect_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="warehouse_name" column="warehouse_name" type="string"/>
+      <result property="data_from_name" column="data_from_name" type="string"/>
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="total_qty" column="total_qty" type="decimal"/>
+    </resultMap>
+
+    <resultMap id="CCSearchResult" class="CC" extends="CCResult">
+      <result property="Row_No" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="ICount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+  </resultMaps>
+
+  <parameterMaps>
+    <!--cc to aj-->
+    <parameterMap id="SetCCToAJMap" class="hashtable">
+      <parameter property="OrderId" column="OrderId"/>
+      <parameter property="OrderNo" column="OrderNo"/>
+    </parameterMap>
+
+  </parameterMaps>
+  <statements>
+
+    <select id="Select" resultMap="CCResult">
+      select a.order_id
+      ,a.order_no
+      ,a.order_date
+      ,a.order_type_id
+      ,a.order_reason_id
+      ,a.ref_order_id
+      ,a.ref_order_no
+      ,a.request_date
+      ,a.complete_date
+      ,a.unit_id
+      ,a.pos_id
+      ,a.warehouse_id
+      ,a.remark
+      ,a.data_from_id
+      ,a.status
+      ,a.status_desc
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.send_time
+      ,a.send_user_id
+      ,a.approve_time
+      ,a.approve_user_id
+      ,a.accpect_time
+      ,a.accpect_user_id
+      ,(select prop_name from T_Prop where prop_id = a.data_from_id) data_from_name
+      ,(select wh_name From t_warehouse where warehouse_id = a.warehouse_id) warehouse_name
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,(select convert(decimal(18,4),sum(order_qty)) From t_cc_detail x where x.order_id = a.order_id group by x.order_id) total_qty
+      From T_CC a
+
+
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="CCResult" parameterClass="hashtable">
+      where a.order_id=#OrderId#;
+    </select>
+
+    <sql id="SearchPub">
+      Declare @TmpTable Table
+      (order_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_id,row_no)
+      select x.order_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by a.order_no)
+      ,order_id
+      from t_cc a
+
+      where 1=1
+      and a.status != '-1'
+      <dynamic>
+        <isNotNull property="order_id">
+          <isNotEmpty property="order_id" prepend="and">
+            a.order_id like '%' +  #order_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="customer_id">
+          <isNotEmpty property="customer_id" prepend="and">
+            a.customer_id like '%' +  #customer_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+          
+        <isNotNull property="order_no">
+          <isNotEmpty property="order_no" prepend="and">
+            a.order_no like '%' +  #order_no# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_type_id">
+          <isNotEmpty property="order_type_id" prepend="and">
+            a.order_type_id like '%' +  #order_type_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_reason_id">
+          <isNotEmpty property="order_reason_id" prepend="and">
+            a.order_reason_id like '%' +  #order_reason_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_id">
+          <isNotEmpty property="unit_id" prepend="and">
+            a.unit_id like '%' +  #unit_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_begin">
+          <isNotEmpty property="order_date_begin" prepend="and">
+            a.order_date    &gt;= #order_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_end">
+          <isNotEmpty property="order_date_end" prepend="and">
+            a.order_date    &lt;= #order_date_end#
+          </isNotEmpty>
+        </isNotNull>
+
+
+        <isNotNull property="complete_date_begin">
+          <isNotEmpty property="complete_date_begin" prepend="and">
+            a.complete_date    &gt;= #complete_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="complete_date_end">
+          <isNotEmpty property="complete_date_end" prepend="and">
+            a.complete_date    &lt;= #complete_date_end#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="status">
+          <isNotEmpty property="status" prepend="and">
+            a.status= #status# 
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_id">
+          <isNotEmpty property="unit_id" prepend="and">
+            a.unit_id= #unit_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="warehouse_id">
+          <isNotEmpty property="warehouse_id" prepend="and">
+            a.warehouse_id= #warehouse_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="data_from_id">
+          <isNotEmpty property="data_from_id" prepend="and">
+            a.data_from_id= #data_from_id#
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>
+
+     
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="SearchCount" resultClass="int" parameterClass="SearchCCInfo">
+      <include refid="SearchPub"/>
+
+      select @iCount;
+    </select>
+
+    <select id="Search" resultMap="CCSearchResult" parameterClass="SearchCCInfo">
+      <include refid="SearchPub"/>
+
+      select a.order_id
+      ,a.order_no
+      ,a.order_date
+      ,a.order_type_id
+      ,a.order_reason_id
+      ,a.ref_order_id
+      ,a.ref_order_no
+      ,a.request_date
+      ,a.complete_date
+      ,a.unit_id
+      ,a.pos_id
+      ,a.warehouse_id
+      ,a.remark
+      ,a.data_from_id
+      ,a.status
+      ,a.status_desc
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.send_time
+      ,a.send_user_id
+      ,a.approve_time
+      ,a.approve_user_id
+      ,a.accpect_time
+      ,a.accpect_user_id
+      ,(select prop_name from T_Prop where prop_id = a.data_from_id) data_from_name
+      ,(select wh_name From t_warehouse where warehouse_id = a.warehouse_id) warehouse_name
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,b.row_no
+      ,@iCount icount
+      ,(select convert(decimal(18,4),sum(order_qty)) From t_cc_detail x where x.order_id = a.order_id group by x.order_id) total_qty
+      From T_CC a
+      inner join @TmpTable b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;= #EndRow#
+      ;
+    </select>
+
+    <!--修改商品表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="CC">
+      update T_CC
+      set [status] = #status#
+      ,status_desc = #status_desc#
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+     
+      <dynamic prepend=",">
+        <isNotNull prepend="," property="approve_user_id">approve_user_id=#approve_user_id#</isNotNull>
+        <isNotNull prepend="," property="approve_time">approve_time=#approve_time#</isNotNull>
+    </dynamic>
+      where order_id = #order_id#
+    </update>
+
+    <!--判断工号是否存在-->
+    <select id="IsExsitOrderCode" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From T_CC
+      where 1=1
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="OrderId">order_id != #OrderId#</isNotNull>
+      </dynamic>
+      and order_no = #OrderNo#
+    </select>
+
+    <!--修改新建-->
+    <statement id="InsertOrUpdate" parameterClass="CC">
+
+      update t_cc
+      set order_no = #order_no#
+      
+      <dynamic prepend=",">
+      <isNotNull prepend="," property="order_date">order_date=#order_date#</isNotNull>
+      <isNotNull prepend="," property="order_type_id">order_type_id=#order_type_id#</isNotNull>
+      <isNotNull prepend="," property="order_reason_id">order_reason_id=#order_reason_id#</isNotNull>
+      <isNotNull prepend="," property="ref_order_id">ref_order_id=#ref_order_id#</isNotNull>
+      <isNotNull prepend="," property="ref_order_no">ref_order_no=#ref_order_no#</isNotNull>
+        <isNotNull prepend="," property="request_date">request_date=#request_date#</isNotNull>
+        <isNotNull prepend="," property="complete_date">complete_date=#complete_date#</isNotNull>
+        <isNotNull prepend="," property="unit_id">unit_id=#unit_id#</isNotNull>
+        <isNotNull prepend="," property="pos_id">pos_id=#pos_id#</isNotNull>
+        <isNotNull prepend="," property="warehouse_id">warehouse_id=#warehouse_id#</isNotNull>
+        <isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+        <isNotNull prepend="," property="data_from_id">data_from_id=#data_from_id#</isNotNull>
+        <isNotNull prepend="," property="status">status=#status#</isNotNull>
+        <isNotNull prepend="," property="status_desc">status_desc=#status_desc#</isNotNull>
+        <isNotNull prepend="," property="create_time">create_time=#create_time#</isNotNull>
+        <isNotNull prepend="," property="create_user_id">create_user_id=#create_user_id#</isNotNull>
+        <isNotNull prepend="," property="modify_time">modify_time=#modify_time#</isNotNull>
+        <isNotNull prepend="," property="modify_user_id">modify_user_id=#modify_user_id#</isNotNull>
+        <isNotNull prepend="," property="send_time">send_time=#send_time#</isNotNull>
+        <isNotNull prepend="," property="send_user_id">send_user_id=#send_user_id#</isNotNull>
+        <isNotNull prepend="," property="approve_time">approve_time=#approve_time#</isNotNull>
+        <isNotNull prepend="," property="approve_user_id">approve_user_id=#approve_user_id#</isNotNull>
+        <isNotNull prepend="," property="accpect_time">accpect_time=#accpect_time#</isNotNull>
+        <isNotNull prepend="," property="accpect_user_id">accpect_user_id=#accpect_user_id#</isNotNull>
+        <isNotNull prepend="," property="if_flag">if_flag=#if_flag#</isNotNull>
+
+      </dynamic>
+      where order_id = #order_id#;
+
+      insert into t_cc(
+      order_id
+      ,order_no
+      ,order_date
+      ,order_type_id
+      ,order_reason_id
+      ,ref_order_id
+      ,ref_order_no
+      ,request_date
+      ,complete_date
+      ,unit_id
+      ,pos_id
+      ,warehouse_id
+      ,remark
+      ,data_from_id
+      ,status
+      ,status_desc
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      ,send_time
+      ,send_user_id
+      ,approve_time
+      ,approve_user_id
+      ,accpect_time
+      ,accpect_user_id
+      ,if_flag
+      ,customer_id
+      )
+      select a.* From (
+      select #order_id# order_id
+      ,#order_no# order_no
+      ,#order_date# order_date
+      ,#order_type_id# order_type_id
+      ,#order_reason_id# order_reason_id
+      ,#ref_order_id# ref_order_id
+      ,#ref_order_no# ref_order_no
+      ,#request_date# request_date
+      ,#complete_date# complete_date
+      ,#unit_id# unit_id
+      ,#pos_id# pos_id
+      ,#warehouse_id# warehouse_id
+      ,#remark# remark
+      ,#data_from_id# data_from_id
+      ,#status# status
+      ,#status_desc# status_desc
+      ,#create_time# create_time
+      ,#create_user_id# create_user_id
+      ,#modify_time# modify_time
+      ,#modify_user_id# modify_user_id
+      ,#send_time# send_time
+      ,#send_user_id# send_user_id
+      ,#approve_time# approve_time
+      ,#approve_user_id# approve_user_id
+      ,#accpect_time# accpect_time
+      ,#accpect_user_id# accpect_user_id
+      ,#if_flag# if_flag
+      ,#customer_id# customer_id
+      ) a
+      left join T_cc b
+      on(a.order_id = b.order_id)
+      where b.order_id is null ;
+
+      <isNotEmpty property="CCDetailInfoList">
+        <!--删除明细-->
+        delete t_cc_detail
+        where order_id = #order_id#;
+        <!--插入明细-->
+        insert into t_cc_detail
+        (
+        order_detail_id
+        ,order_id
+        ,ref_order_detail_id
+        ,order_no
+        ,stock_balance_id
+        ,sku_id
+        ,warehouse_id
+        ,end_qty
+        ,order_qty
+        ,remark
+        ,display_index
+        ,create_time
+        ,create_user_id
+        ,modify_time
+        ,modify_user_id
+        ,if_flag
+        )
+        SELECT a.order_detail_id
+        ,a.order_id
+        ,a.ref_order_detail_id
+        ,a.order_no
+        ,a.stock_balance_id
+        ,a.sku_id
+        ,a.warehouse_id
+        ,a.end_qty
+        ,a.order_qty
+        ,a.remark
+        ,a.display_index
+        ,a.create_time
+        ,a.create_user_id
+        ,a.modify_time
+        ,a.modify_user_id
+        ,a.if_flag
+
+        FROM (
+        <iterate property="CCDetailInfoList" conjunction=" UNION ">
+          SELECT
+          #CCDetailInfoList[].order_detail_id# order_detail_id
+          ,#order_id# order_id
+          ,#CCDetailInfoList[].ref_order_detail_id# ref_order_detail_id
+          ,#CCDetailInfoList[].order_no# order_no
+          ,#CCDetailInfoList[].stock_balance_id# stock_balance_id
+          ,#CCDetailInfoList[].sku_id# sku_id
+          ,#CCDetailInfoList[].warehouse_id# warehouse_id
+          ,#CCDetailInfoList[].end_qty# end_qty
+          ,#CCDetailInfoList[].order_qty# order_qty
+          ,#CCDetailInfoList[].remark# remark
+          ,#CCDetailInfoList[].display_index# display_index
+          
+          ,#create_time# create_time
+          ,#create_user_id# create_user_id
+          ,#modify_time# modify_time
+          ,#modify_user_id# modify_user_id
+          ,#CCDetailInfoList[].if_flag# if_flag
+
+        </iterate>
+        ) a;
+      </isNotEmpty>
+    </statement>
+
+    <!--cc to aj Jermyn 2012-07-31-->
+    <procedure id="SetCCToAJ" parameterMap="SetCCToAJMap">
+      proc_set_cctoaj
+    </procedure>
+  
+      <!--判断单据所在的门店是否有aj权限-->
+    <select id="IsExistAJ" resultClass="int" parameterClass="hashtable">
+      select COUNT(*) icount From t_unit a
+      inner join T_Unit_Property b
+      on(a.unit_id = b.unit_id)
+      inner join T_CC c
+      on(a.unit_id = c.unit_id)
+      inner join t_bill d
+      on(c.order_id = d.bill_id)
+      inner join T_Def_Bill_Status e
+      on(d.bill_Status = e.bill_status
+      and d.bill_kind_id=e.bill_kind_id)
+      where b.property_id = '7FEC7E91057A477DA030CD5449D0A372'
+      and b.property_value = '8F330D04320F4F05AC78912577BCE0FD'
+      and e.end_flag='1'
+      and c.order_id = #OrderId#;
+    </select>
+
+    <select id="IsHaveAJCount" resultClass="int" parameterClass="hashtable">
+      select COUNT(*) icount From t_inout
+      where ref_order_id = #OrderId#
+    </select>
+
+    <!--批量修改上传标志 Jermyn 2012-08-09-->
+    <update id="UpdateIfflag" parameterClass="CC">
+      <isNotEmpty property="CCInfoList">
+        update T_CC
+        set Modify_Time = #modify_time#
+        ,Modify_User_Id = #modify_user_id#
+
+        ,if_flag = #if_flag#
+        where order_id in (select order_id From (
+        <iterate property="CCInfoList" conjuntion="UNION">
+        SELECT #CCInfoList[].order_id# order_id
+      </iterate> )a
+        );
+      </isNotEmpty>
+    </update>
+
+    <!--判断盘点单是否有差异-->
+    <select id="IsCCDifference" resultClass="int" parameterClass="hashtable">
+      select COUNT(*) From T_CC_Detail
+      where end_qty &lt;&gt; order_qty
+      and order_id = #OrderId#
+    </select>
+
+
+    <!--InsertAndUpdateMobileCCOrder-->
+    <statement id="InsertAndUpdateMobileCCOrder" parameterClass="CC">
+      update t_cc
+      set order_no = #order_no#
+      <dynamic prepend=",">
+        <isNotNull prepend="," property="order_date">order_date=#order_date#</isNotNull>
+        <isNotNull prepend="," property="order_type_id">order_type_id=#order_type_id#</isNotNull>
+        <isNotNull prepend="," property="order_reason_id">order_reason_id=#order_reason_id#</isNotNull>
+        <isNotNull prepend="," property="ref_order_id">ref_order_id=#ref_order_id#</isNotNull>
+        <isNotNull prepend="," property="ref_order_no">ref_order_no=#ref_order_no#</isNotNull>
+        <isNotNull prepend="," property="request_date">request_date=#request_date#</isNotNull>
+        <isNotNull prepend="," property="complete_date">complete_date=#complete_date#</isNotNull>
+        <isNotNull prepend="," property="unit_id">unit_id=#unit_id#</isNotNull>
+        <isNotNull prepend="," property="pos_id">pos_id=#pos_id#</isNotNull>
+        <isNotNull prepend="," property="warehouse_id">warehouse_id=#warehouse_id#</isNotNull>
+        <isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+        <isNotNull prepend="," property="data_from_id">data_from_id=#data_from_id#</isNotNull>
+        <isNotNull prepend="," property="status">status=#status#</isNotNull>
+        <isNotNull prepend="," property="status_desc">status_desc=#status_desc#</isNotNull>
+        <isNotNull prepend="," property="create_time">create_time=#create_time#</isNotNull>
+        <isNotNull prepend="," property="create_user_id">create_user_id=#create_user_id#</isNotNull>
+        <isNotNull prepend="," property="modify_time">modify_time=#modify_time#</isNotNull>
+        <isNotNull prepend="," property="modify_user_id">modify_user_id=#modify_user_id#</isNotNull>
+        <isNotNull prepend="," property="send_time">send_time=#send_time#</isNotNull>
+        <isNotNull prepend="," property="send_user_id">send_user_id=#send_user_id#</isNotNull>
+        <isNotNull prepend="," property="approve_time">approve_time=#approve_time#</isNotNull>
+        <isNotNull prepend="," property="approve_user_id">approve_user_id=#approve_user_id#</isNotNull>
+        <isNotNull prepend="," property="accpect_time">accpect_time=#accpect_time#</isNotNull>
+        <isNotNull prepend="," property="accpect_user_id">accpect_user_id=#accpect_user_id#</isNotNull>
+        <isNotNull prepend="," property="if_flag">if_flag=#if_flag#</isNotNull>
+      </dynamic>
+      where order_id = #order_id#;
+
+      insert into t_cc(
+      order_id
+      ,order_no
+      ,order_date
+      ,order_type_id
+      ,order_reason_id
+      ,ref_order_id
+      ,ref_order_no
+      ,request_date
+      ,complete_date
+      ,unit_id
+      ,pos_id
+      ,warehouse_id
+      ,remark
+      ,data_from_id
+      ,status
+      ,status_desc
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      ,send_time
+      ,send_user_id
+      ,approve_time
+      ,approve_user_id
+      ,accpect_time
+      ,accpect_user_id
+      ,if_flag
+      ,customer_id
+      )
+      select a.* From (
+      select #order_id# order_id
+      ,#order_no# order_no
+      ,#order_date# order_date
+      ,#order_type_id# order_type_id
+      ,#order_reason_id# order_reason_id
+      ,#ref_order_id# ref_order_id
+      ,#ref_order_no# ref_order_no
+      ,#request_date# request_date
+      ,#complete_date# complete_date
+      ,#unit_id# unit_id
+      ,#pos_id# pos_id
+      ,#warehouse_id# warehouse_id
+      ,#remark# remark
+      ,#data_from_id# data_from_id
+      ,#status# status
+      ,#status_desc# status_desc
+      ,#create_time# create_time
+      ,#create_user_id# create_user_id
+      ,#modify_time# modify_time
+      ,#modify_user_id# modify_user_id
+      ,#send_time# send_time
+      ,#send_user_id# send_user_id
+      ,#approve_time# approve_time
+      ,#approve_user_id# approve_user_id
+      ,#accpect_time# accpect_time
+      ,#accpect_user_id# accpect_user_id
+      ,#if_flag# if_flag
+      ,#customer_id# customer_id
+      ) a
+      left join T_cc b on(a.order_id = b.order_id)
+      where b.order_id is null;
+
+      <isNotEmpty property="CCDetailInfoList">
+        <!--删除明细-->
+        delete t_cc_detail
+        where order_detail_id in (
+          <iterate property="CCDetailInfoList" conjunction=",">
+            #CCDetailInfoList[].order_detail_id#
+          </iterate>
+        );
+
+        <!--插入明细-->
+        insert into t_cc_detail
+        (
+        order_detail_id
+        ,order_id
+        ,ref_order_detail_id
+        ,order_no
+        ,stock_balance_id
+        ,sku_id
+        ,warehouse_id
+        ,end_qty
+        ,order_qty
+        ,remark
+        ,display_index
+        ,create_time
+        ,create_user_id
+        ,modify_time
+        ,modify_user_id
+        ,if_flag
+        )
+        SELECT a.order_detail_id
+        ,a.order_id
+        ,a.ref_order_detail_id
+        ,a.order_no
+        ,a.stock_balance_id
+        ,a.sku_id
+        ,a.warehouse_id
+        ,a.end_qty
+        ,a.order_qty
+        ,a.remark
+        ,a.display_index
+        ,a.create_time
+        ,a.create_user_id
+        ,a.modify_time
+        ,a.modify_user_id
+        ,a.if_flag
+
+        FROM (
+        <iterate property="CCDetailInfoList" conjunction=" UNION ">
+          SELECT
+          #CCDetailInfoList[].order_detail_id# order_detail_id
+          ,#order_id# order_id
+          ,#CCDetailInfoList[].ref_order_detail_id# ref_order_detail_id
+          ,#CCDetailInfoList[].order_no# order_no
+          ,#CCDetailInfoList[].stock_balance_id# stock_balance_id
+          ,#CCDetailInfoList[].sku_id# sku_id
+          ,#CCDetailInfoList[].warehouse_id# warehouse_id
+          ,#CCDetailInfoList[].end_qty# end_qty
+          ,#CCDetailInfoList[].order_qty# order_qty
+          ,#CCDetailInfoList[].remark# remark
+          ,#CCDetailInfoList[].display_index# display_index
+
+          ,#create_time# create_time
+          ,#create_user_id# create_user_id
+          ,#modify_time# modify_time
+          ,#modify_user_id# modify_user_id
+          ,#CCDetailInfoList[].if_flag# if_flag
+
+        </iterate>
+        ) a;
+      </isNotEmpty>
+    </statement>
+    
+    <select id="CheckExistMobileCCOrder" resultClass="int" parameterClass="hashtable">
+      select count(*) 
+      from t_cc
+      where 1=1
+      and order_id = #OrderId#
+    </select>
+
+    <select id="CheckExistMobileCCOrderDetail" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_cc_detail
+      where 1=1
+      and order_detail_id = #OrderDetailId#
+    </select>
+
+    <select id="CheckIsEndMobileCCOrder" resultClass="int" parameterClass="CC">
+      select count(*)
+      from t_cc
+      where 1=1
+      and order_id = #order_id#
+      and status = '10'
+    </select>
+    
+  </statements>
+</sqlMap>

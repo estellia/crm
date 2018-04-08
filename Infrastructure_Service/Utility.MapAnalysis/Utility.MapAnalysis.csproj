@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5550C3F7-0A36-4275-BAFA-2BEDD60ABFF6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.Utility.MapAnalysis</RootNamespace>
+    <AssemblyName>Utility.MapAnalysis</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\ReferenceDll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="v1\Builder\KpiFlatDataBuilder.cs" />
+    <Compile Include="v1\Builder\KPIPieDataBuilder.cs" />
+    <Compile Include="v1\Builder\KPIPointDataBuilder.cs" />
+    <Compile Include="v1\Builder\KPIBuilderUtils.cs" />
+    <Compile Include="v1\ComponentModel\KPIData\IKPIData.cs" />
+    <Compile Include="v1\ComponentModel\KPIData\KPIFlatData.cs" />
+    <Compile Include="v1\ComponentModel\KPIData\KPIPieData.cs" />
+    <Compile Include="v1\ComponentModel\KPIData\KPIPointData.cs" />
+    <Compile Include="v1\ComponentModel\KPIEnum.cs" />
+    <Compile Include="v1\ComponentModel\KPIInformation.cs" />
+    <Compile Include="v1\ComponentModel\KPIThreshold\IKPIDataThreshold.cs" />
+    <Compile Include="v1\ComponentModel\KPIThreshold\PieThreshold.cs" />
+    <Compile Include="v1\ComponentModel\KPIThreshold\PieThresholdItem.cs" />
+    <Compile Include="v1\ComponentModel\KPIThreshold\Threshold.cs" />
+    <Compile Include="v1\ComponentModel\KPIThreshold\ThresholdItem.cs" />
+    <Compile Include="v1\DataSource\KPIFlatDataItem.cs" />
+    <Compile Include="v1\DataSource\KPIPieDataItem.cs" />
+    <Compile Include="v1\DataSource\KPIPointDataItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{1DFD5C01-71C0-41D9-82E4-CABA22331835}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

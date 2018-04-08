@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{365C2765-3BC4-462D-96C3-6C175E0CCB16}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.Utility.Message</RootNamespace>
+    <AssemblyName>Utility.Message</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JdSoft.Apns.Notifications, Version=1.0.4.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\JdSoft.Apns.Notifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\ReferenceDll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Baidu\BaiduChannel.cs" />
+    <Compile Include="Baidu\BaiduCloudPush.cs" />
+    <Compile Include="Baidu\DeleteMsgRequest.cs" />
+    <Compile Include="Baidu\FetchMsgRequest.cs" />
+    <Compile Include="Baidu\PushMsgRequestBuilder.cs" />
+    <Compile Include="Baidu\BaiduPushNotification.cs" />
+    <Compile Include="Baidu\BaiduPushMessageRequest.cs" />
+    <Compile Include="Baidu\BaiduPushMessageResponse.cs" />
+    <Compile Include="Baidu\PushMsgRequest.cs" />
+    <Compile Include="Baidu\ValueObject\DeployStatuses.cs" />
+    <Compile Include="Baidu\ValueObject\DeviceTypes.cs" />
+    <Compile Include="Baidu\ValueObject\HttpMethods.cs" />
+    <Compile Include="Baidu\ValueObject\MessageTypes.cs" />
+    <Compile Include="Baidu\ValueObject\PushChannel.cs" />
+    <Compile Include="Baidu\ValueObject\PushTypes.cs" />
+    <Compile Include="BaseChannel.cs" />
+    <Compile Include="IOS\IOSNotificationBuilder.cs" />
+    <Compile Include="IOS\IOSNotificationService.cs" />
+    <Compile Include="IOS\ValueObject\IOSChannel.cs" />
+    <Compile Include="ParameterDictionary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueObject\MobilePlatforms.cs" />
+    <Compile Include="RequestBuilder.cs" />
+    <Compile Include="PushRequest.cs" />
+    <Compile Include="PushResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Const\Const.csproj">
+      <Project>{BB4C49E2-BD7C-4556-91C4-D3575433A8DB}</Project>
+      <Name>Const</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{1DFD5C01-71C0-41D9-82E4-CABA22331835}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Bill.Action"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillAction" type="cpos.Admin.Model.Bill.BillActionInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="BillActionResult" class="BillAction">
+      <result property="BillKind.ID" column="bill_kind_id" type="string" />
+      <result property="ID" column="bill_action_id" type="string" />
+      <result property="Name" column="bill_action_name" type="string" />
+      <result property="EnglishName" column="bill_action_name_en" type="string" />
+      <result property="CreateFlag" column="create_flag" type="int" />
+      <result property="ModifyFlag" column="modify_flag" type="int" />
+      <result property="DeleteFlag" column="delete_flag" type="int" />
+      <result property="ApproveFlag" column="approve_flag" type="int" />
+      <result property="RejectFlag" column="reject_flag" type="int" />
+      <result property="ReserveFlag" column="reserve_flag" type="int" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="Select" parameterClass="BillAction">
+      select a.bill_kind_id,a.bill_action_id,a.bill_action_name,a.bill_action_name_en,a.create_flag,a.modify_flag,a.delete_flag,a.approve_flag,a.reject_flag,a.reserve_flag 
+      from t_def_bill_action a
+    </select>
+
+  </statements>
+
+</sqlMap>

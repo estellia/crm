@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="SpreadSetting"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="SpreadSetting" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_SpreadSettingData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SpreadSettingResult" class="SpreadSetting">
+      <result property="Id" column="Id" type="Guid" />
+      <result property="SpreadType" column="SpreadType" type="string" />
+      <result property="Title" column="Title" type="string" />
+      <result property="ImageId" column="ImageId" type="string"/>
+      <result property="Summary" column="Summary" type="string"/>
+      <result property="PromptText" column="PromptText" type="string"/>
+      <result property="LeadPageSharePromptText" column="LeadPageSharePromptText" type="string"/>
+      <result property="LeadPageFocusPromptText" column="LeadPageFocusPromptText" type="string"/>
+      <result property="LeadPageRegPromptText" column="LeadPageRegPromptText" type="string"/>
+      <result property="TemplateId" column="TemplateId" type="Guid"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <!--关联字段-->
+      <result property="ImageUrl" column="ImageUrl" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    
+    <!--查询-->
+    <select id="sql_SelectByWhere" resultMap="SpreadSettingResult" parameterString="hashtable">
+      select a.*,b.ImageUrl from T_CTW_SpreadSetting as a
+      left join ObjectImages as b on a.ImageId=b.ImageId and b.IsDelete=0
+      where a.IsDelete=0 and a.TemplateId=#TemplateId#
+    </select>
+    <!--新增-->
+    <insert id="sql_Insert" parameterClass="SpreadSetting">
+      insert into T_CTW_SpreadSetting(
+      Id
+      ,SpreadType
+      ,Title
+      ,ImageId
+      ,Summary
+      ,PromptText
+      ,LeadPageSharePromptText
+      ,LeadPageFocusPromptText
+      ,LeadPageRegPromptText
+      ,TemplateId
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      )
+      VALUES
+      (
+      #Id#,#SpreadType#,#Title#, #ImageId#, #Summary#,#PromptText#, #LeadPageSharePromptText#,#LeadPageFocusPromptText#,
+      #LeadPageRegPromptText#,#TemplateId#,
+      GetDate(), #CreateBy#, GetDate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="SpreadSetting">
+      Update T_CTW_SpreadSetting set Title=#Title#,ImageId=#ImageId#,Summary=#Summary#,PromptText=#PromptText#,
+      LastUpdateTime=getdate(),LastUpdateBy=LastUpdateBy
+      where Id=#Id#
+    </update>
+  </statements>
+</sqlMap>

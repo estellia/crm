@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AdvertiseOrder"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AdvertiseOrder" type="cPos.Model.Advertise.AdvertiseOrderInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdvertiseOrderResult" class="AdvertiseOrder">
+      <result property="order_id" column="order_id" type="string" />
+      <result property="order_code" column="order_code" type="string" />
+      <result property="order_date" column="order_date" type="string"/>
+      <result property="date_start" column="date_start" type="string"/>
+      <result property="date_end" column="date_end" type="string"/>
+      <result property="time_start" column="time_start" type="string"/>
+      <result property="time_end" column="time_end" type="string"/>
+      <result property="playbace_no" column="playbace_no" type="int"/>
+      <result property="url_address" column="url_address" type="string"/>
+      <result property="customer_id" column="customer_id" type="string"/>
+      
+      <result property="status" column="status" type="string"/>
+      <result property="status_desc" column="status_desc" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+
+      <result property="modify_user_name" column="modify_user_name" type="string"/>
+      <result property="create_user_name" column="create_user_name" type="string"/>
+
+
+    </resultMap>
+
+    <resultMap id="AdvertiseOrderSearchResult" class="AdvertiseOrder" extends="AdvertiseOrderResult">
+      <result property="row_no" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="icount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+  </resultMaps>
+  <statements>
+    
+    
+    <!--处理表信息 Jermyn 2012-06-14-->
+    <statement id="InsertOrUpdate" parameterClass="AdvertiseOrder">
+      update T_Advertise_Order
+      set order_date = #order_date#
+      ,date_end = #date_end#
+      ,time_start = #time_start#
+      ,time_end = #time_end#
+      ,url_address = #url_address#
+      ,playbace_no = #playbace_no#
+      ,status = #status#
+      ,status_desc = #status_desc#
+
+      ,modify_user_id = #modify_user_id#
+      ,modify_time = #modify_time#
+      where order_id = #order_id#;
+
+      insert into T_Advertise_Order (
+      order_id
+      ,order_code
+      ,order_date
+      ,date_start
+      ,date_end
+      ,time_start
+      ,time_end
+      ,playbace_no
+      ,url_address
+      ,customer_id
+      ,status
+      ,status_desc
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      )
+
+      select a.* From (
+      select #order_id# order_id
+      ,#order_code# order_code
+      ,#order_date# order_date
+      ,#date_start# date_start
+      ,#date_end# date_end
+      ,#time_start# time_start
+      ,#time_end# time_end
+      ,#playbace_no# playbace_no
+      ,#url_address# url_address
+
+      ,#customer_id# customer_id
+      ,#status# status
+      ,#status_desc# status_desc
+      ,#create_user_id# create_user_id
+      ,#create_time# create_time
+      ,#modify_user_id# modify_user_id
+      ,#modify_time# modify_time
+
+      ) a
+      left join T_Advertise_Order b
+      on(a.order_id = b.order_id)
+      where b.order_id is null ;
+    </statement>
+
+    <statement id="HandleAOA" parameterClass="AdvertiseOrder">
+
+      <isNotEmpty property="advertiseOrderAdvertiseInfoList">
+        <!--删除明细-->
+        <!--delete T_Advertise_Order_Advertise
+        where order_id = #order_id#;-->
+        <!--插入明细-->
+        insert into T_Advertise_Order_Advertise
+        (
+        id
+        ,order_id
+        ,advertise_id
+        )
+        
+        SELECT a.id
+        ,a.order_id
+        ,a.advertise_id
+
+        FROM (
+        <iterate property="advertiseOrderAdvertiseInfoList" conjunction=" UNION ">
+          SELECT
+          #advertiseOrderAdvertiseInfoList[].id# id
+          ,#advertiseOrderAdvertiseInfoList[].order_id# order_id
+          ,#advertiseOrderAdvertiseInfoList[].advertise_id# advertise_id
+          ,#advertiseOrderAdvertiseInfoList[].customer_id# customer_id
+        </iterate>
+        ) a left join T_Advertise_Order_Advertise b
+        on(a.id = b.id)
+        where b.id is null;
+      </isNotEmpty>
+    </statement>
+
+    <statement id="HandleUnit" parameterClass="AdvertiseOrder">
+
+      <isNotEmpty property="advertiseOrderUnitInfoList">
+        <!--删除明细-->
+        <!--delete T_Advertise_Order_Unit
+        where order_id = #order_id#
+        and customer_id = #customer_id#;-->
+        <!--插入明细-->
+        insert into T_Advertise_Order_Unit
+        (
+        order_unit_id
+        ,order_id
+        ,unit_id
+        ,customer_id
+        )
+        SELECT a.order_unit_id
+        ,a.order_id
+        ,a.unit_id
+        ,c.customer_id
+
+        FROM (
+        <iterate property="advertiseOrderUnitInfoList" conjunction=" UNION ">
+          SELECT
+          #advertiseOrderUnitInfoList[].order_unit_id# order_unit_id
+          ,#advertiseOrderUnitInfoList[].order_id# order_id
+          ,#advertiseOrderUnitInfoList[].unit_id# unit_id
+          ,#advertiseOrderUnitInfoList[].customer_id# customer_id
+        </iterate>
+        ) a
+        left join T_Advertise_Order_Unit b
+        on(a.order_unit_id = b.order_unit_id)
+        left join t_unit c
+        on(b.unit_id = c.unit_id)
+        where b.order_unit_id is null;
+      </isNotEmpty>
+    </statement>
+
+    <!--获取未打包的广告播放订单数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*) From T_Advertise_Order a
+      inner join T_Advertise_Order_Unit b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and isnull(b.if_flag,'0') = '0'
+      and b.unit_id = #UnitId#
+    </select>
+
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="AdvertiseOrderResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (order_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (order_id,row_no)
+      select a.order_id
+      ,row_number() over(order by a.order_code) row_no
+      From T_Advertise_Order a
+      inner join T_Advertise_Order_Unit b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and isnull(b.if_flag,'0') = '0'
+      and b.unit_id = #UnitId#;
+
+      select a.order_id
+      ,a.order_code
+      ,a.order_date
+      ,a.date_start
+      ,a.date_end
+      ,a.time_start
+      ,a.time_end
+      ,a.playbace_no
+      ,a.url_address
+      ,a.customer_id
+      ,a.status
+      ,a.status_desc
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_time
+      ,a.modify_user_id
+      ,(select USER_NAME From T_User x where x.user_id = a.create_user_id) create_user_name
+      ,(select USER_NAME From T_User x where x.user_id = a.modify_user_id) modify_user_name From t_advertise_order a
+      inner join @TmpTable b
+      on(a.order_id = b.order_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by order_code;
+      
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="AdvertiseOrder">
+      <isNotEmpty property="advertiseOrderUnitInfoList">
+        update T_Advertise_Order_Unit
+        set bat_no = #bat_no#
+        From T_Advertise_Order_Unit x
+        inner join (
+        SELECT order_id
+        ,unit_id
+        FROM (
+        <iterate property="advertiseOrderUnitInfoList" conjunction=" UNION ">
+          SELECT #advertiseOrderUnitInfoList[].order_id# order_id
+          ,#advertiseOrderUnitInfoList[].unit_id# unit_id
+        </iterate>
+        ) a ) y
+        on(x.order_id = y.order_id
+        and x.unit_id = y.unit_id);
+        
+      </isNotEmpty>
+
+    </update>
+    <!--更新AdvertiseOrder表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="AdvertiseOrder">
+      update T_Advertise_Order_Unit
+      set if_flag = '1'
+      where bat_no = #bat_no#;
+    </update>
+  </statements>
+</sqlMap>

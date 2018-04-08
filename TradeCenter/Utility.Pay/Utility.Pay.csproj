@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{533490A3-2064-4229-8711-F99A2EC2F75D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.Utility.Pay</RootNamespace>
+    <AssemblyName>Utility.Pay</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Const, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Const.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJSON">
+      <HintPath>..\ReferenceDll\LitJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\Utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Alipay\Channel\AliPayChannel.cs" />
+    <Compile Include="Alipay\Util\BouncyCastleHelper.cs" />
+    <Compile Include="Alipay\Interface\Scan\AliPayScanGeteway.cs" />
+    <Compile Include="Alipay\Interface\Scan\Request\RequestScanEntity.cs" />
+    <Compile Include="Alipay\Interface\Scan\Request\ScanBaseRequest.cs" />
+    <Compile Include="Alipay\Interface\Scan\Response\ResponsetScanEntity.cs" />
+    <Compile Include="Basic.cs" />
+    <Compile Include="BasicPara.cs" />
+    <Compile Include="Alipay\Interface\Base\BaseGeteway.cs" />
+    <Compile Include="Alipay\Interface\Base\BaseNotify.cs" />
+    <Compile Include="Alipay\Interface\OffLine\AliPayOfflineGeteway.cs" />
+    <Compile Include="Alipay\Interface\OffLine\Base\BaseOffLineRequest.cs" />
+    <Compile Include="Alipay\Interface\OffLine\Base\BaseOfflineResponse.cs" />
+    <Compile Include="Alipay\Interface\OffLine\Entity\ChannelDetail.cs" />
+    <Compile Include="Alipay\Interface\OffLine\Entity\RoyaltyDetail.cs" />
+    <Compile Include="Alipay\Interface\OffLine\Notify\OfflineNotify.cs" />
+    <Compile Include="Alipay\Interface\OffLine\QRCodePre\OfflineQRCodePreRequest.cs" />
+    <Compile Include="Alipay\Interface\OffLine\QRCodePre\OfflineQRCodePreResponse.cs" />
+    <Compile Include="Alipay\Interface\OffLine\CreateAndPay\CreateAndPayResponseParameters.cs" />
+    <Compile Include="Alipay\Interface\OffLine\CreateAndPay\CreateAndPayRequest.cs" />
+    <Compile Include="Alipay\Interface\Base\AliPayConfig.cs" />
+    <Compile Include="Alipay\Interface\Wap\AliPayWapGeteway.cs" />
+    <Compile Include="Alipay\ExtensionMethod\DictionaryExtensionMethods.cs" />
+    <Compile Include="Alipay\ExtensionMethod\StringExtensionMethod.cs" />
+    <Compile Include="Alipay\Interface\Base\BaseRequest.cs" />
+    <Compile Include="Alipay\Interface\Base\BaseResponse.cs" />
+    <Compile Include="Alipay\Interface\Wap\Notify\WapNotify.cs" />
+    <Compile Include="Alipay\Interface\Wap\Notify\NotifyData.cs" />
+    <Compile Include="Alipay\Interface\Wap\Request\RoyaltyRequest.cs" />
+    <Compile Include="Alipay\Interface\Wap\Request\AliPayWapTokenRequest.cs" />
+    <Compile Include="Alipay\Interface\Wap\Request\AliPayWapQueryTradeRequest.cs" />
+    <Compile Include="Alipay\Interface\Wap\Response\AliPayWapQueryOrderResponse.cs" />
+    <Compile Include="Alipay\Interface\Wap\Response\RoyaltyResponse.cs" />
+    <Compile Include="Alipay\Interface\Wap\Response\TokenResponse.cs" />
+    <Compile Include="Alipay\Util\AliPayCore.cs" />
+    <Compile Include="Alipay\Util\AliPayFunction.cs" />
+    <Compile Include="Alipay\Util\AlipayMD5.cs" />
+    <Compile Include="Alipay\Util\RSAFromPkcs8.cs" />
+    <Compile Include="Alipay\Interface\OffLine\Entity\GoodsDetail.cs" />
+    <Compile Include="Alipay\ValueObject\ProductCode.cs" />
+    <Compile Include="Alipay\ValueObject\ResultCodes.cs" />
+    <Compile Include="Alipay\ValueObject\SignType.cs" />
+    <Compile Include="Alipay\ValueObject\TradeStatus.cs" />
+    <Compile Include="IAPIRequest.cs" />
+    <Compile Include="IGateway.cs" />
+    <Compile Include="Negotiation\Interface\NeBaseAPIRequest.cs" />
+    <Compile Include="Negotiation\Interface\NeBaseAPIResponse.cs" />
+    <Compile Include="Negotiation\Interface\NegotiationPayChannel.cs" />
+    <Compile Include="Negotiation\Interface\Request\BatchPayRequest.cs" />
+    <Compile Include="Negotiation\Interface\Request\PayRequest.cs" />
+    <Compile Include="Negotiation\Interface\Request\TransationNotificationRequest.cs" />
+    <Compile Include="Negotiation\Interface\Response\BatchPayResponse.cs" />
+    <Compile Include="Negotiation\Interface\Response\PayResponse.cs" />
+    <Compile Include="Negotiation\NegotiationGetWay.cs" />
+    <Compile Include="Negotiation\Untiyt\EncDecUtil.cs" />
+    <Compile Include="Negotiation\Untiyt\RSAGenerator.cs" />
+    <Compile Include="PALifePay\Util\BouncyCastleHelper.cs" />
+    <Compile Include="PALifePay\Util\HashEncryptHelper.cs" />
+    <Compile Include="PALifePay\Util\SignHelper.cs" />
+    <Compile Include="PALifePay\ValueObject\IgnoreSignatureAttribute.cs" />
+    <Compile Include="PALifePay\ValueObject\LifePayRP.cs" />
+    <Compile Include="PALifePay\ValueObject\SignatureFieldAttribute.cs" />
+    <Compile Include="WeiXinPay\ComplaintRights\Notify\ComplaintNotify.cs" />
+    <Compile Include="WeiXinPay\Interface\App\Request\WeiXinAppOrderRequest.cs" />
+    <Compile Include="WeiXinPay\Interface\JS\JSPayHelper.cs" />
+    <Compile Include="WeiXinPay\Interface\Native\NativePayHelper.cs" />
+    <Compile Include="WeiXinPay\Interface\Notify\WXPayNotify.cs" />
+    <Compile Include="WeiXinPay\Interface\Package.cs" />
+    <Compile Include="WeiXinPay\Interface\WeiXinOrderQuery.cs" />
+    <Compile Include="WeiXinPay\Interface\WeiXinPayBaseRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnionPay\Interface\BaseAPIRequest.cs" />
+    <Compile Include="UnionPay\Interface\BaseAPIResponse.cs" />
+    <Compile Include="UnionPay\ExtensionMethod\StringExtensionMethods.cs" />
+    <Compile Include="UnionPay\Interface\IVR\IVRGateway.cs" />
+    <Compile Include="UnionPay\Interface\IVR\Request\PreOrderRequest.cs" />
+    <Compile Include="UnionPay\Interface\IVR\Request\QueryOrderRequest.cs" />
+    <Compile Include="UnionPay\Interface\IVR\Request\TransactionNotificationRequest.cs" />
+    <Compile Include="UnionPay\Interface\IVR\Response\PreOrderResponse.cs" />
+    <Compile Include="UnionPay\Interface\IVR\Response\QueryOrderResponse.cs" />
+    <Compile Include="UnionPay\Interface\IVR\Response\TransactionNotificationResponse.cs" />
+    <Compile Include="UnionPay\Interface\IVR\ValueObject\IVRModes.cs" />
+    <Compile Include="UnionPay\Interface\IVR\ValueObject\IVRTransTypes.cs" />
+    <Compile Include="UnionPay\Interface\IVR\ValueObject\OrderQueryResults.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Request\TransactionNotificationRequest.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Response\TransactionNotificationResponse.cs" />
+    <Compile Include="UnionPay\Interface\Wap\WapGateway.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Request\CancelTransactionRequest.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Request\PreAuthorizationCompletedRequest.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Request\PreOrderRequest.cs" />
+    <Compile Include="UnionPay\ExtensionMethod\DateTimeExtensionMethods.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Request\QueryOrderRequest.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Request\ReturnOrderRequest.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Response\CancelTransactionResponse.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Response\PreAuthorizationCompletedResponse.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Response\PreOrderResponse.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Response\QueryOrderResponse.cs" />
+    <Compile Include="UnionPay\Interface\Wap\Response\ReturnOrderResponse.cs" />
+    <Compile Include="UnionPay\Interface\UnionPayException.cs" />
+    <Compile Include="UnionPay\Util\EncDecUtil.cs" />
+    <Compile Include="UnionPay\Util\PacketUtil.cs" />
+    <Compile Include="UnionPay\ValueObject\Currencys.cs" />
+    <Compile Include="UnionPay\ValueObject\GatewayTypes.cs" />
+    <Compile Include="UnionPay\ValueObject\IDTypes.cs" />
+    <Compile Include="UnionPay\Interface\Wap\ValueObject\OrderQueryResults.cs" />
+    <Compile Include="UnionPay\Interface\Wap\ValueObject\WapTransTypes.cs" />
+    <Compile Include="UnionPay\Interface\UnionPayChannel.cs" />
+    <Compile Include="WeiXinPay\Interface\App\Request\PreOrderRequest.cs" />
+    <Compile Include="WeiXinPay\Interface\App\Response\PreOrderResponse.cs" />
+    <Compile Include="WeiXinPay\Interface\WeiXinPayChannel.cs" />
+    <Compile Include="WeiXinPay\Interface\WeiXinPayException.cs" />
+    <Compile Include="WeiXinPay\Interface\App\WeiXinPay4AppGateway.cs" />
+    <Compile Include="WeiXinPay\Interface\WeiXinPayHelper.cs" />
+    <Compile Include="WeiXinPay\Interface\WeiXinPayRequest.cs" />
+    <Compile Include="WeiXinPay\Util\CommonUtil.cs" />
+    <Compile Include="WeiXinPay\Util\HttpService.cs" />
+    <Compile Include="WeiXinPay\ValueObject\AccessTokenInfo.cs" />
+    <Compile Include="WeiXinPay\ValueObject\Currencys.cs" />
+    <Compile Include="WeiXinPay\ValueObject\InnerPreOrderRequestInfo.cs" />
+    <Compile Include="WeiXinPay\ValueObject\OrderInfo.cs" />
+    <Compile Include="WeiXinPay\ValueObject\OrderPackage.cs" />
+    <Compile Include="WeiXinPay\ValueObject\PreOrderInfo.cs" />
+    <Compile Include="WeiXinPay\ValueObject\WeiXinUrlType.cs" />
+    <Compile Include="WeiXinPay\WeiXinPayGateway.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TradeCenter.Entity\TradeCenter.Entity.csproj">
+      <Project>{ac8e0fe3-e731-4588-8454-f287f05ce7e7}</Project>
+      <Name>TradeCenter.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TradeCenter.Entity\TradeCenter.Entity.csproj">
+      <Project>{AC8E0FE3-E731-4588-8454-F287F05CE7E7}</Project>
+      <Name>TradeCenter.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Alipay\Interface\Wap\NewFolder1\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

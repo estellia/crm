@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Customer.Terminal"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="CustomerTerminal" type="cpos.Admin.Model.Customer.CustomerTerminalInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="CustomerTerminalResult" class="CustomerTerminal" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="customer_terminal_id" type="string" />
+      <result property="HoldType" column="ct_hold_type" type="string" />
+      <result property="HoldTypeDescription" column="ct_hold_type_desc" type="string" />
+      <result property="Type" column="ct_type" type="string" />
+      <result property="TypeDescription" column="ct_type_desc" type="string" />
+      <result property="Code" column="ct_code" type="string" />
+      <result property="SN" column="ct_sn" type="string" />
+      <result property="PurchaseDate" column="ct_purchase_date" type="string" />
+      <result property="InsuranceDate" column="ct_insurance_date" type="string" />
+      <result property="WS" column="ct_ws" type="string" />
+      <result property="WS2" column="ct_ws2" type="string" />
+      <result property="SoftwareVersion" column="ct_software_version" type="string" />
+      <result property="DBVersion" column="ct_db_version" type="string" />
+      <result property="Remark" column="ct_remark" type="string" />
+      <result property="Brand" column="ct_brand" type="string" />
+      <result property="Model" column="ct_model" type="string" />
+      <result property="HaveCashbox" column="ct_have_cashbox" type="int" />
+      <result property="CashboxNo" column="ct_cashbox_no" type="string" />
+      <result property="HaveEcard" column="ct_have_ecard" type="int" />
+      <result property="EcardNo" column="ct_ecard_no" type="string" />
+      <result property="HavePrinter" column="ct_have_printer" type="int" />
+      <result property="PrinterNo" column="ct_printer_no" type="string" />
+      <result property="HaveHolder" column="ct_have_holder" type="int" />
+      <result property="HolderNo" column="ct_holder_no" type="string" />
+      <result property="HaveScanner" column="ct_have_scanner" type="int" />
+      <result property="ScannerNo" column="ct_scanner_no" type="string" />
+      <result property="HaveClientDisplay" column="ct_have_client_display" type="int" />
+      <result property="ClientDisplayNo" column="ct_client_display_no" type="string" />
+      <result property="HaveOtherDevice" column="ct_have_other_device" type="int" />
+      <result property="OtherDeviceNo" column="ct_other_device_no" type="string" />  
+      <result property="Customer.ID" column="customer_id" type="string" />
+      <result property="Customer.Code" column="customer_code" type="string"/>
+      <result property="Customer.Name" column="customer_name" type="string"/>
+      <result property="Customer.StatusDescription" column="customer_status_desc" type="string"/>
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="SelectTerminalListCount" resultClass="int">
+      select count(a.customer_id)
+      from t_customer a, t_customer_terminal b
+      where a.customer_id=b.customer_id
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          a.customer_id=#CustomerID#
+        </isNotNull>
+        <isNotNull property="CustomerName" prepend="and">
+          (a.customer_code like '%' + #CustomerName# + '%' or a.customer_name like '%' + #CustomerName# + '%')
+        </isNotNull>
+        <isNotNull property="CTHoldType" prepend="and">
+          b.ct_hold_type = #CTHoldType# 
+        </isNotNull>
+        <isNotNull property="CTType" prepend="and">
+          b.ct_type = #CTType# 
+        </isNotNull>
+        <isNotNull property="CTCode" prepend="and">
+          b.ct_code like '%' + #CTCode# + '%'
+        </isNotNull>
+        <isNotNull property="CTsn" prepend="and">
+          b.ct_sn like '%' + #CTsn# + '%'
+        </isNotNull>
+        <isNotNull property="CTSoftwareVersion" prepend="and">
+          b.ct_software_version like '%' + #CTSoftwareVersion# + '%'
+        </isNotNull>
+        <isNotNull property="CTPurchaseDateBegin" prepend="and">
+          b.ct_purchase_date &gt;= #CTPurchaseDateBegin#
+        </isNotNull>
+        <isNotNull property="CTPurchaseDateEnd" prepend="and">
+          b.ct_purchase_date &lt;= #CTPurchaseDateEnd#
+        </isNotNull>
+        <isNotNull property="CTInsuranceDateBegin" prepend="and">
+          b.ct_insurance_date &gt;= #CTInsuranceDateBegin#
+        </isNotNull>
+        <isNotNull property="CTInsuranceDateEnd" prepend="and">
+          b.ct_insurance_date &lt;= #CTInsuranceDateEnd#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectTerminalList" resultMap="CustomerTerminalResult">
+      select a.* from (
+      select rownum_=row_number() over(order by a.customer_code,b.ct_code),
+      a.customer_code,a.customer_name,b.*,
+      e.dd_name as customer_status_desc,
+      f.dd_name as ct_hold_type_desc, g.dd_name as ct_type_desc
+      from t_customer a, t_customer_terminal b, vw_dic e, vw_dic f, vw_dic g
+      where a.customer_id=b.customer_id and e.dic_code='status'
+      and cast(a.customer_status as char)=e.dd_code
+      and f.dic_code='terminal_hold_type' and b.ct_hold_type=f.dd_code
+      and g.dic_code='terminal_type' and b.ct_type=g.dd_code
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          a.customer_id=#CustomerID#
+        </isNotNull>
+        <isNotNull property="CustomerName" prepend="and">
+          (a.customer_code like '%' + #CustomerName# + '%' or a.customer_name like '%' + #CustomerName# + '%')
+        </isNotNull>
+        <isNotNull property="CTHoldType" prepend="and">
+          b.ct_hold_type = #CTHoldType#
+        </isNotNull>
+        <isNotNull property="CTType" prepend="and">
+          b.ct_type = #CTType#
+        </isNotNull>
+        <isNotNull property="CTCode" prepend="and">
+          b.ct_code like '%' + #CTCode# + '%'
+        </isNotNull>
+        <isNotNull property="CTsn" prepend="and">
+          b.ct_sn like '%' + #CTsn# + '%'
+        </isNotNull>
+        <isNotNull property="CTSoftwareVersion" prepend="and">
+          b.ct_software_version like '%' + #CTSoftwareVersion# + '%'
+        </isNotNull>
+        <isNotNull property="CTPurchaseDateBegin" prepend="and">
+          b.ct_purchase_date &gt;= #CTPurchaseDateBegin#
+        </isNotNull>
+        <isNotNull property="CTPurchaseDateEnd" prepend="and">
+          b.ct_purchase_date &lt;= #CTPurchaseDateEnd#
+        </isNotNull>
+        <isNotNull property="CTInsuranceDateBegin" prepend="and">
+          b.ct_insurance_date &gt;= #CTInsuranceDateBegin#
+        </isNotNull>
+        <isNotNull property="CTInsuranceDateEnd" prepend="and">
+          b.ct_insurance_date &lt;= #CTInsuranceDateEnd#
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+    <select id="ExistCustomerTerminalCode" parameterClass="hashtable">
+      select count(*) from t_customer_terminal
+      where ct_code=#TerminalCode#
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          customer_terminal_id &lt;&gt; #TerminalID#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <insert id="InsertCustomerTerminalFromCP" parameterClass="CustomerTerminal">
+      insert into t_customer_terminal(customer_id, customer_terminal_id, ct_hold_type,
+      ct_type, ct_brand, ct_model, ct_code, ct_sn,
+      ct_purchase_date, ct_insurance_date, ct_ws, ct_ws2, ct_software_version, ct_db_version,
+      ct_have_cashbox, ct_cashbox_no, ct_have_ecard, ct_ecard_no, ct_have_scanner, ct_scanner_no,
+      ct_have_client_display, ct_client_display_no, ct_have_printer, ct_printer_no,
+      ct_have_other_device, ct_other_device_no, ct_have_holder, ct_holder_no,
+      ct_remark, sys_modify_stamp)
+      values(#Customer.ID#, #ID#, #HoldType#,
+      #Type#, #Brand#, #Model#, #Code#, #SN#,
+      #PurchaseDate#, #InsuranceDate#, #WS#, #WS2#, #SoftwareVersion#, #DBVersion#,
+      #HaveCashbox#, #CashboxNo#, #HaveEcard#, #EcardNo#, #HaveScanner#, #ScannerNo#,
+      #HaveClientDisplay#, #ClientDisplayNo#, #HavePrinter#, #PrinterNo#,
+      #HaveOtherDevice#, #OtherDeviceNo#, #HaveHolder#, #HolderNo#,
+      #Remark#, getdate())
+    </insert>
+
+    <insert id="Insert" parameterClass="CustomerTerminal">
+      insert into t_customer_terminal(customer_id, customer_terminal_id, ct_hold_type,
+      ct_type, ct_brand, ct_model, ct_code, ct_sn,
+      ct_purchase_date, ct_insurance_date, 
+      ct_ws, ct_ws2, ct_software_version, ct_db_version,
+      ct_have_cashbox, ct_cashbox_no, ct_have_ecard, ct_ecard_no, ct_have_scanner, ct_scanner_no,
+      ct_have_client_display, ct_client_display_no, ct_have_printer, ct_printer_no,
+      ct_have_other_device, ct_other_device_no, ct_have_holder, ct_holder_no,
+      ct_remark, create_user_id, create_user_name, create_time)
+      values(#Customer.ID#, #ID#, '1',
+      #Type#, #Brand#, #Model#, #Code#, #SN#,
+      #PurchaseDate#, #InsuranceDate#, 
+      <!--#WS#, #WS2#, #SoftwareVersion#, #DBVersion#,-->
+      'http://10.0.32.125:9000','http://10.0.32.76:9000','1.1.1000','20120827080808',
+      #HaveCashbox#, #CashboxNo#, #HaveEcard#, #EcardNo#, #HaveScanner#, #ScannerNo#,
+      #HaveClientDisplay#, #ClientDisplayNo#, #HavePrinter#, #PrinterNo#,
+      #HaveOtherDevice#, #OtherDeviceNo#, #HaveHolder#, #HolderNo#,
+      #Remark#, #Creater.ID#, #Creater.Name#, getdate())
+    </insert>
+
+    <update id="Update" parameterClass="CustomerTerminal">
+      update t_customer_terminal set
+      ct_type = #Type#,
+      ct_brand = #Brand#,
+      ct_model = #Model#,
+      ct_code = #Code#,
+      ct_sn = #SN#,
+      ct_purchase_date = #PurchaseDate#,
+      ct_insurance_date = #InsuranceDate#,
+      <!--ct_ws = #WS#,
+      ct_ws2 = #WS2#,
+      ct_db_version = #DBVersion#,
+      ct_software_version = #SoftwareVersion#,-->
+      ct_have_cashbox = #HaveCashbox#,
+      ct_cashbox_no = #CashboxNo#,
+      ct_have_ecard = #HaveEcard#,
+      ct_ecard_no = #EcardNo#,
+      ct_have_scanner = #HaveScanner#,
+      ct_scanner_no = #ScannerNo#,
+      ct_have_client_display = #HaveClientDisplay#,
+      ct_client_display_no = #ClientDisplayNo#,
+      ct_have_printer = #HavePrinter#,
+      ct_printer_no = #PrinterNo#,
+      ct_have_other_device = #HaveOtherDevice#,
+      ct_other_device_no = #OtherDeviceNo#,
+      ct_have_holder = #HaveHolder#,
+      ct_holder_no = #HolderNo#,
+      ct_remark = #Remark#,
+      modify_user_id= #LastEditor.ID#,
+      modify_user_name = #LastEditor.Name#,
+      modify_time = getdate()
+      where customer_terminal_id = #ID#
+    </update>
+
+    <update id="UpdateCustomerTerminalFromCP" parameterClass="CustomerTerminal">
+      update t_customer_terminal set
+      ct_type = #Type#,
+      ct_brand = #Brand#,
+      ct_model = #Model#,
+      ct_code = #Code#,
+      ct_sn = #SN#,
+      ct_purchase_date = #PurchaseDate#,
+      ct_insurance_date = #InsuranceDate#,
+      ct_ws = #WS#,
+      ct_ws2 = #WS2#,
+      ct_software_version = #SoftwareVersion#,
+      ct_db_version = #DBVersion#,
+      ct_have_cashbox = #HaveCashbox#,
+      ct_cashbox_no = #CashboxNo#,
+      ct_have_ecard = #HaveEcard#,
+      ct_ecard_no = #EcardNo#,
+      ct_have_scanner = #HaveScanner#,
+      ct_scanner_no = #ScannerNo#,
+      ct_have_client_display = #HaveClientDisplay#,
+      ct_client_display_no = #ClientDisplayNo#,
+      ct_have_printer = #HavePrinter#,
+      ct_printer_no = #PrinterNo#,
+      ct_have_other_device = #HaveOtherDevice#,
+      ct_other_device_no = #OtherDeviceNo#,
+      ct_have_holder = #HaveHolder#,
+      ct_holder_no = #HolderNo#,
+      ct_remark = #Remark#,
+      sys_modify_stamp = getdate()
+      where customer_terminal_id = #ID#
+    </update>
+
+    <select id="Select" parameterClass="CustomerTerminal">
+      select a.*
+      from t_customer_terminal a
+    </select>
+
+    <select id="SelectTerminal" parameterClass="CustomerTerminal">
+      select a.customer_code,a.customer_name,b.*,
+      e.dd_name as customer_status_desc,
+      f.dd_name as ct_hold_type_desc,
+      g.dd_name as ct_type_desc
+      from t_customer a
+      inner join t_customer_terminal b on a.customer_id=b.customer_id
+      inner join vw_dic e on e.dic_code='status' and cast(a.customer_status as char)=e.dd_code
+      inner join vw_dic f on f.dic_code='terminal_hold_type' and b.ct_hold_type=f.dd_code
+      inner join vw_dic g on g.dic_code='terminal_type' and b.ct_type=g.dd_code
+    </select>
+
+    <select id="SelectTerminalByID" resultMap="CustomerTerminalResult" parameterClass="string" extends="SelectTerminal">
+      where b.customer_terminal_id=#value#
+    </select>
+
+  </statements>
+
+</sqlMap>

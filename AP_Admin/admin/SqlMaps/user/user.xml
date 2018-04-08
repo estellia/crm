@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--这里定义了namespace-->
+<sqlMap
+	namespace="User.User"     
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="User" type="cpos.Admin.Model.User.UserInfo,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="UserResult" class="User" extends="Base.Operate.ObjectOperateResult">
+      <result property="ID" column="user_id" type="string" />
+      <result property="Account" column="user_account" type="string"/>
+      <result property="Name" column="user_name" type="string"/>
+      <result property="Status" column="user_status" type="int" />
+      <result property="StatusDescription" column="user_status_desc" type="string" />
+      <result property="Password" column="user_password" type="string"/>
+      <result property="unit_id" column="unit_id" type="string"/>
+    </resultMap>
+    
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="UserResult">
+      with tab_status
+      as
+      (
+      select b1.*
+      from t_def_dic a1, t_def_dic_detail b1
+      where a1.dic_code='status' and a1.dic_id=b1.dic_id
+      )
+      select a.*,d.unit_id,
+      c.dd_name as user_status_desc
+      from t_user a
+      inner join tab_status c on  cast(a.user_status as char)=c.dd_code
+      inner join   t_user_role d on	   a.user_id=d.user_id
+    </select>
+    
+    <select id="SelectUserByAccount" resultMap="UserResult" parameterClass="string" extends="Select">
+      where a.user_account=#value#
+    </select>
+
+    <select id="SelectUserByID" resultMap="UserResult" parameterClass="string" extends="Select">
+      where a.user_id=#value#
+    </select>
+
+    <insert id="InsertLoginLog" parameterClass="hashtable">
+      INSERT INTO t_user_login(user_id ,login_ip,session_id)
+      VALUES(#UserID#,#LoginIP#,#SessionID#)
+    </insert>
+
+    <select id="SelectUserPwd" resultClass="string" parameterClass="string">
+      select user_password from t_user
+      where user_id=#value#
+    </select>
+
+    <update id="UpdateUserPwd" parameterClass="hashtable">
+      update t_user
+      set user_password=#UserPwd#
+      where user_id=#UserID#
+      and user_status=1
+    </update>
+
+    <select id="GetUserList" resultMap="UserResult">
+      select a.* from (
+      select rownum_=row_number() over(order by a.user_code),
+      a.*
+      ,b.dd_name as user_status_desc
+      ,d.role_code
+      ,d.role_name
+      from t_user a
+      left join vw_dic b on (b.dic_code='status' and a.user_status=b.dd_code)
+      left join t_user_role c on a.user_id=c.user_id
+      left join t_role d on c.role_id=d.role_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="Account">
+          <isNotEmpty property="Account" prepend="and">
+            a.user_account like '%'+#Account#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Code">
+          <isNotEmpty property="Code" prepend="and">
+            a.user_code like '%'+#Code#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Name">
+          <isNotEmpty property="Name" prepend="and">
+            a.user_name like '%'+#Name#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="Status">
+          <isNotEmpty property="Status" prepend="and">
+            a.user_status like '%'+#Status#+'%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="RoleCode">
+          <isNotEmpty property="RoleCode" prepend="and">
+            d.role_code = #RoleCode#
+          </isNotEmpty>
+        </isNotNull>
+        
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+    
+  </statements>
+</sqlMap>

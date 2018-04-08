@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="UnitRelationMode"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="UnitRelationMode" type="cPos.Model.UnitRelationModeInfo,cPos.Model" />
+    <typeAlias alias="UnitAccountTerm" type="cPos.Model.UnitAccountTermInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <!--<resultMap id="UnitRelationModeResult" class="UnitRelationMode">
+      <result property="Id" column="unit_relation_mode_id" type="string" />
+      <result property="Code" column="unit_relation_mode_code" type="string"/>
+      <result property="DefaultFlag" column="default_flag" type="int" />
+      <result property="Description" column="unit_relation_mode_desc" type="string" />
+    </resultMap>
+
+    <resultMap id="BaseUnitAccountTermResult" class="UnitAccountTerm">
+      <result property="BranchUnit.Name" column="branch_unit_name" type="string"/>
+      <result property="Unit.Id" column="unit_id" type="string" />
+      <result property="Unit.Code" column="unit_code" type="string" />
+      <result property="Unit.Name" column="unit_name" type="string" />
+      <result property="Unit.ShortName" column="unit_name_short" type="string" />
+      <result property="TypeItem.Item_Id" column="type_item_id" type="string" />
+      <result property="TypeItem.Item_Name" column="type_item_name" type="string" />
+    </resultMap>
+
+    <resultMap id="UnitAccountTermResult" class="UnitAccountTerm" extends="BaseUnitAccountTermResult">
+      <result property="Id" column="account_term_id" type="string"/>
+      <result property="PayCategory" column="pay_category" type="string" />
+      <result property="PayCategoryDescription" column="pay_category_desc" type="string" />
+      <result property="PayDuration" column="pay_duration" type="int" />
+      <result property="MonpayBeginDate" column="monpay_begdate" type="int" />
+      <result property="MonpayEndDate" column="monpay_enddate" type="int" />
+      <result property="MonpayDuration" column="monpay_duration" type="int" />
+      <result property="CustpayEom" column="custpay_eom" type="string" />
+      <result property="CustpayDate" column="custpay_date" type="int" />
+    </resultMap>-->
+  </resultMaps>
+
+  <statements>
+    <!--<select id="Select" resultMap="UnitRelationModeResult">
+      select a.unit_relation_mode_id, a.unit_relation_mode_code, a.default_flag,
+      b.object_desc as unit_relation_mode_desc
+      from t_def_unit_relation_mode a
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) b
+      on a.unit_relation_mode_id=b.object_id
+    </select>
+
+    <select id="SelectByCode" extends="Select" resultMap="UnitRelationModeResult" parameterClass="hashtable">
+      where a.unit_relation_mode_code=#UnitRelationModeCode#
+    </select>
+
+    <select id="SelectDefault" extends="Select" resultMap="UnitRelationModeResult" parameterClass="hashtable">
+      where a.default_flag=1
+    </select>
+
+    <select id="SelectUnitAccountTerm" resultMap="UnitAccountTermResult">
+      select u.unit_name as branch_unit_name,
+      a.*,b.unit_code,b.unit_name,b.unit_name_short,
+      nvl(c.item_name,'全部') type_item_name,
+      case nvl(a.pay_category,'0')
+      when '1' then '款到发货'
+      when '2' then '月结(指定天数). 月结天数: '||to_char(a.pay_duration)||'; '||custpay_desc
+      when '3' then '月结(指定日期). 起止日期: '||to_char(monpay_begdate)||' - '||to_char(monpay_enddate)||
+      '; 月结天数: '||to_char(monpay_duration)||'; '||custpay_desc
+      else '未知类型' end pay_category_desc
+      from
+      (select a.*,'指定付款日期: '||
+      case nvl(a.custpay_eom,'0') when '1' then to_char(custpay_date) else '否' end custpay_desc
+      from t_unit_account_term a) a
+      inner join t_unit b on a.unit_id=b.unit_id
+      left join mvw_type_item c on a.type_item_id=c.item_id
+      left join vw_branch_all_unit_map d on a.unit_id=d.unit_id
+      left join t_unit u on d.branch_id=u.unit_id
+    </select>
+
+    <select id="SelectUnitAccountTermById" parameterClass="string" resultMap="UnitAccountTermResult" extends="SelectUnitAccountTerm">
+      where account_term_id=#value#
+    </select>
+
+    <select id="SelectUnitAccountTermByCondition" parameterClass="hashtable" resultMap="UnitAccountTermResult" extends="SelectUnitAccountTerm">
+      where exists (select 1 from mvw_unit_level u1, mvw_unit_level u2,
+      (select unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#) u3
+      where u3.unit_id=u2.unit_id and u1.path_code like u2.path_code || '%' and u1.unit_id=a.unit_id)
+      <dynamic>
+        <isNotNull property="UnitId">
+          and a.unit_id=#UnitId#
+        </isNotNull>
+        <isNotNull property="TypeItemId">
+          and a.type_item_id=#TypeItemId#
+        </isNotNull>
+        <isNotNull property="p_unit_id">
+          and exists (select 1 from mvw_unit_level u1, mvw_unit_level u2
+          where u2.unit_id=#p_unit_id# and u1.path_code like u2.path_code || '%' and u1.unit_id=a.unit_id)
+        </isNotNull>
+        <isNotNull property="p_type_item_id">
+          and exists (select 1 from mvw_item_level u1, mvw_item_level u2
+          where u2.item_id=#p_type_item_id# and u1.path_code like u2.path_code || '%' and u1.item_id=a.type_item_id)
+        </isNotNull>
+        <isNotNull property="PayCategory">
+          and a.pay_category=#PayCategory#
+        </isNotNull>
+      </dynamic>
+      order by u.unit_code,b.unit_code,c.item_name
+    </select>-->
+
+    <!--<select id="SelectUnitAccountTermByCondition2" parameterClass="hashtable" resultMap="UnitAccountTermResult" extends="SelectUnitAccountTerm">
+      inner join gtmp_unit gu on a.unit_id=gu.unit_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="p_type_item_id">
+          and exists (select 1 from mvw_item_level u1, mvw_item_level u2
+          where u2.item_id=#p_type_item_id# and u1.path_code like u2.path_code || '%' and u1.item_id=a.type_item_id)
+        </isNotNull>
+        <isNotNull property="PayCategory">
+          and a.pay_category=#PayCategory#
+        </isNotNull>
+      </dynamic>
+      order by u.unit_code,b.unit_code,c.item_name
+    </select>-->
+
+    <!--<select id="SelectNoUnitAccountTermByCondition" parameterClass="hashtable" resultMap="BaseUnitAccountTermResult">
+      select a.*,
+      b.item_id as type_item_id, b.item_name as type_item_name,
+      u.unit_name as branch_unit_name
+      from t_unit a
+      inner join mvw_type_item b on 1=1
+      left join (
+      select unit_id,type_item_id from mvw_arap_unit_cash
+      union
+      select unit_id,type_item_id from mvw_arap_unit_pay_by_day
+      union
+      select unit_id,type_item_id from mvw_arap_unit_pay_by_monday
+      ) c
+      on a.unit_id=c.unit_id and b.item_id=c.type_item_id
+      left join vw_branch_all_unit_map d on a.unit_id=d.unit_id
+      left join t_unit u on d.branch_id=u.unit_id
+      where a.customer_level=1 and a.unit_status=1
+      and (c.unit_id is null or c.type_item_id is null)
+      and exists (select 1 from mvw_unit_level u1, mvw_unit_level u2,
+      (select unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#) u3
+      where u3.unit_id=u2.unit_id and u1.path_code like u2.path_code || '%' and u1.unit_id=a.unit_id)
+      <dynamic>
+        <isNotNull property="UnitId">
+          and a.unit_id=#UnitId#
+        </isNotNull>
+        <isNotNull property="TypeItemId">
+          and b.item_id=#TypeItemId#
+        </isNotNull>
+        <isNotNull property="p_unit_id">
+          and exists (select 1 from mvw_unit_level u1, mvw_unit_level u2
+          where u2.unit_id=#p_unit_id# and u1.path_code like u2.path_code || '%' and u1.unit_id=a.unit_id)
+        </isNotNull>
+        <isNotNull property="p_type_item_id">
+          and exists (select 1 from mvw_item_level u1, mvw_item_level u2
+          where u2.item_id=#p_type_item_id# and u1.path_code like u2.path_code || '%' and u1.item_id=b.item_id)
+        </isNotNull>
+      </dynamic>
+      order by a.unit_code,a.unit_code,b.item_name
+    </select>-->
+
+    <!--<select id="SelectNoUnitAccountTermByCondition2" parameterClass="hashtable" resultMap="BaseUnitAccountTermResult">
+      select a.*,
+      b.item_id as type_item_id, b.item_name as type_item_name,
+      u.unit_name as branch_unit_name
+      from t_unit a
+      inner join mvw_type_item b on 1=1
+      left join (
+      select unit_id,type_item_id from mvw_arap_unit_cash
+      union
+      select unit_id,type_item_id from mvw_arap_unit_pay_by_day
+      union
+      select unit_id,type_item_id from mvw_arap_unit_pay_by_monday
+      ) c
+      on a.unit_id=c.unit_id and b.item_id=c.type_item_id
+      left join vw_branch_all_unit_map d on a.unit_id=d.unit_id
+      left join t_unit u on d.branch_id=u.unit_id
+      inner join gtmp_unit gu on a.unit_id=gu.unit_id
+      where (c.unit_id is null or c.type_item_id is null) and a.unit_status=1
+      <dynamic>
+        <isNotNull property="p_type_item_id">
+          and exists (select 1 from mvw_item_level u1, mvw_item_level u2
+          where u2.item_id=#p_type_item_id# and u1.path_code like u2.path_code || '%' and u1.item_id=b.item_id)
+        </isNotNull>
+      </dynamic>
+      order by a.unit_code,a.unit_code,b.item_name
+    </select>-->
+
+    <!--<insert id="InsertUnitAccountTerm" parameterClass="UnitAccountTerm">
+      insert into t_unit_account_term
+      (unit_id, type_item_id, pay_category, pay_duration,
+      monpay_begdate, monpay_enddate, monpay_duration,
+      custpay_eom, custpay_date, account_term_id)
+      values
+      (#Unit.Id#, #TypeItem.Id#, #PayCategory#, #PayDuration#,
+      #MonpayBeginDate#, #MonpayEndDate#, #MonpayDuration#,
+      #CustpayEom#, #CustpayDate#, #Id#)
+    </insert>-->
+
+    <!--<update id="UpdateUnitAccountTerm" parameterClass="UnitAccountTerm">
+      update t_unit_account_term
+      set pay_category = #PayCategory#,
+      pay_duration = #PayDuration#,
+      monpay_begdate = #MonpayBeginDate#,
+      monpay_enddate = #MonpayEndDate#,
+      monpay_duration = #MonpayDuration#,
+      custpay_eom = #CustpayEom#,
+      custpay_date = #CustpayDate#
+      where account_term_id = #Id#
+    </update>-->
+
+    <!--<delete id="DeleteUnitAccountTerm" parameterClass="string">
+      delete from t_unit_account_term where account_term_id=#value#
+    </delete>-->
+
+    <!--<statement id="RefreshArCash">
+      call dbms_mview.refresh('mvw_arap_unit_cash')
+    </statement>-->
+
+    <!--<statement id="RefreshArPayByDay">
+      call dbms_mview.refresh('mvw_arap_unit_pay_by_day')
+    </statement>-->
+
+    <!--<statement id="RefreshArPayByMonday">
+      call dbms_mview.refresh('mvw_arap_unit_pay_by_monday')
+    </statement>-->
+  </statements>
+</sqlMap>

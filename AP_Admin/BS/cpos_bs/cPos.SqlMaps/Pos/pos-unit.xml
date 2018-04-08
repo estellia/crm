@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Pos.PosUnit"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="PosType" type="cPos.Model.Pos.PosTypeInfo,cPos.Model"/>
+    <typeAlias alias="PosUnit" type="cPos.Model.Pos.PosUnitInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="PosTypeResult" class="PosType" >
+      <result property="ID" column="pos_type_id" type="string" />
+      <result property="Code" column="pos_type_code" type="string" />
+      <result property="Name" column="pos_type_name" type="string" />
+      <result property="EnglishName" column="pos_type_name_en" type="string" />
+    </resultMap>
+
+    <resultMap id="PosUnitResult" class="PosUnit" >
+      <result property="ID" column="pos_unit_id" type="string" />
+      <result property="Pos.ID" column="pos_id" type="string" />
+      <result property="Pos.Code" column="pos_code" type="string" />
+      <result property="Pos.SN" column="pos_sn" type="string" />
+      <result property="Unit.Id" column="unit_id" type="string" />
+      <result property="Unit.Code" column="unit_code" type="string" />
+      <result property="Unit.Name" column="unit_name" type="string" />
+      <result property="PosNo" column="pos_no" type="string" />
+      <result property="AllocateTime" column="allocate_time" type="datetime" />
+    </resultMap>
+
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="SelectPosType" resultMap="PosTypeResult">
+     select * from t_pos_type
+     order by pos_type_code
+    </select>
+
+    <select id="SelectPosUnitList" resultMap="PosUnitResult" parameterClass="hashtable">
+      select a.*, b.pos_code, b.pos_sn, c.unit_code, c.unit_name
+      from t_pos_unit a, t_pos b, t_unit c
+      where a.pos_id=b.pos_id and a.unit_id=c.unit_id
+      <dynamic>
+        <isNotNull property="UnitID" prepend="and">
+          a.unit_id=#UnitID#
+        </isNotNull>
+        <isNotNull property="PosID" prepend="and">
+          a.pos_id = #PosID#
+        </isNotNull>
+        <isNotNull property="UnitCode" prepend="and">
+          c.unit_code like '%' + #UnitCode# + '%'
+        </isNotNull>
+        <isNotNull property="UnitName" prepend="and">
+          c.unit_name like '%' + #UnitName# + '%'
+        </isNotNull>
+        <isNotNull property="PosCode" prepend="and">
+          b.pos_code like '%' + #PosCode# + '%'
+        </isNotNull>
+        <isNotNull property="PosSN" prepend="and">
+          b.pos_sn like '%' + #PosSN# + '%'
+        </isNotNull>
+      </dynamic>
+      order by c.unit_code,b.pos_code
+    </select>
+
+    <insert id="Insert" parameterClass="PosUnit">
+      if (not exists(select 1 from t_pos_unit where pos_id=#Pos.ID# and unit_id=#Unit.Id#))
+      insert into t_pos_unit(pos_unit_id, unit_id, pos_id, allocate_time, pos_no)
+      select #ID#, #Unit.Id#, #Pos.ID#, getdate(),
+      <!--最长3位-->
+      ltrim(rtrim(replicate('0',3-len(cast(a.pos_no as char)))+cast(a.pos_no as char)))
+      from (
+      select isnull(max(cast(pos_no as int)),0)+1 as pos_no from t_pos_unit
+      ) a
+    </insert>
+    
+    <select id="GetPosNoByUnitIDAndPosID" resultClass="string" parameterClass="PosUnit">
+      select pos_no from t_pos_unit
+      where unit_id=#Unit.Id# and pos_id=#Pos.ID#
+    </select>
+
+  </statements>
+
+</sqlMap>

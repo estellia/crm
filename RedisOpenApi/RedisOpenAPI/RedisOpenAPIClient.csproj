@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D8D64D2-29CF-4110-9AD2-72852F7BA1F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RedisOpenAPIClient</RootNamespace>
+    <AssemblyName>RedisOpenAPIClient</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AppConfigHelper.cs" />
+    <Compile Include="Common\JsonHelper.cs" />
+    <Compile Include="Common\NonSerialiazableTypeSurrogateSelector.cs" />
+    <Compile Include="Controllers.cs" />
+    <Compile Include="MethodExtensions\EnumMethodExtensions.cs" />
+    <Compile Include="MethodExtensions\NumberMethodExtensions.cs" />
+    <Compile Include="MethodExtensions\ObjectMethodExtensions.cs" />
+    <Compile Include="MethodExtensions\StringMethodExtensions.cs" />
+    <Compile Include="Models\BI\BuryingPointEntity.cs" />
+    <Compile Include="Models\CC\Activity\ActivityVipMapping.cs" />
+    <Compile Include="Models\CC\BasicSetting\CC_BasicSetting.cs" />
+    <Compile Include="Models\CC\Connection\CC_Connection.cs" />
+    <Compile Include="Models\CC\Contact\CC_Contact.cs" />
+    <Compile Include="Models\CC\CouponNotice\CC_CouponNotice.cs" />
+    <Compile Include="Models\CC\CouponNotice\CC_CouponNoticeData.cs" />
+    <Compile Include="Models\CC\CouponToBeExpired\CC_CouponToBeExpired.cs" />
+    <Compile Include="Models\CC\CouponToBeExpired\CC_CouponToBeExpiredData.cs" />
+    <Compile Include="Models\CC\Coupon\CC_Coupon.cs" />
+    <Compile Include="Models\CC\KeyValue\KeyValueEntity.cs" />
+    <Compile Include="Models\CC\OrderNotPay\CC_OrderNotPay.cs" />
+    <Compile Include="Models\CC\OrderNotPay\CC_OrderNotPayData.cs" />
+    <Compile Include="Models\CC\OrderPushMessage\CC_OrderPushMessage.cs" />
+    <Compile Include="Models\CC\OrderReward\CC_OrderReward.cs" />
+    <Compile Include="Models\CC\Order\CC_Order.cs" />
+    <Compile Include="Models\CC\Prizes\CC_Prize.cs" />
+    <Compile Include="Models\CC\OrderSend\CC_OrderSend.cs" />
+    <Compile Include="Models\CC\OrderSend\CC_OrderSendData.cs" />
+    <Compile Include="Models\CC\Prizes\CC_PrizePool.cs" />
+    <Compile Include="Models\CC\Prizes\CC_VipMappingCoupon.cs" />
+    <Compile Include="Models\CC\OrderPaySuccess\CC_ConfigData.cs" />
+    <Compile Include="Models\CC\OrderPaySuccess\CC_DataInfo.cs" />
+    <Compile Include="Models\CC\OrderPaySuccess\CC_PaySuccess.cs" />
+    <Compile Include="Models\CC\OrderPaySuccess\CC_PaySuccessData.cs" />
+    <Compile Include="Models\CC\Role\CC_Menu.cs" />
+    <Compile Include="Models\CC\Role\CC_Role.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RedisKeys.cs" />
+    <Compile Include="RedisOpenAPI.cs" />
+    <Compile Include="RemoteSettings.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

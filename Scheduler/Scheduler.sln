@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{D1154104-782B-435C-9C98-8AAE8832EC1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulerTest", "SchedulerTest\SchedulerTest.csproj", "{727E8509-7B53-4798-A2BD-7C5951EA3DF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPOS.BS.BLL", "..\CustomerManage\CPOS.BS.BLL\CPOS.BS.BLL.csproj", "{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPOS.BS.DataAccess", "..\CustomerManage\CPOS.BS.DataAccess\CPOS.BS.DataAccess.csproj", "{928C0A63-F799-49B5-A566-65BE4ABC9F56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		WillieLocal|Any CPU = WillieLocal|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1154104-782B-435C-9C98-8AAE8832EC1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1154104-782B-435C-9C98-8AAE8832EC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1154104-782B-435C-9C98-8AAE8832EC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1154104-782B-435C-9C98-8AAE8832EC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1154104-782B-435C-9C98-8AAE8832EC1B}.WillieLocal|Any CPU.ActiveCfg = Release|Any CPU
+		{D1154104-782B-435C-9C98-8AAE8832EC1B}.WillieLocal|Any CPU.Build.0 = Release|Any CPU
+		{727E8509-7B53-4798-A2BD-7C5951EA3DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727E8509-7B53-4798-A2BD-7C5951EA3DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727E8509-7B53-4798-A2BD-7C5951EA3DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727E8509-7B53-4798-A2BD-7C5951EA3DF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727E8509-7B53-4798-A2BD-7C5951EA3DF1}.WillieLocal|Any CPU.ActiveCfg = Release|Any CPU
+		{727E8509-7B53-4798-A2BD-7C5951EA3DF1}.WillieLocal|Any CPU.Build.0 = Release|Any CPU
+		{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}.WillieLocal|Any CPU.ActiveCfg = WillieLocal|Any CPU
+		{9ADF4825-9B7C-4BB1-A05C-9C137B33D81B}.WillieLocal|Any CPU.Build.0 = WillieLocal|Any CPU
+		{928C0A63-F799-49B5-A566-65BE4ABC9F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{928C0A63-F799-49B5-A566-65BE4ABC9F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{928C0A63-F799-49B5-A566-65BE4ABC9F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{928C0A63-F799-49B5-A566-65BE4ABC9F56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{928C0A63-F799-49B5-A566-65BE4ABC9F56}.WillieLocal|Any CPU.ActiveCfg = WillieLocal|Any CPU
+		{928C0A63-F799-49B5-A566-65BE4ABC9F56}.WillieLocal|Any CPU.Build.0 = WillieLocal|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {675748EC-5CD1-4D99-8A27-1C859F57D62A}
+	EndGlobalSection
+EndGlobal

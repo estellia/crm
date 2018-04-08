@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="PanicbuyingEvent"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="PanicbuyingEvent" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_PanicbuyingEventData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="PanicbuyingEventResult" class="PanicbuyingEvent">
+      <result property="EventId" column="EventId" type="Guid" />
+      <result property="EventName" column="EventName" type="string" />
+      <result property="EventCode" column="EventCode" type="string" />
+      <result property="ImageId" column="ImageId" type="string" />
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="sql_SelecAll" resultMap="PanicbuyingEventResult">
+      select * from T_CTW_PanicbuyingEvent where IsDelete=0
+    </select>
+
+    <select id="sql_SelectById" resultMap="PanicbuyingEventResult" parameterString="hashtable">
+      select * from T_CTW_PanicbuyingEvent where IsDelete=0 and EventId=#EventId#
+    </select>
+
+    <!--营销列表-->
+    <select id="sql_SelectWhere" resultMap="PanicbuyingEventResult" parameterString="hashtable">
+      SELECT * FROM (
+      select ROW_NUMBER() Over(order by LastUpdateTime desc ) as rowNum,A.* from (
+      select * from T_CTW_PanicbuyingEvent where IsDelete=0
+      union
+      select EventID,Title as EventName,EventCode,null as ImageID,CreateTime,CreateBy,
+      LastUpdateby,LastUpdateTime,IsDelete  from T_CTW_LEvents where IsDelete=0
+      ) A where 1=1
+      <dynamic>
+        <isNotNull property="EventName" prepend="and">
+          A.EventName like '%'+#EventName#+'%'
+        </isNotNull>
+        <isNotNull property="EventCode" prepend="and">
+          A.EventCode = #EventCode#
+        </isNotNull>
+      </dynamic>
+      ) as t where <![CDATA[rowNum > #StartPage# and rowNum <= #EndPage# ]]>
+    </select>
+    <!--获取列表总数-->
+    <select id="sql_GetCount" resultClass="int" parameterString="hashtable">
+      select count(1) from
+      (select * from T_CTW_PanicbuyingEvent where IsDelete=0
+      union
+      select EventID,Title as EventName,EventCode,null as ImageID,CreateTime,CreateBy,
+      LastUpdateby,LastUpdateTime,IsDelete  from T_CTW_LEvents where IsDelete=0) as A
+      where  1=1
+      <dynamic>
+        <isNotNull property="EventName" prepend="and">
+          A.EventName like '%'+#EventName#+'%'
+        </isNotNull>
+        <isNotNull property="EventCode" prepend="and">
+          A.EventCode = #EventCode#
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--新增-->
+    <insert id="sql_Insert" parameterClass="PanicbuyingEvent">
+      insert into T_CTW_PanicbuyingEvent(
+      EventId
+      ,EventName
+      ,EventCode
+      ,ImageId
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      )
+      VALUES
+      (
+      #EventId#,#EventName#, #EventCode#, #ImageId#,GetDate(), #CreateBy#,GetDate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="PanicbuyingEvent">
+      update T_CTW_PanicbuyingEvent set
+      EventName=#EventName#
+      ,EventCode=#EventCode#
+      ,ImageId=#ImageId#
+      ,LastUpdateTime=GetDate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where EventId=#EventId#
+    </update>
+
+    <!--逻辑删除-->
+    <update id="sql_Delete" parameterClass="PanicbuyingEvent">
+      update T_CTW_PanicbuyingEvent set 
+      Isdelete=1
+      ,LastUpdateTime=GetDate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where EventId=#EventId#
+    </update>
+  </statements>
+</sqlMap>

@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Sku"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Sku" type="cPos.Model.SkuInfo,cPos.Model" />
+    <typeAlias alias="ItemInfo_Sku" type="cPos.Model.ItemInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SkuResult" class="Sku">
+      <result property="sku_id" column="sku_id" type="string" />
+      <result property="item_id" column="item_id" type="string" />
+      <result property="prop_1_detail_id" column="prop_1_detail_id" type="string"/>
+      <result property="prop_1_detail_name" column="prop_1_detail_name" type="string"/>
+      <result property="prop_2_detail_id" column="prop_2_detail_id" type="string"/>
+      <result property="prop_2_detail_name" column="prop_2_detail_name" type="string"/>
+      <result property="prop_3_detail_id" column="prop_3_detail_id" type="string"/>
+      <result property="prop_3_detail_name" column="prop_3_detail_name" type="string"/>
+      <result property="prop_4_detail_id" column="prop_4_detail_id" type="string"/>
+      <result property="prop_4_detail_name" column="prop_4_detail_name" type="string"/>
+      <result property="prop_5_detail_id" column="prop_5_detail_id" type="string"/>
+      <result property="prop_5_detail_name" column="prop_5_detail_name" type="string"/>
+      <result property="prop_1_detail_code" column="prop_1_detail_code" type="string"/>
+      <result property="prop_2_detail_code" column="prop_2_detail_code" type="string"/>
+      <result property="prop_3_detail_code" column="prop_3_detail_code" type="string"/>
+      <result property="prop_4_detail_code" column="prop_4_detail_code" type="string"/>
+      <result property="prop_5_detail_code" column="prop_5_detail_code" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="item_code" column="item_code" type="string"/>
+      <result property="item_name" column="item_name" type="string"/>
+      <result property="prop_1_id" column="prop_1_id" type="string"/>
+      <result property="prop_1_name" column="prop_1_name" type="string"/>
+      <result property="prop_2_id" column="prop_2_id" type="string"/>
+      <result property="prop_2_name" column="prop_2_name" type="string"/>
+      <result property="prop_3_id" column="prop_3_id" type="string"/>
+      <result property="prop_3_name" column="prop_3_name" type="string"/>
+      <result property="prop_4_id" column="prop_4_id" type="string"/>
+      <result property="prop_4_name" column="prop_4_name" type="string"/>
+      <result property="prop_5_id" column="prop_5_id" type="string"/>
+      <result property="prop_5_name" column="prop_5_name" type="string"/>
+      <result property="prop_1_code" column="prop_1_code" type="string"/>
+      <result property="prop_2_code" column="prop_2_code" type="string"/>
+      <result property="prop_3_code" column="prop_3_code" type="string"/>
+      <result property="prop_4_code" column="prop_4_code" type="string"/>
+      <result property="prop_5_code" column="prop_5_code" type="string"/>
+      <result property="barcode" column="barcode" type="string"/>
+    </resultMap>
+
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="SkuResult">
+      select sku_id
+      ,item_id
+      ,prop_1_detail_id
+      ,prop_1_detail_name
+      ,prop_2_detail_id
+      ,prop_2_detail_name
+      ,prop_3_detail_id
+      ,prop_3_detail_name
+      ,prop_4_detail_id
+      ,prop_4_detail_name
+      ,prop_5_detail_id
+      ,prop_5_detail_name
+      ,prop_1_detail_code
+      ,prop_2_detail_code
+      ,prop_3_detail_code
+      ,prop_4_detail_code
+      ,prop_5_detail_code
+      ,status
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,item_name
+      ,item_code
+      ,prop_1_id
+      ,prop_1_name
+      ,prop_2_id
+      ,prop_2_name
+      ,prop_3_id
+      ,prop_3_name
+      ,prop_4_id
+      ,prop_4_name
+      ,prop_5_id
+      ,prop_5_name
+      ,barcode
+      ,prop_1_code
+      ,prop_2_code
+      ,prop_3_code
+      ,prop_4_code
+      ,prop_5_code
+      from vw_sku a
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="SkuResult" parameterClass="hashtable">
+      where a.sku_id=#SkuId#
+    </select>
+
+    <select id="SelectAll" extends="Select" resultMap="SkuResult" >
+      where a.status='1'
+    </select>
+
+    <select id="SelectByItemId" extends="Select" resultMap="SkuResult" parameterClass="hashtable">
+      where a.item_id=#ItemId#
+      and a.status = '1'
+      order by a.item_code,a.barcode
+    </select>
+     <!--模糊查询sku-->
+    <select id="SelectByCondition"  resultMap="SkuResult" parameterClass="hashtable">
+      select sku_id
+      ,item_id
+      ,item_code
+      ,prop_1_detail_id
+      ,prop_1_detail_name
+      ,prop_2_detail_id
+      ,prop_2_detail_name
+      ,prop_3_detail_id
+      ,prop_3_detail_name
+      ,prop_4_detail_id
+      ,prop_4_detail_name
+      ,prop_5_detail_id
+      ,prop_5_detail_name
+      ,prop_1_detail_code
+      ,prop_2_detail_code
+      ,prop_3_detail_code
+      ,prop_4_detail_code
+      ,prop_5_detail_code
+      ,status
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,item_name
+      ,item_code
+      ,prop_1_id
+      ,prop_1_name
+      ,prop_2_id
+      ,prop_2_name
+      ,prop_3_id
+      ,prop_3_name
+      ,prop_4_id
+      ,prop_4_name
+      ,prop_5_id
+      ,prop_5_name
+      ,barcode
+      ,prop_1_code
+      ,prop_2_code
+      ,prop_3_code
+      ,prop_4_code
+      ,prop_5_code
+      From (
+      select a.*
+      ,row_no=row_number() over(order by a.sku_id)
+      from vw_sku a
+      where a.item_code like '%' + #Condition# + '%'
+      or a.item_name like '%' + #Condition# + '%'
+      or a.prop_1_detail_code like '%' + #Condition# + '%'
+      or a.prop_2_detail_code like '%' + #Condition# + '%'
+      or a.prop_3_detail_code like '%' + #Condition# + '%'
+      or a.prop_4_detail_code like '%' + #Condition# + '%'
+      or a.prop_5_detail_code like '%' + #Condition# + '%'
+      ) x where x.row_no &gt; 0 and x.row_no &lt;= 10
+      order by x.item_code,x.barcode
+      ;
+    </select>
+
+    <!--通过条码查询SKU-->
+    <select id="GetSkuByBarcode" resultMap="SkuResult" parameterClass="hashtable">
+      select sku_id
+      ,item_id
+      ,item_code
+      ,prop_1_detail_id
+      ,prop_1_detail_name
+      ,prop_2_detail_id
+      ,prop_2_detail_name
+      ,prop_3_detail_id
+      ,prop_3_detail_name
+      ,prop_4_detail_id
+      ,prop_4_detail_name
+      ,prop_5_detail_id
+      ,prop_5_detail_name
+      ,prop_1_detail_code
+      ,prop_2_detail_code
+      ,prop_3_detail_code
+      ,prop_4_detail_code
+      ,prop_5_detail_code
+      ,status
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,item_name
+      ,item_code
+      ,prop_1_id
+      ,prop_1_name
+      ,prop_2_id
+      ,prop_2_name
+      ,prop_3_id
+      ,prop_3_name
+      ,prop_4_id
+      ,prop_4_name
+      ,prop_5_id
+      ,prop_5_name
+      ,barcode
+      ,prop_1_code
+      ,prop_2_code
+      ,prop_3_code
+      ,prop_4_code
+      ,prop_5_code
+      From (
+      select a.*
+      ,row_no=row_number() over(order by a.sku_id)
+      from vw_sku a
+      where a.barcode = #barcode#
+      ) x where x.row_no &gt; 0 and x.row_no &lt;= 10
+      order by x.item_code,x.barcode
+      ;
+    </select>
+
+    <!--处理表信息 Jermyn 2012-06-14-->
+    <statement id="InsertOrUpdate" parameterClass="ItemInfo_Sku">
+
+      <!--删除跟该商品相关的属性-->
+      update t_sku
+      set status= '-1'
+      ,modify_user_id = #Create_User_Id#
+      ,modify_time = #Create_Time#
+      ,if_flag = '0'
+
+      where  t_sku.item_id = #Item_Id#;
+
+      <isNotEmpty property="SkuList">
+        <!--修改已经存在的关系-->
+        update t_sku
+        set sku_prop_id1 = a.prop_1_detail_id
+        ,sku_prop_id2 = a.prop_2_detail_id
+        ,sku_prop_id3 = a.prop_3_detail_id
+        ,sku_prop_id4 = a.prop_4_detail_id
+        ,sku_prop_id5 = a.prop_5_detail_id
+        ,barcode = a.barcode
+        ,modify_user_id = a.modify_user_id
+        ,modify_time = a.modify_time
+        ,status = '1'
+        ,if_flag = '0'
+        From (
+        <iterate property="SkuList" conjunction=" UNION ">
+          SELECT #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #SkuList[].sku_id# sku_id
+          , #SkuList[].prop_1_detail_id# prop_1_detail_id
+          , #SkuList[].prop_2_detail_id# prop_2_detail_id
+          , #SkuList[].prop_3_detail_id# prop_3_detail_id
+          , #SkuList[].prop_4_detail_id# prop_4_detail_id
+          , #SkuList[].prop_5_detail_id# prop_5_detail_id
+          , #SkuList[].barcode# barcode
+        </iterate>
+        ) a
+        where (t_sku.sku_id = a.sku_id);
+
+        <!--插入新的关系-->
+        insert into t_sku
+        (sku_id
+        ,item_id
+        ,sku_prop_id1
+        ,sku_prop_id2
+        ,sku_prop_id3
+        ,sku_prop_id4
+        ,sku_prop_id5
+        ,barcode
+        ,status
+        ,create_user_id
+        ,create_time
+        ,modify_user_id
+        ,modify_time
+        )
+        SELECT P.sku_id
+        ,P.item_id
+        ,P.sku_prop_id1
+        ,P.sku_prop_id2
+        ,P.sku_prop_id3
+        ,P.sku_prop_id4
+        ,P.sku_prop_id5
+        ,P.barcode
+        ,P.status
+        ,P.create_user_id
+        ,P.create_time
+        ,P.modify_user_id
+        ,P.modify_time
+
+        FROM (
+        <iterate property="SkuList" conjunction=" UNION ">
+          SELECT
+          #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #SkuList[].sku_id# sku_id
+          , #SkuList[].prop_1_detail_id# sku_prop_id1
+          , #SkuList[].prop_2_detail_id# sku_prop_id2
+          , #SkuList[].prop_3_detail_id# sku_prop_id3
+          , #SkuList[].prop_4_detail_id# sku_prop_id4
+          , #SkuList[].prop_5_detail_id# sku_prop_id5
+          , #SkuList[].barcode# barcode
+          , #Create_User_Id# create_user_id
+          , #Create_Time# create_time
+          , '1' status
+        </iterate>
+        ) P
+        left join t_sku  b
+        on(P.sku_id = b.sku_id)
+
+        where b.sku_id is null;
+
+      </isNotEmpty>
+    </statement>
+
+
+    <!--获取未打包的商品数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int">
+      select count(*)
+      From t_sku
+      where isnull(if_flag,'0') = '0';
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="SkuResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (sku_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (sku_id,row_no)
+      select sku_id
+      ,row_number() over(order by sku_id) row_no
+      From t_sku
+      where 1=1
+      and isnull(if_flag,'0') = '0';
+
+      select
+      a.sku_id
+      ,item_id
+      ,prop_1_detail_id
+      ,prop_1_detail_name
+      ,prop_2_detail_id
+      ,prop_2_detail_name
+      ,prop_3_detail_id
+      ,prop_3_detail_name
+      ,prop_4_detail_id
+      ,prop_4_detail_name
+      ,prop_5_detail_id
+      ,prop_5_detail_name
+      ,prop_1_detail_code
+      ,prop_2_detail_code
+      ,prop_3_detail_code
+      ,prop_4_detail_code
+      ,prop_5_detail_code
+      ,status
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,item_name
+      ,item_code
+      ,prop_1_id
+      ,prop_1_name
+      ,prop_2_id
+      ,prop_2_name
+      ,prop_3_id
+      ,prop_3_name
+      ,prop_4_id
+      ,prop_4_name
+      ,prop_5_id
+      ,prop_5_name
+      ,barcode
+      ,prop_1_code
+      ,prop_2_code
+      ,prop_3_code
+      ,prop_4_code
+      ,prop_5_code
+      From vw_sku a
+      inner join @TmpTable b
+      on(a.sku_id = b.sku_id)
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.item_code,a.barcode
+      ;
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="Sku">
+      <isNotEmpty property="SkuInfoList">
+        update t_sku
+        set bat_id = #bat_id#
+        ,modify_time = #modify_time#
+        ,modify_user_id = #modify_user_id#
+        where sku_id in (
+        <iterate property="SkuInfoList" conjunction=" UNION ">
+          SELECT #SkuInfoList[].sku_id#
+        </iterate> );
+      </isNotEmpty>
+
+    </update>
+    <!--更新Item表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="Sku">
+      update t_sku
+      set if_flag = '1'
+      ,modify_time = #modify_time#
+      ,modify_user_id = #modify_user_id#
+      where bat_id = #bat_id#;
+    </update>
+
+  </statements>
+</sqlMap>

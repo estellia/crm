@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Shift"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Shift" type="cPos.Model.ShiftInfo,cPos.Model" />
+
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ShiftResult" class="Shift">
+      <result property="shift_id" column="shift_id" type="string" />
+      <result property="pos_id" column="pos_id" type="string" />
+      <result property="parent_shift_id" column="parent_shift_id" type="string" />
+      <result property="unit_id" column="unit_id" type="string" />
+      <result property="sales_user" column="sales_user" type="string"/>
+
+      <result property="deposit_amount" column="deposit_amount" type="decimal"/>
+      <result property="sale_amount" column="sale_amount" type="decimal"/>
+      <result property="return_amount" column="return_amount" type="decimal"/>
+      <result property="pos_date" column="pos_date" type="string"/>
+      <result property="sales_qty" column="sales_qty" type="int"/>
+      <result property="sales_total_amount" column="sales_total_amount" type="decimal"/>
+      <result property="open_time" column="open_time" type="string"/>
+      <result property="close_time" column="close_time" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="row_no" column="row_no" type="int"/>
+      
+
+    </resultMap>
+
+    <resultMap id="ShiftTotalResult" class ="Shift">
+      <result property="sales_total_qty" column="sales_total_qty" type="int"/>
+      <result property="sales_total_total_amount" column="sales_total_total_amount" type="decimal"/>
+      <result property="icount" column="icount" type="int"/>
+      <result property="total_deposit_amount" column="total_deposit_amount" type="decimal"/>
+      <result property="total_sale_amount" column="total_sale_amount" type="decimal"/>
+      <result property="total_return_amount" column="total_return_amount" type="decimal"/>
+    </resultMap>
+
+
+  </resultMaps>
+  <statements>
+    <!--查询公共部分 rownum_=row_number() over(order by a.order_no)-->
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (shift_id nvarchar(100)
+      ,sales_qty int
+      ,sales_total_amount decimal(18,4)
+
+      ,row_no int
+      );
+
+      insert into @TmpTable (shift_id,sales_qty,sales_total_amount,row_no)
+
+      select shift_id
+      ,a.sales_qty
+      ,a.sales_total_amount
+      ,row_number() over(order by a.shift_id) row_no
+      from T_Shift a
+
+      where 1=1
+      <dynamic>
+        <isNotNull property="UnitIds">
+          <isNotEmpty property="UnitIds" prepend="and">
+            a.unit_id in (  $UnitIds$ )
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserNames">
+          <isNotEmpty property="UserNames" prepend="and">
+            a.sales_user in (  #UserNames# )
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_begin">
+          <isNotEmpty property="order_date_begin" prepend="and">
+            a.pos_date    &gt;= #order_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_end">
+          <isNotEmpty property="order_date_end" prepend="and">
+            a.pos_date    &lt;= #order_date_end#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ;
+    </sql>
+
+    <select id="SearchReportTotal" resultMap="ShiftTotalResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select  COUNT(*) icount
+      ,sum(a.sales_qty) sales_total_qty
+      ,convert(decimal(18,4),sum(a.sales_total_amount)) sales_total_total_amount
+      ,convert(decimal(18,4),sum(b.deposit_amount)) total_deposit_amount
+      ,convert(decimal(18,4),sum(b.sale_amount)) total_sale_amount
+      ,convert(decimal(18,4),sum(b.return_amount)) total_return_amount
+      From @TmpTable a
+      inner join T_Shift b
+      on(a.shift_id = b.shift_id);
+    </select>
+
+    <select id="SearchReport" resultMap="ShiftResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+      select b.shift_id
+      ,b.pos_id
+      ,b.parent_shift_id
+      ,b.unit_id
+      ,b.sales_user
+      ,b.deposit_amount
+      ,b.sale_amount
+      ,b.return_amount
+      ,b.pos_date
+      ,b.sales_qty
+      ,b.sales_total_amount
+      ,b.open_time
+      ,b.close_time
+      ,b.create_time
+      ,b.create_user_id
+      ,b.modify_time
+      ,b.modify_user_id
+      ,c.unit_name
+      ,a.row_no
+      From @TmpTable a
+      inner join t_shift b
+      on(a.shift_id = b.shift_id)
+      inner join t_unit c
+      on(b.unit_id = c.unit_id)
+      where 1=1
+      and a.row_no &gt; #StartRow# and a.row_no &lt;= #EndRow#
+      order by b.sale_amount desc
+      ;
+    </select>
+
+    <!--用户信息修改或者新建-->
+    <statement id="InsertOrUpdate" parameterClass="Shift">
+      <isNotEmpty property="ShiftListInfo">
+        insert into t_shift(shift_id,sales_user,pos_id,parent_shift_id,unit_id,deposit_amount
+        ,sale_amount
+        ,return_amount
+        ,pos_date
+        ,sales_qty
+        ,sales_total_amount
+        ,open_time
+        ,close_time
+        ,create_time
+        ,create_user_id
+        ,modify_time
+        ,modify_user_id)
+
+        select
+        shift_id,sales_user,pos_id,parent_shift_id,unit_id,deposit_amount
+        ,sale_amount
+        ,return_amount
+        ,pos_date
+        ,sales_qty
+        ,sales_total_amount
+        ,open_time
+        ,close_time
+        ,create_time
+        ,create_user_id
+        ,modify_time
+        ,modify_user_id
+        From
+        (
+        <iterate property="ShiftListInfo" conjunction=" UNION ">
+          SELECT
+          #ShiftListInfo[].shift_id# shift_id
+          ,#ShiftListInfo[].sales_user# sales_user
+          ,#ShiftListInfo[].pos_id# pos_id
+          ,#ShiftListInfo[].parent_shift_id# parent_shift_id
+          ,#ShiftListInfo[].unit_id# unit_id
+          ,#ShiftListInfo[].deposit_amount# deposit_amount
+          ,#ShiftListInfo[].sale_amount# sale_amount
+          ,#ShiftListInfo[].return_amount# return_amount
+          ,#ShiftListInfo[].pos_date# pos_date
+          ,#ShiftListInfo[].sales_qty# sales_qty
+          ,#ShiftListInfo[].sales_total_amount# sales_total_amount
+          ,#ShiftListInfo[].open_time# open_time
+          ,#ShiftListInfo[].close_time# close_time
+
+          ,#ShiftListInfo[].create_user_id# create_user_id
+          ,#ShiftListInfo[].close_time# create_time
+          ,#ShiftListInfo[].modify_user_id# modify_user_id
+          ,#ShiftListInfo[].modify_time# modify_time
+
+        </iterate>
+        ) P
+        where p.shift_id not in (select shift_id from t_shift);
+      </isNotEmpty>
+      
+    </statement>
+  </statements>
+</sqlMap>

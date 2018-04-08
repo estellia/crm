@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="OrderType"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="OrderType" type="cPos.Model.OrderTypeInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="OrderTypeResult" class="OrderType">
+      <result property="order_type_id" column="order_type_id" type="string" />
+      <result property="order_type_code" column="order_type_code" type="string" />
+      <result property="order_type_name" column="order_type_name" type="string"/>
+      <result property="remark" column="remark" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="status" column="status" type="string"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="OrderTypeResult">
+      select a.order_type_id
+      a.order_type_code
+      a.order_type_name
+      a.remark
+      a.create_time
+      a.create_user_id
+      a.modify_time
+      a.modify_user_id
+      a.status
+      From t_order_type a
+    </select>
+
+    <select id="SelectByOrderId" extends="Select" resultMap="OrderTypeResult" parameterClass="hashtable">
+      where a.order_type_id=#OrderTypeId#
+    </select>
+    <select id="SelectByOrderTypeCode" extends="Select" resultMap="OrderTypeResult" parameterClass="hashtable">
+      where a.order_type_code=#OrderTypeCode#
+    </select>
+    
+  </statements>
+</sqlMap>

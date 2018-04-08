@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Bill"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Bill" type="cPos.Model.BillModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BillResult" class="Bill">
+      <result property="Id" column="bill_id" type="string" />
+      <result property="UnitId" column="unit_id" type="string" />
+      <result property="KindId" column="bill_kind_id" type="string" />
+      <result property="Status" column="bill_status" type="string" />
+      <result property="Code" column="bill_code" type="string" />
+      <result property="WorkMonth" column="work_month" type="string"/>
+      <result property="WorkDate" column="work_date" type="string"/>
+      <result property="UploadBatchId" column="upload_batch_id" type="int"/>
+      <result property="Remark" column="bill_remark" type="string"/>
+      <result property="Money" column="bill_money" type="decimal"/>
+      <result property="AddUserId" column="add_user_id" type="string"/>
+      <result property="AddDate" column="add_time" type="string"/>
+      <result property="ModifyUserId" column="modify_user_id" type="string"/>
+      <result property="ModifyDate" column="modify_time" type="string"/>
+      <result property="UnitName" column="unit_name_short" type="string"/>
+      <result property="BillKindDescription" column="bill_kind_desc" type="string"/>
+      <result property="BillStatusDescription" column="bill_status_desc" type="string"/>
+      <result property="AddUserName" column="add_user_name" type="string"/>
+      <result property="ModifyUserName" column="modify_user_name" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="BillResult">
+      select a.bill_id
+      , a.unit_id
+      , a.bill_kind_id
+      , a.bill_status
+      , a.bill_code
+      ,a.work_month, a.work_date, a.upload_batch_id , a.bill_remark
+      , a.bill_money
+      ,a.add_user_id
+      , a.add_time 
+      , a.modify_user_id, a.modify_time 
+      ,b.user_name as add_user_name, c.user_name as modify_user_name,
+      d.unit_name_short
+      , e.bill_kind_name as bill_kind_desc
+      ,f.bill_status_name as bill_status_desc
+      from t_bill a left join t_user b on a.add_user_id=b.user_id
+      left join t_user c on a.modify_user_id=c.user_id
+      left join t_unit d on a.unit_id=d.unit_id
+      inner join T_Def_Bill_Kind e
+      on a.bill_kind_id=e.bill_kind_id
+      inner join t_def_bill_status f
+      on a.bill_kind_id=f.bill_kind_id and a.bill_Status=f.bill_status
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="BillResult" parameterClass="hashtable">
+      where a.bill_id=#BillId#
+    </select>
+
+    <select id="SelectByKindId" extends="Select" resultMap="BillResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId#
+    </select>
+
+    <select id="SelectByKindIdAndStatus" extends="Select" resultMap="BillResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.bill_status=#BillStatus#
+    </select>
+
+    <insert id="Insert" parameterClass="Bill" >
+      insert into t_bill
+      (bill_id, unit_id, bill_kind_id, bill_Status, bill_code, work_month,
+      work_date, bill_remark, bill_money, add_user_id, add_time)
+      values
+      (#Id#, #UnitId#, #KindId#, #Status#, #Code#, #WorkMonth#,
+      #WorkDate#, #Remark#, #Money#, #AddUserId#, #AddDate#)
+    </insert>
+
+    <update id="Update" parameterClass="Bill">
+      update t_bill
+      set unit_id=#UnitId#, bill_status=#Status#, bill_code=#Code#, work_month=#WorkMonth#,
+      work_date=#WorkDate#, bill_remark=#Remark#, bill_money=#Money#,
+      modify_user_id=#ModifyUserId#, modify_time=#ModifyDate#
+      where bill_id=#Id#
+    </update>
+
+    <update id="UpdateBillStatus" parameterClass="Bill">
+      update t_bill set bill_status=#Status#, modify_user_id=#ModifyUserId#, modify_date=#ModifyDate#
+      where bill_id=#Id#
+    </update>
+
+    <select id="SelectByQueryCondition" resultMap="BillResult" parameterClass="hashtable">
+      select * from ( select row_.*, rownum rownum_ from (
+      select a.bill_id, a.unit_id, a.bill_kind_id, a.bill_status, a.bill_code,
+      a.work_month, a.work_date, a.upload_batch_id, a.bill_remark, a.bill_money,
+      a.add_user_id, a.add_date, a.modify_user_id, a.modify_date,
+      b.user_name as add_user_name, c.user_name as modify_user_name,
+      d.unit_name_short, e.object_desc as bill_kind_desc,
+      g.object_desc as bill_status_desc
+      from t_bill a
+      left join t_user b on a.add_user_id=b.user_id
+      left join t_user c on a.modify_user_id=c.user_id
+      inner join t_unit d on a.unit_id=d.unit_id
+      inner join (select * from t_object_translation where language_kind_id=#LanguageKindId#) e on a.bill_kind_id=e.object_id
+      inner join t_def_bill_status f on a.bill_kind_id=f.bill_kind_id and a.bill_status=f.bill_status
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) g on f.bill_status_id=g.object_id
+      where exists (
+      select 1 from mvw_unit_level aa1,
+      (select t1.* from mvw_unit_level t1 inner join
+      (select unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#) t2
+      on t1.unit_id=t2.unit_id) aa2
+      where aa1.path_code like aa2.path_code + '%' and aa1.unit_id=a.unit_id
+      )
+      <dynamic>
+        <isNotNull property="BillKindId">
+          <isNotEmpty property="BillKindId" prepend="and">
+            a.bill_kind_id = #BillKindId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BillStatus">
+          <isNotEmpty property="BillStatus" prepend="and">
+            a.bill_status = #BillStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BeginAddDate">
+          <isNotEmpty property="BeginAddDate" prepend="and">
+            substr(a.add_date,1,10) &gt;= #BeginAddDate#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="EndAddDate">
+          <isNotEmpty property="EndAddDate" prepend="and">
+            substr(a.add_date,1,10) &lt;= #EndAddDate#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BillCode">
+          <isNotEmpty property="BillCode" prepend="and">
+            a.bill_code like '%' + #BillCode# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.unit_id=#UnitId#
+            <!--exists (select 1 from mvw_unit_level a1, mvw_unit_level a2
+            where a2.unit_id=#UnitId# and a1.path_code like a2.path_code + '%'
+            and a1.unit_id=a.unit_id)-->
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserAccount">
+          <isNotEmpty property="UserAccount" prepend="and">
+            b.user_name like '%' + #UserAccount# + '%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      order by a.bill_kind_id,a.add_date desc
+      ) row_ where rownum &lt;= #EndRow#) two where two.rownum_ &gt; #StartRow#
+    </select>
+
+    <select id="SelectCountByQueryCondition" resultClass="int" parameterClass="hashtable">
+      select nvl(count(*),0)
+      from t_bill a
+      left join t_user b on a.add_user_id=b.user_id
+      where exists (
+      select 1 from mvw_unit_level aa1,
+      (select t1.* from mvw_unit_level t1 inner join
+      (select unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#) t2
+      on t1.unit_id=t2.unit_id) aa2
+      where aa1.path_code like aa2.path_code + '%' and aa1.unit_id=a.unit_id
+      )
+      <dynamic>
+        <isNotNull property="BillKindId">
+          <isNotEmpty property="BillKindId" prepend="and">
+            a.bill_kind_id = #BillKindId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BillStatus">
+          <isNotEmpty property="BillStatus" prepend="and">
+            a.bill_status = #BillStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BeginAddDate">
+          <isNotEmpty property="BeginAddDate" prepend="and">
+            substr(a.add_date,1,10) &gt;= #BeginAddDate#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="EndAddDate">
+          <isNotEmpty property="EndAddDate" prepend="and">
+            substr(a.add_date,1,10) &lt;= #EndAddDate#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BillCode">
+          <isNotEmpty property="BillCode" prepend="and">
+            a.bill_code like '%' + #BillCode# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            a.unit_id=#UnitId#
+            <!--exists (select 1 from mvw_unit_level a1, mvw_unit_level a2
+            where a2.unit_id=#UnitId# and a1.path_code like a2.path_code + '%'
+            and a1.unit_id=a.unit_id)-->
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserAccount">
+          <isNotEmpty property="UserAccount" prepend="and">
+            b.user_name like '%' + #UserAccount# + '%'
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="CountModifyBill" parameterClass="hashtable" resultClass="int">
+      select count(a.bill_id) from t_bill a, t_def_bill_action_role b, t_def_bill_action c
+      where a.bill_id=#BillId# and a.bill_kind_id=b.bill_kind_id and a.bill_status=b.pre_bill_status
+      and b.role_id=substr(#RoleId#,1,32) and a.bill_kind_id=c.bill_kind_id
+      and b.bill_action_id=c.bill_action_id and c.modify_flag=1
+      and FN_BILL_GET_DATETIME(b.date_control_type,b.date_time)=1
+      <!--and a.unit_id in (
+      select distinct a.unit_id from mvw_unit_level a,
+      (select * from mvw_unit_level where unit_id in
+      (select distinct unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)) b
+      where a.path_code like b.path_code + '%' and a.unit_relation_mode_id=#UnitRelationModeId#
+      and b.unit_relation_mode_id=#UnitRelationModeId#
+      )-->
+    </select>
+
+    <select id="CountApproveBill" parameterClass="hashtable" resultClass="int">
+      select count(a.bill_id) from t_bill a, t_def_bill_action_role b, t_def_bill_action c
+      where 1=1
+      and a.bill_id=#BillId#
+      and a.bill_kind_id=b.bill_kind_id
+      and a.bill_status=b.pre_bill_status
+      and b.role_id=substring(#RoleId#,1,32)
+      and a.bill_kind_id=c.bill_kind_id
+      and b.bill_action_id=c.bill_action_id
+      and c.approve_flag=1;
+    </select>
+
+    <select id="CountRejectBill" parameterClass="hashtable" resultClass="int">
+      select count(a.bill_id) from t_bill a, t_def_bill_action_role b, t_def_bill_action c
+      where a.bill_id=#BillId# and a.bill_kind_id=b.bill_kind_id and a.bill_status=b.pre_bill_status
+      and b.role_id=substr(#RoleId#,1,32) and a.bill_kind_id=c.bill_kind_id
+      and b.bill_action_id=c.bill_action_id and c.reject_flag=1
+      and FN_BILL_GET_DATETIME(b.date_control_type,b.date_time)=1
+      <!--and a.unit_id in (
+      select distinct a.unit_id from mvw_unit_level a,
+      (select * from mvw_unit_level where unit_id in
+      (select distinct unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)) b
+      where a.path_code like b.path_code + '%' and a.unit_relation_mode_id=#UnitRelationModeId#
+      and b.unit_relation_mode_id=#UnitRelationModeId#
+      )-->
+    </select>
+
+
+    <select id="CountCancelBill" parameterClass="hashtable" resultClass="int">
+      select count(a.bill_id) from t_bill a, t_def_bill_action_role b, t_def_bill_action c
+      where a.bill_id=#BillId# and a.bill_kind_id=b.bill_kind_id and a.bill_status=b.pre_bill_status
+      and b.role_id=substr(#RoleId#,1,32) and a.bill_kind_id=c.bill_kind_id
+      and b.bill_action_id=c.bill_action_id and c.cancel_flag=1
+      and FN_BILL_GET_DATETIME(b.date_control_type,b.date_time)=1
+      <!--and a.unit_id in (
+      select distinct a.unit_id from mvw_unit_level a,
+      (select * from mvw_unit_level where unit_id in
+      (select distinct unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)) b
+      where a.path_code like b.path_code + '%' and a.unit_relation_mode_id=#UnitRelationModeId#
+      and b.unit_relation_mode_id=#UnitRelationModeId#
+      )-->
+    </select>
+
+    <select id="GetApprovedBillKindCodes" parameterClass="string" resultClass="string">
+      $value$
+    </select>
+
+    <select id="GetDistinctBillKindCodes" parameterClass="string" resultClass="string">
+      select distinct b.bill_kind_code
+      from (select * from t_bill where $value$) a, t_def_bill_kind b
+      where a.bill_kind_id=b.bill_kind_id
+    </select>
+    <!--判断表单是否存在 Jermyn2012-07-02-->
+    <select id="CanHaveBill" parameterClass="hashtable" resultClass="int">
+      select count(*) from t_bill
+      where bill_id=#BillId#;
+      
+    </select>
+
+    <insert id="InsertBatBillActionRole" parameterClass="hashtable" >
+      insert into T_Def_Bill_Action_Role(bill_action_role_id,bill_kind_id,bill_action_id,role_id,pre_bill_status,cur_bill_Status)
+      select a.* From (
+      select REPLACE(newid(),'-','') bill_action_role_id
+      ,bill_kind_id
+      ,bill_action_id
+      ,#RoleId# role_id
+      ,pre_bill_status
+      ,cur_bill_Status
+      From T_Def_Bill_Action_Role where role_id = '7064243380E24B0BA24E4ADC4E03968B') a
+      left join T_Def_Bill_Action_Role b
+      on(a.bill_kind_id = b.bill_kind_id
+      and a.bill_action_id = b.bill_action_id
+      and a.role_id = b.role_id
+      and a.pre_bill_status = b.pre_bill_status
+      and a.cur_bill_Status = b.cur_bill_Status)
+      where 1=1
+      and b.bill_action_role_id is null;
+    </insert>
+  </statements>
+</sqlMap>

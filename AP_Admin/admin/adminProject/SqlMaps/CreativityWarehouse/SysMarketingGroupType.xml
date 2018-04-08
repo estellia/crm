@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="SysMarketingGroupType"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="SysMarketingGroupType" type="cpos.Admin.Model.CreativityWarehouse.SysMarketingGroupTypeData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SysMarketingGroupTypeResult" class="SysMarketingGroupType">
+      <result property="ActivityGroupId" column="ActivityGroupId" type="guid" />
+      <result property="Name" column="Name" type="string" />
+      <result property="ActivityGroupCode" column="ActivityGroupCode" type="string" />
+      <result property="Remark" column="Remark" type="string" />
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+
+    <select id="sql_selectAll" resultMap="SysMarketingGroupTypeResult">
+      <!--select ActivityGroupId,Name,Remark,CreateTime,CreateBy,LastUpdateTime,lastUpdateBy,IsDelete from SysMarketingGroupType-->
+      select * from SysMarketingGroupType where IsDelete=0 
+    </select>
+    
+  </statements>
+</sqlMap>

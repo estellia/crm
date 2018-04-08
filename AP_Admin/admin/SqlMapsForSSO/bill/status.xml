@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Bill.Status"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillStatus" type="cpos.Admin.Model.Bill.BillStatusInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="BillStatusResult" class="BillStatus" extends="Base.Operate.ObjectOperateResult">
+      <result property="BillKind.ID" column="bill_kind_id" type="string" />
+      <result property="ID" column="bill_status_id" type="string" />
+      <result property="Name" column="bill_status_name" type="string" />
+      <result property="EnglishName" column="bill_status_name_en" type="string" />
+      <result property="BeginFlag" column="begin_flag" type="int" />
+      <result property="EndFlag" column="end_flag" type="int" />
+      <result property="DeleteFlag" column="delete_flag" type="int" />
+      <result property="ReserveFlag" column="reserve_flag" type="int" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="BillStatus">
+      insert into t_def_bill_status(bill_kind_id,bill_status_id,bill_status_name,bill_status_name_en,
+      begin_flag,end_flag,delete_flag,reserve_flag,
+      create_user_id,create_user_name,create_time)
+      values(#BillKind.ID# ,#ID# ,#Name# ,#EnglishName#,
+      #BeginFlag# ,#EndFlag# ,#DeleteFlag# ,#ReserveFlag#,
+      #Creater.ID# ,#Creater.Name# ,getdate())
+    </insert>
+
+    <update id="Update" parameterClass="BillStatus">
+      update t_def_bill_status set
+      bill_status_name=#Name#,
+      bill_status_name_en=#EnglishName#,
+      begin_flag=#BeginFlag#,
+      end_flag=#EndFlag#,
+      delete_flag=#DeleteFlag#,
+      reserve_flag=#ReserveFlag#,
+      modify_user_id=#LastEditor.ID#,
+      modify_user_name=#LastEditor.Name#,
+      modify_time=getdate()
+      where bill_status_id=#ID#
+    </update>
+
+    <delete id="Delete" parameterClass="BillStatus">
+      delete from t_def_bill_status 
+      where 1=2 
+    </delete>
+
+    <select id="Select" parameterClass="BillStatus">
+      select a.bill_kind_id,a.bill_status_id,a.bill_status_name,a.bill_status_name_en,a.begin_flag,a.end_flag,a.delete_flag,a.reserve_flag,a.create_user_id,a.create_user_name,a.create_time,a.modify_user_id,a.modify_user_name,a.modify_time,a.sys_modify_stamp 
+      from t_def_bill_status a
+    </select>
+
+  </statements>
+
+</sqlMap>

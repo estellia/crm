@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "AddUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    input {
+        margin-bottom: 3px;
+    }
+
+     label {
+        margin-bottom: 3px;
+         width: 254px;
+    }
+
+</style>
+<script>
+    if (sessionStorage.token == undefined) {
+        window.location.href = "/UserManager/Index";
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+    <div class="row">
+        <div class="form-signin">
+            <label class="form-control" style="width: 280px">用户名</label>
+            <input id="userName" type="email" class="form-control" placeholder="Email address" required="" autocomplete=""/>
+            <label class="form-control" style="width: 280px">密码</label>
+            <input id="userPass" type="password" class="form-control" placeholder="Password" required=""/>
+            <label class="form-control" style="width: 280px">密码确认</label>
+            <input id="userPassConfirm" type="password" class="form-control" placeholder="Password" required=""/>
+            <label class="form-control" style="width: 280px">系统代码</label>
+            <input id="systemCode" type="text" class="form-control" placeholder="systemCode" required=""/>
+            <label class="form-control" style="width: 280px">备注</label>
+            <input id="remark" type="text" class="form-control" placeholder="remark" required="" />
+            <button class="btn btn-primary" onclick="register()">注册</button>
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+    function register(parameters) {
+        var userName = $("#userName").val();
+        var password = $("#userPass").val();
+        var confirmPass = $("#userPassConfirm").val();
+        var systemCode = $("#systemCode").val();
+        var remark = $("#remark").val();
+
+        if (userName == "") {
+            alert("用户名不能为空");
+            return false;
+        }
+        if (password == "") {
+            alert("用户密码不能为空");
+            return false;
+        }
+        if (confirmPass == "") {
+            alert("确认密码不能为空");
+            return false;
+        }
+        if (systemCode == "") {
+            alert("系统代码不能为空");
+            return false;
+        }
+
+        if (password !=confirmPass) {
+            alert("两次密码不一致");
+            return false;
+        }
+        var regsiterModel = new Object();
+        regsiterModel.Email = userName;
+        regsiterModel.Password = password;
+        regsiterModel.ConfirmPassword = confirmPass;
+        regsiterModel.SystemCode = systemCode;
+        regsiterModel.Active = true;
+        regsiterModel.Remark = remark;
+        var jsonStr = JSON.stringify(regsiterModel);
+        $.ajax({
+            type: 'post',
+            url: "/api/Account/register",
+            cache: false,
+            contentType: "application/json",
+            dataType: 'json',
+            data: jsonStr,
+            success: function (data) {
+
+                if (data.success == true) {
+                    alert("创建用户成功");
+                } else {
+                    alert("创建用户失败");
+                }
+            },
+            error: function (msg) {
+                alert(msg.responseText);
+            }
+        });
+
+    }
+</script>
+

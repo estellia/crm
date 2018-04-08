@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Bill.Bill"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Bill" type="cpos.Admin.Model.Bill.BillInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="BillResult" class="Bill">
+      <result property="ID" column="bill_id" type="string" />
+      <result property="BillKind.ID" column="bill_kind_id" type="string" />
+      <result property="Code" column="bill_code" type="string" />
+      <result property="BillStatus.ID" column="bill_status_id" type="string" />
+      <result property="Money" column="bill_money" type="" />
+      <result property="BatchNo" column="batch_no" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="Bill">
+      insert into t_bill(bill_id,bill_kind_id,bill_code,bill_status_id,bill_money,batch_no) 
+      values(#ID#,#BillKind.ID#,#Code#,#BillStatus.ID#,#Money#,#BatchNo#) 
+    </insert>
+
+    <insert id="InsertByBillKindCode" parameterClass="hashtable">
+      insert into t_bill(bill_id,bill_kind_id,bill_code,bill_status_id,bill_money)
+      select #BillID#,a.bill_kind_id,#BillCode#,b.cur_bill_status_id,#BillMoney#
+      from t_def_bill_kind a, t_def_bill_action_role b, t_def_bill_action c,
+      where a.bill_kind_code=#BillKindCode# and a.bill_kind_id=c.bill_kind_id
+      and c.create_flag=1 and c.bill_action_id=b.bill_action_id and b.role_id=#RoleID#
+    </insert>
+
+    <update id="Update" parameterClass="Bill">
+      update t_bill set 
+      bill_id=#ID#,
+      bill_kind_id=#KindID#,
+      bill_code=#Code#,
+      bill_status_id=#StatusID#,
+      bill_money=#Money#,
+      batch_no=#BatchNo#
+      where 1=2 
+    </update>
+
+    <delete id="Delete" parameterClass="Bill">
+      delete from t_bill 
+      where 1=2 
+    </delete>
+
+    <select id="Select" parameterClass="Bill">
+      select a.bill_id,a.bill_kind_id,a.bill_code,a.bill_status_id,a.bill_money,a.batch_no 
+      from t_bill a
+    </select>
+
+  </statements>
+
+</sqlMap>

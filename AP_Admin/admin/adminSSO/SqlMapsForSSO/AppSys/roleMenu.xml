@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="RoleMenu"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="RoleMenu" type="cPos.Model.RoleMenuModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="RoleMenuResult" class="RoleMenu">
+      <result property="Role_Menu_Id" column="role_menu_id" type="string" />
+      <result property="Role_Id" column="role_id" type="string"/>
+      <result property="Menu_Id" column="menu_id" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="RoleMenuResult">
+      select distinct a.role_menu_id, a.role_id, a.menu_id
+      from t_role_menu a
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="RoleMenuResult" parameterClass="string">
+      where a.role_menu_id=#value#
+      and a.[status] = '1'
+    </select>
+
+    <select id="SelectByRoleId" extends="Select" resultMap="RoleMenuResult" parameterClass="string">
+      where a.role_id=#value#
+      and a.[status] = '1'
+    </select>
+    <!--根据组织与系统获取角色与菜单关系-->
+    <select id="SelectByUnitIdAndAppCode" extends="Select" resultMap="RoleMenuResult" parameterClass="hashtable">
+      inner join T_Menu b
+      on(a.menu_id = b.menu_id)
+      inner join T_Def_App c
+      on(b.reg_app_id = c.def_app_id)
+      where  c.def_app_code = #AppCode#
+      and a.[status] = '1'
+      and b.[status] = '1'
+
+    </select>
+
+    <select id="SelectByMenuId" extends="Select" resultMap="RoleMenuResult" parameterClass="string">
+      where menu_id=#value#
+      and [status] = '1'
+    </select>
+
+    <select id="CountByMenuId" resultClass="int" parameterClass="string">
+      select nvl(count(*),0) from t_role_menu where menu_id=#value# and [status] = '1'
+    </select>
+
+    <insert id="Insert" parameterClass="RoleMenu">
+      insert into t_role_menu
+      (role_menu_id, role_id, menu_id)
+      values
+      (#Role_Menu_Id#, #Role_Id#, #Menu_Id#)
+    </insert>
+
+    <update id="DeleteByRoleId" parameterClass="string">
+      update t_role_menu
+      set [status] = '-1'
+      where role_id=#value#
+    </update>
+    <!--<delete id="DeleteByRoleId" parameterClass="string">
+      delete from t_role_menu where role_id=#value#
+    </delete>-->
+
+    <update id="UpdateAdminRoleMenu" parameterClass="string">
+      insert into t_role_menu(role_menu_id,role_id,menu_id,status,create_user_id,create_time)
+      select replace(newid(),'-',''),role_id,menu_id,1,'--',convert(varchar,getdate(),120)
+      from t_role a, t_menu b, t_def_app c
+      where a.def_app_id=c.def_app_id and c.def_app_code='CP' and a.role_code='admin'
+      and a.def_app_id=b.reg_app_id
+      and not exists(select 1 from t_role_menu a1, t_menu a2 where b.menu_id =a1.menu_id)
+      and a.customer_id =  #value# ;
+       
+      update t_role_menu set status='-1'
+      where role_id in (select role_id from t_role a, t_def_app c
+      where a.def_app_id=c.def_app_id and c.def_app_code='CP' and a.role_code='admin'
+      and a.customer_id =  #value#)
+      
+      and menu_id not in (select menu_id from t_menu);
+      
+    </update>
+  </statements>
+</sqlMap>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Right.RoleMenu"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="RoleMenu" type="cpos.Admin.Model.Right.RoleMenuInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="RoleMenuResult" class="RoleMenu">
+      <result property="ID" column="role_menu_id" type="string" />
+      <result property="Role.ID" column="role_id" type="string" />
+      <result property="Menu.ID" column="menu_id" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="RoleMenu">
+      insert into t_role_menu(role_menu_id,role_id,menu_id)
+      values(#ID#,#Role.ID#,#Menu.ID#)
+    </insert>
+
+    <insert id="InsertForAdminRoleOfAdminPlatform" parameterClass="RoleMenu">
+      insert into t_role_menu(role_menu_id,role_id,menu_id)
+      select #ID#,a.role_id,c.menu_id
+      from t_role a, t_def_app b, t_def_menu c
+      where a.role_code='admin' and a.app_id=b.app_id and b.app_code='AP'
+      and c.menu_id=#Menu.ID# and c.app_id=b.app_id
+    </insert>
+
+    <delete id="DeleteByRoleID" parameterClass="string">
+      delete from t_role_menu 
+      where role_id=#value#
+    </delete>
+
+  </statements>
+
+</sqlMap>

@@ -1,0 +1,12 @@
+2014/10/27 10:45:49	System.InvalidOperationException: XML 文档(0, 0)中有错误。 ---> System.Xml.XmlException: 缺少根元素。
+   在 System.Xml.XmlTextReaderImpl.Throw(Exception e)
+   在 System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   在 System.Xml.XmlTextReaderImpl.Read()
+   在 System.Xml.XmlTextReader.Read()
+   在 System.Xml.XmlReader.MoveToContent()
+   在 Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderLoggingManager.Read3_data()
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   在 System.Xml.Serialization.XmlSerializer.Deserialize(TextReader textReader)
+   在 cPos.Service.cXMLService.Deserialize(String xml, Type type) 位置 e:\JIT\CPOS_OLD\BS\cpos_bs\cPos.Service\cXMLService.cs:行号 29
+   在 Login_LoginManager.loadUser(String customer_id, String token) 位置 e:\JIT\CPOS_OLD\BS\cpos_bs\cPos.Website\Login\LoginManager.aspx.cs:行号 52

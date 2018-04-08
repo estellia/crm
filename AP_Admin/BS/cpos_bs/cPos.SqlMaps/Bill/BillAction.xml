@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="BillAction"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillAction" type="cPos.Model.BillActionModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BillActionResult" class="BillAction">
+      <result property="Id" column="bill_action_id" type="string" />
+      <result property="KindId" column="bill_kind_id" type="string" />
+      <result property="Code" column="bill_action_code" type="string" />
+      <result property="CreateFlag" column="create_flag" type="int" />
+      <result property="ModifyFlag" column="modify_flag" type="int" />
+      <result property="ApproveFlag" column="approve_flag" type="int"/>
+      <result property="RejectFlag" column="reject_flag" type="int"/>
+      <result property="CancelFlag" column="cancel_flag" type="int"/>
+      <result property="Description" column="bill_action_name" type="string"/>
+      <result property="display_index" column="display_index" type="int"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="BillActionResult">
+      select a.bill_action_id
+      , a.bill_kind_id, a.bill_action_code,
+      a.create_flag, a.modify_flag, a.approve_flag, a.reject_flag, a.cancel_flag ,
+      a.bill_action_name,a.display_index
+      from t_def_bill_action a
+
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_action_id=#BillActionId#
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="SelectByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId#
+
+      order by display_index
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetCreateActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.create_flag=1 
+      <dynamic>
+        <isNotNull property="BillActionCode">
+          <isNotEmpty property="BillActionCode" prepend="and">
+            a.bill_action_code=#BillActionCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetModifyActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.modify_flag=1 
+      <dynamic>
+        <isNotNull property="BillActionCode">
+          <isNotEmpty property="BillActionCode" prepend="and">
+            a.bill_action_code=#BillActionCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetApproveActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.approve_flag=1 
+      <dynamic>
+        <isNotNull property="BillActionCode">
+          <isNotEmpty property="BillActionCode" prepend="and">
+            a.bill_action_code=#BillActionCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetRejectActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.reject_flag=1
+      <dynamic>
+        <isNotNull property="BillActionCode">
+          <isNotEmpty property="BillActionCode" prepend="and">
+            a.bill_action_code=#BillActionCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetCancelActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.cancel_flag=1
+
+      <dynamic>
+        <isNotNull property="BillActionCode">
+          <isNotEmpty property="BillActionCode" prepend="and">
+            a.bill_action_code=#BillActionCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetOpenActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId# and a.bill_action_code=#BillActionCode# 
+    </select>
+    <!--and a.customer_id = #CustomerId#-->
+    <select id="GetStopActionByKindId" extends="Select" resultMap="BillActionResult" parameterClass="hashtable">
+      where a.bill_kind_id=#BillKindId#  
+      <dynamic>
+        <isNotNull property="BillActionCode">
+          <isNotEmpty property="BillActionCode" prepend="and">
+            a.bill_action_code=#BillActionCode#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="CountUsingBillAction" parameterClass="string" resultClass="int">
+      select count(*) from t_def_bill_action_role
+      where bill_action_id=#value#
+    </select>
+    
+    <insert id="Insert" parameterClass="BillAction" >
+      insert into t_def_bill_action
+      (bill_action_id, bill_kind_id, bill_action_code, bill_action_name,
+      create_flag, modify_flag, approve_flag, reject_flag, cancel_flag,
+      status, create_user_id, create_time,customer_id,display_index)
+      values
+      (#Id#, #KindId#, #Code#, #Description#,
+      #CreateFlag#, #ModifyFlag#, #ApproveFlag#, #RejectFlag#, #CancelFlag#,
+      1, #CreateUserID#, convert(varchar,getdate(),120),#customer_id#,#display_index#)
+    </insert>
+
+    <delete id="DeleteByID" parameterClass="string">
+      delete from t_def_bill_action where bill_action_id=#value#
+    </delete>
+    
+  </statements>
+</sqlMap>

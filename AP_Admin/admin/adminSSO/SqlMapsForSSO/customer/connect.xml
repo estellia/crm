@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Customer.Connect"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="CustomerConnect" type="cpos.Admin.Model.Customer.CustomerConnectInfo,cpos.Admin.Model" />
+  </alias>
+  
+  <resultMaps>
+    
+    <resultMap id="CustomerConnectResult" class="CustomerConnect">
+      <result property="Customer.ID" column="customer_id" type="string" />
+      <result property="Customer.Code" column="customer_code" type="string" />
+      <result property="Customer.Name" column="customer_name" type="string" />
+      <result property="DBServer" column="db_server" type="string"/>
+      <result property="DBName" column="db_name" type="string"/>
+      <result property="DBUser" column="db_user" type="string"/>
+      <result property="DBPassword" column="db_pwd" type="string"/>
+      <result property="AccessURL" column="access_url" type="string"/>
+      <result property="WsUrl" column="ws_url" type="string"/>
+      <result property="KeyFile" column="key_file" type="string"/>
+      <result property="MaxShopCount" column="max_shop_count" type="int"/>
+      <result property="MaxUserCount" column="max_user_count" type="int"/>
+      <result property="MaxTerminalCount" column="max_terminal_count" type="int"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    
+    <select id="SelectByID" resultMap="CustomerConnectResult" parameterClass="string">
+      select a.*, b.customer_code, b.customer_name
+      from t_customer_connect a, t_customer b
+      where a.customer_id=#value# and a.customer_id=b.customer_id
+    </select>
+
+    <select id="SelectDataKeyByID" resultClass="string" parameterClass="string">
+      select key_file from t_customer_connect
+      where customer_id=#value#
+    </select>
+
+    <insert id="Insert" parameterClass="CustomerConnect">
+      insert into t_customer_connect(customer_id
+      ,db_server,db_name,db_user,db_pwd
+      ,access_url, ws_url
+      ,max_shop_count,max_user_count,max_terminal_count
+      ,key_file)
+      VALUES
+      (
+      #Customer.ID#, #DBServer#, #DBName#, #DBUser#, #DBPassword#, #AccessURL#, #WsUrl#,
+      #MaxShopCount#, #MaxUserCount#, #MaxTerminalCount#, #KeyFile#
+      )
+    </insert>
+
+    <update id="Update" parameterClass="CustomerConnect">
+      UPDATE t_customer_connect
+      SET db_server = #DBServer#
+      ,db_name = #DBName#
+      ,db_user =#DBUser#
+      ,db_pwd = #DBPassword#
+      ,access_url = #AccessURL#
+      ,ws_url = #WsUrl#
+      ,max_shop_count = #MaxShopCount#
+      ,max_user_count = #MaxUserCount#
+      ,max_terminal_count = #MaxTerminalCount#
+      ,key_file = #KeyFile#
+      WHERE customer_id=#Customer.ID#
+    </update>
+ 
+  </statements>
+</sqlMap>

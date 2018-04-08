@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EC68D1CB-BDAE-4C75-8CCE-EAB8AE42D9D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Service</RootNamespace>
+    <AssemblyName>cPos.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SYN_AP, SYN_DEX</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\Library\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common.Logging.Log4Net">
+      <HintPath>..\Library\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\Library\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdjustmentOrderDetailItemService.cs" />
+    <Compile Include="AdjustmentOrderDetailSkuService.cs" />
+    <Compile Include="AdjustmentOrderDetailUnitService.cs" />
+    <Compile Include="AdjustmentOrderService.cs" />
+    <Compile Include="AdvertiseOrderAdvertiseService.cs" />
+    <Compile Include="AdvertiseOrderService.cs" />
+    <Compile Include="AdvertiseOrderUnitService.cs" />
+    <Compile Include="AdvertiseService.cs" />
+    <Compile Include="AJService.cs" />
+    <Compile Include="AppSysService.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="BillOperateStateService.cs" />
+    <Compile Include="cAppSysServices.cs" />
+    <Compile Include="cBillService.cs" />
+    <Compile Include="CCService.cs" />
+    <Compile Include="CityService.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="cLoggingManager.cs" />
+    <Compile Include="CLoggingSessionService.cs" />
+    <Compile Include="cMenuService.cs" />
+    <Compile Include="cUserService.cs" />
+    <Compile Include="cXMLService.cs" />
+    <Compile Include="DistributionService.cs" />
+    <Compile Include="ExchangeService.cs" />
+    <Compile Include="FileLogService.cs" />
+    <Compile Include="InitialService.cs" />
+    <Compile Include="InoutService.cs" />
+    <Compile Include="ItemCategoryService.cs" />
+    <Compile Include="ItemPriceService.cs" />
+    <Compile Include="ItemPriceTypeService.cs" />
+    <Compile Include="ItemPropService.cs" />
+    <Compile Include="ItemService.cs" />
+    <Compile Include="MonitorLogService.cs" />
+    <Compile Include="ObjectImagesService.cs" />
+    <Compile Include="OrderReasonTypeService.cs" />
+    <Compile Include="PosInoutService.cs" />
+    <Compile Include="PosService.cs" />
+    <Compile Include="PromotionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyUnitService.cs" />
+    <Compile Include="PropService.cs" />
+    <Compile Include="RepairService.cs" />
+    <Compile Include="ReportService.cs" />
+    <Compile Include="RoleMenuService.cs" />
+    <Compile Include="RoleService.cs" />
+    <Compile Include="ShiftService.cs" />
+    <Compile Include="SkuPriceService.cs" />
+    <Compile Include="SkuPropServer.cs" />
+    <Compile Include="SkuService.cs" />
+    <Compile Include="StockBalanceService.cs" />
+    <Compile Include="TypeService.cs" />
+    <Compile Include="UnitService.cs" />
+    <Compile Include="UserRoleService.cs" />
+    <Compile Include="XmlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\cPos.Service.dll" />
+    <Content Include="bin\Debug\cPos.Service.pdb" />
+    <Content Include="obj\Debug\cPos.Service.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\cPos.Service.dll" />
+    <Content Include="obj\Debug\cPos.Service.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cPos.Components\cPos.Components.csproj">
+      <Project>{BEBB5279-79FA-4C65-86B7-1DAC39754C8C}</Project>
+      <Name>cPos.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.ExchangeService\cPos.ExchangeService.csproj">
+      <Project>{fcb874bb-522f-40f8-a333-9f09aebccd7c}</Project>
+      <Name>cPos.ExchangeService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Model\cPos.Model.csproj">
+      <Project>{F534EE31-0CEA-4ECB-9F58-5DD2FA5AE99D}</Project>
+      <Name>cPos.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.WebServices\cPos.WebServices.csproj">
+      <Project>{3E853C2F-AAF0-4668-87C1-658CC015CDA0}</Project>
+      <Name>cPos.WebServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

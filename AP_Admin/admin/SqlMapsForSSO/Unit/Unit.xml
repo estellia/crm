@@ -1,0 +1,1190 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Unit"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Unit" type="cPos.Model.UnitInfo,cPos.Model" />
+    <!--<typeAlias alias="MVUnit" type="cPos.Model.MVUnitInfo,cPos.Model" />
+    <typeAlias alias="CustomerQueryCondition" type="cPos.Model.CustomerQueryConditionInfo,cPos.Model" />-->
+  </alias>
+
+  <resultMaps>
+    <resultMap id="UnitResult" class="Unit">
+      <result property="Id" column="unit_id" type="string" />
+      <result property="TypeId" column="type_id" type="string"/>
+      <result property="Code" column="unit_code" type="string"/>
+      <result property="Name" column="unit_name" type="string" />
+      <result property="EnglishName" column="unit_name_en" type="string"/>
+      <result property="ShortName" column="unit_name_short" type="string"/>
+      <result property="Email" column="unit_email" type="string"/>
+      <result property="Telephone" column="unit_tel" type="string"/>
+      <result property="Fax" column="unit_fax" type="string"/>
+      <result property="Address" column="unit_address" type="string"/>
+      <result property="Contact" column="unit_contact" type="string"/>
+      <result property="Postcode" column="unit_postcode" type="string"/>
+      <result property="CityId" column="unit_city_id" type="string"/>
+      <result property="Remark" column="unit_remark" type="string"/>
+      <result property="Status" column="status" type="string"/>
+      <result property="Flag" column="unit_flag" type="string"/>
+      <result property="CustomerLevel" column="customer_level" type="int"/>
+      <result property="TypeName" column="unit_type_name" type="string"/>
+      <result property="CityName" column="unit_city_name" type="string"/>
+      <result property="Parent_Unit_Id" column="parent_unit_id" type="string"/>
+      <result property="longitude" column="longitude" type="string"/>
+      <result property="dimension" column="dimension" type="string"/>
+    </resultMap>
+    <resultMap id="UnitResultCus" class="Unit" extends="UnitResult">
+      <result property="ProvinceName" column="unit_province_name" type="string"/>
+      <result property="StateName" column="unit_state_name" type="string"/>
+    </resultMap>
+    <resultMap id="OutUnitResult" class="Unit" extends="UnitResult">
+      <result property="PathName" column="path_name" type="string"/>
+      <result property="CollectUnit" column="collect_unit" type="string"/>
+      <result property="ChannelName" column="chl_name" type="string"/>
+      <result property="ChannelLevel" column="chl_level" type="string"/>
+      <result property="KAUnit" column="ka_unit" type="string"/>
+      <result property="KABranch" column="ka_branch" type="string"/>
+      <result property="SaleUnit" column="sale_unit" type="string"/>
+      <result property="ProvinceName" column="province_name" type="string"/>
+      <result property="Stock" column="stock" type="string"/>
+      <result property="StateName" column="state_name" type="string"/>
+    </resultMap>
+    <!--<resultMap id="MVUnitResult" class="MVUnit" extends="UnitResult">
+      <result property="PathCode" column="path_code" type="string"/>
+      <result property="PathUnitCode" column="path_unit_code" type="string"/>
+      <result property="PathLevel" column="level_flag" type="int"/>
+    </resultMap>-->
+    <resultMap id="CorpResult" class="Unit">
+      <result property="Id" column="unit_id" type="string" />
+      <result property="Code" column="unit_code" type="string"/>
+      <result property="Name" column="unit_name" type="string" />
+      <result property="ShortName" column="unit_name_short" type="string"/>
+    </resultMap>
+    <resultMap id="KAUnitResult" class="Unit">
+      <result property="Id" column="unit_id" type="string" />
+      <result property="Name" column="unit_name" type="string" />
+      <result property="EnglishName" column="link_unit_name" type="string" />
+    </resultMap>
+    <resultMap id="UnitLoadInitResult" class="hashtable">
+      <result property="ERR" column="ERR" type="string" />
+      <result property="BAT_ID" column="BAT_ID" type="string" />
+      <result property="CREATE_DATE" column="CREATE_DATE" type="string" />
+    </resultMap>
+
+    <!--新版UnitResult Jermyn2012-05-25-->
+    <resultMap id="UnitMposResult" class="Unit">
+      <result property="Id" column="unit_id" type="string" />
+      <result property="TypeId" column="type_id" type="string"/>
+      <result property="Code" column="unit_code" type="string"/>
+      <result property="Name" column="unit_name" type="string" />
+      <result property="EnglishName" column="unit_name_en" type="string"/>
+      <result property="ShortName" column="unit_name_short" type="string"/>
+      <result property="Email" column="unit_email" type="string"/>
+      <result property="Telephone" column="unit_tel" type="string"/>
+      <result property="Fax" column="unit_fax" type="string"/>
+      <result property="Address" column="unit_address" type="string"/>
+      <result property="Contact" column="unit_contact" type="string"/>
+      <result property="Postcode" column="unit_postcode" type="string"/>
+      <result property="CityId" column="unit_city_id" type="string"/>
+      <result property="Remark" column="unit_remark" type="string"/>
+      <result property="Status" column="status" type="string"/>
+      <result property="Flag" column="unit_flag" type="string"/>
+      <result property="CustomerLevel" column="customer_level" type="int"/>
+      <result property="TypeName" column="type_name" type="string"/>
+      <result property="CityName" column="city_name" type="string"/>
+
+      <result property="Create_User_Id" column="create_user_id" type="string"/>
+      <result property="Create_Time" column="create_time" type="string"/>
+      <result property="Modify_User_Id" column="modify_user_id" type="string"/>
+      <result property="Modify_Time" column="modify_time" type="string"/>
+      <result property="Status_Desc" column="status_desc" type="string"/>
+      <result property="ICount" column="icount" type="int"/>
+      <result property="Row_No" column="row_no" type="int"/>
+      <result property="Create_User_Name" column="create_user_name" type="string"/>
+      <result property="Modify_User_Name" column="modify_user_name" type="string"/>
+      <result property="longitude" column="longitude" type="string"/>
+      <result property="dimension" column="dimension" type="string"/>
+      
+    </resultMap>
+
+
+  </resultMaps>
+
+  <parameterMaps>
+    <parameterMap id="ImpUnitUpdateCity"  class="hashtable">
+      <parameter property="p_upload_log_id" column="p_upload_log_id" />
+    </parameterMap>
+  </parameterMaps>
+
+  <parameterMaps>
+    <parameterMap id="UnitLoadInit"  class="hashtable">
+      <parameter property="p_Unit_Chl" column="p_Unit_Chl" />
+      <parameter property="P_Unit_Store" column="P_Unit_Store" />
+      <parameter property="BatId" column="BatId" />
+    </parameterMap>
+  </parameterMaps>
+
+  <statements>
+
+    <select id="SelectByUnitId" resultMap="UnitResult" parameterClass="string">
+      select a.*, '' as unit_city_name, '' as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      where a.unit_id=#value#
+    </select>
+
+    <select id="SelectByUnitCode" resultMap="UnitResult" parameterClass="string">
+      select a.*, '' as unit_city_name, '' as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      where a.unit_code=#value#
+    </select>
+
+    <select id="SelectUnitResultByUnitId" resultMap="UnitResult" parameterClass="string">
+      select a.*, '' as unit_city_name, '' as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      where a.unit_id=#UnitId#
+    </select>
+
+    <select id="Select" resultMap="UnitResult">
+      select distinct a.*
+      , '' as unit_city_name
+      , '' as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      where a.unit_id=#UnitId#
+    </select>
+  <!--根据用户获取所有的门店信息 Jermyn2012-06-25-->
+    <select id="SelectByUserId" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      inner join T_User_Role b
+      on(a.unit_id = b.unit_id)
+      where b.user_id=#UserId#
+      order by a.unit_code
+    </select>
+
+    <!--单位模糊查询-->
+    <select id="LikeSelect" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      where ( a.unit_code  like '%$name_code$%' or a.unit_name like '%$name_code$%' ) and rownum &lt;=#RowNum#
+    </select>
+
+    <select id="GetBranchsByCurrentUser" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      where a.unit_id in
+      (
+      select u2.unit_id
+      from t_user_role a, mvw_unit_level u1, mvw_unit_level u2
+      where a.user_id=#UserId# and a.role_id=#RoleId#
+      and a.unit_id=u1.unit_id and u1.path_code like u2.path_code + '%'
+      and u2.unit_type_id='9FFD8F2891F4416481D6B66A5FB91446'
+      group by u2.unit_id
+      )
+    </select>
+
+    <select id="SelectByCode" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      where a.unit_code=#UnitCode#
+    </select>
+
+    <statement id="SelectByIdList" resultMap="UnitResult" parameterClass="string">
+      $value$
+    </statement>
+
+    <select id="SelectByUserIdAndRoleId" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      where a.unit_id in (select unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)
+    </select>
+
+    <select id="SelectParentUnitById" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      where a.unit_id in (select src_unit_id from t_unit_relation
+      where dst_unit_id=#UnitId# and unit_relation_mode_id=#UnitRelationModeId# and unit_relation_status=1)
+    </select>
+
+    <select id="SelectBranchs" extends="Select" resultMap="UnitResult" parameterClass="hashtable">
+      inner join (select distinct r1.unit_id from mvw_unit_level r1,
+      (select w1.path_code, w1.unit_relation_mode_id from mvw_unit_level w1, t_def_unit_relation_mode w2
+      where w2.default_flag=1 and w1.unit_relation_mode_id=w2.unit_relation_mode_id and w1.unit_id in
+      (select distinct unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)) r2
+      where r1.path_code like r2.path_code + '%' and r1.unit_relation_mode_id=r2.unit_relation_mode_id) e
+      on a.unit_id=e.unit_id
+      inner join (select type_id from t_type where type_domain='unit_org' and type_code='BRANCH') f
+      on a.unit_type_id=f.type_id
+      where a.unit_status=1
+      order by a.unit_code
+    </select>
+
+    <select id="SelectCorps" resultMap="CorpResult">
+      select * from t_unit a
+      inner join (select type_id from t_type where type_domain='unit_org' and type_code='BRANCH') f
+      on a.unit_type_id=f.type_id
+      and exists(select 1 from t_unit_relation where src_unit_id=a.unit_id)
+    </select>
+
+    <select id="SelectRootUnits" resultMap="UnitResult" parameterClass="hashtable">
+      select a.*, c.city1_name + c.city2_name + c.city3_name  as unit_city_name, '' unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      inner join (select distinct unit_id from t_user_role
+      where 1=1 and status='1' and user_id=#UserId# and role_id=#RoleId#
+      ) b on a.unit_id=b.unit_id
+      left join T_City c on a.unit_city_id=c.city_id
+
+      where 1=1 and status = '1'
+      <dynamic>
+        <isNotNull property="UnitStatus"  prepend="and">
+          a.[status]=#UnitStatus#
+        </isNotNull>
+        <isNotNull property="CustomerLevel"  prepend="and">
+          a.customer_level &lt;=#CustomerLevel#
+        </isNotNull>
+      </dynamic>
+      order by a.unit_code
+    </select>
+
+    <select id="SelectSubUnitsById" resultMap="UnitResult" parameterClass="hashtable">
+      declare @T table(unit_id nvarchar(100));
+
+      insert into @T
+      select dst_unit_id From T_Unit_Relation
+      where status = '1'
+      and src_unit_id=#UnitId#;
+
+      select distinct a.*, c.city1_name+c.city2_name+c.city3_name as unit_city_name
+      , '' as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+
+      left join T_City c on a.unit_city_id=c.city_id
+
+      inner join @T d
+      on(a.unit_id = d.unit_id)
+
+      where 1=1
+      and a.status = '1'
+      <dynamic>
+        <isNotNull property="UnitStatus"  prepend="and">
+          a.[status]=#UnitStatus#
+        </isNotNull>
+        <isNotNull property="CustomerLevel"  prepend="and">
+          a.customer_level &lt;=#CustomerLevel#
+        </isNotNull>
+        <isNotNull property="UnitFlag"  prepend="and">
+          a.unit_flag &lt;&gt;#UnitFlag#
+        </isNotNull>
+      </dynamic>
+      order by a.unit_code
+    </select>
+
+    <!--用于计划查询二级客户时使用-->
+    <select id="SelectSubUnitsForPlanById" resultMap="UnitResult" parameterClass="hashtable">
+      select a.*, c.object_desc as unit_city_name, d.object_desc as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      inner join (select dst_unit_id from t_unit_relation where unit_relation_mode_id=#UnitRelationModeId#
+      and src_unit_id=#UnitId# and unit_relation_status=1) b on a.unit_id=b.dst_unit_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) c on a.unit_city_id=c.object_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) d on a.unit_type_id=d.object_id
+      inner join (select distinct r1.unit_id from mvw_unit_level r1,
+      (select w1.path_code, w1.unit_relation_mode_id from mvw_unit_level w1, t_def_unit_relation_mode w2
+      where w2.default_flag=1 and w1.unit_relation_mode_id=w2.unit_relation_mode_id and w1.unit_id in
+      (select distinct unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)) r2
+      where r1.path_code like r2.path_code + '%' and r1.unit_relation_mode_id=r2.unit_relation_mode_id) e
+      on a.unit_id=e.unit_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="UnitStatus"  prepend="and">
+          a.unit_status=#UnitStatus#
+        </isNotNull>
+        <isNotNull property="CustomerLevel"  prepend="and">
+          a.customer_level &lt;=#CustomerLevel#
+        </isNotNull>
+        <isNotNull property="UnitFlag"  prepend="and">
+          a.unit_flag &lt;&gt;#UnitFlag#
+        </isNotNull>
+        <isNotNull property="DefAnnualId"  prepend="and">
+          a.unit_id not in
+          (select plan.unit_id from t_plan plan
+          inner join t_unit su on plan.unit_id=su.unit_id and su.CUSTOMER_LEVEL=2
+          where plan.DEF_ANNUAL_ID = #DefAnnualId#
+          and plan.TYPE_ITEM_ID = #TypeItemId#
+          )
+        </isNotNull>
+      </dynamic>
+      order by a.unit_code
+    </select>
+
+    <statement id="SelectAllSubUnits" resultMap="UnitResult" parameterClass="string">
+      $value$
+    </statement>
+
+    <select id="SelectKAUnits" resultMap="UnitResult">
+      select a.*, null as unit_city_name, null as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      inner join (select * from t_type where type_code='KA' and type_domain='KA') b on a.unit_type_id=b.type_id
+      where a.unit_status=1
+      order by a.unit_name_short
+    </select>
+
+    <select id="SelectKAUnits2" resultMap="UnitResult" parameterClass="hashtable">
+      select a.*, null as unit_city_name, null as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      inner join (
+      select distinct a2.UNIT_ID
+      from mvw_unit_level a1,
+      mvw_ka a2,
+      (select k1.path_code, k1.unit_relation_mode_id from mvw_unit_level k1,
+      (select distinct unit_id from t_user_role where user_id=#UserId#
+      and role_id=#RoleId#
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            unit_id=#UnitId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) k2,
+      (select * from t_def_unit_relation_mode where default_flag = 1) k3
+      where k1.unit_id = k2.unit_id and k1.unit_relation_mode_id = k3.unit_relation_mode_id) a3
+      where a1.unit_id=a2.LINK_UNIT_ID and a3.path_code like a1.path_code + '%') b
+      on a.unit_id=b.unit_id
+      order by a.unit_name_short
+    </select>
+
+    <select id="SelectKAUnits3" resultMap="KAUnitResult" parameterClass="hashtable">
+      select a.unit_id, a.unit_name, b.link_unit_name
+      from t_unit a
+      inner join (
+      select distinct a1.level_flag, a2.UNIT_ID, a2.link_unit_name
+      from mvw_unit_level a1,
+      mvw_ka a2,
+      (select k1.path_code, k1.unit_relation_mode_id from mvw_unit_level k1,
+      (select distinct unit_id from t_user_role where user_id=#UserId#
+      and role_id=#RoleId#
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            unit_id=#UnitId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ) k2,
+      (select * from t_def_unit_relation_mode where default_flag = 1) k3
+      where k1.unit_id = k2.unit_id and k1.unit_relation_mode_id = k3.unit_relation_mode_id) a3
+      where a1.unit_id=a2.LINK_UNIT_ID and a1.path_code like a3.path_code + '%') b
+      on a.unit_id=b.unit_id
+      order by a.unit_name, b.level_flag, b.link_unit_name
+    </select>
+
+    <select id="SelectUnitsByUserIdAndRoleId" resultMap="UnitResult" parameterClass="hashtable">
+      select a.*, null as unit_city_name, null as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      inner join (select unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#) b on a.unit_id=b.unit_id
+    </select>
+
+    <statement id="SelectCustomersByQueryCondition"  resultMap="UnitResult" parameterClass="string">
+      $value$
+    </statement>
+
+    <select id="SelectCustomers" resultMap="UnitResultCus" parameterClass="hashtable">
+      select a.*, b.object_desc as unit_city_name, c.object_desc as unit_type_name
+      ,f.object_desc as unit_province_name,
+      g.state_name as unit_state_name
+      from t_unit a
+      left join t_def_city e on e.city_id=a.unit_city_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) f on e.province_id=f.object_id
+      left join t_def_state g on e.state_id=g.state_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) b on a.unit_city_id=b.object_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) c on a.unit_type_id=c.object_id
+      inner join gtmp_unit e on a.unit_id=e.unit_id
+      order by a.unit_code
+    </select>
+
+    <select id="SelectOutCustomers" resultMap="OutUnitResult" parameterClass="hashtable">
+      select a.*, b.object_desc as unit_city_name, c.object_desc as unit_type_name,
+      cu.collect_unit, kau.ka_unit, kabu.ka_branch, su.sale_unit, rr2.object_desc as province_name,
+      state.state_name,
+      uu.path_name,
+      nvl(k1.stock_code,'')+'-'+nvl(k2.stock_name,'') as stock,
+      <!--chb.chl_name+cha.chl_name as chl_name-->
+      <!-- 一级的二级批发改为代理商 -->
+      cha.chl_name, chb.chl_name as chl_level
+      <!--case when chb.chl_name+cha.chl_name='二级批发' and uu.customer_level=1 then '代理商' else chb.chl_name+cha.chl_name end as chl_name-->
+      from t_unit a
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) b on a.unit_city_id=b.object_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) c on a.unit_type_id=c.object_id
+      inner join gtmp_unit e on a.unit_id=e.unit_id
+      inner join mvw_unit_level uu on uu.unit_id=a.unit_id and uu.f_unit_relation_mode_id='64FFDCF4FFB94834BFCC05041F51086E'
+
+      left join
+      (select n1.dst_unit_id unit_id, n2.unit_code + ' - ' + n2.unit_name_short collect_unit
+      from t_unit_relation n1, t_unit n2 where n1.unit_relation_status=1
+      and n2.unit_id=n1.src_unit_id and unit_relation_mode_id='C29DA6668B1340C9803F9B88C462A0A7') cu
+      on cu.unit_id=a.unit_id
+
+      left join
+      (select n1.dst_unit_id unit_id, n2.unit_name_short ka_unit
+      from t_unit_relation n1, t_unit n2 where n1.unit_relation_status=1
+      and n2.unit_id=n1.src_unit_id and unit_relation_mode_id='6953B0FB0347414E9B0F7CD6067475E1') kau
+      on kau.unit_id=a.unit_id
+
+      left join
+      (select n1.dst_unit_id unit_id, n2.unit_code + ' - ' + n2.unit_name_short ka_branch
+      from t_unit_relation n1, t_unit n2 where n1.unit_relation_status=1
+      and n2.unit_id=n1.src_unit_id and unit_relation_mode_id='B6B5C96C1BDA47AEA8878C0952AFF85F') kabu
+      on kabu.unit_id=a.unit_id
+
+      left join
+      (select n1.dst_unit_id unit_id, n2.unit_code + ' - ' + n2.unit_name_short sale_unit
+      from t_unit_relation n1, t_unit n2 where n1.unit_relation_status=1
+      and n2.unit_id=n1.src_unit_id and unit_relation_mode_id='B47DE58257AC411BAAC773274A312196') su
+      on su.unit_id=a.unit_id
+
+      left join vw_dim_unit_chl_l1 cha on a.unit_id=cha.unit_id
+      left join vw_dim_unit_chl_l2 chb on cha.unit_id=chb.unit_id
+
+      left join t_def_city rr1 on a.unit_city_id=rr1.city_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) rr2 on rr1.province_id=rr2.object_id
+      left join t_def_state state on rr1.state_id=state.state_id
+      <!--仓库-->
+      left join mvw_unit_detail k1 on a.unit_id=k1.unit_id
+      left join t_def_stock k2 on trim(k1.stock_code)=k2.stock_code
+
+      order by uu.path_unit_code
+    </select>
+
+    <statement id="SelectSaleOrganizations" parameterClass="string" resultMap="UnitResult">
+      $value$
+    </statement>
+
+    <statement id="SelectSaleOrganizationsCount" parameterClass="string" resultClass="int">
+      $value$
+    </statement>
+
+    <insert id="Insert" parameterClass="Unit" >
+      insert into t_unit
+      (unit_id, unit_type_id, unit_code, unit_name, unit_name_en,
+      unit_name_short, unit_city_id, unit_address, unit_contact,
+      unit_tel, unit_fax, unit_email, unit_postcode, unit_remark,
+      unit_status, customer_level, unit_flag, last_changed)
+      values
+      (#Id#, #TypeId#, #Code#, #Name#, #EnglishName#, #ShortName#, #CityId#,
+      #Address#, #Contact#, #Telephone#, #Fax#, #Email#, #Postcode#,
+      #Remark#, #Status#, #CustomerLevel#, #Flag#, Fn_Mpos_Get_LastChanged())
+    </insert>
+
+    <update id="Update" parameterClass="Unit">
+      update t_unit
+      set unit_type_id = #TypeId#,
+      unit_code = #Code#,
+      unit_name = #Name#,
+      unit_name_en = #EnglishName#,
+      unit_name_short = #ShortName#,
+      unit_city_id = #CityId#,
+      unit_address = #Address#,
+      unit_contact = #Contact#,
+      unit_tel = #Telephone#,
+      unit_fax = #Fax#,
+      unit_email = #Email#,
+      unit_postcode = #Postcode#,
+      unit_remark = #Remark#,
+      unit_status = #Status#,
+      customer_level = #CustomerLevel#,
+      unit_flag = #Flag#
+      ,last_changed = Fn_Mpos_Get_LastChanged()
+      ,if_flag = '0'
+      where unit_id = #Id#
+    </update>
+
+    <update id="DisableById" parameterClass="string">
+      update t_unit set unit_status=0 where unit_id=#value#
+    </update>
+
+    <update id="EnableById" parameterClass="string">
+      update t_unit set unit_status=1 where unit_id=#value#
+    </update>
+
+    <select id="CountSaleOrganization" parameterClass="string" resultClass="int">
+      select nvl(count(a.unit_id),0)
+      from t_unit a
+      inner join (select * from t_type where type_domain='unit_org') b on a.unit_type_id=b.type_id
+      where a.unit_id=#value#
+    </select>
+
+    <select id="CountChannelCustomer" parameterClass="string">
+      select nvl(count(a.unit_id),0)
+      from t_unit a
+      inner join (select * from t_type where type_domain='unit_cus') b on a.unit_type_id=b.type_id
+      where a.unit_id=#value#
+    </select>
+
+    <statement id="SelectCollectUnits" parameterClass="string" resultMap="UnitResult">
+      $value$
+    </statement>
+
+    <statement id="RefreshUnitMVW">
+      call dbms_mview.refresh('mvw_unit_level')
+    </statement >
+
+    <statement id="RefreshKAMVW">
+      call dbms_mview.refresh('mvw_ka')
+    </statement >
+
+    <statement id="RefreshUnitDetailMVW">
+      call dbms_mview.refresh('mvw_unit_detail')
+    </statement >
+
+    <statement id="RefreshUnitContractDiscountMVW">
+      call dbms_mview.refresh('mvw_unit_discount')
+    </statement >
+
+    <statement id="RefreshUnitContractDiscountDisMVW">
+      call dbms_mview.refresh('mvw_unit_discount_dis')
+    </statement >
+
+    <statement id="RefreshUnitContractDiscountVimMVW">
+      call dbms_mview.refresh('mvw_unit_discount_vim')
+    </statement >
+
+    <statement id="RefreshSpKAUnitMVW">
+      call dbms_mview.refresh('mvw_sp_ka_unit')
+    </statement >
+
+    <statement id="RefreshDefaultUnitMVW">
+      call dbms_mview.refresh('mvw_default_unit')
+    </statement >
+
+    <!--查询单位的编码是否已经存在-->
+    <select id="CountByCode" resultClass="int" parameterClass="hashtable">
+      select nvl(sum(c1), 0) from
+      (
+      select nvl(count(*), 0) as c1 from t_unit where unit_code=#UnitCode#
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            unit_id &lt;&gt;#UnitId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      union
+      select nvl(count(*), 0) as c1 from t_fm_unit_new where unit_code=#UnitCode#
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            unit_id &lt;&gt;#UnitId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      union
+      select nvl(count(*), 0) as c1 from t_fm_unit_modify where unit_code=#UnitCode#
+      <dynamic>
+        <isNotNull property="UnitId">
+          <isNotEmpty property="UnitId" prepend="and">
+            unit_id &lt;&gt;#UnitId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      )
+    </select>
+
+    <statement id="SelectCustomerIntoTempTable" parameterClass="string">
+      $value$
+    </statement>
+
+    <select id="TestSelect" resultMap="UnitResult" >
+      select a.*, '' as unit_city_name, '' as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      inner join gtmp_unit b on a.unit_id=b.unit_id
+    </select>
+
+    <select id="GetUnitDetailInfo" parameterClass="string" resultClass="hashtable">
+      select * from mvw_unit_detail where unit_id=#value#
+    </select>
+
+    <select id="GetUnitFullName" parameterClass="string" resultClass="string">
+      select path_name from mvw_unit_level
+      where unit_id=#value#
+      and unit_relation_mode_id='64FFDCF4FFB94834BFCC05041F51086E'
+    </select>
+
+    <select id="CheckUnitIsBranchUnit" parameterClass="string" resultClass="int">
+      select count(*) from mvw_unit_level where level_flag=3 and unit_id=#value#
+    </select>
+
+    <select id="CheckUnitIsAreaUnit" parameterClass="string" resultClass="int">
+      select count(*) from mvw_unit_level where level_flag=4 and unit_id=#value#
+    </select>
+
+    <select id="CheckUnitIsLevel1Unit" parameterClass="string" resultClass="int">
+      select count(*) from t_unit where unit_id=#value# and customer_level=1
+    </select>
+
+    <select id="GetBranchUnitOfUnit" parameterClass="string" resultClass="string">
+      select u2.unit_id
+      from mvw_unit_level u1, mvw_unit_level u2
+      where u1.unit_id=#value# and u1.path_code like u2.path_code + '%'
+      and u2.level_flag=3 and u1.f_unit_relation_mode_id='64FFDCF4FFB94834BFCC05041F51086E'
+    </select>
+
+    <insert id="InsertKAUnit" parameterClass="hashtable">
+      insert into t_unit (unit_id,unit_type_id,unit_code,unit_name,unit_name_en,unit_name_short,
+      unit_status,customer_level,unit_flag,last_changed)
+      select #KAUnitId#,type_id,#KAName#,#KAName#,#KAName#,#KAName#,
+      1,0,'U',Fn_Mpos_Get_LastChanged()
+      from t_type
+      where type_code='KA' and type_domain='KA'
+    </insert>
+
+    <select id="CheckL1AgentUnit" parameterClass="string" resultClass="int">
+      select retail_flag
+      from vw_l1_unit
+      where unit_id=#value#
+    </select>
+
+    <select id="SelectUnitStockCode" parameterClass="string" resultClass="string">
+      select a.stock_code+
+      case nvl(a.spare_stock_code,'--') when '--' then ''
+      else ','+a.spare_stock_code
+      end stock_code
+      from mvw_unit_detail a
+      where a.unit_id=#value#
+    </select>
+
+    <procedure id="ProcImpUnitUpdateCity" parameterMap="ImpUnitUpdateCity" >
+      proc_imp_unit_update_city
+    </procedure>
+
+    <select id="GetUnitListForPos" resultMap="UnitResult" parameterClass="hashtable">
+      select * from ( select row_.*, rownum rownum_ from (
+
+      select a.*, d.object_desc as unit_city_name, b.type_code as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+      left join t_type b on a.unit_type_id=b.type_id
+      left join t_def_city c on a.unit_city_id=c.city_id
+      left join (select * from t_object_translation where language_kind_id='D2D1573F4E874F468F603585EB559B6D') d on a.unit_city_id=d.object_id
+      inner join mvw_unit_chl e on a.unit_id=e.unit_id
+      where 1=1
+      and b.type_code in ('SSHOP', 'OSHOP')
+      <dynamic>
+        <isNotNull property="ParentUnitId">
+          <isNotEmpty property="ParentUnitId" prepend="and">
+            e.chl_unit_id=#ParentUnitId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="LastChanged">
+          <isNotEmpty property="LastChanged" prepend="and">
+            a.last_changed &gt; #LastChanged#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+
+      ) row_ where rownum &lt;= #end_row#) two where two.rownum_ &gt; #start_row#
+    </select>
+
+    <select id="GetCcType" resultClass="string" parameterClass="string">
+      select c.propdetail_code
+      from t_unit_property a
+      left join t_propcode b on b.propcode_id=a.propcode_id
+      left join t_propdetail c on c.propdetail_id=a.propdetail_id
+      where 1=1
+      and a.propcode_id='0D483329E7D149229E7482332E057B36'
+      and a.unit_id=#value#
+    </select>
+
+    <procedure id="ProcUnitLoadInit" parameterMap="UnitLoadInit" >
+      Proc_bs_Upload_Stock
+    </procedure>
+
+    <insert  id="InsertUnitLoadInit" parameterClass="hashtable">
+      insert into t_stock_balance_upload(upload_str,
+      bat_id,
+      create_date)
+      values(#upload_str#,#BatId#,#create_date#)
+    </insert>
+    <select id="UnitLoadLog" resultMap="UnitLoadInitResult" parameterClass="hashtable" >
+      select * from t_stock_balance_upload_log
+      where bat_id=#BatId#
+
+    </select>
+
+    <select id="SelectDaiLiIsMenDian" resultMap="UnitResult" parameterClass="hashtable">
+      select a.*, c.object_desc as unit_city_name, d.object_desc as unit_type_name
+      , (select src_unit_id From T_Unit_Relation where dst_unit_id = a.unit_id and status='1') parent_unit_id
+      from t_unit a
+
+      <!--inner join (select dst_unit_id from t_unit_relation where unit_relation_mode_id=#UnitRelationModeId#
+      and src_unit_id=#UnitId# and unit_relation_status=1) b on a.unit_id=b.dst_unit_id-->
+
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) c on a.unit_city_id=c.object_id
+      left join (select * from t_object_translation where language_kind_id=#LanguageKindId#) d on a.unit_type_id=d.object_id
+
+      <!--inner join (select distinct r1.unit_id from mvw_unit_level r1,
+      (select w1.path_code, w1.unit_relation_mode_id from mvw_unit_level w1, t_def_unit_relation_mode w2
+      where w2.default_flag=1 and w1.unit_relation_mode_id=w2.unit_relation_mode_id and w1.unit_id in
+      (select distinct unit_id from t_user_role where user_id=#UserId# and role_id=#RoleId#)) r2
+      where r1.path_code like r2.path_code + '%' and r1.unit_relation_mode_id=r2.unit_relation_mode_id) e
+      on a.unit_id=e.unit_id-->
+
+      inner join (select distinct r1.unit_id from mvw_unit_level r1,
+      (select path_code, unit_relation_mode_id, level_flag from mvw_unit_level
+      where unit_id=#UnitId# and unit_relation_mode_id=#UnitRelationModeId#) r2
+      where r1.path_code like r2.path_code + '%' and r1.unit_relation_mode_id=r2.unit_relation_mode_id
+      and r1.level_flag=r2.level_flag+1) e
+      on a.unit_id=e.unit_id
+
+      where 1=1
+      and a.unit_id=#MenDian#
+      <dynamic>
+        <isNotNull property="UnitStatus"  prepend="and">
+          a.unit_status=#UnitStatus#
+        </isNotNull>
+        <isNotNull property="CustomerLevel"  prepend="and">
+          a.customer_level &lt;=#CustomerLevel#
+        </isNotNull>
+        <isNotNull property="UnitFlag"  prepend="and">
+          a.unit_flag &lt;&gt;#UnitFlag#
+        </isNotNull>
+      </dynamic>
+      order by a.unit_code
+    </select>
+
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (unit_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (unit_id,row_no)
+      select x.unit_id ,x.rownum_
+      From ( select rownum_=row_number() over(order by a.unit_code)
+      ,unit_id
+      from t_unit a
+      where 1=1
+      <dynamic>
+        <isNotNull property="unit_code">
+          <isNotEmpty property="unit_code" prepend="and">
+            a.unit_code like '%' +  #unit_code# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        
+        
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            a.customer_id like '%' +  #CustomerId# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_name">
+          <isNotEmpty property="unit_name" prepend="and">
+            a.unit_name like '%' +  #unit_name# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_type_id">
+          <isNotEmpty property="unit_type_id" prepend="and">
+            a.type_id = #unit_type_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_tel">
+          <isNotEmpty property="unit_tel" prepend="and">
+            a.unit_tel like '%' + #unit_tel# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_city_id">
+          <isNotEmpty property="unit_city_id" prepend="and">
+            a.unit_city_id = #unit_city_id#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_status">
+          <isNotEmpty property="unit_status" prepend="and">
+            a.[Status] = #unit_status#
+          </isNotEmpty>
+        </isNotNull>
+
+      </dynamic>
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+    </sql>
+    <select id="SearchUnitInfoCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select @iCount;
+    </select>
+    <!--获取查询的组织集合 2012-05-25 -->
+    <select id="SearchUnitInfo" resultMap="UnitMposResult" parameterClass="hashtable">
+
+      <include refid="SearchPublic"/>
+
+
+      select a.unit_id
+      ,a.type_id
+      ,a.unit_code
+      ,a.unit_name
+      ,a.unit_name_en
+      ,a.unit_name_short
+      ,a.unit_city_id
+      ,a.unit_address
+      ,a.unit_contact
+      ,a.unit_tel
+      ,a.unit_fax
+      ,a.unit_email
+      ,a.unit_postcode
+      ,a.unit_remark
+      ,a.Status
+      ,a.unit_flag
+      ,a.customer_level
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,a.status_desc
+      ,@iCount icount
+      ,c.type_name
+      ,d.city1_name + d.city2_name + d.city3_name city_name
+      ,e.user_name create_user_name
+      ,f.user_name modify_user_name
+      ,b.row_no
+      ,a.longitude
+      ,a.dimension
+      From  t_unit a
+      inner join @TmpTable b
+      on(a.unit_id = b.unit_id)
+      left join t_type c
+      on(a.type_id = c.type_id)
+      left join T_City d
+      on(a.unit_city_id = d.city_id)
+      left join t_user e
+      on(a.create_user_id = e.user_id)
+      left join t_user f
+      on(a.modify_user_id = f.user_id)
+      where b.row_no &gt; #StartRow#
+      and b.row_no &lt;=  #EndRow#;
+      
+
+
+    </select>
+
+    <!--用户信息修改或者新建-->
+    <statement id="InsertOrUpdate" parameterClass="Unit">
+      update t_unit
+      set type_id = #TypeId#
+      ,unit_code = #Code#
+      ,unit_name = #Name#
+      ,unit_name_en = #EnglishName#
+      ,unit_name_short = #ShortName#
+      ,unit_city_id = #CityId#
+      ,unit_address = #Address#
+      ,unit_contact = #Contact#
+      ,unit_tel = #Telephone#
+      ,unit_fax = #Fax#
+      ,unit_email = #Email#
+      ,unit_postcode = #Postcode#
+      ,unit_remark = #Remark#
+      ,Status = #Status#
+      ,unit_flag = #Flag#
+      ,customer_level = #CustomerLevel#
+      ,modify_user_id = #Modify_User_Id#
+      ,modify_time = #Modify_Time#
+      ,status_desc = #Status_Desc#
+      ,if_flag = '0'
+      ,longitude = #longitude#
+      ,dimension = #dimension#
+      where unit_id = #Id#;
+
+      insert into t_unit (unit_id
+      ,type_id
+      ,unit_code
+      ,unit_name
+      ,unit_name_en
+      ,unit_name_short
+      ,unit_city_id
+      ,unit_address
+      ,unit_contact
+      ,unit_tel
+      ,unit_fax
+      ,unit_email
+      ,unit_postcode
+      ,unit_remark
+      ,Status
+      ,unit_flag
+      ,CUSTOMER_LEVEL
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,status_desc
+      ,customer_id
+      ,longitude
+      ,dimension)
+
+      select a.* From (
+      select #Id# unit_id
+      ,#TypeId# type_id
+      ,#Code# unit_code
+      ,#Name# unit_name
+      ,#EnglishName# unit_name_en
+      ,#ShortName# unit_name_short
+      ,#CityId# unit_city_id
+      ,#Address# unit_address
+      ,#Contact# unit_contact
+      ,#Telephone# unit_tel
+      ,#Fax# unit_fax
+      ,#Email# unit_email
+      ,#Postcode# unit_postcode
+      ,#Remark# unit_remark
+      ,#Status# Status
+      ,#Flag# unit_flag
+      ,#CustomerLevel# customer_level
+      ,#Create_User_Id# create_user_id
+      ,#Create_Time# create_time
+      ,#Modify_User_Id# modify_user_id
+      ,#Modify_Time# modify_time
+      ,#Status_Desc# status_desc
+      ,#customer_id# customer_id
+      ,#longitude# longitude
+      ,#dimension# dimension
+      ) a
+      left join T_Unit b
+      on(a.unit_id = b.unit_id)
+      where b.unit_id is null ;
+
+      <!--处理上下关系-->
+      update t_unit_relation
+      set status = '-1'
+      where dst_unit_id = #Id#
+      and src_unit_id != '-99';
+
+      update t_unit_relation
+      set status = '1'
+      where src_unit_id = #Parent_Unit_Id#
+      and dst_unit_id = #Id#;
+
+      insert into t_unit_relation(unit_relation_id,src_unit_id,dst_unit_id,[status])
+      select x.* From (
+      select REPLACE(NEWID(),'-','') unit_relation_id,#Parent_Unit_Id# src_unit_id,#Id# dst_unit_id,'1' [status]
+      ) x
+      left join t_unit_relation y
+      on(x.src_unit_id = y.src_unit_id
+      and x.dst_unit_id = y.dst_unit_id)
+      where y.unit_relation_id is null;
+      
+      <!--处理组织与属性关系Jermyn 2012-06-08-->
+      
+      <isNotEmpty property="PropertyList">
+        <!--1.先删除所有的符合条件的关系-->
+        update t_unit_property
+        set [status] = '-1'
+        ,modify_time = a.modify_time
+        ,modify_user_id = a.modify_user_id
+        From (
+        <iterate property="PropertyList" conjunction=" UNION ">
+          SELECT #PropertyList[].UnitId# unit_id
+          , #PropertyList[].Create_User_id# modify_user_id
+          , #PropertyList[].Create_Time# modify_time
+        </iterate>
+        ) a
+        where ( t_unit_property.unit_id = a.unit_id);
+
+        <!--2.更新-->
+        update t_unit_property
+        set [status] = '1'
+        ,property_value = a.property_value
+        ,modify_time = a.modify_time
+        ,modify_user_id = a.modify_user_id
+        From (
+        <iterate property="PropertyList" conjunction=" UNION ">
+          SELECT #PropertyList[].Id# unit_property_id
+          , #PropertyList[].PropertyDetailCode# property_value
+          , #PropertyList[].Create_User_id# modify_user_id
+          , #PropertyList[].Create_Time# modify_time
+          , #PropertyList[].UnitId# unit_id
+          , #PropertyList[].PropertyCodeId# property_id
+        </iterate>
+        ) a
+        where ( t_unit_property.unit_property_id = a.unit_property_id
+        or (t_unit_property.unit_id = a.unit_id
+        and t_unit_property.property_id = a.property_id)
+        );
+
+        <!--3.插入不存在的关系-->
+
+        insert into T_Unit_Property
+        (unit_property_id
+        ,unit_id
+        ,property_id
+        ,property_value
+        ,status
+        ,create_user_id
+        ,create_time
+        ,modify_user_id
+        ,modify_time
+        )
+
+        SELECT P.unit_property_id
+        ,P.unit_id
+        ,P.property_id
+        ,P.property_value
+        ,P.status
+        ,P.create_user_id
+        ,P.create_time
+        ,P.modify_user_id
+        ,P.modify_time
+
+        FROM (
+        <iterate property="PropertyList" conjunction=" UNION ">
+          SELECT
+          #PropertyList[].Id# unit_property_id
+          ,#PropertyList[].UnitId# unit_id
+          ,#PropertyList[].PropertyCodeId# property_id
+          ,#PropertyList[].PropertyDetailCode# property_value
+          ,'1' status
+          ,#PropertyList[].Create_User_id# create_user_id
+          ,#PropertyList[].Create_Time# create_time
+          ,#PropertyList[].Create_User_id# modify_user_id
+          ,#PropertyList[].Create_Time# modify_time
+
+        </iterate>
+        ) P
+        left join t_unit_property  b
+        on(P.unit_property_id = b.unit_property_id)
+        left join t_unit_property c
+        on(P.unit_id = c.unit_id
+        and P.property_id = c.property_id)
+        where b.unit_property_id is null
+        and c.unit_id is null;
+
+
+      </isNotEmpty>
+    </statement>
+
+    <!--修改单位表状态信息Jermyn2012-05-15-->
+    <update id="UpdateUnitStatus" parameterClass="Unit">
+      update t_unit
+      set [status] = #Status#
+      ,Status_Desc = #Status_Desc#
+      ,Modify_Time = #Modify_Time#
+      ,Modify_User_Id = #Modify_User_Id#
+      ,if_flag = '0'
+      where unit_id = #Id#
+    </update>
+
+    <!--判断unit工号是否存在 Jermyn 2012-05-29 -->
+    <select id="IsExsitUnitCode" resultClass="int" parameterString="hashtable">
+      select count(*)
+      From t_unit
+      where 1=1
+      <dynamic prepend="and">
+        <isNotNull prepend="and" property="Unit_Id">unit_id != #Unit_Id#</isNotNull>
+      </dynamic>
+      and unit_code = #Unit_Code#
+    </select>
+
+    <procedure id ="RefreshUnitLevel">
+      proc_refresh_unit_level
+    </procedure>
+
+
+
+    <!--获取未打包的商品数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int">
+      select count(*)
+      From t_unit
+      where isnull(if_flag,'0') = '0';
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="UnitMposResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (unit_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (unit_id,row_no)
+      select unit_id
+      ,row_number() over(order by unit_code) row_no
+      From t_unit
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      and customer_id = #CustomerId#;
+
+      select a.unit_id
+      ,a.type_id
+      ,a.unit_code
+      ,a.unit_name
+      ,a.unit_name_en
+      ,a.unit_name_short
+      ,a.unit_city_id
+      ,a.unit_address
+      ,a.unit_contact
+      ,a.unit_tel
+      ,a.unit_fax
+      ,a.unit_email
+      ,a.unit_postcode
+      ,a.unit_remark
+      ,a.Status
+      ,a.unit_flag
+      ,a.customer_level
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,a.status_desc
+      ,0 icount
+      ,c.type_name
+      ,d.city1_name + d.city2_name + d.city3_name city_name
+      ,e.user_name create_user_name
+      ,f.user_name modify_user_name
+      ,b.row_no
+      ,a.longitude
+      ,a.dimension
+      From  t_unit a
+      inner join @TmpTable b
+      on(a.unit_id = b.unit_id)
+      left join t_type c
+      on(a.type_id = c.type_id)
+      left join T_City d
+      on(a.unit_city_id = d.city_id)
+      left join t_user e
+      on(a.create_user_id = e.user_id)
+      left join t_user f
+      on(a.modify_user_id = f.user_id)
+      where b.row_no &gt; #StartRow#
+      and b.row_no &lt;=  #EndRow#;
+      
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="Unit">
+      <isNotEmpty property="UnitInfoList">
+        update t_unit
+        set bat_id = #bat_id#
+        ,Modify_Time = #Modify_Time#
+        ,Modify_User_Id = #Modify_User_Id#
+        where unit_id in (
+        <iterate property="UnitInfoList" conjunction=" UNION ">
+          SELECT #UnitInfoList[].Id#
+        </iterate> );
+      </isNotEmpty>
+
+    </update>
+    <!--更新Item表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="Unit">
+      update t_unit
+      set if_flag = '1'
+      ,Modify_Time = #Modify_Time#
+      ,Modify_User_Id = #Modify_User_Id#
+      where bat_id = #bat_id#;
+    </update>
+    
+  </statements>
+</sqlMap>

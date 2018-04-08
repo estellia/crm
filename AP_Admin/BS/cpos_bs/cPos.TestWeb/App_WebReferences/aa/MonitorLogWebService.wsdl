@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMonitorLogNotPackagedCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit_Id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMonitorLogNotPackagedCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMonitorLogNotPackagedCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMonitorLogListPackaged">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit_Id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="strartRow" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="rowsCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="bat_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMonitorLogListPackagedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMonitorLogListPackagedResult" type="tns:ArrayOfMonitorLogInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfMonitorLogInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MonitorLogInfo" nillable="true" type="tns:MonitorLogInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MonitorLogInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="monitor_log_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="customer_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="unit_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="pos_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="upload_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_user_id" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="if_flag" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="icount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="row_no" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="bat_id" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetMonitorLogIfFlagInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bat_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetMonitorLogIfFlagInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetMonitorLogIfFlagInfoResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMonitorLogNotPackagedCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMonitorLogNotPackagedCount" />
+  </wsdl:message>
+  <wsdl:message name="GetMonitorLogNotPackagedCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMonitorLogNotPackagedCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMonitorLogListPackagedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMonitorLogListPackaged" />
+  </wsdl:message>
+  <wsdl:message name="GetMonitorLogListPackagedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMonitorLogListPackagedResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetMonitorLogIfFlagInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:SetMonitorLogIfFlagInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetMonitorLogIfFlagInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:SetMonitorLogIfFlagInfoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MonitorLogWebServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMonitorLogNotPackagedCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取未打包上传的监控日志数量</wsdl:documentation>
+      <wsdl:input message="tns:GetMonitorLogNotPackagedCountSoapIn" />
+      <wsdl:output message="tns:GetMonitorLogNotPackagedCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMonitorLogListPackaged">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">需要打包的MonitorLog集合同时更新批次号</wsdl:documentation>
+      <wsdl:input message="tns:GetMonitorLogListPackagedSoapIn" />
+      <wsdl:output message="tns:GetMonitorLogListPackagedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMonitorLogIfFlagInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新MonitorLog表打包标识方法</wsdl:documentation>
+      <wsdl:input message="tns:SetMonitorLogIfFlagInfoSoapIn" />
+      <wsdl:output message="tns:SetMonitorLogIfFlagInfoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MonitorLogWebServiceSoap" type="tns:MonitorLogWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMonitorLogNotPackagedCount">
+      <soap:operation soapAction="http://tempuri.org/GetMonitorLogNotPackagedCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMonitorLogListPackaged">
+      <soap:operation soapAction="http://tempuri.org/GetMonitorLogListPackaged" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMonitorLogIfFlagInfo">
+      <soap:operation soapAction="http://tempuri.org/SetMonitorLogIfFlagInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MonitorLogWebServiceSoap12" type="tns:MonitorLogWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMonitorLogNotPackagedCount">
+      <soap12:operation soapAction="http://tempuri.org/GetMonitorLogNotPackagedCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMonitorLogListPackaged">
+      <soap12:operation soapAction="http://tempuri.org/GetMonitorLogListPackaged" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMonitorLogIfFlagInfo">
+      <soap12:operation soapAction="http://tempuri.org/SetMonitorLogIfFlagInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MonitorLogWebService">
+    <wsdl:port name="MonitorLogWebServiceSoap" binding="tns:MonitorLogWebServiceSoap">
+      <soap:address location="http://192.168.0.116:8021/webservice/MonitorLogWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MonitorLogWebServiceSoap12" binding="tns:MonitorLogWebServiceSoap12">
+      <soap12:address location="http://192.168.0.116:8021/webservice/MonitorLogWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

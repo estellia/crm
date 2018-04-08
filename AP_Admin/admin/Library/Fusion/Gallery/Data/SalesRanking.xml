@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="gb2312"?>
+<chart caption="商品销售排行榜" xAxisName="商品" yAxisName="数量" showValues="0" decimals="0" formatNumberScale="0">
+  <set label="84硬盒红塔山(13mg经典1956)香烟" value="14" />
+  <set label="KIRIN直火拿铁咖啡饮料" value="13" />
+  <set label="500g双船牌草纸(3刀装)" value="8" />
+  <set label="84硬盒红双喜(百顺)香烟" value="5" />
+  <set label="84硬盒双喜(特殊过滤)香烟" value="2" />
+</chart>

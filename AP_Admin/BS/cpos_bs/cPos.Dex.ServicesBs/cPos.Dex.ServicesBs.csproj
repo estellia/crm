@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2C66BC39-C727-4DF2-82BA-9BA37252EBE1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Dex.ServicesBs</RootNamespace>
+    <AssemblyName>cPos.Dex.ServicesBs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComService.cs" />
+    <Compile Include="AuthService.cs" />
+    <Compile Include="BasicService.cs" />
+    <Compile Include="ShiftService.cs" />
+    <Compile Include="VipService.cs" />
+    <Compile Include="OrderService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\cPos.Dex.Common\cPos.Dex.Common.csproj">
+      <Project>{4E164CF5-3114-4C70-874F-1353FB6A6215}</Project>
+      <Name>cPos.Dex.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Components\cPos.Dex.Components.csproj">
+      <Project>{562555C3-1C06-4836-B471-827E4B06F814}</Project>
+      <Name>cPos.Dex.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.ContractModel\cPos.Dex.ContractModel.csproj">
+      <Project>{BEFD77C5-4762-4439-AA04-C512C9167943}</Project>
+      <Name>cPos.Dex.ContractModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Model\cPos.Dex.Model.csproj">
+      <Project>{362D546C-7404-4ECC-B39B-5C0E4025D872}</Project>
+      <Name>cPos.Dex.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Services\cPos.Dex.Services.csproj">
+      <Project>{CB8AFAF8-8287-484E-A500-A0D52E7B4BC9}</Project>
+      <Name>cPos.Dex.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.ExchangeBsService\cPos.ExchangeBsService.csproj">
+      <Project>{690C282E-794B-4866-A4E6-093E4CD87BE2}</Project>
+      <Name>cPos.ExchangeBsService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Model\cPos.Model.csproj">
+      <Project>{F534EE31-0CEA-4ECB-9F58-5DD2FA5AE99D}</Project>
+      <Name>cPos.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

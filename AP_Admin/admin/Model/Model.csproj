@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3E3BA018-A902-4D2B-87AD-36FA10A13BEF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Admin.Model</RootNamespace>
+    <AssemblyName>cPos.Admin.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\DictionaryInfo.cs" />
+    <Compile Include="Base\DictionaryDetailInfo.cs" />
+    <Compile Include="Base\ObjectModifyInfo.cs" />
+    <Compile Include="Base\ObjectOperateInfo.cs" />
+    <Compile Include="Base\SystemOperateInfo.cs" />
+    <Compile Include="Bill\BillActionFlagType.cs" />
+    <Compile Include="Bill\BillActionInfo.cs" />
+    <Compile Include="Bill\BillInfo.cs" />
+    <Compile Include="Bill\BillKindInfo.cs" />
+    <Compile Include="Bill\BillActionLogInfo.cs" />
+    <Compile Include="Bill\BillStatusInfo.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_BannerData.cs" />
+    <Compile Include="CreativityWarehouse\ObjectImagesData.cs" />
+    <Compile Include="CreativityWarehouse\SysMarketingGroupTypeData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_HomePageCommonData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_LEventDrawMethodData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_LEventInteractionData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_LEventsData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_LEventTemplateData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_LEventThemeData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_PanicbuyingEventData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_SeasonPlanData.cs" />
+    <Compile Include="CreativityWarehouse\T_CTW_SpreadSettingData.cs" />
+    <Compile Include="Customer\CustomerConnectInfo.cs" />
+    <Compile Include="Customer\TCustomerDataDeployMappingInfo.cs" />
+    <Compile Include="Customer\TDataDeployInfo.cs" />
+    <Compile Include="Customer\CustomerInfo.cs" />
+    <Compile Include="Customer\CustomerMenuInfo.cs" />
+    <Compile Include="Customer\CustomerShopInfo.cs" />
+    <Compile Include="Customer\CustomerTerminalInfo.cs" />
+    <Compile Include="Customer\CustomerUserInfo.cs" />
+    <Compile Include="Base\UserOperateInfo.cs" />
+    <Compile Include="Customer\BrandCustomerInfo.cs" />
+    <Compile Include="Customer\PosInfo.cs" />
+    <Compile Include="Customer\WarehouseInfo.cs" />
+    <Compile Include="Dex\LogInfo.cs" />
+    <Compile Include="Initial\InitialInfo.cs" />
+    <Compile Include="Monitor\MonitorLogInfo.cs" />
+    <Compile Include="Order\CCDetailInfo.cs" />
+    <Compile Include="Order\CCInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Right\AppInfo.cs" />
+    <Compile Include="Right\MenuInfo.cs" />
+    <Compile Include="Right\RoleInfo.cs" />
+    <Compile Include="Right\RoleMenuInfo.cs" />
+    <Compile Include="User\UserInfo.cs" />
+    <Compile Include="User\UserRoleInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Item\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

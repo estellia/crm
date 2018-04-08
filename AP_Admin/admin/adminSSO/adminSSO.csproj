@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{197DC3C0-E1A2-4144-9276-108BC3835FB4}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>adminSSO</RootNamespace>
+    <AssemblyName>adminSSO</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.0.2, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Model, Version=1.0.0.2, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Castle.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.0.2, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="cPos.Admin.DataCrypt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\cPos.Admin.DataCrypt.dll</HintPath>
+    </Reference>
+    <Reference Include="cPos.Admin.ExchangeModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\cPos.Admin.ExchangeModel.dll</HintPath>
+    </Reference>
+    <Reference Include="cPos.Admin.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\cPos.Admin.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="cPos.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BS\cpos_bs\cPos.Model\bin\Debug\cPos.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common, Version=1.6.1.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common.Logging.Log4Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\IBatisNet.Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper, Version=1.6.1.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Jayrock.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Json, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="authcodeimage.aspx" />
+    <Content Include="AuthService.asmx" />
+    <Content Include="css\base.css" />
+    <Content Include="css\basic.css" />
+    <Content Include="css\common.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\theme.css" />
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="images\ad.png" />
+    <Content Include="images\addressMap.jpg" />
+    <Content Include="images\bannerbg.jpg" />
+    <Content Include="images\bannerbg_01.jpg" />
+    <Content Include="images\bg-login.jpg" />
+    <Content Include="images\bg.jpg" />
+    <Content Include="images\bg.png" />
+    <Content Include="images\btn-login.jpg" />
+    <Content Include="images\checkbox-bg.jpg" />
+    <Content Include="images\checkBox.png" />
+    <Content Include="images\checkboxRight.gif" />
+    <Content Include="images\checkBox_on.png" />
+    <Content Include="images\footer-bg.jpg" />
+    <Content Include="images\footerbg.png" />
+    <Content Include="images\help_icon.jpg" />
+    <Content Include="images\home_icon.png" />
+    <Content Include="images\icon-bi-on.png" />
+    <Content Include="images\icon-bi-out.png" />
+    <Content Include="images\icon-bi-small-on.png" />
+    <Content Include="images\icon-bi-small-out.png" />
+    <Content Include="images\icon-check-on.png" />
+    <Content Include="images\icon-check-out.png" />
+    <Content Include="images\icon-check-small-on.png" />
+    <Content Include="images\icon-check-small-out.png" />
+    <Content Include="images\icon-check.png" />
+    <Content Include="images\icon-checked.png" />
+    <Content Include="images\icon-data-on.png" />
+    <Content Include="images\icon-data-out.png" />
+    <Content Include="images\icon-data-small-on.png" />
+    <Content Include="images\icon-data-small-out.png" />
+    <Content Include="images\icon-phone-on.png" />
+    <Content Include="images\icon-phone-out.png" />
+    <Content Include="images\icon-phone-small-on.png" />
+    <Content Include="images\icon-phone-small-out.png" />
+    <Content Include="images\icon-picture-on.png" />
+    <Content Include="images\icon-picture-out.png" />
+    <Content Include="images\icon-picture-small-on.png" />
+    <Content Include="images\icon-picture-small-out.png" />
+    <Content Include="images\icon-pos-on.png" />
+    <Content Include="images\icon-pos-out.png" />
+    <Content Include="images\icon-pos-small-on.png" />
+    <Content Include="images\icon-pos-small-out.png" />
+    <Content Include="images\icon-promos-on.png" />
+    <Content Include="images\icon-promos-out.png" />
+    <Content Include="images\icon-promos-small-on.png" />
+    <Content Include="images\icon-promos-small-out.png" />
+    <Content Include="images\img\index-img-1.jpg" />
+    <Content Include="images\img\index-img-2.jpg" />
+    <Content Include="images\img\index-img-3.jpg" />
+    <Content Include="images\img\index-img-4.jpg" />
+    <Content Include="images\index-items-bg.jpg" />
+    <Content Include="images\index-main-bg.jpg" />
+    <Content Include="images\left-menu-li-bg.png" />
+    <Content Include="images\left-menu-shadow.png" />
+    <Content Include="images\list-header-bg.png" />
+    <Content Include="images\list-header-li-bg.png" />
+    <Content Include="images\login-bg.png" />
+    <Content Include="images\loginbg.png" />
+    <Content Include="images\loginBox_bg.png" />
+    <Content Include="images\login_banner_bg.jpg" />
+    <Content Include="images\login_bg.jpg" />
+    <Content Include="images\logo.jpg" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\map01.png" />
+    <Content Include="images\map02.png" />
+    <Content Include="images\otoicn.png" />
+    <Content Include="images\password-bg.jpg" />
+    <Content Include="images\password_icon.png" />
+    <Content Include="images\px1.png" />
+    <Content Include="images\send.png" />
+    <Content Include="images\server01.png" />
+    <Content Include="images\server02.png" />
+    <Content Include="images\server03.png" />
+    <Content Include="images\server04.png" />
+    <Content Include="images\skin.png" />
+    <Content Include="images\sub-menu-item-bg.jpg" />
+    <Content Include="images\sub-menu-til-bg.jpg" />
+    <Content Include="images\username-bg.jpg" />
+    <Content Include="images\user_icon.png" />
+    <Content Include="images\weixin.png" />
+    <Content Include="images\weixin01.png" />
+    <Content Include="img\bg.png" />
+    <Content Include="img\butt01.png" />
+    <Content Include="img\dot_bc.png" />
+    <Content Include="img\dot_f.png" />
+    <Content Include="img\dot_fh.png" />
+    <Content Include="img\dot_go.png" />
+    <Content Include="img\dot_l.png" />
+    <Content Include="img\dot_lb.png" />
+    <Content Include="img\dot_ls.png" />
+    <Content Include="img\dot_rb.png" />
+    <Content Include="img\dot_rs.png" />
+    <Content Include="img\dot_s.png" />
+    <Content Include="img\dot_z.png" />
+    <Content Include="img\foot_bg.png" />
+    <Content Include="img\img_lmt.png" />
+    <Content Include="img\img_mt.png" />
+    <Content Include="img\img_yz.png" />
+    <Content Include="img\lab_bg.png" />
+    <Content Include="img\left_bg.png" />
+    <Content Include="img\loginbut.png" />
+    <Content Include="img\logo_m.png" />
+    <Content Include="img\logo_t.png" />
+    <Content Include="img\logo_tit.png" />
+    <Content Include="img\logo_tita.png" />
+    <Content Include="img\pa_te.png" />
+    <Content Include="img\text_b.png" />
+    <Content Include="img\text_s.png" />
+    <Content Include="img\tit_bg.png" />
+    <Content Include="img\tit_r.png" />
+    <Content Include="js\DD_belatedPNG_0.0.8a-min.js" />
+    <Content Include="js\ie6.js" />
+    <Content Include="js\jquery-1.4.2.min.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery1.6.js" />
+    <Content Include="js\public.js" />
+    <Content Include="login.aspx" />
+    <Content Include="readme.txt" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="SqlMapsForSSO\AppSys\AppSys.xml" />
+    <Content Include="SqlMapsForSSO\AppSys\City.xml" />
+    <Content Include="SqlMapsForSSO\AppSys\Prop.xml" />
+    <Content Include="SqlMapsForSSO\AppSys\PropertyUnit.xml" />
+    <Content Include="SqlMapsForSSO\AppSys\Role.xml" />
+    <Content Include="SqlMapsForSSO\AppSys\roleMenu.xml" />
+    <Content Include="SqlMapsForSSO\AppSys\Type.xml" />
+    <Content Include="SqlMapsForSSO\base\dictionary.xml" />
+    <Content Include="SqlMapsForSSO\base\dictionary_detail.xml" />
+    <Content Include="SqlMapsForSSO\base\operate.xml" />
+    <Content Include="SqlMapsForSSO\bill\action.xml" />
+    <Content Include="SqlMapsForSSO\bill\action_log.xml" />
+    <Content Include="SqlMapsForSSO\bill\bill.xml" />
+    <Content Include="SqlMapsForSSO\bill\kind.xml" />
+    <Content Include="SqlMapsForSSO\bill\status.xml" />
+    <Content Include="SqlMapsForSSO\customer\connect.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SqlMapsForSSO\customer\customer - 副本.xml" />
+    <Content Include="SqlMapsForSSO\customer\customer.xml" />
+    <Content Include="SqlMapsForSSO\customer\menu.xml" />
+    <Content Include="SqlMapsForSSO\customer\shop.xml" />
+    <Content Include="SqlMapsForSSO\customer\terminal.xml" />
+    <Content Include="SqlMapsForSSO\customer\user.xml" />
+    <Content Include="SqlMapsForSSO\Item\Item.xml" />
+    <Content Include="SqlMapsForSSO\Item\ItemCategory.xml" />
+    <Content Include="SqlMapsForSSO\Item\ItemPrice.xml" />
+    <Content Include="SqlMapsForSSO\Item\ItemPriceType.xml" />
+    <Content Include="SqlMapsForSSO\Item\ItemProp.xml" />
+    <Content Include="SqlMapsForSSO\Item\Sku.xml" />
+    <Content Include="SqlMapsForSSO\Item\SkuPrice.xml" />
+    <Content Include="SqlMapsForSSO\Item\SkuProp.xml" />
+    <Content Include="SqlMapsForSSO\Monitor\Monitor.xml" />
+    <Content Include="SqlMapsForSSO\order\AdOrder.xml" />
+    <Content Include="SqlMapsForSSO\order\CC.xml" />
+    <Content Include="SqlMapsForSSO\order\CCDetail.xml" />
+    <Content Include="SqlMapsForSSO\order\Inout.xml" />
+    <Content Include="SqlMapsForSSO\order\InoutDetail.xml" />
+    <Content Include="SqlMapsForSSO\order\InoutDetail_ap.xml" />
+    <Content Include="SqlMapsForSSO\order\Inout_ap.xml" />
+    <Content Include="SqlMapsForSSO\order\OrderReasonType.xml" />
+    <Content Include="SqlMapsForSSO\order\OrderType.xml" />
+    <Content Include="SqlMapsForSSO\right\app.xml" />
+    <Content Include="SqlMapsForSSO\right\menu.xml" />
+    <Content Include="SqlMapsForSSO\right\role.xml" />
+    <Content Include="SqlMapsForSSO\right\role_menu.xml" />
+    <Content Include="SqlMapsForSSO\StockBalance\StockBalance.xml" />
+    <Content Include="SqlMapsForSSO\Unit\Unit.xml" />
+    <Content Include="SqlMapsForSSO\Unit\UnitRelationMode.xml" />
+    <Content Include="SqlMapsForSSO\user\mobileuser.xml" />
+    <Content Include="SqlMapsForSSO\user\user.xml" />
+    <Content Include="SqlMapsForSSO\user\usersales.xml" />
+    <Content Include="SqlMapsForSSO\user\user_role.xml" />
+    <Content Include="SqlMapsForSSO\Warehouse\Warehouse.xml" />
+    <Content Include="styles\reset-pc.css" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="authcodeimage.aspx.designer.cs">
+      <DependentUpon>authcodeimage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AuthService.cs">
+      <DependentUpon>AuthService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Old_App_Code\Const.cs" />
+    <Compile Include="Old_App_Code\WSHelper.cs" />
+    <Compile Include="authcodeimage.aspx.cs">
+      <DependentUpon>authcodeimage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App_Data\PublishProfiles\sso.pubxml" />
+    <Content Include="keys\baih.key" />
+    <Content Include="keys\ssoself.key" />
+    <Content Include="MSSqlMap.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="providers.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="obj\Debug\" />
+    <Folder Include="obj\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Component\Component.csproj">
+      <Project>{36060058-ed3e-446b-b2ce-bf8e6af2d78c}</Project>
+      <Name>Component</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataCrypt\DataCrypt.csproj">
+      <Project>{b57f524e-a964-4bd5-9261-f11d90e6dd3d}</Project>
+      <Name>DataCrypt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExchangeModel\ExchangeModel.csproj">
+      <Project>{3e4028f9-88f7-4a15-9299-bd4c753ae650}</Project>
+      <Name>ExchangeModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{3e3ba018-a902-4d2b-87ad-36fa10a13bef}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{970d9e05-294f-4614-909c-40892cf49bca}</Project>
+      <Name>Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>7334</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:7334/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

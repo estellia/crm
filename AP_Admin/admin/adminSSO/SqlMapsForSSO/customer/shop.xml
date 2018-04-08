@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Customer.Shop"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="CustomerShop" type="cpos.Admin.Model.Customer.CustomerShopInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="CustomerShopResult" class="CustomerShop" extends="Base.Operate.SystemOperateResult">
+      <result property="ID" column="customer_shop_id" type="string" />
+      <result property="Code" column="cs_code" type="string" />
+      <result property="Name" column="cs_name" type="string" />
+      <result property="EnglishName" column="cs_name_en" type="string" />
+      <result property="ShortName" column="cs_name_short" type="string" />
+      <result property="Province" column="cs_province" type="string" />
+      <result property="City" column="cs_city" type="string" />
+      <result property="Country" column="cs_country" type="string" />
+      <result property="Address" column="cs_address" type="string" />
+      <result property="PostCode" column="cs_post_code" type="string" />
+      <result property="Contact" column="cs_contact" type="string" />
+      <result property="Tel" column="cs_tel" type="string" />
+      <result property="Fax" column="cs_fax" type="string" />
+      <result property="Email" column="cs_email" type="string" />
+      <result property="Remark" column="cs_remark" type="string" />
+      <result property="Status" column="cs_status" type="int" />
+      <result property="StatusDescription" column="cs_status_desc" type="string" />
+      <result property="Customer.ID" column="customer_id" type="string" />
+      <result property="Customer.Code" column="customer_code" type="string"/>
+      <result property="Customer.Name" column="customer_name" type="string"/>
+      <result property="Customer.StatusDescription" column="customer_status_desc" type="string"/>
+      <result property="longitude" column="longitude" type="string" />
+      <result property="dimension" column="dimension" type="string" />
+      <result property="customer_id" column="customer_id" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="SelectShop" parameterClass="CustomerShop">
+      select a.customer_code,a.customer_name,
+      e.dd_name as customer_status_desc,
+      b.*
+      from t_customer a
+      inner join vw_dic e on e.dic_code='status' and cast(a.customer_status as char)=e.dd_code
+      inner join t_customer_shop b on a.customer_id=b.customer_id
+    </select>
+
+    <select id="SelectShopByID" resultMap="CustomerShopResult" parameterClass="string" extends="SelectShop">
+      where b.customer_shop_id=#value#
+    </select>
+
+    <select id="SelectMobileShopList" resultMap="CustomerShopResult" parameterClass="string" >
+      select a.customer_code,a.customer_name,
+      '' customer_status_desc,
+      b.*
+      from t_customer a
+
+      inner join t_customer_shop b on a.customer_id=b.customer_id
+      inner join T_MobileUser_Shop c on(c.shop_id = b.customer_shop_id)
+      where c.user_id =#value#
+    </select>
+
+    <select id="SelectIdByCode" resultClass="string" parameterClass="hashtable" >
+      select a.customer_shop_id From t_customer_shop a
+      inner join t_customer b
+      on(a.customer_id = b.customer_id)
+      where b.customer_code=#CustomerCode#
+      and a.cs_code = #CustomerShopCode#;
+    </select>
+    
+
+    <select id="SelectShopListCount" resultClass="int">
+      select count(a.customer_id)
+      from t_customer a, t_customer_shop b
+      where a.customer_id=b.customer_id
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          a.customer_id=#CustomerID#
+        </isNotNull>
+        <isNotNull property="CustomerName" prepend="and">
+          (a.customer_code like '%' + #CustomerName# + '%' or a.customer_name like '%' + #CustomerName# + '%')
+        </isNotNull>
+        <isNotNull property="CSCode" prepend="and">
+          b.cs_code like '%' + #CSCode# + '%'
+        </isNotNull>
+        <isNotNull property="CSName" prepend="and">
+          b.cs_name like '%' + #CSName# + '%'
+        </isNotNull>
+        <isNotNull property="CSStatus" prepend="and">
+          b.cs_status = #CSStatus#
+        </isNotNull>
+        <isNotNull property="CSTel" prepend="and">
+          b.cs_tel like '%' + #CSTel# + '%'
+        </isNotNull>
+        <isNotNull property="CSContact" prepend="and">
+          b.cs_contact like '%' + #CSContact# + '%'
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="SelectShopList" resultMap="CustomerShopResult">
+      select a.* from (
+      select rownum_=row_number() over(order by a.customer_code,b.cs_code),
+      a.customer_code,a.customer_name,
+      e.dd_name as customer_status_desc,
+      b.*
+      from t_customer a, t_customer_shop b, vw_dic e
+      where a.customer_id=b.customer_id and e.dic_code='status'
+      and cast(a.customer_status as char)=e.dd_code
+      <dynamic>
+        <isNotNull property="CustomerID" prepend="and">
+          a.customer_id=#CustomerID#
+        </isNotNull>
+        <isNotNull property="CustomerName" prepend="and">
+          (a.customer_code like '%' + #CustomerName# + '%' or a.customer_name like '%' + #CustomerName# + '%')
+        </isNotNull>
+        <isNotNull property="CSCode" prepend="and">
+          b.cs_code like '%' + #CSCode# + '%'
+        </isNotNull>
+        <isNotNull property="CSName" prepend="and">
+          b.cs_name like '%' + #CSName# + '%'
+        </isNotNull>
+        <isNotNull property="CSStatus" prepend="and">
+          b.cs_status = #CSStatus#
+        </isNotNull>
+        <isNotNull property="CSTel" prepend="and">
+          b.cs_tel like '%' + #CSTel# + '%'
+        </isNotNull>
+        <isNotNull property="CSContact" prepend="and">
+          b.cs_contact like '%' + #CSContact# + '%'
+        </isNotNull>
+      </dynamic>
+      ) a where rownum_ &gt; #StartRow# and rownum_&lt;=#EndRow#
+    </select>
+
+    <select id="GetAllShopList" resultMap="CustomerShopResult" parameterClass="hashtable">
+      select a.customer_code,a.customer_name,
+      e.dd_name as customer_status_desc,
+      b.*
+      from t_customer a, t_customer_shop b, vw_dic e
+      where a.customer_id=b.customer_id and e.dic_code='status'
+      and cast(a.customer_status as char)=e.dd_code
+      and a.customer_id=#CustomerID#
+      <dynamic>
+        <isNotNull property="ShopStatus" prepend="and">
+          b.cs_status=#ShopStatus#
+        </isNotNull>
+      </dynamic>
+      order by a.customer_code,b.cs_code
+    </select>
+    
+    <insert id="InsertCustomerShopFromCP" parameterClass="CustomerShop">
+      insert into t_customer_shop(customer_id, customer_shop_id, cs_code, cs_name,
+      cs_name_en, cs_name_short, cs_province, cs_city, cs_country, cs_address, cs_post_code,
+      cs_contact, cs_tel, cs_fax, cs_email, cs_remark, cs_status, cs_status_desc, sys_modify_stamp,
+      longitude, dimension)
+      values(#Customer.ID#, #ID#, #Code#, #Name#, #EnglishName#, #ShortName#, #Province#, #City#, #Country#,
+      #Address#, #PostCode#, #Contact#, #Tel#, #Fax#, #Email#, #Remark#, 1, #StatusDescription#, getdate(),
+      #longitude#, #dimension#)
+    </insert>
+
+    <update id="UpdateCustomerShopFromCP" parameterClass="CustomerShop">
+      update t_customer_shop set
+      cs_code = #Code#,
+      cs_name = #Name#,
+      cs_name_en = #EnglishName#,
+      cs_name_short = #ShortName#,
+      cs_province = #Province#,
+      cs_city = #City#,
+      cs_country = #Country#,
+      cs_address = #Address#,
+      cs_post_code = #PostCode#,
+      cs_contact = #Contact#,
+      cs_tel = #Tel#,
+      cs_fax = #Fax#,
+      cs_email = #Email#,
+      cs_remark = #Remark#,
+      cs_status_desc = #StatusDescription#,
+      sys_modify_stamp = getdate(),
+      longitude = #longitude#,
+      dimension = #dimension#
+      where customer_shop_id = #ID#
+    </update>
+
+    <update id="EnableCustomerShopFromCP" parameterClass="CustomerShop">
+      update t_customer_shop set
+      sys_modify_stamp = getdate(),
+      cs_status_desc = #StatusDescription#,
+      cs_status=1
+      where customer_shop_id=#ID#
+    </update>
+
+    <update id="DisableCustomerShopFromCP" parameterClass="CustomerShop">
+      update t_customer_shop set
+      sys_modify_stamp = getdate(),
+      cs_status_desc = #StatusDescription#,
+      cs_status=-1
+      where customer_shop_id=#ID#
+    </update>
+
+
+    <!-- 获取Mobile CustomerShop打包数据 -->
+    <select id="GetMobileCustomerShopNotPackagedCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      from t_customer_shop a
+      inner join T_MobileUser_Shop b on a.customer_shop_id=b.shop_id
+      where 1=1
+      and isnull(b.if_flag,'0') = '0'
+      <dynamic>
+        <isNotNull property="User_Id">
+          <isNotEmpty property="User_Id" prepend="and">
+            b.User_Id = #User_Id#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetMobileCustomerShopListNotPackaged" resultMap="CustomerShopResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (Shop_Id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (Shop_Id,row_no)
+      select Shop_Id
+      ,row_number() over(order by Shop_id) row_no
+      From T_MobileUser_Shop
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      <dynamic>
+        <isNotNull property="User_Id">
+          <isNotEmpty property="User_Id" prepend="and">
+            User_Id = #User_Id#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      ;
+
+      select a.*
+      ,d.customer_code
+      ,d.customer_name
+      ,de.dd_name as customer_status_desc
+      ,c.dd_name as cs_status_desc
+      From  t_customer_shop a
+      inner join @TmpTable b on(a.customer_shop_id = b.shop_id)
+      inner join vw_dic c on c.dic_code='status' and cast(a.cs_status as char)=c.dd_code
+      inner join t_customer d on a.customer_id=d.customer_id
+      inner join vw_dic de on de.dic_code='status' and cast(d.customer_status as char)=de.dd_code
+      left join t_user e on(a.create_user_id = e.user_id)
+      left join t_user f on(a.modify_user_id = f.user_id)
+      where b.row_no &gt; #StartRow#
+      and b.row_no &lt;=  #EndRow#;
+
+    </select>
+
+    <update id="SetMobileCustomerShopBatInfo" parameterClass="CustomerShop">
+      <isNotEmpty property="CustomerShopList">
+        update T_MobileUser_Shop
+        set bat_id = #BatId#
+        ,Modify_Time = #ModifyTime#
+        ,Modify_User_Id = #ModifyUserId#
+        where 1=1
+        and user_id=#ModifyUserId#
+        and shop_id in (
+        <iterate property="CustomerShopList" conjunction=" UNION ">
+          SELECT #CustomerShopList[].ID#
+        </iterate> );
+      </isNotEmpty>
+    </update>
+
+    <update id="UpdateMobileCustomerShopNotPackagedIfFlag" parameterClass="CustomerShop">
+      update T_MobileUser_Shop
+      set if_flag = '1'
+      ,Modify_Time = #ModifyTime#
+      ,Modify_User_Id = #ModifyUserId#
+      where bat_id = #BatId#;
+    </update>
+    
+  </statements>
+
+</sqlMap>

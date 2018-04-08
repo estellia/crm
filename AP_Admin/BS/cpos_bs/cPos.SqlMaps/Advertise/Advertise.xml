@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Advertise"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Advertise" type="cPos.Model.Advertise.AdvertiseInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AdvertiseResult" class="Advertise">
+      <result property="advertise_id" column="advertise_id" type="string" />
+      <result property="advertise_name" column="advertise_name" type="string" />
+      <result property="advertise_code" column="advertise_code" type="string"/>
+      <result property="file_size" column="file_size" type="string"/>
+      <result property="file_format" column="file_format" type="string"/>
+      <result property="display" column="display" type="string"/>
+      <result property="playback_time" column="playback_time" type="string"/>
+      <result property="url_address" column="url_address" type="string"/>
+      <result property="brand_customer_id" column="brand_customer_id" type="string"/>
+      <result property="brand_id" column="brand_id" type="string"/>
+      
+      <result property="customer_id" column="customer_id" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="advertise_order_advertise_id" column="advertise_order_advertise_id" type="string"/>
+
+
+    </resultMap>
+
+    <resultMap id="AdvertiseOrderSearchResult" class="Advertise" extends="AdvertiseResult">
+      <result property="row_no" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="icount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+  </resultMaps>
+  <statements>
+
+    <select id="Select" resultMap="AdvertiseResult">
+      select a.advertise_id
+      ,a.advertise_name
+      ,a.advertise_code
+      ,a.file_size
+      ,a.file_format
+      ,a.display
+      ,a.playback_time
+      ,a.url_address
+      ,a.brand_customer_id
+      ,a.brand_id
+      ,a.status
+      ,a.create_time
+      ,a.create_user_id
+      ,a.modify_time
+      ,a.modify_user_id
+      ,a.customer_id
+      ,b.id advertise_order_advertise_id
+      From T_Advertise a
+
+    </select>
+
+    <select id="SelectByOrderId" extends="Select" resultMap="AdvertiseResult" parameterClass="hashtable">
+      inner join T_Advertise_Order_Advertise b
+      on(a.advertise_id = b.advertise_id)
+      where 1=1
+      and 1=1
+      and b.order_id=#OrderId#;
+    </select>
+    
+
+    <!--处理表信息 Jermyn 2012-06-14-->
+    <statement id="InsertOrUpdate" parameterClass="Advertise">
+      update T_Advertise
+      set advertise_name = #advertise_name#
+      ,advertise_code = #advertise_code#
+      ,file_size = #file_size#
+      ,file_format = #file_format#
+      ,display = #display#
+      ,playback_time = #playback_time#
+      ,url_address = #url_address#
+      ,brand_customer_id = #brand_customer_id#
+      ,brand_id = #brand_id#
+      ,status = #status#
+
+      ,modify_user_id = #modify_user_id#
+      ,modify_time = #modify_time#
+      where advertise_id = #advertise_id#;
+
+      insert into T_Advertise(
+      advertise_id
+      ,advertise_name
+      ,advertise_code
+      ,file_size
+      ,file_format
+      ,display
+      ,playback_time
+      ,url_address
+      ,brand_customer_id
+
+      ,status
+      ,create_user_id
+      ,create_time
+      ,modify_user_id
+      ,modify_time
+      ,brand_id
+      )
+
+      select a.* From (
+      select #advertise_id# advertise_id
+      ,#advertise_name# advertise_name
+      ,#advertise_code# advertise_code
+      ,#file_size# file_size
+      ,#file_format# file_format
+      ,#display# display
+      ,#playback_time# playback_time
+      ,#url_address# url_address
+      ,#brand_customer_id# brand_customer_id
+
+      ,#status# status
+      ,#create_user_id# create_user_id
+      ,#create_time# create_time
+      ,#modify_user_id# modify_user_id
+      ,#modify_time# modify_time
+      ,#brand_id# brand_id
+      ) a
+      left join T_Advertise b
+      on(a.advertise_id = b.advertise_id)
+      where b.advertise_id is null
+      and a.advertise_id not in (select advertise_id from T_Advertise);
+    </statement>
+
+
+  </statements>
+</sqlMap>

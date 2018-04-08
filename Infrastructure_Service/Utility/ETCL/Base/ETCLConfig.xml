@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<JitETCLTemplates>
+  <JitETCLTemplate ClientID="1" TemplateName="基础数据导入" TemplateNameEn="UnderlyingDataImport" TemplateDescription="">
+      <WorkSheet WorkSheetName="5.终端信息表" WorkSheetNameEn="05.Store" WorkSheetDescription="终端信息表">
+          <Table TableName="Store" TableDesc="终端表" TableDescEn="Store" DAOName="" EntityName="">
+            <Column ColumnName="StoreName" ColumnText="终端名称" ColumnTextEn="" ColumnType="string" Visible="1" Nullable="1" Duplicatable="0" CanTermReplace="0" IsLogicalField="0" MaxValue="50" MinValue="1" ReferenceTableName="" ReferenceAdditionalCondition="" ReferenceColumnName="" ReferenceTextColumnName="" ReferenceTextColumnNameEn="">
+            </Column>
+            <Column ColumnName="CityID" ColumnText="所属城市" ColumnTextEn="" ColumnType="string" Visible="1" Nullable="1" Duplicatable="0" CanTermReplace="0" IsLogicalField="0" MaxValue="50" MinValue="1" ReferenceTableName="City" ReferenceAdditionalCondition="" ReferenceColumnName="CityID" ReferenceTextColumnName="City" ReferenceTextColumnNameEn="CityEn">
+            </Column>
+          </Table>
+   <Table TableName="City" TableDesc="City" TableDescEn="City" DAOName="" EntityName="" ReferenceOnly="1">
+            <Column ColumnName="City" ColumnText="城市名称" ColumnTextEn="" ColumnType="string" Visible="0" Nullable="1" Duplicatable="0" CanTermReplace="0" IsLogicalField="0" MaxValue="50" MinValue="1" ReferenceTableName="" ReferenceAdditionalCondition="" ReferenceColumnName="" ReferenceTextColumnName="" ReferenceTextColumnNameEn="">
+            </Column>
+            <Column ColumnName="CityID" ColumnText="城市标识" ColumnTextEn="" ColumnType="string" Visible="0" Nullable="1" Duplicatable="0" CanTermReplace="0" IsLogicalField="0" MaxValue="50" MinValue="1" ReferenceTableName="City" ReferenceAdditionalCondition="" ReferenceColumnName="" ReferenceTextColumnName="" ReferenceTextColumnNameEn="">
+            </Column>
+          </Table>
+      </WorkSheet>
+  </JitETCLTemplate>
+  <JitETCLTemplate ClientID="2" TemplateName="基础数据导入" TemplateNameEn="UnderlyingDataImport" TemplateDescription="">
+    <WorkSheet WorkSheetName="5.终端信息表" WorkSheetNameEn="05.Store" WorkSheetDescription="终端信息表">
+      <Table TableName="Store" TableDesc="终端表" TableDescEn="Store" DAOName="" EntityName="">
+        <Column ColumnName="StoreName" ColumnText="终端名称" ColumnTextEn="StoreName" ColumnType="string" Visible="1" Nullable="1" Duplicatable="0" CanTermReplace="0" IsLogicalField="0" MaxValue="50" MinValue="1" ReferenceTableName="" ReferenceAdditionalCondition="" ReferenceColumnName="" ReferenceTextColumnName="" ReferenceTextColumnNameEn="">
+        </Column>
+        <Column ColumnName="CityID" ColumnText="所属城市" ColumnTextEn="City" ColumnType="string" Visible="1" Nullable="1" Duplicatable="0" CanTermReplace="0" IsLogicalField="0" MaxValue="50" MinValue="1" ReferenceTableName="City" ReferenceAdditionalCondition="" ReferenceColumnName="CityID" ReferenceTextColumnName="City" ReferenceTextColumnNameEn="CityEn">
+        </Column>
+      </Table>
+    </WorkSheet>
+  </JitETCLTemplate>
+</JitETCLTemplates>

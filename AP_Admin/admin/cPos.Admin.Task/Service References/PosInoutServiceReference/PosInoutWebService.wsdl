@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosInoutNotPackagedCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit_Id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosInoutNotPackagedCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetPosInoutNotPackagedCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosInoutListPackaged">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit_Id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="startRow" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="rowsCount" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="bat_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosInoutListPackagedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPosInoutListPackagedResult" type="tns:ArrayOfInoutInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInoutInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="InoutInfo" nillable="true" type="tns:InoutInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="InoutInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="order_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_no" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_type_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_reason_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="red_flag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ref_order_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ref_order_no" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="warehouse_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_date" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="request_date" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="complete_date" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_unit_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="unit_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="unit_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="related_unit_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="related_unit_code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="pos_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="shift_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="sales_user" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="total_amount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="discount_rate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="actual_amount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="receive_points" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="pay_points" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="pay_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="payment_name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="print_times" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="carrier_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="status_desc" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="total_qty" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="total_retail" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="keep_the_change" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="wiping_zero" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="vip_no" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="approve_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="approve_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="send_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="send_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="accpect_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="accpect_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="modify_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="modify_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_unit_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_user_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="approve_user_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="send_user_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="accpect_user_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="modify_user_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_type_code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_type_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_reason_code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_reason_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="sales_unit_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="purchase_unit_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="sales_unit_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="purchase_unit_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="warehouse_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillKindCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="data_from_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="data_from_name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Row_No" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ICount" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="operate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="if_flag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="customer_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="bat_id" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPosInoutDetailListPackaged">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="inoutInfoList" type="tns:ArrayOfInoutInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPosInoutDetailListPackagedResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPosInoutDetailListPackagedResult" type="tns:ArrayOfInoutDetailInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInoutDetailInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="InoutDetailInfo" nillable="true" type="tns:InoutDetailInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="InoutDetailInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="order_detail_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ref_order_detail_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="sku_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="unit_id" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="order_qty" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="enter_qty" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="enter_price" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="enter_amount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="std_price" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="order_discount_rate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="discount_rate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="retail_price" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="retail_amount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="plan_price" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="receive_points" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="pay_points" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="pos_order_code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="order_detail_status" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="display_index" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="create_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="modify_time" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="modify_user_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ref_order_id" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="if_flag" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="item_code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="item_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="prop_1_detail_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="prop_2_detail_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="prop_3_detail_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="prop_4_detail_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="prop_5_detail_name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="SetPosInoutIfFlagInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Customer_Id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bat_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetPosInoutIfFlagInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SetPosInoutIfFlagInfoResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPosInoutNotPackagedCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPosInoutNotPackagedCount" />
+  </wsdl:message>
+  <wsdl:message name="GetPosInoutNotPackagedCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPosInoutNotPackagedCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPosInoutListPackagedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPosInoutListPackaged" />
+  </wsdl:message>
+  <wsdl:message name="GetPosInoutListPackagedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPosInoutListPackagedResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPosInoutDetailListPackagedSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPosInoutDetailListPackaged" />
+  </wsdl:message>
+  <wsdl:message name="GetPosInoutDetailListPackagedSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPosInoutDetailListPackagedResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetPosInoutIfFlagInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:SetPosInoutIfFlagInfo" />
+  </wsdl:message>
+  <wsdl:message name="SetPosInoutIfFlagInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:SetPosInoutIfFlagInfoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PosInoutWebServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutNotPackagedCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取未打包上传的POS小票数量</wsdl:documentation>
+      <wsdl:input message="tns:GetPosInoutNotPackagedCountSoapIn" />
+      <wsdl:output message="tns:GetPosInoutNotPackagedCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutListPackaged">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">需要打包的POS小票集合同时更新批次号</wsdl:documentation>
+      <wsdl:input message="tns:GetPosInoutListPackagedSoapIn" />
+      <wsdl:output message="tns:GetPosInoutListPackagedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutDetailListPackaged">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">需要打包的POS小票明细集合</wsdl:documentation>
+      <wsdl:input message="tns:GetPosInoutDetailListPackagedSoapIn" />
+      <wsdl:output message="tns:GetPosInoutDetailListPackagedSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPosInoutIfFlagInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新POS小票表打包标识方法</wsdl:documentation>
+      <wsdl:input message="tns:SetPosInoutIfFlagInfoSoapIn" />
+      <wsdl:output message="tns:SetPosInoutIfFlagInfoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PosInoutWebServiceSoap" type="tns:PosInoutWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutNotPackagedCount">
+      <soap:operation soapAction="http://tempuri.org/GetPosInoutNotPackagedCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutListPackaged">
+      <soap:operation soapAction="http://tempuri.org/GetPosInoutListPackaged" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutDetailListPackaged">
+      <soap:operation soapAction="http://tempuri.org/GetPosInoutDetailListPackaged" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPosInoutIfFlagInfo">
+      <soap:operation soapAction="http://tempuri.org/SetPosInoutIfFlagInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PosInoutWebServiceSoap12" type="tns:PosInoutWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutNotPackagedCount">
+      <soap12:operation soapAction="http://tempuri.org/GetPosInoutNotPackagedCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutListPackaged">
+      <soap12:operation soapAction="http://tempuri.org/GetPosInoutListPackaged" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosInoutDetailListPackaged">
+      <soap12:operation soapAction="http://tempuri.org/GetPosInoutDetailListPackaged" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPosInoutIfFlagInfo">
+      <soap12:operation soapAction="http://tempuri.org/SetPosInoutIfFlagInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PosInoutWebService">
+    <wsdl:port name="PosInoutWebServiceSoap" binding="tns:PosInoutWebServiceSoap">
+      <soap:address location="http://192.168.0.55:8201/webservice/PosInoutWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PosInoutWebServiceSoap12" binding="tns:PosInoutWebServiceSoap12">
+      <soap12:address location="http://192.168.0.55:8201/webservice/PosInoutWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

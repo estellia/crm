@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="ItemPrice"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="ItemPrice" type="cPos.Model.ItemPriceInfo,cPos.Model" />
+    <typeAlias alias="ItemInfo_Price" type="cPos.Model.ItemInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ItemPriceResult" class="ItemPrice">
+      <result property="item_price_id" column="item_price_id" type="string" />
+      <result property="item_id" column="item_id" type="string" />
+      <result property="item_price_type_id" column="item_price_type_id" type="string"/>
+      <result property="item_price" column="item_price" type="decimal"/>
+      <result property="item_price_type_name" column="item_price_type_name" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="create_time" column="create_time" type="string"/>
+      <result property="create_user_id" column="create_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+     
+    </resultMap>
+
+   
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="ItemPriceResult">
+      select a.item_price_id
+      ,a.item_id
+      ,a.item_price_type_id
+      ,a.item_price
+      ,a.status
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select item_price_type_name  from t_item_price_type x where x.item_price_type_id = a.item_price_type_id) item_price_type_name
+      From T_Item_Price a
+
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="ItemPriceResult" parameterClass="hashtable">
+      where a.item_price_id=#ItemPriceId#
+    </select>
+
+    <select id="SelectAll" extends="Select" resultMap="ItemPriceResult" >
+      where a.status='1'
+    </select>
+    
+    <select id="SelectByItemId" extends="Select" resultMap="ItemPriceResult" parameterClass="hashtable">
+      where a.item_id=#ItemId#
+      and a.status = '1'
+    </select>
+   
+
+    <!--修改商品表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="ItemPrice">
+      update T_Item_Price
+      set [status] = #status#
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      where item_price_id = #item_price_id#
+    </update>
+
+    <!--处理表信息 Jermyn 2012-06-14-->
+    <statement id="InsertOrUpdate" parameterClass="ItemInfo_Price">
+      <isNotEmpty property="ItemPriceList">
+
+        <!--删除跟该商品相关的属性-->
+        update t_item_price
+        set status= '-1'
+        ,modify_user_id = a.modify_user_id
+        ,modify_time = a.modify_time
+        ,if_flag = '0'
+        From (
+        <iterate property="ItemPriceList" conjunction=" UNION ">
+          SELECT #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+        </iterate>
+        ) a
+        where ( t_item_price.item_id = a.item_id);
+
+        <!--修改已经存在的关系-->
+        update t_item_price
+        set item_price = a.item_price
+        ,modify_user_id = a.modify_user_id
+        ,modify_time = a.modify_time
+        ,status = '1'
+        From (
+        <iterate property="ItemPriceList" conjunction=" UNION ">
+          SELECT #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #ItemPriceList[].item_price_type_id# item_price_type_id
+          , #ItemPriceList[].item_price_id# item_price_id
+          , #ItemPriceList[].item_price# item_price
+        </iterate>
+        ) a
+        where ( t_item_price.item_id = a.item_id
+        and t_item_price.item_price_type_id = a.item_price_type_id)
+        or (t_item_price.item_price_id = a.item_price_id);
+
+        <!--插入新的关系-->
+        insert into t_item_price
+        (item_price_id
+        ,item_id
+        ,item_price_type_id
+        ,item_price
+        ,status
+        ,create_user_id
+        ,create_time
+        ,modify_user_id
+        ,modify_time
+        )
+        SELECT P.item_price_id
+        ,P.item_id
+        ,P.item_price_type_id
+        ,P.item_price
+        ,P.status
+        ,P.create_user_id
+        ,P.create_time
+        ,P.modify_user_id
+        ,P.modify_time
+
+        FROM (
+        <iterate property="ItemPriceList" conjunction=" UNION ">
+          SELECT
+          #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #ItemPriceList[].item_price_type_id# item_price_type_id
+          , #ItemPriceList[].item_price_id# item_price_id
+          , #ItemPriceList[].item_price# item_price
+          , #Create_User_Id# create_user_id
+          , #Create_Time# create_time
+          , '1' status
+        </iterate>
+        ) P
+        left join t_item_price  b
+        on(P.item_price_id = b.item_price_id)
+        left join t_item_price c
+        on(P.item_id = c.item_id
+        and P.item_price_type_id = c.item_price_type_id)
+        where b.item_price_id is null
+        and c.item_id is null;
+        
+        <!--插入历史记录表-->
+        insert into t_item_price_his
+        (item_price_id
+        ,item_id
+        ,item_price_type_id
+        ,item_price
+        ,status
+        ,create_user_id
+        ,create_time
+        ,modify_user_id
+        ,modify_time
+        )
+        SELECT P.item_price_id
+        ,P.item_id
+        ,P.item_price_type_id
+        ,P.item_price
+        ,P.status
+        ,P.create_user_id
+        ,P.create_time
+        ,P.modify_user_id
+        ,P.modify_time
+
+        FROM (
+        <iterate property="ItemPriceList" conjunction=" UNION ">
+          SELECT
+          #Item_Id# item_id
+          , #Create_User_Id# modify_user_id
+          , #Create_Time# modify_time
+          , #ItemPriceList[].item_price_type_id# item_price_type_id
+          , #ItemPriceList[].item_price_id# item_price_id
+          , #ItemPriceList[].item_price# item_price
+          , #Create_User_Id# create_user_id
+          , #Create_Time# create_time
+          , '1' status
+        </iterate>
+        ) P;
+      </isNotEmpty>
+    </statement>
+
+    <!--获取未打包的商品数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From t_item_price
+      where isnull(if_flag,'0') = '0'
+      and item_price_type_id = #ItemPriceTypeId#;
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="ItemPriceResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (item_price_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (item_price_id,row_no)
+      select item_price_id
+      ,row_number() over(order by item_price_id) row_no
+      From T_Item_price
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      and item_price_type_id = #ItemPriceTypeId#;
+
+      select
+      a.item_price_id
+      ,a.item_id
+      ,a.item_price_type_id
+      ,a.item_price
+      ,a.status
+      ,a.create_user_id
+      ,a.create_time
+      ,a.modify_user_id
+      ,a.modify_time
+      ,(select item_price_type_name  from t_item_price_type x where x.item_price_type_id = a.item_price_type_id) item_price_type_name
+      From t_item_price a
+      inner join @TmpTable b
+      on(a.item_price_id = b.item_price_id)
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      ;
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="ItemPrice">
+      <isNotEmpty property="ItemPriceInfoList">
+        update t_item_price
+        set bat_id = #bat_id#
+        ,Modify_Time = #modify_time#
+        ,Modify_User_Id = #modify_user_id#
+        ,if_flag = '0'
+        where item_price_id in (
+        <iterate property="ItemPriceInfoList" conjunction=" UNION ">
+          SELECT #ItemPriceInfoList[].item_price_id#
+        </iterate> );
+      </isNotEmpty>
+
+    </update>
+    <!--更新Item表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="ItemPrice">
+      update t_item_price
+      set if_flag = '1'
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      where bat_id = #bat_id#;
+    </update>
+  </statements>
+</sqlMap>

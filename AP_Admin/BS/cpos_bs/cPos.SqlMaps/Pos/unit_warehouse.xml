@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Pos.UnitWarehouse"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="UnitWarehouse" type="cPos.Model.Pos.UnitWarehouseInfo,cPos.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="UnitWarehouseResult" class="UnitWarehouse">
+      <result property="ID" column="unit_warehouse_id" type="string" />
+      <result property="Warehouse.ID" column="warehouse_id" type="string" />
+      <result property="Warehouse.Code" column="wh_code" type="string" />
+      <result property="Warehouse.Name" column="wh_name" type="string" />
+      <result property="Unit.Id" column="unit_id" type="string" />
+      <result property="Unit.Code" column="unit_code" type="string" />
+      <result property="Unit.Name" column="unit_name" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <statement id="Insert" parameterClass="UnitWarehouse">
+      insert into t_unit_warehouse(unit_warehouse_id, warehouse_id, unit_id)
+      values(#ID#, #Warehouse.ID#, #Unit.Id#);
+
+      update t_unit set if_flag='0' where unit_id=#Unit.Id#;
+    </statement>
+
+    <delete id="DeleteByUnit" parameterClass="string">
+      delete from t_unit_warehouse 
+      where unit_id=#value#
+    </delete>
+
+    <statement id="DeleteByWarehouse" parameterClass="string">
+      update t_unit set if_flag='0'
+      where unit_id in (select unit_id from t_unit_warehouse  where warehouse_id=#value#);
+      
+      delete from t_unit_warehouse
+      where warehouse_id=#value#;
+    </statement>
+
+    <select id="Select" parameterClass="hashtable" resultMap="UnitWarehouseResult">
+      select a.unit_warehouse_id, a.warehouse_id, a.unit_id,
+      b.wh_code, b.wh_name, 
+      c.unit_code, c.unit_name
+      from t_unit_warehouse a, t_warehouse b, t_unit c
+      where a.warehouse_id=b.warehouse_id
+      and a.unit_id=c.unit_id
+    </select>
+
+  </statements>
+
+</sqlMap>

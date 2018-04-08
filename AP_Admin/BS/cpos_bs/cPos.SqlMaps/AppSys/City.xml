@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="City"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="City" type="cPos.Model.CityInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="CityResult" class="City">
+      <result property="City_Id" column="city_id" type="string" />
+      <result property="City1_Name" column="city1_name" type="string" />
+      <result property="City2_Name" column="city2_name" type="string"/>
+      <result property="City3_Name" column="city3_name" type="string"/>
+      <result property="City_Code" column="city_code" type="string"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统-->
+    <select id="Select" resultMap="CityResult">
+      select a.*
+      From t_city a
+    </select>
+
+    <select id="SelectById" resultMap="CityResult" extends="Select"  parameterClass="hashtable">
+      where a.city_id = #CityId#
+    </select>
+
+    <select id="SelectProvince" resultMap="CityResult"   >
+      select '' city_id
+      ,city1_name
+      ,'' city2_name
+      ,'' city3_name
+      ,city_code
+      From (
+      select distinct city1_name,SUBSTRING(city_code,1,2) city_code From T_City) x
+      order by x.city_code;
+    </select>
+
+    <select id="SelectCity" resultMap="CityResult"   parameterClass="hashtable">
+      select '' city_id
+      ,'' city1_name
+      ,city2_name
+      ,'' city3_name
+      ,city_code
+      From (
+      select distinct city2_name,SUBSTRING(city_code,1,4) city_code From T_City where SUBSTRING(city_code,1,2) = #CityCode#) x
+      order by x.city_code;
+    </select>
+    <select id="SelectArea" resultMap="CityResult" extends="Select"  parameterClass="hashtable">
+      where SUBSTRING(a.city_code,1,4) = #CityCode#
+    </select>
+  </statements>
+</sqlMap>

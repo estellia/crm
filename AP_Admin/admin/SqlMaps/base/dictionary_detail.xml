@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Base.DictionaryDetail"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="DictionaryDetail" type="cpos.Admin.Model.Base.DictionaryDetailInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="DictionaryDetailResult" class="DictionaryDetail" extends="Base.Operate.ObjectOperateResult">
+      <result property="Dictionary.ID" column="dic_id" type="string" />
+      <result property="ID" column="dic_detail_id" type="string" />
+      <result property="Code" column="dd_code" type="string" />
+      <result property="Name" column="dd_name" type="string" />
+      <result property="EnglishName" column="dd_name_en" type="string" />
+      <result property="Memo" column="dd_memo" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="DictionaryDetail">
+      insert into t_def_dic_detail(dic_detail_id, dic_id, dd_code, dd_name, dd_name_en, dd_memo,
+      create_user_id, create_user_name, create_time)
+      values(#ID#, #Dictionary.ID#, #Code#, #Name#, #EnglishName#, #Memo#,
+      #Creater.ID#, #Creater.Name#, #CreateTime#)
+    </insert>
+
+    <update id="Update" parameterClass="DictionaryDetail">
+      update t_def_dic_detail set
+      dd_code = #Code#,
+      dd_name = #Name#,
+      dd_name_en = #EnglishName#,
+      dd_memo = #Memo#,
+      modify_user_id = #LastEditor.ID#,
+      modify_user_name = #LastEditor.Name#,
+      modify_time = getdate()
+      where dic_detail_id = #ID#
+    </update>
+
+    <delete id="Delete" parameterClass="string">
+      delete from t_def_dic_detail
+      where dic_detail_id=#value#
+    </delete>
+
+    <delete id="DeleteByDictionary" parameterClass="string">
+      delete from t_def_dic_detail
+      where dic_id=#value#
+    </delete>
+
+    <select id="Select" resultMap="DictionaryDetailResult">
+      select a.dic_table, a.dic_field, a.dic_code, a.dic_name, a.dic_name_en, a.dic_memo,
+      b.*
+      from t_def_dic a, t_def_dic_detail b
+      where a.dic_id=b.dic_id
+    </select>
+
+    <select id="SelectByDictionaryCode" resultMap="DictionaryDetailResult" extends="Select" parameterClass="string">
+      and a.dic_code=#value#
+    </select>
+
+    <select id="SelectByTableAndField" resultMap="DictionaryDetailResult" extends="Select" parameterClass="hashtable">
+      and a.dic_table = #TableName#
+      and a.dic_field = #FieldName#
+    </select>
+    
+  </statements>
+
+</sqlMap>

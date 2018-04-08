@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script>
+        function GetMessageByCount()
+        {            
+            $.ajax(
+            {
+                url: "/home/Test/",
+                type: "POST",
+                data: { "TxtUserName": "11111", "TxtPassWord": "11111" },
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (result) {
+                    alert(result);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div>
+        @Html.Label("操作结果")             
+        <!--显示结果-->
+        @Html.TextBox("input3", ViewData["result"], new { @style = "width:300px;" })
+        <br />
+        @Html.Label("用户名和密码")
+        <!--登录-->
+        @using (Html.BeginForm("Test", "Home", FormMethod.Get))
+        {
+            @Html.Label("登录")
+            @Html.TextBox("TxtUserName", "ZMIND@ZMIND.cn")
+            @Html.TextBox("TxtPassWord", "3edcVFR$")            
+            <input type="submit" value="登录" />
+        }
+        <br/>
+
+        <!--发送消息-->
+        @using (Html.BeginForm("Test", "Home", FormMethod.Get))
+        {
+            @Html.Label("提交消息")
+            @Html.TextBox("TxtUserName", "ZMIND@ZMIND.cn")        
+            <input type="submit" value="AddMessage"/>    
+        }
+
+        @using (Html.BeginForm("Test", "Home", FormMethod.Get))
+        {
+            @Html.Label("获取指定条数的消息")
+            @Html.TextBox("MessageCount", "2")
+            <input type="submit" value="MessageCount" />
+        }
+
+        @using (Html.BeginForm("Test", "Home", FormMethod.Get))
+        {
+            @Html.Label("获取SequenceIDList")
+            @Html.TextBox("SequenceIDList", "2")
+            <input type="submit" value="GetMessagesBySequenceIDList" />
+        }
+
+        @Html.Label("根据SequenceID获取消息")
+        <input type="submit" value="GetMessagesBySequenceIDList" />
+        <br />
+        @Html.Label("设置消息消费的结果")
+        <input type="submit" value="SetMessageOperationResult" />       
+    </div>
+</body>
+</html>

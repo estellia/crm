@@ -1,0 +1,248 @@
+2014/5/29 10:35:09	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 10:35:09	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:52:51	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:52:56	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:03	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:03	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:11	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:11	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:13	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:13	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:14	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:14	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:14	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:14	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:14	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:14	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:19	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:19	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 11:53:28	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 11:53:28	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:06:56	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:06:57	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:17	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:17	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:21	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:21	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:24	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:24	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:25	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:25	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:26	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:26	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:26	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:27	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 13:07:28	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 13:07:28	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 15:09:14	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 15:09:14	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 15:09:29	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 15:09:29	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 15:09:39	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 15:12:18	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.TDataDeployInfoResult.
+2014/5/29 15:16:36	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 15:16:45	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:17:07	System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.IndexOutOfRangeException: IsALD
+   在 System.Data.SqlClient.SqlDataReader.GetOrdinal(String name)
+   在 IBatisNet.DataMapper.TypeHandlers.Int32TypeHandler.GetValueByName(ResultProperty mapping, IDataReader dataReader)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultProperty.GetDataBaseValue(IDataReader dataReader)
+   在 IBatisNet.DataMapper.MappedStatements.PropertyStrategy.DefaultStrategy.Get(RequestScope request, IResultMap resultMap, ResultProperty mapping, Object& target, IDataReader reader)
+   在 IBatisNet.DataMapper.MappedStatements.PropertyStrategy.DefaultStrategy.Set(RequestScope request, IResultMap resultMap, ResultProperty mapping, Object& target, IDataReader reader, Object keys)
+   在 IBatisNet.DataMapper.MappedStatements.ResultStrategy.ResultMapStrategy.Process(RequestScope request, IDataReader& reader, Object resultObject)
+   在 IBatisNet.DataMapper.MappedStatements.MappedStatement.RunQueryForList[T](RequestScope request, ISqlMapSession session, Object parameterObject, IList`1 resultObject, RowDelegate`1 rowDelegate)
+   在 IBatisNet.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForList[T](ISqlMapSession session, Object parameterObject)
+   在 IBatisNet.DataMapper.SqlMapper.QueryForList[T](String statementName, Object parameterObject)
+   在 cPos.Admin.Service.Implements.CustomerService.GetTDataDeployList(Hashtable condition, Int32 maxRowCount, Int32 startRowIndex) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1728
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Web.UI.WebControls.ObjectDataSourceView.InvokeMethod(ObjectDataSourceMethod method, Boolean disposeInstance, Object& instance)
+   在 System.Web.UI.WebControls.ObjectDataSourceView.ExecuteSelect(DataSourceSelectArguments arguments)
+   在 System.Web.UI.DataSourceView.Select(DataSourceSelectArguments arguments, DataSourceViewSelectCallback callback)
+   在 System.Web.UI.WebControls.DataBoundControl.PerformSelect()
+   在 customer_customer_show.loadCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 187
+2014/5/29 15:18:39	System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.IndexOutOfRangeException: IsALD
+   在 System.Data.SqlClient.SqlDataReader.GetOrdinal(String name)
+   在 IBatisNet.DataMapper.TypeHandlers.Int32TypeHandler.GetValueByName(ResultProperty mapping, IDataReader dataReader)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultProperty.GetDataBaseValue(IDataReader dataReader)
+   在 IBatisNet.DataMapper.MappedStatements.PropertyStrategy.DefaultStrategy.Get(RequestScope request, IResultMap resultMap, ResultProperty mapping, Object& target, IDataReader reader)
+   在 IBatisNet.DataMapper.MappedStatements.PropertyStrategy.DefaultStrategy.Set(RequestScope request, IResultMap resultMap, ResultProperty mapping, Object& target, IDataReader reader, Object keys)
+   在 IBatisNet.DataMapper.MappedStatements.ResultStrategy.ResultMapStrategy.Process(RequestScope request, IDataReader& reader, Object resultObject)
+   在 IBatisNet.DataMapper.MappedStatements.MappedStatement.RunQueryForList[T](RequestScope request, ISqlMapSession session, Object parameterObject, IList`1 resultObject, RowDelegate`1 rowDelegate)
+   在 IBatisNet.DataMapper.MappedStatements.MappedStatement.ExecuteQueryForList[T](ISqlMapSession session, Object parameterObject)
+   在 IBatisNet.DataMapper.SqlMapper.QueryForList[T](String statementName, Object parameterObject)
+   在 cPos.Admin.Service.Implements.CustomerService.GetTDataDeployList(Hashtable condition, Int32 maxRowCount, Int32 startRowIndex) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\CustomerService.cs:行号 1728
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 System.Web.UI.WebControls.ObjectDataSourceView.InvokeMethod(ObjectDataSourceMethod method, Boolean disposeInstance, Object& instance)
+   在 System.Web.UI.WebControls.ObjectDataSourceView.ExecuteSelect(DataSourceSelectArguments arguments)
+   在 System.Web.UI.DataSourceView.Select(DataSourceSelectArguments arguments, DataSourceViewSelectCallback callback)
+   在 System.Web.UI.WebControls.DataBoundControl.PerformSelect()
+   在 customer_customer_show.loadCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 187
+2014/5/29 15:25:45	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:1
+2014/5/29 15:26:04	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 customer_customer_show.getCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 290
+2014/5/29 15:27:42	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 customer_customer_show.getCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 290
+2014/5/29 15:28:47	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 customer_customer_show.getCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 290
+2014/5/29 15:28:59	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 customer_customer_show.getCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 290
+2014/5/29 15:29:27	System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 customer_customer_show.getCustomerInfo() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\customer\customer_show.aspx.cs:行号 290
+2014/5/29 15:49:12	IBatisNet.Common.Exceptions.ConfigurationException: 
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.BrandCustomerInfoResult. ---> IBatisNet.Common.Exceptions.ConfigurationException: Could not configure ResultMap named "Customer.Customer.BrandCustomerInfoResult", Cause: There is no Set member named 'IsALD' in class 'BrandCustomerInfo' ---> IBatisNet.Common.Exceptions.ProbeException: There is no Set member named 'IsALD' in class 'BrandCustomerInfo'
+   在 IBatisNet.Common.Utilities.Objects.Members.SetAccessorFactory.CreateSetAccessor(Type targetType, String name)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultProperty.Initialize(ConfigurationScope configScope, Type resultClass)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultMap.GetChildNode(ConfigurationScope configScope)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultMap.Initialize(ConfigurationScope configScope)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultMap.Initialize(ConfigurationScope configScope)
+   在 IBatisNet.DataMapper.Configuration.Serializers.ResultMapDeSerializer.Deserialize(XmlNode node, ConfigurationScope configScope)
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.BuildResultMap()
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.ConfigureSqlMap()
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.Initialize()
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.Build(XmlDocument document, DataSource dataSource, Boolean useConfigFileWatcher, Boolean isCallFromDao)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.Build(XmlDocument document, DataSource dataSource, Boolean useConfigFileWatcher, Boolean isCallFromDao)
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.ConfigureAndWatch(String resource, ConfigureHandler configureDelegate)
+   在 cPos.Admin.Component.SqlMappers.MSSqlMapper.InitMapper() 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Component\SqlMappers\MSSqlMapper.cs:行号 43
+   在 cPos.Admin.Component.SqlMappers.MSSqlMapper.Instance() 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Component\SqlMappers\MSSqlMapper.cs:行号 55
+   在 cPos.Admin.Service.Implements.RightService.GetMenuListByAppCodeAndUserID(String appCode, String userID) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\RightService.cs:行号 60
+   在 common_homepage.LoadMenuData() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\common\homepage.aspx.cs:行号 50
+2014/5/29 15:49:19	IBatisNet.Common.Exceptions.ConfigurationException: 
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.BrandCustomerInfoResult. ---> IBatisNet.Common.Exceptions.ConfigurationException: Could not configure ResultMap named "Customer.Customer.BrandCustomerInfoResult", Cause: There is no Set member named 'IsALD' in class 'BrandCustomerInfo' ---> IBatisNet.Common.Exceptions.ProbeException: There is no Set member named 'IsALD' in class 'BrandCustomerInfo'
+   在 IBatisNet.Common.Utilities.Objects.Members.SetAccessorFactory.CreateSetAccessor(Type targetType, String name)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultProperty.Initialize(ConfigurationScope configScope, Type resultClass)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultMap.GetChildNode(ConfigurationScope configScope)
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultMap.Initialize(ConfigurationScope configScope)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 IBatisNet.DataMapper.Configuration.ResultMapping.ResultMap.Initialize(ConfigurationScope configScope)
+   在 IBatisNet.DataMapper.Configuration.Serializers.ResultMapDeSerializer.Deserialize(XmlNode node, ConfigurationScope configScope)
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.BuildResultMap()
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.ConfigureSqlMap()
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.Initialize()
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.Build(XmlDocument document, DataSource dataSource, Boolean useConfigFileWatcher, Boolean isCallFromDao)
+   --- 内部异常堆栈跟踪的结尾 ---
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.Build(XmlDocument document, DataSource dataSource, Boolean useConfigFileWatcher, Boolean isCallFromDao)
+   在 IBatisNet.DataMapper.Configuration.DomSqlMapBuilder.ConfigureAndWatch(String resource, ConfigureHandler configureDelegate)
+   在 cPos.Admin.Component.SqlMappers.MSSqlMapper.InitMapper() 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Component\SqlMappers\MSSqlMapper.cs:行号 43
+   在 cPos.Admin.Component.SqlMappers.MSSqlMapper.Instance() 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Component\SqlMappers\MSSqlMapper.cs:行号 55
+   在 cPos.Admin.Service.Implements.RightService.GetMenuListByAppCodeAndUserID(String appCode, String userID) 位置 E:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\Service\Implements\RightService.cs:行号 60
+   在 common_homepage.LoadMenuData() 位置 e:\CloudPos\svnNew\CPOS_Old\CPOS\SourceCode\admin\website\common\homepage.aspx.cs:行号 50
+2014/5/29 15:49:34	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:49:34	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.BrandCustomerInfoResult.
+2014/5/29 15:49:35	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:49:35	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.BrandCustomerInfoResult.
+2014/5/29 15:49:36	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:49:36	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.BrandCustomerInfoResult.
+2014/5/29 15:49:36	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:49:37	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:50:25	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5
+2014/5/29 15:53:01	登录失败 :
+- The error occurred while loading SqlMap.
+- initialize result property: IsALD
+- The error occurred in <sqlMap resource="../SqlMaps/Customer/customer.xml" xmlns="http://ibatis.apache.org/dataMapper" />.  
+- Check the Customer.Customer.BrandCustomerInfoResult.
+2014/5/29 15:53:48	btnLogin sessionId is :ehibkkfh4y43pz33jog2gzy5,count:5

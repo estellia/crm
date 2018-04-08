@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="gb2312"?>
+<chart caption="商品销售排行榜" xAxisName="商品" yAxisName="数量" showValues="0" decimals="0" formatNumberScale="0">
+  <set label="牛仔裤" value="100">
+  </set>
+  <set label="T恤" value="90">
+  </set>
+  <set label="跑步鞋" value="80" />
+  <set label="棉衣" value="70" />
+  <set label="外套" value="60" />
+</chart>

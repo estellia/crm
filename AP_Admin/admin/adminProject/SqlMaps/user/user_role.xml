@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="User.UserRole"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="UserRole" type="cpos.Admin.Model.User.UserRoleInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="UserRoleResult" class="UserRole">
+      <result property="ID" column="user_role_id" type="string" />
+      <result property="User.ID" column="user_id" type="string" />
+      <result property="Role.ID" column="role_id" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="UserRole">
+      insert into t_user_role(user_role_id,user_id,role_id)
+      values(#ID#,#User.ID#,#Role.ID#)
+    </insert>
+
+    <delete id="DeleteByUserID" parameterClass="string">
+      delete from t_user_role 
+      where user_id=#value#
+    </delete>
+
+  </statements>
+
+</sqlMap>

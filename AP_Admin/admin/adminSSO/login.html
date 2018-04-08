@@ -1,0 +1,35 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>连锁掌柜-登录</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+</head>
+<body>
+    <img id="loginBgImg" src="images/bg-login.jpg" alt="登录背景" />
+    <div class="loginArea">
+        <h2 class="title">欢迎登录连锁掌柜</h2>
+        <div class="formBox">
+            <p class="inputBox"><input type="text" placeholder="请输入公司编码" /></p>
+            <p class="inputBox"><input type="text" placeholder="请输入用户名" /></p>
+            <p class="inputBox pwBox"><input type="password" placeholder="请输入密码" /><span class="rememberPass">忘记密码<input type="checkbox" id="chkRemember" runat="server" style="filter:alpha(opacity=0);opacity:0;display:none" /></span></p>
+            <p class="loginBtnBox"><a href="javascript:;" class="loginBtn">登录</a></p>
+            <p class="recordPwBox"><a href="javascript:;" class="recordPw">保持登录状态</a></p>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    (function () {
+        var $recordPw = $('.recordPw');
+        $recordPw.on('click', function () {
+            var $this = $(this);
+            if ($this.hasClass('on')) {
+                $this.removeClass('on');
+            } else {
+                $this.addClass('on');
+            }
+        })
+    }());
+</script>
+</html>

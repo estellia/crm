@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{45DD765A-191A-451E-A063-DE69C026D508}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cPos.Dex.WcfService</RootNamespace>
+    <AssemblyName>cPos.Dex.WcfService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
+    <PackageAsSingleFile>false</PackageAsSingleFile>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
+    <ExcludeApp_Data>false</ExcludeApp_Data>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\Library\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\Jayrock.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Json, Version=0.9.12915.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Library\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Sandbox">
+      <HintPath>..\Library\Jayrock.Sandbox.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicService.cs" />
+    <Compile Include="Common\ErrorConvert.cs" />
+    <Compile Include="Common\Common.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="BizLogService.cs" />
+    <Compile Include="ComService.cs" />
+    <Compile Include="ServiceInterface\IBasicService.cs" />
+    <Compile Include="ServiceInterface\IComService.cs" />
+    <Compile Include="OrderService.cs" />
+    <Compile Include="ServiceInterface\IOrderService.cs" />
+    <Compile Include="ServiceInterface\IBizLogService.cs" />
+    <Compile Include="ServiceInterface\ITestService.cs" />
+    <Compile Include="TestService.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceInterface\IAuthService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AuthService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\admin\Model\Model.csproj">
+      <Project>{3E3BA018-A902-4D2B-87AD-36FA10A13BEF}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Common\cPos.Dex.Common.csproj">
+      <Project>{4E164CF5-3114-4C70-874F-1353FB6A6215}</Project>
+      <Name>cPos.Dex.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Components\cPos.Dex.Components.csproj">
+      <Project>{562555C3-1C06-4836-B471-827E4B06F814}</Project>
+      <Name>cPos.Dex.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.ContractModel\cPos.Dex.ContractModel.csproj">
+      <Project>{BEFD77C5-4762-4439-AA04-C512C9167943}</Project>
+      <Name>cPos.Dex.ContractModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Model\cPos.Dex.Model.csproj">
+      <Project>{362d546c-7404-4ecc-b39b-5c0e4025d872}</Project>
+      <Name>cPos.Dex.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.ServicesAP\cPos.Dex.ServicesAP.csproj">
+      <Project>{FC89D711-04AC-48E5-9AA8-80D66E37B170}</Project>
+      <Name>cPos.Dex.ServicesAP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.ServicesBs\cPos.Dex.ServicesBs.csproj">
+      <Project>{2C66BC39-C727-4DF2-82BA-9BA37252EBE1}</Project>
+      <Name>cPos.Dex.ServicesBs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.Services\cPos.Dex.Services.csproj">
+      <Project>{CB8AFAF8-8287-484E-A500-A0D52E7B4BC9}</Project>
+      <Name>cPos.Dex.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Dex.WsService.AP\cPos.Dex.WsService.AP.csproj">
+      <Project>{cb8f4b21-f60e-4f2c-b080-76137bd1642d}</Project>
+      <Name>cPos.Dex.WsService.AP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.ExchangeBsService\cPos.ExchangeBsService.csproj">
+      <Project>{690C282E-794B-4866-A4E6-093E4CD87BE2}</Project>
+      <Name>cPos.ExchangeBsService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\cPos.Model\cPos.Model.csproj">
+      <Project>{F534EE31-0CEA-4ECB-9F58-5DD2FA5AE99D}</Project>
+      <Name>cPos.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dex_SqlMap.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dex_providers.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <Content Include="Sql2010SqlMap.config" />
+    <Content Include="providers.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4689</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)dex_SqlMap.config" "$(TargetDir)dex_SqlMap.config"
+copy "$(ProjectDir)dex_providers.config" "$(TargetDir)dex_providers.config"
+copy "$(ProjectDir)dex_SqlMap.config" "$(TargetDir)..\..\cPos.WebSite\dex_SqlMap.config"
+copy "$(ProjectDir)dex_providers.config" "$(TargetDir)..\..\cPos.WebSite\dex_providers.config"
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="PublishToFileSystem" DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
+    <Error Condition="'$(PublishDestination)'==''" Text="The PublishDestination property must be set to the intended publishing destination." />
+    <MakeDir Condition="!Exists($(PublishDestination))" Directories="$(PublishDestination)" />
+    <ItemGroup>
+      <PublishFiles Include="$(_PackageTempDir)\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PublishFiles)" DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" />
+  </Target>
+</Project>

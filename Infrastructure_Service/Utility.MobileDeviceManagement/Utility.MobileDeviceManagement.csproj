@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{16715678-1C9E-40AB-93D1-05B1C94D96ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JIT.Utility.MobileDeviceManagement</RootNamespace>
+    <AssemblyName>Utility.MobileDeviceManagement</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\BaseMobileDeviceManagementDAO.cs" />
+    <Compile Include="Base\MobileDeviceManagementUserInfo.cs" />
+    <Compile Include="BLL\CodeGeneration\MobileCommandRecordBLL.cs" />
+    <Compile Include="BLL\CodeGeneration\MobileLogRecordBLL.cs" />
+    <Compile Include="BLL\MobileCommandRecordBLL.cs" />
+    <Compile Include="BLL\MobileLogRecordBLL.cs" />
+    <Compile Include="CommandRequest.cs" />
+    <Compile Include="CommandRequestHandler.cs" />
+    <Compile Include="DAO\CodeGeneration\MobileCommandRecordDAO.cs" />
+    <Compile Include="DAO\CodeGeneration\MobileLogRecordDAO.cs" />
+    <Compile Include="DAO\MobileCommandRecordDAO.cs" />
+    <Compile Include="DAO\MobileLogRecordDAO.cs" />
+    <Compile Include="Entity\CodeGeneration\MobileCommandRecordEntity.cs" />
+    <Compile Include="Entity\CodeGeneration\MobileLogRecordEntity.cs" />
+    <Compile Include="Entity\MobileCommandRecordEntity.cs" />
+    <Compile Include="Entity\MobileLogRecordEntity.cs" />
+    <Compile Include="LogRequest.cs" />
+    <Compile Include="LogRequestHandler.cs" />
+    <Compile Include="CommonResponse.cs" />
+    <Compile Include="MailHelper.cs" />
+    <Compile Include="MailUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultReqeustHandler.cs" />
+    <Compile Include="ResultRequst.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{1DFD5C01-71C0-41D9-82E4-CABA22331835}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

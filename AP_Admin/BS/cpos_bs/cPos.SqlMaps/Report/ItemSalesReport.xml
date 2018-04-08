@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="ItemSalesReport"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="ItemSalesReport" type="cPos.Model.Report.ItemSalesReportInfo,cPos.Model" />
+    
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ItemSalesReportResult" class="ItemSalesReport">
+      <result property="item_id" column="item_id" type="string" />
+      <result property="item_name" column="item_name" type="string" />
+      <result property="item_code" column="item_code" type="string"/>
+      <result property="barcode" column="barcode" type="string"/>
+      <result property="std_price" column="std_price" type="decimal"/>
+      <result property="enter_qty" column="enter_qty" type="decimal"/>
+      <result property="enter_amount" column="enter_amount" type="decimal"/>
+      <result property="row_no" column="row_no" type="int"/>
+      
+    </resultMap>
+
+    <resultMap id="ItemSalesReportTotalResult" class ="ItemSalesReport">
+      <result property="icount" column="icount" type="int"/>
+    </resultMap>
+
+  </resultMaps>
+  <statements>
+      <!--查询公共部分 rownum_=row_number() over(order by a.order_no)-->
+    <sql id="SearchPublic">
+      Declare @TmpTable Table
+      (item_id nvarchar(100)
+      ,item_code nvarchar(100)
+      ,item_name nvarchar(100)
+      ,barcode nvarchar(100)
+      ,std_price decimal(18,4)
+      ,enter_qty decimal(18,4)
+      ,enter_amount decimal(18,4)
+      ,row_no int
+      );
+
+      insert into @TmpTable (item_id,item_code,item_name,barcode,std_price,enter_qty,enter_amount,row_no)
+      select x.item_id,x.item_code,x.item_name,x.barcode,x.std_price
+      ,SUM(x.enter_qty) enter_qty
+      ,SUM(x.enter_amount) enter_amount
+      ,row_number() over(order by x.item_id,x.item_code,x.item_code,x.item_name,x.barcode,x.std_price ) row_no
+      From (
+      select c.item_id
+      ,c.item_code
+      ,c.item_name
+      ,c.barcode
+      ,b.std_price
+      ,b.enter_qty
+      ,b.enter_amount
+      from T_Inout a
+      inner join T_Inout_Detail b
+      on(a.order_id = b.order_id)
+      inner join vw_sku c
+      on(b.sku_id = c.sku_id)
+      where 1=1
+      and a.order_type_id = '1F0A100C42484454BAEA211D4C14B80F'
+      and a.order_reason_id = '2F6891A2194A4BBAB6F17B4C99A6C6F5'
+
+      <dynamic>
+        <isNotNull property="UnitIds">
+          <isNotEmpty property="UnitIds" prepend="and">
+            a.unit_id in (  $UnitIds$  )
+          </isNotEmpty>
+        </isNotNull>
+        
+        <isNotNull property="item_code">
+          <isNotEmpty property="item_code" prepend="and">
+            c.item_code like '%' +  #item_code# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="item_name">
+          <isNotEmpty property="item_name" prepend="and">
+            c.item_name like '%' +  #item_name# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="barcode">
+          <isNotEmpty property="barcode" prepend="and">
+            c.barcode like '%' +  #barcode# + '%'
+          </isNotEmpty>
+        </isNotNull>
+        
+        <isNotNull property="order_date_begin">
+          <isNotEmpty property="order_date_begin" prepend="and">
+            a.order_date    &gt;= #order_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="order_date_end">
+          <isNotEmpty property="order_date_end" prepend="and">
+            a.order_date    &lt;= #order_date_end#
+          </isNotEmpty>
+        </isNotNull>
+    </dynamic>
+      ) x group by x.item_id,x.item_code,x.item_code,x.item_name,x.barcode,x.std_price;
+    </sql>
+
+    <select id="SearchCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+
+      select  COUNT(*) icount
+      From @TmpTable;
+    </select>
+
+    <select id="Search" resultMap="ItemSalesReportResult" parameterClass="hashtable">
+      <include refid="SearchPublic"/>
+      select a.*
+      From @TmpTable a
+      where 1=1
+      and a.row_no &gt; #StartRow# and a.row_no &lt;= #EndRow#
+      order by a.enter_amount desc,a.enter_qty;
+    </select>
+    
+  </statements>
+</sqlMap>

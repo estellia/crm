@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Bill.ActionLog"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillActionLog" type="cpos.Admin.Model.Bill.BillActionLogInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="BillActionLogResult" class="BillActionLog">
+      <result property="ID" column="bill_action_log_id" type="int" />
+      <result property="BillID" column="bill_id" type="string" />
+      <result property="BillActionID" column="bill_action_id" type="string" />
+      <result property="BillActionDescription" column="bill_action_desc" type="string" />
+      <result property="PreBillStatusID" column="pre_bill_status_id" type="string" />
+      <result property="PreBillStatusDescription" column="pre_bill_status_desc" type="string" />
+      <result property="CurBillStatusID" column="cur_bill_status_id" type="string" />
+      <result property="CurBillStatusDescription" column="cur_bill_status_desc" type="string" />
+      <result property="ActionUserID" column="action_user_id" type="string" />
+      <result property="ActionUserName" column="action_user_name" type="string" />
+      <result property="ActionTime" column="action_time" type="DateTime" />
+      <result property="ActionComment" column="action_comment" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <parameterMaps>
+
+    <parameterMap id="InsertBillActionLogWithFlowParam" class="hashtable">
+      <parameter property="bill_id" column="bill_id"/>
+      <parameter property="role_id" column="role_id"/>
+      <parameter property="user_id" column="user_id"/>
+      <parameter property="bill_action_flag_type" column="bill_action_flag_type"/>
+      <parameter property="bill_action_flag_value" column="bill_action_flag_value"/>
+      <parameter property="comment" column="comment"/>
+    </parameterMap>
+
+    <parameterMap id="InsertBillActionLogWithoutFlowParam" class="hashtable">
+      <parameter property="bill_kind_code" column="bill_kind_code"/>
+      <parameter property="bill_id" column="bill_id"/>
+      <parameter property="user_id" column="user_id"/>
+      <parameter property="bill_action_flag_type" column="bill_action_flag_type"/>
+      <parameter property="bill_action_flag_value" column="bill_action_flag_value"/>
+      <parameter property="comment" column="comment"/>
+    </parameterMap>
+    
+  </parameterMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="BillActionLog">
+      insert into t_bill_action_log(bill_id,bill_action_id,bill_action_desc,
+      pre_bill_status_id,pre_bill_status_desc,cur_bill_status_id,cur_bill_status_desc,
+      action_user_id,action_user_name,action_time,action_comment)
+      values(#BillID# ,#BillActionID# ,#BillActionDescription# ,
+      #PreBillStatusID#, #PreBillStatusDescription#, #CurBillStatusID#, #CurBillStatusDescription#,
+      #ActionUserID#,#ActionUserName#,#ActionTime#,#ActionComment#)
+    </insert>
+
+    <select id="SelectByBillID" resultMap="BillActionLogResult" parameterClass="string">
+      select a.* from t_bill_action_log a
+      where a.bill_id=#value#
+      order by a.action_time desc
+    </select>
+
+    <procedure id="ProcInsertBillActionLogWithFlow" parameterMap="InsertBillActionLogWithFlowParam">
+      dbo.up_bill_action_with_flow
+    </procedure>
+
+    <procedure id="ProcInsertBillActionLogWithoutFlow" parameterMap="InsertBillActionLogWithoutFlowParam">
+      dbo.up_bill_action_without_flow
+    </procedure>
+
+    <insert id="InsertBillActionLogWithoutFlow" parameterClass="hashtable">
+      insert into t_bill_action_log(bill_id,bill_action_id,bill_action_desc,
+      pre_bill_status_id,pre_bill_status_desc,cur_bill_status_id,cur_bill_status_desc,
+      action_user_id,action_user_name,action_time,action_comment)
+      select #BillID#,b.bill_action_id,b.bill_action_name,
+      '--','--','--','--',
+      isnull(c.[user_id],'--'),isnull(c.[user_name],'--'),getdate(),#Comment#
+      from t_def_bill_kind a
+      inner join t_def_bill_action b on b.bill_action_id=[dbo].uf_get_bill_action_id(a.bill_kind_id,#BillActionFlagType#,#BillActionFlagValue#)
+      left join t_user c on c.[user_id]=#UserID#
+      where a.bill_kind_code=#BillKindCode#
+    </insert>
+    
+  </statements>
+
+</sqlMap>

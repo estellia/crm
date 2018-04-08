@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="SkuPrice"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SkuPrice" type="cPos.Model.SkuPriceInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SkuPriceResult" class="SkuPrice">
+      <result property="sku_id" column="sku_id" type="string" />
+      <result property="item_id" column="item_id" type="string" />
+      <result property="item_price_type_id" column="item_price_type_id" type="string"/>
+      <result property="price" column="price" type="decimal"/>
+      <result property="unit_id" column="unit_id" type="string"/>
+
+    </resultMap>
+
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="SkuPriceResult">
+      select a.sku_id
+      ,a.item_id
+      ,a.item_price_type_id
+      ,a.price
+      ,a.unit_id
+      From vw_sku_price a
+
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="SkuPriceResult" parameterClass="hashtable">
+      where a.sku_id=#SkuId#
+      and a.item_price_type_id = ISNULL(#ItemPriceTypeId#,item_price_type_id)
+      and a.customer_id = #CustomerId#
+    </select>
+
+    <select id="SelectAll" extends="Select" resultMap="SkuPriceResult" >
+      where 1=1
+    </select>
+
+    <select id="SelectByItemId" extends="Select" resultMap="SkuPriceResult" parameterClass="hashtable">
+      where a.item_id=#ItemId#
+      and a.customer_id = #CustomerId#
+    </select>
+
+
+    <!--修改商品表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="SkuPrice">
+      update T_Sku_Price
+      set [status] = '-1'
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      where sku_id = #sku_id#
+      and item_price_type_id = #item_price_type_id#
+      and customer_id = #customer_id#
+    </update>
+
+  
+
+    <!--获取未打包的商品数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From vw_sku_price
+      where isnull(if_flag,'0') = '0'
+      and customer_id = #CustomerId#
+      <!--and item_price_type_id = case when #ItemPriceTypeId# = '' then item_price_type_id else #ItemPriceTypeId# end;-->
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="SkuPriceResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (sku_id nvarchar(100)
+      ,item_price_type_id nvarchar(100)
+      ,unit_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (sku_id,item_price_type_id,unit_id,row_no)
+      select sku_id
+      ,item_price_type_id
+      ,unit_id
+      ,row_number() over(order by sku_id,item_price_type_id) row_no
+      From vw_sku_price
+      where 1=1
+      and isnull(if_flag,'0') = '0'
+      <!--and item_price_type_id = case when #ItemPriceTypeId# = '' then item_price_type_id else #ItemPriceTypeId# end-->
+      and customer_id = #CustomerId#;
+
+      select
+      a.sku_id
+      ,a.item_id
+      ,a.item_price_type_id
+      ,a.price
+      ,a.unit_id
+      From vw_sku_price a
+      inner join @TmpTable b
+      on(a.sku_id = b.sku_id
+      and a.item_price_type_id = b.item_price_type_id
+      and isnull(a.unit_id,'1') = isnull(b.unit_id,'1'))
+      and b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      ;
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="SkuPrice">
+      <isNotEmpty property="SkuPriceInfoList">
+        update t_item_price
+        set bat_id = #bat_id#
+        ,Modify_Time = #modify_time#
+        ,Modify_User_Id = #modify_user_id#
+        ,if_flag = '0'
+        where 1=1
+        <!--and item_price_type_id = case when #item_price_type_id# = '' then item_price_type_id else #item_price_type_id# end-->
+        and customer_id = #customer_id#
+        and item_id in (
+        <iterate property="SkuPriceInfoList" conjunction=" UNION ">
+          SELECT #SkuPriceInfoList[].item_id#
+        </iterate> );
+
+        update t_sku_price
+        set bat_id = #bat_id#
+        ,Modify_Time = #modify_time#
+        ,Modify_User_Id = #modify_user_id#
+        ,if_flag = '0'
+        where 1=1
+        <!--and item_price_type_id = case when #item_price_type_id# = '' then item_price_type_id else #item_price_type_id# end-->
+        and customer_id = #customer_id#
+        and sku_id in (
+        <iterate property="SkuPriceInfoList" conjunction=" UNION ">
+          SELECT #SkuPriceInfoList[].sku_id#
+        </iterate> );
+        
+      </isNotEmpty>
+
+    </update>
+    <!--更新Item表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="SkuPrice">
+      update t_item_price
+      set if_flag = '1'
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      where bat_id = #bat_id#;
+
+      update t_sku_price
+      set if_flag = '1'
+      ,Modify_Time = #modify_time#
+      ,Modify_User_Id = #modify_user_id#
+      where bat_id = #bat_id#;
+    </update>
+  </statements>
+</sqlMap>

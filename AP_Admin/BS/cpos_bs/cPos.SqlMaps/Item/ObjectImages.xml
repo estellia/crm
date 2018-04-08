@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="ObjectImages"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="ObjectImages" type="cPos.Model.ObjectImagesInfo,cPos.Model" />
+    <!--这里把cPos.Model.ObjectImagesInfo作为了一个关联，并取了一个别名，下面class用的就是这个-->
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ObjectImagesResult" class="ObjectImages">
+      <result property="ImageId" column="ImageId" type="string" />
+      <result property="ObjectId" column="ObjectId" type="string" />
+      <result property="ImageURL" column="ImageURL" type="string"/>
+      <result property="DisplayIndex" column="DisplayIndex" type="int"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <result property="CustomerId" column="CustomerId" type="string"/>
+      <result property="Title" column="Title" type="string"/>
+      <result property="Description" column="Description" type="string"/>
+      <result property="IfFlag" column="IfFlag" type="int"/>
+      <result property="BatId" column="BatId" type="string"/>
+      <!--Property对应的是实体的属性，column对应的是数据库表的列-->
+    </resultMap>
+
+    <!--<resultMap id="ObjectImagesSearchResult" class="ObjectImages" extends="ObjectImagesResult">
+      <result property="Row_No" column="row_no" type="int"/>
+      --><!--行号--><!--
+      <result property="ICount" column="icount" type="int"/>
+      --><!--总行号--><!--
+    </resultMap>-->
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="ObjectImagesResult">
+      select
+      a.ImageId
+      ,a.ObjectId
+      ,a.ImageURL
+      ,a.DisplayIndex
+      ,a.CreateTime
+      ,a.CreateBy
+      ,a.LastUpdateBy
+      ,a.LastUpdateTime
+      ,a.IsDelete
+      ,a.CustomerId
+      ,a.Title
+      ,a.Description
+      ,a.IfFlag
+      ,a.BatId
+      From ObjectImages a
+
+    </select>
+
+    <!--<select id="SelectById" extends="Select" resultMap="ObjectImagesResult" parameterClass="hashtable">
+      where a.ImageId=#ImageId#
+    </select>
+
+    <select id="SelectAll" extends="Select" resultMap="ObjectImagesResult" >
+      where a.IfFlag='1'
+      order by a.DisplayIndex
+    </select>-->
+
+
+
+    <!--获取未打包的商品数量 Jermyn2012-07-26-->
+    <select id="SelectUnDownloadCount" resultClass="int" parameterClass="hashtable">
+      select count(*)
+      From ObjectImages
+      where isnull(IfFlag,'0') = '0'
+      and CustomerId = #CustomerId#;    
+    </select>
+    <!--需要打包的商品信息 Jermyn2012-07-26-->
+    <select id="SelectUnDownload"  resultMap="ObjectImagesResult" parameterClass="hashtable">
+      Declare @TmpTable Table
+      (ImageId nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (ImageId,row_no)
+      select ImageId
+      ,row_number() over(order by DisplayIndex) row_no
+      From ObjectImages
+      where 1=1
+      and isnull(IfFlag,'0') = '0'
+      and CustomerId = #CustomerId#;
+      
+      select
+      a.ImageId
+      ,a.ObjectId
+      ,a.ImageURL
+      ,a.DisplayIndex
+      ,a.CreateTime
+      ,a.CreateBy
+      ,a.LastUpdateBy
+      ,a.LastUpdateTime
+      ,a.IsDelete
+      ,a.CustomerId
+      ,a.Title
+      ,a.Description
+      ,a.IfFlag
+      ,a.BatId
+      From ObjectImages a
+      inner join @TmpTable b
+      on(a.ImageId = b.ImageId)
+      where b.row_no &gt; #StartRow# and b.row_no &lt;=#EndRow#
+      order by a.DisplayIndex
+      ;
+    </select>
+
+    <!--设置打包批次号 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadBatId" parameterClass="ObjectImages">
+      <!--ObjectImagesInfo就有  public IList<ObjectImagesInfo>
+        ObjectImagesInfoList { get; set; }
+        这里下面的isNotEmpty就像if语句一样-->
+        <isNotEmpty property="ObjectImagesInfoList">    <!--传过来对象的一个属性-->
+        update ObjectImages
+        set BatId = #BatId#
+        ,LastUpdateBy = #LastUpdateBy#
+        ,LastUpdateTime = #LastUpdateTime#
+        where ImageId in (
+        <iterate property="ObjectImagesInfoList" conjunction=" UNION ">        <!--循环遍历-->
+          SELECT #ObjectImagesInfoList[].ImageId#
+        </iterate> );
+      </isNotEmpty>
+
+    </update>
+    <!--更新ObjectImages表打包标识方法 Jermyn2012-07-26-->
+    <update id="UpdateUnDownloadIfFlag" parameterClass="ObjectImages">
+      update ObjectImages
+      set IfFlag = '1'
+      ,LastUpdateTime = #LastUpdateTime#
+      ,LastUpdateBy = #LastUpdateBy#
+      where BatId = #BatId#;
+    </update>
+  </statements>
+</sqlMap>

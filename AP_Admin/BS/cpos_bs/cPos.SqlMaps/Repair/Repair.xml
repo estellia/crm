@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Repair"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Repair" type="cPos.Model.RepairInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="RepairResult" class="Repair">
+      <result property="repair_id" column="repair_id" type="string" />
+      <result property="repair_type_id" column="repair_type_id" type="string" />
+      <result property="remark" column="remark" type="string"/>
+      <result property="phone" column="phone" type="string"/>
+      <result property="unit_id" column="unit_id" type="string"/>
+      <result property="pos_id" column="pos_id" type="string"/>
+      <result property="pos_sn" column="pos_sn" type="string"/>
+      <result property="status" column="status" type="string"/>
+      <result property="status_desc" column="status_desc" type="string"/>
+      <result property="repair_time" column="repair_time" type="string"/>
+      <result property="repair_user_id" column="repair_user_id" type="string"/>
+      <result property="response_time" column="response_time" type="string"/>
+      <result property="response_user_id" column="response_user_id" type="string"/>
+      <result property="complete_time" column="complete_time" type="string"/>
+      <result property="complete_user_id" column="complete_user_id" type="string"/>
+      <result property="modify_time" column="modify_time" type="string"/>
+      <result property="modify_user_id" column="modify_user_id" type="string"/>
+      <result property="unit_name" column="unit_name" type="string"/>
+      <result property="pos_code" column="pos_code" type="string"/>
+      <result property="repair_type_name" column="repair_type_name" type="string"/>
+      <result property="repair_user_name" column="repair_user_name" type="string"/>
+      <result property="complete_user_name" column="complete_user_name" type="string"/>
+      <result property="response_user_name" column="response_user_name" type="string"/>
+    </resultMap>
+
+    <resultMap id="RepairSearchResult" class="Repair" extends="RepairResult">
+      <result property="row_no" column="row_no" type="int"/>
+      <!--行号-->
+      <result property="icount" column="icount" type="int"/>
+      <!--总行号-->
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的修复内容-->
+    <select id="Select" resultMap="RepairResult">
+      select  repair_id
+      ,repair_type_id
+      ,remark
+      ,phone
+      ,unit_id
+      ,pos_id
+      ,pos_sn
+      ,status
+      ,status_desc
+      ,repair_time
+      ,repair_user_id
+      ,response_time
+      ,response_user_id
+      ,complete_time
+      ,complete_user_id
+      ,modify_time
+      ,modify_user_id
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,(select name From t_repair_type where a.repair_type_id = id) repair_type_name
+      ,(select USER_NAME From T_User where user_id = a.repair_user_id) repair_user_name
+      ,(select USER_NAME From T_User where user_id = a.complete_user_id) complete_user_name
+      ,(select USER_NAME From T_User where user_id = a.response_user_id) response_user_name
+      ,(select pos_code from t_pos where pos_sn = a.pos_sn) pos_code
+      from t_repair a
+      where 1=1
+    </select>
+
+    <!--获取单个修复内容-->
+    <select id="SelectById" extends="Select" resultMap="RepairResult" parameterClass="hashtable">
+      and a.repair_id=#repair_id#
+
+    </select>
+
+    <!--插入修改修复信息-->
+    <statement id="InsertOrUpdate" parameterClass="Repair">
+      <isNotEmpty property="repairInfoList">
+        update t_repair
+        set repair_type_id = x.repair_type_id
+        ,remark = x.remark
+        ,phone = x.phone
+        ,unit_id = x.unit_id
+        ,pos_id = x.pos_id
+        ,pos_sn = x.pos_sn
+        ,status = x.status
+        ,status_desc = x.status_desc
+        ,repair_time = x.repair_time
+        ,repair_user_id = x.repair_user_id
+        ,complete_time = x.complete_time
+        ,complete_user_id = x.complete_user_id
+        ,modify_time = x.modify_time
+        ,modify_user_id = x.modify_user_id
+
+        From  ( select p.repair_id
+        ,p.repair_type_id
+        ,p.remark
+        ,p.phone
+        ,p.unit_id
+        ,p.pos_id
+        ,p.pos_sn
+        ,p.status
+        ,p.status_desc
+        ,p.repair_time
+        ,p.repair_user_id
+        ,p.response_time
+        ,p.response_user_id
+        ,p.complete_time
+        ,p.complete_user_id
+        ,p.modify_time
+        ,p.modify_user_id
+        FROM (
+        <iterate property="repairInfoList" conjunction=" UNION ">
+          SELECT
+          #repairInfoList[].repair_id# repair_id
+          ,#repairInfoList[].repair_type_id# repair_type_id
+          ,#repairInfoList[].remark# remark
+          ,#repairInfoList[].phone# phone
+          ,#repairInfoList[].unit_id# unit_id
+          ,#repairInfoList[].pos_id# pos_id
+          ,#repairInfoList[].pos_sn# pos_sn
+          ,#repairInfoList[].status# status
+          ,#repairInfoList[].status_desc# status_desc
+          ,#repairInfoList[].repair_time# repair_time
+          ,#repairInfoList[].repair_user_id# repair_user_id
+          ,#repairInfoList[].response_time# response_time
+          ,#repairInfoList[].response_user_id# response_user_id
+          ,#repairInfoList[].complete_user_id# complete_user_id
+          ,#repairInfoList[].complete_time# complete_time
+          ,#modify_time# modify_time
+          ,#modify_user_id# modify_user_id
+        </iterate>
+        ) p
+        ) x
+        where (t_repair.repair_id = x.repair_id);
+      </isNotEmpty>
+      
+      <isNotEmpty property="repairInfoList">
+        INSERT INTO t_repair
+        (
+        repair_id
+        ,repair_type_id
+        ,remark
+        ,phone
+        ,unit_id
+        ,pos_id
+        ,pos_sn
+        ,status
+        ,status_desc
+        ,repair_time
+        ,repair_user_id
+        ,response_time
+        ,response_user_id
+        ,complete_time
+        ,complete_user_id
+        ,modify_time
+        ,modify_user_id
+        )
+
+        SELECT p.repair_id
+        ,p.repair_type_id
+        ,p.remark
+        ,p.phone
+        ,p.unit_id
+        ,p.pos_id
+        ,p.pos_sn
+        ,p.status
+        ,p.status_desc
+        ,p.repair_time
+        ,p.repair_user_id
+        ,p.response_time
+        ,p.response_user_id
+        ,p.complete_time
+        ,p.complete_user_id
+        ,p.modify_time
+        ,p.modify_user_id
+        FROM (
+        <iterate property="repairInfoList" conjunction=" UNION ">
+          SELECT
+          #repairInfoList[].repair_id# repair_id
+          ,#repairInfoList[].repair_type_id# repair_type_id
+          ,#repairInfoList[].remark# remark
+          ,#repairInfoList[].phone# phone
+          ,#repairInfoList[].unit_id# unit_id
+          ,#repairInfoList[].pos_id# pos_id
+          ,#repairInfoList[].pos_sn# pos_sn
+          ,#repairInfoList[].status# status
+          ,#repairInfoList[].status_desc# status_desc
+          ,#repairInfoList[].repair_time# repair_time
+          ,#repairInfoList[].repair_user_id# repair_user_id
+          ,#repairInfoList[].response_time# response_time
+          ,#repairInfoList[].response_user_id# response_user_id
+          ,#repairInfoList[].complete_user_id# complete_user_id
+          ,#repairInfoList[].complete_time# complete_time
+          ,#modify_time# modify_time
+          ,#modify_user_id# modify_user_id
+        </iterate>
+        ) P
+        Left JOIN t_repair a
+        ON (p.repair_Id = a.repair_Id)
+        where a.repair_Id is null;
+      </isNotEmpty>
+
+    </statement>
+
+    <!--修改修复表状态信息Jermyn2012-06-12-->
+    <update id="UpdateStatus" parameterClass="Repair">
+      update T_Repair
+      set [status] = #status#
+      ,status_desc = #status_desc#
+      ,modify_Time = #modify_time#
+      ,modify_User_Id = #modify_user_id#
+
+      <dynamic prepend=",">
+        <isNotNull prepend="," property="response_time">response_time=#response_time#</isNotNull>
+        <isNotNull prepend="," property="response_user_id">response_user_id=#response_user_id#</isNotNull>
+      </dynamic>
+      where repair_id = #repair_id#
+    </update>
+
+
+    <sql id="SearchPub">
+      Declare @TmpTable Table
+      (repair_id nvarchar(100)
+      ,row_no int
+      );
+
+      insert into @TmpTable (repair_id,row_no)
+      select x.repair_id ,x.rownum_ From (
+      select
+      rownum_=row_number() over(order by repair_time desc)
+      ,repair_id
+      from t_repair a
+      inner join vw_unit_level b
+      on(a.unit_id = b.unit_id)
+      where 1=1
+      <dynamic>
+
+        <isNotNull property="repair_date_begin">
+          <isNotEmpty property="repair_date_begin" prepend="and">
+            CONVERT(nvarchar(10),a.repair_time,120)    &gt;= #repair_date_begin#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="repair_date_end">
+          <isNotEmpty property="repair_date_end" prepend="and">
+            CONVERT(nvarchar(10),a.repair_time,120)    &lt;= #repair_date_end#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="status">
+          <isNotEmpty property="status" prepend="and">
+            a.status= #status#
+          </isNotEmpty>
+        </isNotNull>
+
+        <isNotNull property="unit_id">
+          <isNotEmpty property="unit_id" prepend="and">
+            b.path_unit_id like '%' + #unit_id# + '%'
+          </isNotEmpty>
+        </isNotNull>
+
+      </dynamic>
+
+
+      ) x ;
+
+      Declare @iCount int;
+
+      select @iCount = COUNT(*) From @TmpTable;
+
+    </sql>
+
+    <select id="SearchCount" resultClass="int" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+
+      select @iCount;
+    </select>
+
+    <select id="Search" resultMap="RepairSearchResult" parameterClass="hashtable">
+      <include refid="SearchPub"/>
+
+      select a.repair_id
+      ,repair_type_id
+      ,remark
+      ,phone
+      ,unit_id
+      ,pos_id
+      ,pos_sn
+      ,status
+      ,status_desc
+      ,repair_time
+      ,repair_user_id
+      ,response_time
+      ,response_user_id
+      ,complete_time
+      ,complete_user_id
+      ,modify_time
+      ,modify_user_id
+      ,(select unit_name From t_unit where unit_id = a.unit_id) unit_name
+      ,(select name From t_repair_type where a.repair_type_id = id) repair_type_name
+      ,(select USER_NAME From T_User where user_id = a.repair_user_id) repair_user_name
+      ,(select USER_NAME From T_User where user_id = a.complete_user_id) complete_user_name
+      ,(select USER_NAME From T_User where user_id = a.response_user_id) response_user_name
+      ,(select pos_code from t_pos where pos_sn = a.pos_sn) pos_code
+      ,b.row_no
+      ,@iCount icount
+      From T_Repair a
+      inner join @TmpTable b
+      on(a.repair_id = b.repair_id)
+      where 1=1
+      and b.row_no &gt; #StartRow# and b.row_no &lt;= #EndRow#
+      ;
+    </select>
+
+  </statements>
+</sqlMap>

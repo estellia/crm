@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="LEventInteraction"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="LEventInteraction" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_LEventInteractionData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="LEventInteractionResult" class="LEventInteraction">
+      <result property="InteractionId" column="InteractionId" type="Guid" />
+      <result property="TemplateId" column="TemplateId" type="Guid" />
+      <result property="ThemeId" column="ThemeId" type="Guid" />
+      <result property="InteractionType" column="InteractionType" type="int"/>
+      <result property="DrawMethodId" column="DrawMethodId" type="Guid"/>
+      <result property="LeventId" column="LeventId" type="string"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <!--工具关联字段-->
+      <result property="DrawMethodName" column="DrawMethodName" type="string"/>
+      <!--促销关联字段-->
+      <result property="EventName" column="EventName" type="string"/>
+      <!--吸粉、游戏关联字段-->
+      <result property="Title" column="Title" type="string"/>
+      <!--活动名称-->
+      <result property="ActivityName" column="ActivityName" type="string"/>
+      <!--风格名称-->
+      <result property="ThemeName" column="ThemeName" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!--动态sql语句-->
+    <select id="sql_SelectAll" resultMap="LEventInteractionResult" parameterString="hashtable">
+      SELECT * FROM (select ROW_NUMBER() Over(order by a.LastUpdateTime desc) as rowNum, a.*,b.DrawMethodName,
+      c.EventName,d.Title,'' as ActivityName,e.ThemeName
+      from T_CTW_LEventInteraction as a
+      left join T_CTW_LEventDrawMethod as b on a.DrawMethodId=b.DrawMethodId and b.IsDelete=0
+      left join T_CTW_PanicbuyingEvent as c on a.LeventId=c.EventId and c.IsDelete=0
+      left join T_CTW_LEvents as d on a.LeventId=d.EventID and d.IsDelete=0
+      left join T_CTW_LEventTheme as e on a.ThemeId=e.ThemeId and e.IsDelete=0
+      where a.IsDelete=0 and a.TemplateId=#TemplateId#
+      ) as t where <![CDATA[rowNum > #StartPage# and rowNum <= #EndPage# ]]>
+    </select>
+    <!--获取总记录数-->
+    <select id="sql_GetCount" resultClass="int">
+      select count(1) From T_CTW_LEventInteraction where IsDelete=0 and TemplateId=#TemplateId# 
+    </select>
+    <!--获取对象-->
+    <select id="sql_SelectById" resultMap="LEventInteractionResult" parameterClass="hashtable">
+      select *,null as DrawMethodName,null as EventName,null as Title,null as ActivityName,null as 'ThemeName'
+      from T_CTW_LEventInteraction where IsDelete=0 and InteractionId=#InteractionId#
+    </select>
+    <!--判断活动是否配置过相同的风格-->
+    <select id="sql_IsExist" resultClass="int" parameterString="hashtable" >
+      select COUNT(1) from T_CTW_LEventInteraction where IsDelete=0 and InteractionType=#InteractionType# and ThemeId=#ThemeId#
+    </select>
+    <!--新增-->
+    <insert id="sql_Insert" parameterClass="LEventInteraction">
+      insert into T_CTW_LEventInteraction(
+      InteractionId
+      ,TemplateId
+      ,ThemeId
+      ,InteractionType
+      ,DrawMethodId
+      ,LeventId
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      )
+      VALUES
+      (
+      #InteractionId#,#TemplateId#, #ThemeId#, #InteractionType#,#DrawMethodId#, #LeventId#,
+      GetDate(), #CreateBy#, GetDate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="LEventInteraction">
+      Update T_CTW_LEventInteraction set 
+      ThemeId=#ThemeId#
+      ,TemplateId=#TemplateId#
+      ,InteractionType=#InteractionType#
+      ,DrawMethodId=#DrawMethodId#
+      ,LeventId=#LeventId#
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where InteractionId=#InteractionId# 
+    </update>
+    <!--删除-->
+    <update id="sql_Delete" parameterClass="LEventInteraction">
+      Update T_CTW_LEventInteraction set
+      IsDelete=1
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where InteractionId=#InteractionId#
+    </update>
+
+  </statements>
+</sqlMap>

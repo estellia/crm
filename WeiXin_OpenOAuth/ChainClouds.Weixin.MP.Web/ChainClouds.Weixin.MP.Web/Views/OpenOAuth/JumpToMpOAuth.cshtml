@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+    var ClientId = @ViewBag.ClientId;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>跳转到公众号授权页</title>
+    <link href="~/Content/stylecc.css" rel="stylesheet" />
+    <style>
+
+        .qb_WeixinService {display:none;  width: 794px;position: fixed; top: 50%;left: 45%;margin: -245px 0 0 -347px;background: rgba(0,0,0,0.5);z-index: 9999;}
+        .qb_WeixinService .quick_top {width: 794px;}
+        .qb_WeixinService .quick {width: 794px;}
+        .qb_WeixinService .quick_center{width: 794px;}
+        .qb_WeixinService .quick_centernr {width: 794px;  height: 500px;}
+        .found {  text-align: center;}
+        .found img{border-radius:5px;  width: 265px;margin: 6px;}
+        .found a{color:#00cccc}
+         .found font{color:#00cccc}
+         .found  p{  font-size: 18px;  color: #999;}
+        .qb_quick { z-index: 9000;}
+        .authbtn,.authbtn a{
+          height: 47px;
+          width: 268px;
+          display: inline-block;
+          opacity: 0;float: left;
+        }
+        body{margin:0;}
+    </style>
+</head>
+<body>
+    <div class="authbtn">
+        @Html.ActionLink("点击这里进入公众号授权页", "OAuth", "Open",new { Id =  ClientId}, new{ target="_blank"})
+    </div>
+    
+    <div class="quick_centernr">
+        <div class="found">
+            <br>
+            <p>如果您已有<font>微信公众服务号并已通过实名认证</font>，请与连锁掌柜打通吧。</p><br><br><br>
+            @Html.ActionLink("点击这里进入公众号授权页", "OAuth", "Open",new { Id =  ClientId}, new{ target="_blank"})
+            <br><br>
+            @*<a target="_blank" href="http://open.chainclouds.com/receive"><img src="images/weixinset.png"></a><br>*@
+            如果你还没有微信公众服务号，可以<a target="_blank" href="https://mp.weixin.qq.com/cgi-bin/readtemplate?t=register/step1_tmpl&amp;lang=zh_CN">点击注册</a><br><br><br><br>
+            绑定微信服务号，将可使用连锁掌柜所有功能，<a target="_blank" href="\Module\helpCenter\helpCenterClass.aspx">了解所有功能</a><br>
+            请注意是微信公众服务号，不是订阅号哦，<a target="_blank" href="http://kf.qq.com/faq/140806zARbmm140826M36RJF.html">有何区别？</a>
+        </div>
+    </div>
+
+    @*<h1>跳转到公众号授权页</h1>
+    <div>
+        @Html.ActionLink("点击这里进入公众号授权页", "OAuth", "Open",new { Id =  ClientId}, null)
+    </div>
+    <div>
+        <p>
+            注意：授权页必须由合法（已经审核通过）的域名进入。
+            直接打开，或者在外部网站链接过来都可能被拒绝。
+            因此测试的时候必须有这样一个Referer页面存在。
+        </p>
+    </div>*@
+</body>
+</html>

@@ -1,0 +1,4 @@
+﻿1.在发布给外包方时，需要通过HelpTool工具，将MSSqlMap.config加密成mssqlmap.dat文件。
+2.在正式发布程序时，需要将login页面中的缺省登录用户名和密码去除掉，同时加上验证码的验证。
+
+login/LoginManager.aspx?tid=6caabe8b6d3a496e8b2f2732d94ebba3&cid=ef05c042b8ec4a6b8989291d7d0928e9

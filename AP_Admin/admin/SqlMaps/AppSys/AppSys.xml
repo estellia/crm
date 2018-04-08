@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="AppSys"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="AppSys" type="cPos.Model.AppSysModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="AppSysResult" class="AppSys">
+      <result property="Def_App_Id" column="Def_App_Id" type="string" />
+      <result property="Def_App_Code" column="Def_App_Code" type="string" />
+      <result property="Def_App_Name" column="Def_App_Name" type="string"/>
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统-->
+    <select id="Select" resultMap="AppSysResult">
+      select  a.Def_App_Id,
+      a.Def_App_Code,
+      a.Def_App_Name
+      from t_def_app a
+    </select>
+
+    <!--获取单个应用系统-->
+    <select id="SelectById" extends="Select" resultMap="AppSysResult" parameterClass="hashtable">
+      where a.Def_App_Id=#Def_App_Id#
+
+    </select>
+
+    <!--插入修改菜单信息-->
+    <statement id="InsertAppSys" parameterClass="map">
+      <isNotEmpty property="AppSysModels">
+        INSERT INTO T_Def_App
+        (
+        Def_App_Id
+        ,Def_App_Code
+        ,Def_App_Name
+        )
+
+        SELECT P.Def_App_Id
+        ,P.Def_App_Code
+        ,P.Def_App_Name
+        FROM (
+        <iterate property="AppSysModels" conjunction=" UNION ">
+          SELECT
+          #AppSysModels[].Def_App_Id# Def_App_Id
+          ,#AppSysModels[].Def_App_Code# Def_App_Code
+          ,#AppSysModels[].Def_App_Name# Def_App_Name
+
+        </iterate>
+        ) P
+        Left JOIN T_Def_App a
+        ON (p.Def_App_Id = a.Def_App_Id)
+        where a.Def_App_Id is null
+      </isNotEmpty>
+
+      <isNotEmpty property="AppSysModels">
+        update T_Def_App
+        set Def_App_Code = x.Def_App_Code
+        ,Def_App_Name = x.Def_App_Name
+
+        From  ( SELECT P.Def_App_Id
+        ,P.Def_App_Code
+        ,P.Def_App_Name
+        FROM (
+        <iterate property="AppSysModels" conjunction=" UNION ">
+          SELECT
+          #AppSysModels[].Def_App_Id# Def_App_Id
+          ,#AppSysModels[].Def_App_Code# Def_App_Code
+          ,#AppSysModels[].Def_App_Name# Def_App_Name
+
+        </iterate>
+        ) P
+        ) x
+        where (T_Def_App.Def_App_Id = x.Def_App_Id)
+      </isNotEmpty>
+    </statement>
+
+    <select id="SelectAllAppSys" resultMap="AppSysResult" parameterClass="hashtable" extends="Select">
+      where 1=1
+      
+    </select>
+  </statements>
+</sqlMap>

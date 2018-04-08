@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="LEventDrawMethod"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="LEventDrawMethod" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_LEventDrawMethodData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="LEventDrawMethodResult" class="LEventDrawMethod">
+      <result property="DrawMethodId" column="DrawMethodId" type="Guid" />
+      <result property="InteractionType" column="InteractionType" type="int" />
+      <result property="DrawMethodName" column="DrawMethodName" type="string" />
+      <result property="DrawMethodCode" column="DrawMethodCode" type="string"/>
+      <result property="DrawMethodRemark" column="DrawMethodRemark" type="string"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="sql_selectAll" resultMap="LEventDrawMethodResult">
+      select * from T_CTW_LEventDrawMethod where IsDelete=0 
+    </select>
+  </statements>
+</sqlMap>

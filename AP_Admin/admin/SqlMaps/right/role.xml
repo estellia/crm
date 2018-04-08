@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Right.Role"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Role" type="cpos.Admin.Model.Right.RoleInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="RoleResult" class="Role" extends="Base.Operate.ObjectOperateResult">
+      <result property="Application.ID" column="app_id" type="string" />
+      <result property="ID" column="role_id" type="string" />
+      <result property="Code" column="role_code" type="string" />
+      <result property="Name" column="role_name" type="string" />
+      <result property="EnglishName" column="role_name_en" type="string" />
+      <result property="IsSystem" column="is_system" type="int" />
+      <result property="IsSystemDescription" column="is_system_desc" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <insert id="Insert" parameterClass="Role">
+      insert into t_role(app_id,role_id,role_code,role_name,role_name_en,is_system,
+      create_user_id,create_user_name,create_time)
+      values(#Application.ID#,#ID#,#Code#,#Name#,#EnglishName#,#IsSystem#,
+      #Creater.ID#,#Creater.Name#,getdate())
+    </insert>
+
+    <update id="Update" parameterClass="Role">
+      update t_role set
+      role_code=#Code#,
+      role_name=#Name#,
+      role_name_en=#EnglishName#,
+      modify_user_id=#LastEditor.ID#,
+      modify_user_name=#LastEditor.Name#
+      modify_time=getdate()
+      where role_id=#ID#
+    </update>
+
+    <delete id="Delete" parameterClass="Role">
+      delete from t_role 
+      where 1=2 
+    </delete>
+
+    <select id="SelectByID" parameterClass="string">
+      select a.app_id,a.role_id,a.role_code,a.role_name,a.role_name_en,a.is_system,
+      a.create_user_id,a.create_time,a.modify_user_id,a.modify_time,a.sys_modify_stamp,a.create_user_name,a.modify_user_name
+      ,b.dd_name as is_system_desc
+      from t_role a
+      inner join vw_dic b on a.is_system=b.dd_code and b.dic_code='yes_no'
+      where a.role_id=#value#
+    </select>
+
+  </statements>
+
+</sqlMap>

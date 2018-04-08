@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="LEventTheme"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="LEventTheme" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_LEventThemeData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="LEventThemeResult" class="LEventTheme">
+      <result property="ThemeId" column="ThemeId" type="Guid" />
+      <result property="TemplateId" column="TemplateId" type="Guid" />
+      <result property="ThemeName" column="ThemeName" type="string" />
+      <result property="ImageId" column="ImageId" type="string"/>
+      <result property="H5Url" column="H5Url" type="string"/>
+      <result property="H5TemplateId" column="H5TemplateId" type="string"/>
+      <result property="RCodeUrl" column="RCodeUrl" type="string"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <!--关联字段-->
+      <result property="ImageUrl" column="ImageUrl" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!--查询-->
+    <select id="sql_SelectAll" resultMap="LEventThemeResult" parameterString="hashtable">
+      SELECT * FROM (select ROW_NUMBER() Over(order by a.LastUpdateTime desc) as rowNum, a.*,b.ImageUrl from T_CTW_LEventTheme as a
+      left join ObjectImages as b on a.ImageId=b.ImageId and b.IsDelete=0 
+      where a.IsDelete=0 and a.TemplateId=#TemplateId#
+      ) as t where <![CDATA[rowNum > #StartPage# and rowNum <= #EndPage# ]]>
+    </select>
+    <!--根据名称查询-->
+    <select id="sql_SelectByName" resultMap="LEventThemeResult" parameterString="hashtable">
+      select *,null as ImageUrl from T_CTW_LEventTheme where IsDelete=0 and ThemeName=#ThemeName# and TemplateId=#TemplateId# 
+    </select>
+    <!--获取总记录数-->
+    <select id="sql_GetCount" resultClass="int" parameterString="hashtable">
+      select count(1) From T_CTW_LEventTheme where IsDelete=0 and TemplateId=#TemplateId# 
+    </select>
+    <!--获取对象-->
+    <select id="sql_SelectById" resultMap="LEventThemeResult" parameterClass="hashtable">
+      select *,null as ImageUrl from T_CTW_LEventTheme where IsDelete=0 and ThemeId=#ThemeId#
+    </select>
+    <!--创建-->
+    <insert id="sql_Insert" parameterClass="LEventTheme">
+      insert into T_CTW_LEventTheme(
+      ThemeId
+      ,TemplateId
+      ,ThemeName
+      ,ImageId
+      ,H5Url
+      ,H5TemplateId
+      ,RCodeUrl
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete)
+      VALUES
+      (
+      #ThemeId#, #TemplateId#, #ThemeName#, #ImageId#, #H5Url#, #H5TemplateId#,#RCodeUrl#
+      ,GetDate(), #CreateBy#, GetDate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="LEventTheme">
+      update T_CTW_LEventTheme set
+      ThemeName=#ThemeName#
+      ,ImageId=#ImageId#
+      ,H5Url=#H5Url#
+      ,H5TemplateId=#H5TemplateId#
+      ,LastUpdateTime=Getdate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where ThemeId=#ThemeId#
+    </update>
+    <!--逻辑删除-->
+    <update id="sql_Delete" parameterClass="LEventTheme">
+      update T_CTW_LEventTheme set 
+      IsDelete=1
+      ,LastUpdateTime=Getdate()
+      ,LastUpdateBy=#LastUpdateBy#
+      where ThemeId=#ThemeId#
+    </update>
+  </statements>
+</sqlMap>

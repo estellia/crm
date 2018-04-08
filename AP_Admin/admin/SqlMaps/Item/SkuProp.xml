@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="SkuProp"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="SkuProp" type="cPos.Model.SkuPropInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="SkuPropResult" class="SkuProp">
+      <result property="sku_prop_id" column="sku_prop_id" type="string" />
+      <result property="prop_id" column="prop_id" type="string" />
+      <result property="display_index" column="display_index" type="int"/>
+      <result property="prop_code" column="prop_code" type="string"/>
+      <result property="prop_name" column="prop_name" type="string"/>
+      <result property="prop_input_flag" column="prop_input_flag" type="string"/>
+    </resultMap>
+
+
+  </resultMaps>
+  <statements>
+    <!--获取所有的应用系统 Jermyn 2012-05-29-->
+    <select id="Select" resultMap="SkuPropResult">
+      select a.sku_prop_id
+      ,a.prop_id
+      ,a.display_index
+      ,b.prop_code
+      ,b.prop_name
+      ,b.prop_input_flag
+      From T_SKU_PROPerty a
+      inner join T_Prop b
+      on(a.prop_id = b.prop_id)
+      where a.status = '1'
+      and b.status = '1'
+      order by a.display_index
+    </select>
+
+
+
+
+  </statements>
+</sqlMap>

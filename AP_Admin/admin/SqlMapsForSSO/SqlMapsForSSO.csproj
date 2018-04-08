@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9E2FEC7D-AB20-4E52-8C93-11628159B4AB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>cpos.Admin.SqlMaps</RootNamespace>
+    <AssemblyName>cpos.Admin.SqlMaps</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="AppSys\AppSys.xml" />
+    <Content Include="AppSys\City.xml" />
+    <Content Include="AppSys\Prop.xml" />
+    <Content Include="AppSys\PropertyUnit.xml" />
+    <Content Include="AppSys\Role.xml" />
+    <Content Include="AppSys\roleMenu.xml" />
+    <Content Include="AppSys\Type.xml" />
+    <Content Include="base\dictionary.xml" />
+    <Content Include="base\dictionary_detail.xml" />
+    <Content Include="base\operate.xml" />
+    <Content Include="bill\action.xml" />
+    <Content Include="bill\bill.xml" />
+    <Content Include="bill\kind.xml" />
+    <Content Include="bill\action_log.xml" />
+    <Content Include="bill\status.xml" />
+    <Content Include="Warehouse\Warehouse.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="customer\connect.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="customer\customer.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="customer\menu.xml" />
+    <Content Include="customer\shop.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="customer\terminal.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="customer\user.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\Item.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\ItemCategory.xml" />
+    <Content Include="Item\ItemPrice.xml" />
+    <Content Include="Item\ItemPriceType.xml" />
+    <Content Include="Item\ItemProp.xml" />
+    <Content Include="Item\Sku.xml" />
+    <Content Include="Item\SkuPrice.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Item\SkuProp.xml" />
+    <Content Include="Monitor\Monitor.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="order\CC.xml" />
+    <Content Include="order\CCDetail.xml" />
+    <Content Include="order\Inout.xml" />
+    <Content Include="order\InoutDetail.xml" />
+    <Content Include="order\Inout_ap.xml" />
+    <Content Include="order\InoutDetail_ap.xml" />
+    <Content Include="order\AdOrder.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="order\OrderReasonType.xml" />
+    <Content Include="order\OrderType.xml" />
+    <Content Include="right\app.xml" />
+    <Content Include="right\menu.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="right\role.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="right\role_menu.xml" />
+    <Content Include="StockBalance\StockBalance.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Unit\Unit.xml" />
+    <Content Include="Unit\UnitRelationMode.xml" />
+    <Content Include="user\user.xml" />
+    <Content Include="user\mobileuser.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="user\user_role.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

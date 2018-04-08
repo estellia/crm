@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemInfoByBarcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemInfoByBarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemInfoByBarcodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserUnitRelations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserUnitRelationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserUnitRelationsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApplyCustomerAndUnit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="customerInfo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="unitInfo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ApplyCustomerAndUnitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ApplyCustomerAndUnitResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemInfoByBarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemInfoByBarcode" />
+  </wsdl:message>
+  <wsdl:message name="GetItemInfoByBarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemInfoByBarcodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserUnitRelationsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserUnitRelations" />
+  </wsdl:message>
+  <wsdl:message name="GetUserUnitRelationsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserUnitRelationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ApplyCustomerAndUnitSoapIn">
+    <wsdl:part name="parameters" element="tns:ApplyCustomerAndUnit" />
+  </wsdl:message>
+  <wsdl:message name="ApplyCustomerAndUnitSoapOut">
+    <wsdl:part name="parameters" element="tns:ApplyCustomerAndUnitResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BasicServiceSoap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemInfoByBarcode">
+      <wsdl:input message="tns:GetItemInfoByBarcodeSoapIn" />
+      <wsdl:output message="tns:GetItemInfoByBarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserUnitRelations">
+      <wsdl:input message="tns:GetUserUnitRelationsSoapIn" />
+      <wsdl:output message="tns:GetUserUnitRelationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ApplyCustomerAndUnit">
+      <wsdl:input message="tns:ApplyCustomerAndUnitSoapIn" />
+      <wsdl:output message="tns:ApplyCustomerAndUnitSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicServiceSoap" type="tns:BasicServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemInfoByBarcode">
+      <soap:operation soapAction="http://tempuri.org/GetItemInfoByBarcode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserUnitRelations">
+      <soap:operation soapAction="http://tempuri.org/GetUserUnitRelations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApplyCustomerAndUnit">
+      <soap:operation soapAction="http://tempuri.org/ApplyCustomerAndUnit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicServiceSoap12" type="tns:BasicServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemInfoByBarcode">
+      <soap12:operation soapAction="http://tempuri.org/GetItemInfoByBarcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserUnitRelations">
+      <soap12:operation soapAction="http://tempuri.org/GetUserUnitRelations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApplyCustomerAndUnit">
+      <soap12:operation soapAction="http://tempuri.org/ApplyCustomerAndUnit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BasicService">
+    <wsdl:port name="BasicServiceSoap" binding="tns:BasicServiceSoap">
+      <soap:address location="http://localhost:12850/WebServices/BasicService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="BasicServiceSoap12" binding="tns:BasicServiceSoap12">
+      <soap12:address location="http://localhost:12850/WebServices/BasicService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Prop"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Prop" type="cPos.Model.PropInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="PropResult" class="Prop">
+      <result property="Prop_Id" column="Prop_Id" type="string" />
+      <result property="Prop_Code" column="Prop_Code" type="string" />
+      <result property="Prop_Name" column="Prop_Name" type="string"/>
+      <result property="Prop_Eng_Name" column="Prop_Eng_Name" type="string"/>
+      <result property="Prop_Type" column="Prop_Type" type="string"/>
+      <result property="Parent_Prop_id" column="Parent_Prop_id" type="string"/>
+      <result property="Prop_Level" column="Prop_Level" type="int"/>
+      <result property="Prop_Domain" column="Prop_Domain" type="string"/>
+      <result property="Prop_Input_Flag" column="Prop_Input_Flag" type="string"/>
+      <result property="Prop_Max_Length" column="prop_max_lenth" type="int"/>
+      <result property="Prop_Default_Value" column="Prop_Default_Value" type="string"/>
+      <result property="Prop_Status" column="Status" type="int"/>
+      <result property="Display_Index" column="Display_Index" type="int"/>
+      <result property="Create_User_Id" column="Create_User_Id" type="string"/>
+      <result property="Create_Time" column="Create_Time" type="string"/>
+      <result property="Modify_User_Id" column="Modify_User_Id" type="string"/>
+      <result property="Modify_Time" column="Modify_Time" type="string"/>
+      <result property="Prop_Status_Desc" column="Prop_Status_Desc" type="string"/>
+      <result property="Create_User_Name" column="Create_User_Name" type="string"/>
+      <result property="Modify_User_Name" column="Modify_User_Name" type="string"/>    
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的属性 Jermyn2012-06-07-->
+    <select id="Select" resultMap="PropResult">
+      select Prop_Id
+      ,Prop_Code
+      ,Prop_Name
+      ,Prop_Eng_Name
+      ,Prop_Type
+      ,Parent_Prop_id
+      ,Prop_Level
+      ,Prop_Domain
+      ,Prop_Input_Flag
+      ,a.prop_max_lenth
+      ,Prop_Default_Value
+      ,status
+      ,Display_Index
+      ,Create_User_Id
+      ,Create_Time
+      ,Modify_User_Id
+      ,Modify_Time
+      ,case when status = '1' then '正常' else '删除' end Prop_Status_Desc
+      ,(select user_name From t_user x where x.user_id = a.create_user_id) Create_User_Name
+      ,(select user_name From t_user x where x.user_id = a.modify_user_id) Modify_User_Name
+      From t_prop a
+
+      where 1=1
+      and a.status = '1'
+    </select>
+
+    <!--获取某个域下第一层信息Jermyn2012-06-07-->
+    <select id="SelectFirst" extends="Select" resultMap="PropResult" parameterClass="hashtable">
+      and a.Prop_Type = '1'
+      and a.Prop_Domain = #PropDomain#
+      order by a.display_index
+    </select>
+
+    <!--获取某个节点下一层信息Jermyn2012-06-07-->
+    <select id="SelectByParentId" extends="Select" resultMap="PropResult" parameterClass="hashtable">
+      and a.Prop_Domain = #PropDomain#
+      and a.Parent_Prop_id = #ParentPropId#
+      order by a.display_index
+    </select>
+
+    <!--获取某个节点信息Jermyn2012-06-07-->
+    <select id="SelectById" extends="Select" resultMap="PropResult" parameterClass="hashtable">
+      and a.Porp_id = #PropId#
+      order by a.display_index
+    </select>
+  </statements>
+</sqlMap>

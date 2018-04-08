@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Bill.Kind"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillKind" type="cpos.Admin.Model.Bill.BillKindInfo,cpos.Admin.Model"/>
+  </alias>
+
+  <resultMaps>
+
+    <resultMap id="BillKindResult" class="BillKind">
+      <result property="ID" column="bill_kind_id" type="string" />
+      <result property="Code" column="bill_kind_code" type="string" />
+      <result property="Name" column="bill_kind_name" type="string" />
+      <result property="EnglishName" column="bill_kind_name_en" type="string" />
+    </resultMap>
+
+  </resultMaps>
+
+  <statements>
+
+    <select id="Select" parameterClass="BillKind">
+      select a.bill_kind_id,a.bill_kind_code,a.bill_kind_name,a.bill_kind_name_en 
+      from t_def_bill_kind a
+    </select>
+
+  </statements>
+
+</sqlMap>

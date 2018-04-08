@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="Menu"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="Menu" type="cPos.Model.MenuModel,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="MenuResult" class="Menu">
+      <result property="Menu_Id" column="Menu_Id" type="string" />
+      <result property="Reg_App_Id" column="Reg_App_Id" type="string" />
+      <result property="Menu_Code" column="Menu_Code" type="string"/>
+      <result property="Parent_Menu_Id" column="Parent_Menu_Id" type="string"/>
+      <result property="Menu_Name" column="Menu_Name" type="string"/>
+      <result property="Menu_Level" column="Menu_Level" type="int"/>
+      <result property="Url_Path" column="Url_Path" type="string"/>
+      <result property="Display_Index" column="Display_Index" type="int"/>
+      <result property="Icon_Path" column="Icon_Path" type="string"/>
+      <result property="User_Flag" column="User_Flag" type="int"/>
+      <result property="Status" column="Status" type="int"/>
+      <result property="Create_User_Id" column="Create_User_Id" type="string"/>
+      <result property="Create_Time" column="Create_Time" type="string"/>
+      <result property="Modify_User_id" column="Modify_User_id" type="string"/>
+      <result property="Modify_Time" column="Modify_Time" type="string"/>
+    
+
+    </resultMap>
+  </resultMaps>
+  <statements>
+    <!--获取所有的菜单-->
+    <select id="Select" resultMap="MenuResult">
+      select  a.Menu_Id,
+      a.Reg_App_Id,
+      a.Menu_Code,
+      a.Parent_Menu_Id,
+      a.Menu_Name
+      ,a.Menu_Level
+      ,a.Url_Path
+      ,a.Icon_Path
+      ,a.Display_Index
+      ,a.Menu_Name
+      ,a.User_Flag
+      ,a.Menu_Eng_Name
+      ,a.Status
+      ,a.Create_User_Id
+      ,a.Create_Time
+      ,a.Modify_User_id
+      ,a.Modify_Time
+      from t_menu a
+      where a.status = '1'
+      <!--and a.menu_code like 'B00%'-->
+    </select>
+
+    <!--获取单个菜单-->
+    <select id="SelectById" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and a.menu_id=#MenuId#
+
+    </select>
+
+    <!--获取某个系统的菜单-->
+    <select id="SelectMainMenusByApplicationId" extends="Select" resultMap="MenuResult" parameterClass="string">
+      and a.reg_app_id=#ApplicationId# and a.menu_level=0 and a.customer_id = #CustomerId#
+      order by a.menu_level, a.display_index
+    </select>
+
+    <select id="GetAllMenusByAppSysId" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and exists (select 1 from t_def_app b 
+      where b.def_app_code=#ApplicationCode# and b.def_app_id=a.reg_app_id)
+      and customer_id = #CustomerId#
+      order by a.menu_level, a.display_index
+    </select>
+
+    <select id="GetAllMenusByAppSysId1" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and exists (select 1 from t_def_app b where b.def_app_code=#ApplicationCode#
+      and b.def_app_id=a.reg_app_id)
+      and customer_id = #CustomerId#
+      order by a.menu_level, a.display_index
+    </select>
+    
+
+    <select id="GetMainMenusByRoleAndApp" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and exists (select 1 from t_def_app b where b.def_app_code=#ApplicationCode# and b.def_app_id=a.reg_app_id)
+      and a.menu_level=1
+      and exists (select 1 from t_role_menu b where b.role_id=#RoleId# and b.status=1 and b.menu_id=a.menu_id)
+      
+      order by a.display_index
+    </select>
+
+    <select id="GetAllMenusByRoleAndApp" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and exists (select 1 from t_def_app b where b.def_app_code=#ApplicationCode# and b.def_app_id=a.reg_app_id)
+      and exists (select 1 from t_role_menu b where b.role_id=#RoleId# and b.status=1 and b.menu_id=a.menu_id)
+      order by a.menu_level,a.display_index
+    </select>
+
+    <select id="SelectSubMenus" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and a.parent_menu_id=#MenuId#
+      order by a.display_index
+    </select>
+    
+    <select id="SelectSubMenusByRoleId" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and a.parent_menu_id=#MenuId#
+      and exists (select 1 from t_role_menu b where b.role_id=#RoleId# and b.status=1 and b.menu_id=a.menu_id)
+      order by a.display_index
+    </select>
+
+    <select id="SelectAllMenusByRoleId" extends="Select" resultMap="MenuResult" parameterClass="hashtable">
+      and a.menu_id in (select distinct menu_id from t_role_menu where role_id=#RoleId# and status = '1')
+      order by a.menu_level, a.display_index
+    </select>
+
+    <select id="CountMenuByApplicationId" resultClass="int" parameterClass="string">
+      select nvl(count(*),0) from t_menu where reg_app_id=#value#
+    </select>
+
+    <select id="CountSubMenusByMenuId" resultClass="int" parameterClass="string">
+      select nvl(count(*),0) from t_menu where parent_menu_id=#value#
+    </select>
+    
+    
+      <!--插入修改菜单信息-->
+      <statement id="InsertMenu" parameterClass="map">
+        <isNotEmpty property="MenuModels">
+          INSERT INTO T_Menu
+          (
+          Menu_Id,
+          Reg_App_Id
+          ,Menu_Code
+          ,Parent_Menu_Id
+          ,Menu_Name
+          ,Menu_Level
+          ,Url_Path
+          ,Icon_Path
+          ,Display_Index
+          ,User_Flag
+          ,Menu_Eng_Name
+          ,Status
+          ,Create_User_Id
+          ,Create_Time
+          ,Modify_User_id
+          ,Modify_Time
+          ,customer_id
+          )
+
+          SELECT P.Menu_Id,
+          P.Reg_App_Id
+          ,P.Menu_Code
+          ,P.Parent_Menu_Id
+          ,P.Menu_Name
+          ,P.Menu_Level
+          ,P.Url_Path
+          ,P.Icon_Path
+          ,P.Display_Index
+          ,P.User_Flag
+          ,P.Menu_Eng_Name
+          ,P.Status
+          ,P.Create_User_Id
+          ,P.Create_Time
+          ,P.Modify_User_id
+          ,P.Modify_Time
+          ,P.customer_id
+          FROM (
+          <iterate property="MenuModels" conjunction=" UNION ">
+            SELECT
+            #MenuModels[].Menu_Id# Menu_Id,
+            #MenuModels[].Reg_App_Id# Reg_App_Id
+            ,#MenuModels[].Menu_Code# Menu_Code
+            ,#MenuModels[].Parent_Menu_Id# Parent_Menu_Id
+            ,#MenuModels[].Menu_Name# Menu_Name
+            ,#MenuModels[].Menu_Level# Menu_Level
+            ,#MenuModels[].Url_Path# Url_Path
+            ,#MenuModels[].Icon_Path# Icon_Path
+            ,#MenuModels[].Display_Index# Display_Index
+            ,#MenuModels[].User_Flag# User_Flag
+            ,#MenuModels[].Menu_Eng_Name# Menu_Eng_Name
+            ,#MenuModels[].Status# Status
+            ,#MenuModels[].Create_User_Id# Create_User_Id
+            ,convert(nvarchar(100),GETDATE(),120) Create_Time
+            ,#MenuModels[].Modify_User_id# Modify_User_id
+            ,convert(nvarchar(100),GETDATE(),120) Modify_Time
+            ,#MenuModels[].customer_id# customer_id
+          </iterate>
+          ) P
+          Left JOIN T_Menu a 
+          ON (p.Menu_Id = a.Menu_Id)
+          where a.Menu_Id is null
+        </isNotEmpty>
+
+        <isNotEmpty property="MenuModels">
+          update t_menu
+          set Menu_Code = x.Menu_Code
+          ,Reg_App_Id = x.Reg_App_Id
+          ,Parent_Menu_Id = x.Parent_Menu_Id
+          ,Menu_Name = x.Menu_Name
+          ,Menu_Level = x.Menu_Level
+          ,Url_Path = x.Url_Path
+          ,Icon_Path = x.Icon_Path
+          ,Display_Index = x.Display_Index 
+          ,User_Flag = x.User_Flag
+          ,Menu_Eng_Name = x.Menu_Eng_Name
+          ,Status = x.Status
+          ,Modify_User_id = x.Modify_User_id
+          ,Modify_Time = x.Modify_Time
+          
+          From  ( SELECT P.Menu_Id,
+          P.Reg_App_Id,
+          P.Menu_Code,
+          P.Parent_Menu_Id,
+          P.Menu_Name
+          ,P.Menu_Level
+          ,P.Url_Path
+          ,P.Icon_Path
+          ,P.Display_Index
+          ,P.User_Flag
+          ,P.Menu_Eng_Name
+          ,P.Status
+          ,P.Modify_User_id
+          ,P.Modify_Time
+          FROM (
+          <iterate property="MenuModels" conjunction=" UNION ">
+            SELECT
+            #MenuModels[].Menu_Id# Menu_Id,
+            #MenuModels[].Reg_App_Id# Reg_App_Id,
+            #MenuModels[].Menu_Code# Menu_Code,
+            #MenuModels[].Parent_Menu_Id# Parent_Menu_Id,
+            #MenuModels[].Menu_Name# Menu_Name
+            ,#MenuModels[].Menu_Level# Menu_Level
+            ,#MenuModels[].Url_Path# Url_Path
+            ,#MenuModels[].Icon_Path# Icon_Path
+            ,#MenuModels[].Display_Index# Display_Index
+            ,#MenuModels[].User_Flag# User_Flag
+            ,#MenuModels[].Menu_Eng_Name# Menu_Eng_Name
+            ,#MenuModels[].Status# Status
+            ,#MenuModels[].Modify_User_id# Modify_User_id
+            ,convert(nvarchar(100),GETDATE(),120) Modify_Time
+          </iterate>
+              ) P
+          ) x
+          where (t_menu.Menu_Id = x.Menu_Id)
+        </isNotEmpty>
+      </statement>
+  </statements>
+</sqlMap>

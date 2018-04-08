@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1D0F5D52-38CE-4F4D-A868-1BA026FEB01B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Utility.MessageHandleService</RootNamespace>
+    <AssemblyName>Utility.MessageHandleService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JdSoft.Apns.Notifications, Version=1.0.4.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDll\JdSoft.Apns.Notifications.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExtensionMethod.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Service1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Service1.Designer.cs">
+      <DependentUpon>Service1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WCF\Base\CommonDAO.cs" />
+    <Compile Include="WCF\Base\CommonDAO_QDY.cs" />
+    <Compile Include="WCF\Base\ConnectStringManager.cs" />
+    <Compile Include="WCF\Base\ConnectStringManager_QDY.cs" />
+    <Compile Include="WCF\DataAccess\ClientUserDAO.cs" />
+    <Compile Include="WCF\DataAccess\CodeGeneration\ClientUserDAO.cs" />
+    <Compile Include="WCF\DataAccess\CodeGeneration\MessageChannelDAO.cs" />
+    <Compile Include="WCF\DataAccess\CodeGeneration\MessageDAO.cs" />
+    <Compile Include="WCF\DataAccess\CodeGeneration\OrdersCheckingDAO.cs" />
+    <Compile Include="WCF\DataAccess\MessageChannelDAO.cs" />
+    <Compile Include="WCF\DataAccess\MessageDAO.cs" />
+    <Compile Include="WCF\DataAccess\OrdersCheckingDAO.cs" />
+    <Compile Include="WCF\Entity\ClientUserEntity.cs" />
+    <Compile Include="WCF\Entity\CodeGeneration\ClientUserEntity.cs" />
+    <Compile Include="WCF\Entity\CodeGeneration\MessageChannelEntity.cs" />
+    <Compile Include="WCF\Entity\CodeGeneration\MessageEntity.cs" />
+    <Compile Include="WCF\Entity\CodeGeneration\OrdersCheckingEntity.cs" />
+    <Compile Include="WCF\Entity\MessageChannelEntity.cs" />
+    <Compile Include="WCF\Entity\MessageEntity.cs" />
+    <Compile Include="WCF\Entity\OrdersCheckingEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility.Message\Utility.Message.csproj">
+      <Project>{365C2765-3BC4-462D-96C3-6C175E0CCB16}</Project>
+      <Name>Utility.Message</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{1DFD5C01-71C0-41D9-82E4-CABA22331835}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

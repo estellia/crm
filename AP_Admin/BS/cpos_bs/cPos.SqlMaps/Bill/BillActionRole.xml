@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="BillActionRole"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="BillActionRole" type="cPos.Model.BillActionRoleModel,cPos.Model" />
+    <typeAlias alias="SelectBillActionRole" type="cPos.Model.SelectBillActionRoleInfo,cPos.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BillActionRoleResult" class="BillActionRole">
+      <result property="Id" column="bill_action_role_id" type="string" />
+      <result property="KindId" column="bill_kind_id" type="string" />
+      <result property="ActionId" column="bill_action_id" type="string" />
+      <result property="RoleId" column="role_id" type="string" />
+      <result property="PreviousStatus" column="pre_bill_status" type="string" />
+      <result property="CurrentStatus" column="cur_bill_status" type="string"/>
+      <result property="MinMoney" column="min_money" type="int"/>
+      <result property="MaxMoney" column="max_money" type="int"/>
+      <!--<result property="DateControlType" column="date_control_type" type="string" />
+      <result property="DateTime" column="date_time" type="string"/>-->
+    </resultMap>
+    <resultMap id="SelectBillActionRoleResult" extends="BillActionRoleResult" class="SelectBillActionRole">
+      <result property="KindDescription" column="bill_kind_desc" type="string"/>
+      <result property="ActionDescription" column="bill_action_desc" type="string"/>
+      <result property="RoleDescription" column="role_desc" type="string"/>
+      <result property="PreviousStatusDescription" column="pre_status_desc" type="string"/>
+      <result property="CurrentStatusDescription" column="cur_status_desc" type="string"/>
+      <result property="DateControlTypeName" column="date_control_type_name" type="string" />
+    </resultMap>
+    <resultMap id="BillActionRoleValResult" class="BillActionRole" extends="BillActionRoleResult">
+      <result property="ValidateDate" column="validate_date" type="int" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <select id="Select" resultMap="BillActionRoleResult">
+      select bill_action_role_id, bill_kind_id, bill_action_id, role_id,
+      pre_bill_status, cur_bill_status, min_money, max_money,date_control_type,date_time
+      from t_def_bill_action_role
+    </select>
+
+    <select id="SelectById" extends="Select" resultMap="BillActionRoleResult" parameterClass="string">
+      where bill_action_role_id=#value#
+    </select>
+
+    <select id="SelectByKindId" extends="Select" resultMap="BillActionRoleResult" parameterClass="string">
+      where bill_kind_id=#value#
+    </select>
+
+    <select id="SelectByActionId" extends="Select" resultMap="BillActionRoleResult" parameterClass="string">
+      where bill_action_id=#value#
+    </select>
+
+    <select id="SelectByRoleId" extends="Select" resultMap="BillActionRoleResult" parameterClass="string">
+      where role_id=#value#
+    </select>
+
+    <select id="CountSameActionRole" parameterClass="BillActionRole" resultClass="int">
+      select nvl(count(*),0) from t_def_bill_action_role
+      where bill_kind_id=#KindId# and bill_action_id=#ActionId# and role_id=#RoleId#
+      and pre_bill_status=#PreviousStatus#
+      <!--and cur_bill_status=#CurrentStatus#
+      and ((min_money between #MinMoney# and #MaxMoney#) or (max_money between #MinMoney# and #MaxMoney#)
+      or (#MinMoney# &lt;=min_money and #MaxMoney# &gt;=max_money))-->
+    </select>
+
+    <select id="CountCreateActionRole" parameterClass="BillActionRole" resultClass="int">
+      select nvl(count(*),0) from t_def_bill_action_role
+      where bill_kind_id=#KindId# and bill_action_id=#ActionId# and role_id=#RoleId#
+    </select>
+
+    <select id="CountByRoleId" parameterClass="string" resultClass="int">
+      select isnull(count(*),0) from t_def_bill_action_role where role_id=#value#
+    </select>
+
+    <select id="SelectByKindIdAndActionIdAndRoleId" resultMap="SelectBillActionRoleResult" parameterClass="hashtable">
+      select a.bill_action_role_id, a.bill_kind_id, a.bill_action_id, a.role_id,
+      a.pre_bill_status, a.cur_bill_status, a.min_money, a.max_money,a.date_control_type,a.date_time,
+      b.object_desc as bill_kind_desc, c.object_desc as bill_action_desc,
+      d.object_desc as role_desc, f.object_desc as pre_status_desc,
+      h.object_desc as cur_status_desc,i.object_desc as date_control_type_name
+      from t_def_bill_action_role a
+      left  join t_object_translation b on a.bill_kind_id=b.object_id and b.language_kind_id=#LanguageKindId#
+      left  join t_object_translation c on a.bill_action_id=c.object_id and c.language_kind_id=#LanguageKindId#
+      left  join t_object_translation d on a.role_id=d.object_id and d.language_kind_id=#LanguageKindId#
+      inner join t_def_bill_status e on a.bill_kind_id=e.bill_kind_id and a.pre_bill_status=e.bill_status
+      left  join t_object_translation f on e.bill_status_id=f.object_id and f.language_kind_id=#LanguageKindId#
+      inner join t_def_bill_status g on a.bill_kind_id=g.bill_kind_id and a.cur_bill_status=g.bill_status
+      left  join t_object_translation h on g.bill_status_id=h.object_id and h.language_kind_id=#LanguageKindId#
+
+      left  join t_object_translation i on a.date_control_type=i.object_id and i.language_kind_id=#LanguageKindId#
+      where 1=1
+      <dynamic>
+        <isNotNull property="BillKindId">
+          <isNotEmpty property="BillKindId" prepend="and">
+            a.bill_kind_id=#BillKindId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="BillActionId">
+          <isNotEmpty property="BillActionId" prepend="and">
+            a.bill_action_id=#BillActionId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="RoleId">
+          <isNotEmpty property="RoleId" prepend="and">
+            a.role_id=#RoleId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      order by a.bill_kind_id,a.role_id,a.bill_action_id
+    </select>
+
+    <select id="SelectByActionRoleId" resultMap="SelectBillActionRoleResult" parameterClass="hashtable">
+      select a.bill_action_role_id, a.bill_kind_id, a.bill_action_id, a.role_id,
+      a.pre_bill_status, a.cur_bill_status, a.min_money, a.max_money,a.date_control_type,a.date_time,
+      b.object_desc as bill_kind_desc, c.object_desc as bill_action_desc,
+      d.object_desc as role_desc, f.object_desc as pre_status_desc,
+      h.object_desc as cur_status_desc,i.object_desc as date_control_type_name
+      from t_def_bill_action_role a
+      left  join t_object_translation b on a.bill_kind_id=b.object_id and b.language_kind_id=#LanguageKindId#
+      left  join t_object_translation c on a.bill_action_id=c.object_id and c.language_kind_id=#LanguageKindId#
+      left  join t_object_translation d on a.role_id=d.object_id and d.language_kind_id=#LanguageKindId#
+      inner join t_def_bill_status e on a.bill_kind_id=e.bill_kind_id and a.pre_bill_status=e.bill_status
+      left  join t_object_translation f on e.bill_status_id=f.object_id and f.language_kind_id=#LanguageKindId#
+      inner join t_def_bill_status g on a.bill_kind_id=g.bill_kind_id and a.cur_bill_status=g.bill_status
+      left  join t_object_translation h on g.bill_status_id=h.object_id and h.language_kind_id=#LanguageKindId#
+      left  join t_object_translation i on a.date_control_type=i.object_id and i.language_kind_id=#LanguageKindId#
+      where a.bill_action_role_id=#BillActionRoleId#
+    </select>
+
+    <select id="SelectByKindIdAndActionIdAndRoleIdAndPreviousStatus" resultMap="BillActionRoleValResult" parameterClass="hashtable">
+      select bill_action_role_id, bill_kind_id, bill_action_id, role_id,
+      pre_bill_status, cur_bill_status, min_money, max_money,
+       '0' validate_date
+      from t_def_bill_action_role
+      where bill_kind_id=#BillKindId# and bill_action_id=#BillActionId#
+      and role_id=substring(#RoleId#,1,32) and pre_bill_status=#PreviousBillStatus#
+    </select>
+
+    <delete id="Delete" parameterClass="string">
+      delete from t_def_bill_action_role where bill_action_role_id=#value#
+    </delete>
+
+    <insert id="Insert" parameterClass="BillActionRole" >
+      insert into t_def_bill_action_role
+      (bill_action_role_id, bill_kind_id, bill_action_id, role_id,
+      pre_bill_status, cur_bill_status, min_money, max_money, 
+      create_user_id, create_time)
+      values
+      (#Id#, #KindId#, #ActionId#, #RoleId#, #PreviousStatus#, #CurrentStatus#, #MinMoney#, #MaxMoney#,
+      #CreateUserID#, convert(varchar,getdate(),120))
+    </insert>
+
+    <update id="Update" parameterClass="BillActionRole">
+      update t_def_bill_action_role
+      set min_money=#MinMoney#, max_money=#MaxMoney#, date_control_type=#DateControlType#,date_time=#DateTime#
+      where bill_action_role_id=#Id#
+    </update>
+
+    <select id="CountCreateActionRoleByKindIdAndRoleId" resultClass="int" parameterClass="hashtable">
+      select nvl(count(a.bill_action_role_id),0) from t_def_bill_action_role a, t_def_bill_action b
+      where a.role_id=substr(#RoleId#,1,32) and a.bill_kind_id=#BillKindId#
+      and a.bill_action_id=b.bill_action_id and b.create_flag=1
+      and FN_BILL_GET_DATETIME(a.date_control_type,a.date_time)=1
+    </select>
+
+    <select id="CountCreateActionRoleByKindCodeAndRoleId" resultClass="int" parameterClass="hashtable">
+      select isnull(count(a.bill_action_role_id),0)  From  t_def_bill_action_role a
+      inner join t_def_bill_action b
+      on(a.bill_action_id=b.bill_action_id)
+      inner join t_def_bill_kind c
+      on(a.bill_kind_id=c.bill_kind_id )
+      where b.create_flag=1
+      and c.bill_kind_code=#BillKindCode#
+      and a.role_id=substring(#RoleId#,1,32)
+    </select>
+
+    <select id="CountApprove" resultClass="int" parameterClass="hashtable">
+      select nvl(count(c.bill_action_role_id),0)
+      from t_def_bill_kind a, t_def_bill_action b,t_def_bill_action_role c
+      where a.bill_kind_code=#BillKindCode# and a.bill_kind_id=b.bill_kind_id
+      and a.bill_kind_id=c.bill_kind_id and c.role_id=substr(#RoleId#,1,32)
+      and b.approve_flag='1' and c.bill_action_id=b.bill_action_id
+      and FN_BILL_GET_DATETIME(c.date_control_type,c.date_time)=1
+    </select>
+
+    <select id="CountReject" resultClass="int" parameterClass="hashtable">
+      select nvl(count(c.bill_action_role_id),0)
+      from t_def_bill_kind a, t_def_bill_action b,t_def_bill_action_role c
+      where a.bill_kind_code=#BillKindCode# and a.bill_kind_id=b.bill_kind_id
+      and a.bill_kind_id=c.bill_kind_id and c.role_id=substr(#RoleId#,1,32)
+      and b.reject_flag='1' and c.bill_action_id=b.bill_action_id
+      and FN_BILL_GET_DATETIME(c.date_control_type,c.date_time)=1
+    </select>
+
+    <select id="CountCancel" resultClass="int" parameterClass="hashtable">
+      select nvl(count(c.bill_action_role_id),0)
+      from t_def_bill_kind a, t_def_bill_action b,t_def_bill_action_role c
+      where a.bill_kind_code=#BillKindCode# and a.bill_kind_id=b.bill_kind_id
+      and a.bill_kind_id=c.bill_kind_id and c.role_id=substr(#RoleId#,1,32)
+      and b.cancel_flag='1' and c.bill_action_id=b.bill_action_id
+      and FN_BILL_GET_DATETIME(c.date_control_type,c.date_time)=1
+    </select>
+
+    <select id="SelectByCondition" parameterClass="hashtable" resultMap="SelectBillActionRoleResult">
+      select a.*,
+      b.bill_kind_name as bill_kind_desc,
+      c1.bill_status_name as pre_status_desc, c2. bill_status_name as cur_status_desc,
+      d.role_name as role_desc,
+      e.bill_action_name as bill_action_desc,
+      '' as date_control_type_name
+      from t_def_bill_action_role a, t_def_bill_kind b, t_def_bill_status c1,
+      t_def_bill_status c2, t_role d, t_def_bill_action e
+      where a.bill_kind_id=b.bill_kind_id
+      and a.bill_kind_id=c1.bill_kind_id and a.pre_bill_status=c1.bill_status
+      and a.bill_kind_id=c2.bill_kind_id and a.cur_bill_status=c2.bill_status
+      and a.role_id=d.role_id
+      and a.bill_action_id=e.bill_action_id
+      <dynamic>
+        <isNotNull property="BillKindID">
+          and a.bill_kind_id=#BillKindID#
+        </isNotNull>
+        <isNotNull property="RoleID">
+          and d.role_id=#RoleID#
+        </isNotNull>
+      </dynamic>
+      order by b.bill_kind_code, d.role_code, e.bill_action_code
+    </select>
+    
+  </statements>
+</sqlMap>

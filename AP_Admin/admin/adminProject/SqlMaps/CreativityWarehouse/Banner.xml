@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Banner"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Banner" type="cpos.Admin.Model.CreativityWarehouse.T_CTW_BannerData,cpos.Admin.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="BannerResult" class="Banner">
+      <result property="AdId" column="AdId" type="Guid" />
+      <result property="ActivityGroupId" column="ActivityGroupId" type="Guid" />
+      <result property="TemplateId" column="TemplateId" type="Guid" />
+      <result property="BannerImageId" column="BannerImageId" type="string"/>
+      <result property="BannerUrl" column="BannerUrl" type="string"/>
+      <result property="BannerName" column="BannerName" type="string"/>
+      <result property="DisplayIndex" column="DisplayIndex" type="int"/>
+      <result property="Status" column="Status" type="int"/>
+      <result property="CreateTime" column="CreateTime" type="datetime"/>
+      <result property="CreateBy" column="CreateBy" type="string"/>
+      <result property="LastUpdateTime" column="LastUpdateTime" type="datetime"/>
+      <result property="LastUpdateBy" column="LastUpdateBy" type="string"/>
+      <result property="IsDelete" column="IsDelete" type="int"/>
+      <!--关联字段-->
+      <result property="ActivityGroupName" column="ActivityGroupName" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!--动态sql语句-->
+    <select id="sql_SelectWhere" resultMap="BannerResult" parameterString="hashtable">
+      SELECT * FROM (select ROW_NUMBER() Over(order by a.LastUpdateTime desc ) as rowNum, a.*,b.Name as ActivityGroupName from T_CTW_Banner as a
+      left join SysMarketingGroupType as b on a.ActivityGroupId=b.ActivityGroupId and b.IsDelete=0
+      where a.IsDelete=0
+      <dynamic>
+        <isNotNull property="BannerName" prepend="and">
+          a.BannerName like '%'+#BannerName#+'%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          a.Status = #Status#
+        </isNotNull>
+      </dynamic>
+      ) as t where <![CDATA[rowNum > #StartPage# and rowNum <= #EndPage# ]]>
+    </select>
+    <!--获取总记录数-->
+    <select id="sql_GetCount" resultClass="int" parameterString="hashtable">
+      select count(1) From T_CTW_Banner where IsDelete=0
+      <dynamic>
+        <isNotNull property="BannerName" prepend="and">
+          BannerName like '%'+#BannerName#+'%'
+        </isNotNull>
+        <isNotNull property="Status" prepend="and">
+          Status = #Status#
+        </isNotNull>
+      </dynamic>
+    </select>
+    <!--获取KV对象-->
+    <select id="sql_SelectById" resultMap="BannerResult" parameterString="hashtable">
+      select *,null as ActivityGroupName  From T_CTW_Banner where IsDelete=0 and AdId=#AdId# 
+    </select>
+
+    <!--判断KV排序是否重复-->
+    <select id="sql_IsExist" resultClass="int" parameterString="hashtable" >
+      select COUNT(1) from T_CTW_Banner where IsDelete=0 and DisplayIndex=#DisplayIndex#
+    </select>
+    <!--新增-->
+    <insert id="sql_Insert" parameterClass="Banner">
+      insert into T_CTW_Banner(
+      AdId
+      ,ActivityGroupId
+      ,TemplateId
+      ,BannerImageId
+      ,BannerUrl
+      ,BannerName
+      ,DisplayIndex
+      ,Status
+      ,CreateTime
+      ,CreateBy
+      ,LastUpdateTime
+      ,LastUpdateBy
+      ,IsDelete
+      )
+      VALUES
+      (
+      #AdId#,#ActivityGroupId#, #TemplateId#, #BannerImageId#,#BannerUrl#, #BannerName#, #DisplayIndex#,
+      10,GetDate(), #CreateBy#,GetDate(), #LastUpdateBy#,0
+      )
+    </insert>
+    <!--修改-->
+    <update id="sql_Update" parameterClass="Banner">
+      update T_CTW_Banner
+      set
+      ActivityGroupId=#ActivityGroupId#
+      ,TemplateId=#TemplateId#
+      ,BannerImageId=#BannerImageId#
+      ,BannerUrl=#BannerUrl#
+      ,BannerName=#BannerName#
+      ,DisplayIndex=#DisplayIndex#
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where AdId = #AdId#
+    </update>
+    <!--逻辑删除-->
+    <update id="sql_Delete" parameterClass="Banner">
+      update T_CTW_Banner
+      set
+      IsDelete=1
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where AdId = #AdId#
+    </update>
+    <!--设置状态-->
+    <update id="sql_UpdateStatus" parameterClass="Banner">
+      update T_CTW_Banner
+      set
+      Status=#Status#
+      ,LastUpdateTime=GETDATE()
+      ,LastUpdateBy=#LastUpdateBy#
+      where AdId = #AdId#
+    </update>
+
+    <update id="sql_UpdateReleaseStatus" parameterClass="Banner">
+      update T_CTW_Banner
+      set
+      Status=30
+      ,LastUpdateTime=GETDATE() where IsDelete=0 and Status=20
+    </update>
+  </statements>
+</sqlMap>

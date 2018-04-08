@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="ServerInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="ServerInfo" type="cPos.Dex.Model.ServerInfo,cPos.Dex.Model" />
+    <typeAlias alias="ServerFtpInfo" type="cPos.Dex.Model.ServerFtpInfo,cPos.Dex.Model" />
+    <typeAlias alias="ServerAccountInfo" type="cPos.Dex.Model.ServerAccountInfo,cPos.Dex.Model" />
+    <typeAlias alias="ServerAccountTypeInfo" type="cPos.Dex.Model.ServerAccountTypeInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="ServerInfoResult" class="ServerInfo">
+      <result property="ServerId" column="Server_Id" type="string" />
+      <result property="ServerCode" column="Server_Code" type="string" />
+      <result property="ServerName" column="Server_Name" type="string" />
+      <result property="ServerIp" column="Server_Ip" type="string" />
+      <result property="ServerStatus" column="Server_Status" type="string" />
+      <result property="SortFlag" column="Sort_Flag" type="int" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="ServerFtpInfoResult" class="ServerFtpInfo">
+      <result property="FtpId" column="Ftp_Id" type="string" />
+      <result property="FtpCode" column="Ftp_Code" type="string" />
+      <result property="FtpName" column="Ftp_Name" type="string" />
+      <result property="FtpIp" column="Ftp_Ip" type="string" />
+      <result property="ServerId" column="Server_Id" type="string" />
+      <result property="FtpStatus" column="Ftp_Status" type="string" />
+      <result property="SortFlag" column="Sort_Flag" type="int" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="ServerAccountInfoResult" class="ServerAccountInfo">
+      <result property="AccountId" column="Account_Id" type="string" />
+      <result property="AccountTypeId" column="Account_Type_Id" type="string" />
+      <result property="ServerId" column="Server_Id" type="string" />
+      <result property="AccountName" column="Account_Name" type="string" />
+      <result property="AccountPwd" column="Account_Pwd" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+    <resultMap id="ServerAccountTypeInfoResult" class="ServerAccountTypeInfo">
+      <result property="AccountTypeId" column="Account_Type_Id" type="string" />
+      <result property="TypeCode" column="Type_Code" type="string" />
+      <result property="TypeName" column="Type_Name" type="string" />
+      <result property="TypeStatus" column="Type_Status" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="CreateUserId" column="Create_User_Id" type="string" />
+      <result property="ModifyTime" column="Modify_Time" type="string" />
+      <result property="ModifyUserId" column="Modify_User_Id" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!-- ServerInfo -->
+    <select id="GetServers" resultMap="ServerInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_server a
+      where 1=1
+      <dynamic>
+        <isNotNull property="ServerId">
+          <isNotEmpty property="ServerId" prepend="and">
+            Server_Id = #ServerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ServerCode">
+          <isNotEmpty property="ServerCode" prepend="and">
+            Server_Code = #ServerCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ServerName">
+          <isNotEmpty property="ServerName" prepend="and">
+            Server_Name = #ServerName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ServerIp">
+          <isNotEmpty property="ServerIp" prepend="and">
+            Server_Ip = #ServerIp#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ServerStatus">
+          <isNotEmpty property="ServerStatus" prepend="and">
+            Server_Status = #ServerStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="SortFlag">
+          <isNotEmpty property="SortFlag" prepend="and">
+            Sort_Flag = #SortFlag#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateUserId">
+          <isNotEmpty property="CreateUserId" prepend="and">
+            Create_User_Id = #CreateUserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend="and">
+            Modify_User_Id = #ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      order by a.sort_flag
+    </select>
+
+    <select id="GetServerById" resultMap="ServerInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_server a
+      where a.server_id=#value#
+    </select>
+
+    <select id="GetServerByCode" resultMap="ServerInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_server a
+      where a.server_code=#value#
+    </select>
+
+    <insert id="InsertServer" parameterClass="ServerInfo">
+      insert into t_dex_server
+      (
+      server_id
+      ,server_code
+      ,server_name
+      ,server_ip
+      ,server_status
+      ,sort_flag
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #ServerId#
+      ,#ServerCode#
+      ,#ServerName#
+      ,#ServerIp#
+      ,#ServerStatus#
+      ,#SortFlag#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateServer" parameterClass="ServerInfo">
+      update t_dex_server
+      set
+      Server_Code=#ServerCode#
+      ,Server_Name=#ServerName#
+      ,Server_Ip=#ServerIp#
+      ,Server_Status=#ServerStatus#
+      ,Sort_Flag=#SortFlag#
+      ,modify_time=#ModifyTime#
+      ,modify_user_id=#ModifyUserId#
+      where server_id=#ServerId#
+    </update>
+
+    <delete id="DeleteServer" parameterClass="string">
+      delete t_dex_server
+      where server_id=#ServerId#
+    </delete>
+
+    <!-- ServerFtpInfo -->
+    <select id="GetServerFtps" resultMap="ServerFtpInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_ftp a
+      where 1=1
+      <dynamic>
+        <isNotNull property="FtpId">
+          <isNotEmpty property="FtpId" prepend="and">
+            Ftp_Id = #FtpId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="FtpCode">
+          <isNotEmpty property="FtpCode" prepend="and">
+            Ftp_Code = #FtpCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="FtpName">
+          <isNotEmpty property="FtpName" prepend="and">
+            Ftp_Name = #FtpName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ServerId">
+          <isNotEmpty property="ServerId" prepend="and">
+            Server_Id = #ServerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="FtpStatus">
+          <isNotEmpty property="FtpStatus" prepend="and">
+            Ftp_Status = #FtpStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      order by a.sort_flag
+    </select>
+
+    <select id="GetServerFtpById" resultMap="ServerFtpInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_ftp a
+      where a.ftp_id=#value#
+    </select>
+
+    <select id="GetServerFtpByCode" resultMap="ServerFtpInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_ftp a
+      where a.ftp_code=#value#
+    </select>
+
+    <insert id="InsertServerFtp" parameterClass="ServerFtpInfo">
+      insert into t_dex_ftp
+      (
+      ftp_id
+      ,ftp_code
+      ,ftp_name
+      ,ftp_ip
+      ,server_id
+      ,ftp_status
+      ,sort_fllag
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #FtpId#
+      ,#FtpCode#
+      ,#FtpName#
+      ,#FtpIp#
+      ,#ServerId#
+      ,#FtpStatus#
+      ,#SortFlag#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateServerFtp" parameterClass="ServerFtpInfo">
+      update t_dex_ftp
+      set
+      Ftp_Code=#FtpCode#
+      ,Ftp_Name=#FtpName#
+      ,Ftp_Ip=#FtpIp#
+      ,Server_Id=#ServerId#
+      ,Ftp_Status=#FtpStatus#
+      ,Sort_Flag=#SortFlag#
+      ,Modify_Time=#ModifyTime#
+      ,Modify_User_Id=#ModifyUserId#
+      where ftp_id=#FtpId#
+    </update>
+
+    <delete id="DeleteServerFtp" parameterClass="string">
+      delete t_dex_ftp
+      where ftp_id=#FtpId#
+    </delete>
+
+    <!-- ServerAccountInfo -->
+    <select id="GetServerAccounts" resultMap="ServerAccountInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_server_account a
+      where 1=1
+      <dynamic>
+        <isNotNull property="AccountId">
+          <isNotEmpty property="AccountId" prepend="and">
+            Account_Id = #AccountId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AccountTypeId">
+          <isNotEmpty property="AccountTypeId" prepend="and">
+            Account_Type_Id = #AccountTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ServerId">
+          <isNotEmpty property="ServerId" prepend="and">
+            Server_Id = #ServerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="AccountName">
+          <isNotEmpty property="AccountName" prepend="and">
+            Account_Name = #AccountName#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetServerAccountById" resultMap="ServerAccountInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_sever_account a
+      where a.account_id=#value#
+    </select>
+
+    <select id="GetServerAccountByCode" resultMap="ServerAccountInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_server_account a
+      where a.account_code=#value#
+    </select>
+
+    <insert id="InsertServerAccount" parameterClass="ServerAccountInfo">
+      insert into t_dex_server_account
+      (
+      account_id
+      ,account_type_id
+      ,server_id
+      ,account_name
+      ,account_pwd
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #AccountId#
+      ,#AccountTypeId#
+      ,#ServerId#
+      ,#AccountName#
+      ,#AccountPwd#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateServerAccount" parameterClass="ServerAccountInfo">
+      update t_dex_server_account
+      set
+      Account_Type_Id=#AccountTypeId#
+      ,Server_Id=#ServerId#
+      ,Account_Name=#AccountName#
+      ,Account_Pwd=#AccountPwd#
+      ,Modify_Time=#ModifyTime#
+      ,Modify_User_Id=#ModifyUserId#
+      where Account_id=#AccountId#
+    </update>
+
+    <delete id="DeleteServerAccount" parameterClass="string">
+      delete t_dex_server_account
+      where account_id=#AccountId#
+    </delete>
+
+
+    <!-- ServerAccountTypeInfo -->
+    <select id="GetServerAccountType" resultMap="ServerAccountTypeInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_server_account_type a
+      where 1=1
+      <dynamic>
+        <isNotNull property="AccountTypeId">
+          <isNotEmpty property="AccountTypeId" prepend="and">
+            Account_Type_Id = #AccountTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeCode">
+          <isNotEmpty property="TypeCode" prepend="and">
+            Type_Code = #TypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeName">
+          <isNotEmpty property="TypeName" prepend="and">
+            Type_Name = #TypeName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="TypeStatus">
+          <isNotEmpty property="TypeStatus" prepend="and">
+            Type_Status = #TypeStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetServerAccountTypeById" resultMap="ServerAccountTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_server_account_type a
+      where a.account_type_id=#value#
+    </select>
+
+    <select id="GetServerAccountTypeByCode" resultMap="ServerAccountTypeInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_server_account_type a
+      where a.type_code=#value#
+    </select>
+
+    <insert id="InsertServerAccountType" parameterClass="ServerAccountTypeInfo">
+      insert into t_dex_server_account_type
+      (
+      account_type_id
+      ,type_code
+      ,type_name
+      ,type_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #AccountTypeId#
+      ,#TypeCode#
+      ,#TypeName#
+      ,#TypeStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateServerAccountType" parameterClass="ServerAccountTypeInfo">
+      update t_dex_server_account_type
+      set
+      Type_Code=#TypeCode#
+      ,Type_Name=#TypeName#
+      ,Type_Status=#TypeStatus#
+      ,Modify_Time=#ModifyTime#
+      ,Modify_User_Id=#ModifyUserId#
+      where account_type_id=#AccountTypeId#
+    </update>
+
+    <delete id="DeleteServerAccountType" parameterClass="string">
+      delete t_dex_server_account_type
+      where account_type_id=#AccountTypeId#
+    </delete>
+    
+  </statements>
+
+</sqlMap>

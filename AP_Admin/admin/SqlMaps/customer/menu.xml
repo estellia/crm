@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap
+	namespace="Customer.Menu"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="CustomerMenu" type="cpos.Admin.Model.Customer.CustomerMenuInfo,cpos.Admin.Model" />
+  </alias>
+  
+  <resultMaps>
+    
+    <resultMap id="CustomerMenuResult" class="CustomerMenu">
+      <result property="ID" column="customer_menu_id" type="string"/>
+      <result property="Customer.ID" column="customer_id" type="string" />
+      <result property="Menu.ID" column="menu_id" type="string"/>
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    
+    <select id="SelectByCustomer" resultMap="CustomerMenuResult" parameterClass="string">
+      select * from t_customer_menu where customer_id=#value#
+    </select>
+
+    <insert id="Insert" parameterClass="CustomerMenu">
+      insert into t_customer_menu(customer_menu_id, customer_id, menu_id)
+      values(#ID#, #Customer.ID#, #Menu.ID#)
+    </insert>
+
+    <delete id="DeleteByCustomer" parameterClass="string">
+      delete from t_customer_menu where customer_id=#value#
+    </delete>
+ 
+  </statements>
+</sqlMap>

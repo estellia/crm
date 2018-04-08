@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<sqlMap
+	namespace="CertInfo"
+	xmlns="http://ibatis.apache.org/mapping"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <alias>
+    <typeAlias alias="CertInfo" type="cPos.Dex.Model.CertInfo,cPos.Dex.Model" />
+    <typeAlias alias="CertTokenInfo" type="cPos.Dex.Model.CertTokenInfo,cPos.Dex.Model" />
+    <typeAlias alias="CertUnitInfo" type="cPos.Dex.Model.CertUnitInfo,cPos.Dex.Model" />
+  </alias>
+
+  <resultMaps>
+    <resultMap id="CertInfoResult" class="CertInfo">
+      <result property="CertId" column="cert_id" type="string" />
+      <result property="CertTypeId" column="cert_type_id" type="string" />
+      <result property="UserId" column="user_id" type="string" />
+      <result property="UserCode" column="user_code" type="string" />
+      <result property="UserName" column="user_name" type="string" />
+      <result property="CustomerId" column="customer_id" type="string" />
+      <result property="CustomerCode" column="customer_code" type="string" />
+      <result property="CertPwd" column="cert_pwd" type="string" />
+      <result property="CertStatus" column="cert_status" type="string" />
+      <result property="CreateTime" column="create_time" type="string" />
+      <result property="CreateUserId" column="create_user_id" type="string" />
+      <result property="ModifyTime" column="modify_time" type="string" />
+      <result property="ModifyUserId" column="modify_user_id" type="string" />
+    </resultMap>
+    <resultMap id="CertTokenInfoResult" class="CertTokenInfo">
+      <result property="CertId" column="Cert_Id" type="string" />
+      <result property="UserId" column="User_Id" type="string" />
+      <result property="CertToken" column="Cert_Token" type="string" />
+      <result property="CreateTime" column="Create_Time" type="string" />
+      <result property="UpdateTime" column="Update_Time" type="string" />
+    </resultMap>
+  </resultMaps>
+
+  <statements>
+    <!-- CertInfo -->
+    <select id="GetCerts" resultMap="CertInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_cert a
+      left join t_dex_cert_type b on a.cert_type_id=b.cert_type_id
+      where 1=1
+      <dynamic>
+        <isNotNull property="CertId">
+          <isNotEmpty property="CertId" prepend="and">
+            a.cert_id = #CertId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertTypeId">
+          <isNotEmpty property="CertTypeId" prepend="and">
+            a.cert_type_id = #CertTypeId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertTypeCode">
+          <isNotEmpty property="CertTypeCode" prepend="and">
+            b.type_code = #CertTypeCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserId">
+          <isNotEmpty property="UserId" prepend="and">
+            a.user_id = #UserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserCode">
+          <isNotEmpty property="UserCode" prepend="and">
+            a.user_code = #UserCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerId">
+          <isNotEmpty property="CustomerId" prepend="and">
+            a.customer_id = #CustomerId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerCode">
+          <isNotEmpty property="CustomerCode" prepend="and">
+            a.customer_code = #CustomerCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertStatus">
+          <isNotEmpty property="CertStatus" prepend="and">
+            a.cert_status = #CertStatus#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertPwd">
+          <isNotEmpty property="CertPwd" prepend="and">
+            a.cert_pwd = #CertPwd#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetCertByCertId" resultMap="CertInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_cert a
+      where a.cert_id=#value#
+    </select>
+
+    <select id="GetCertByUserId" resultMap="CertInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_cert a
+      where a.user_id=#value#
+    </select>
+
+    <select id="GetCertByUserIdAndCustomerId" resultMap="CertInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_cert a
+      where a.user_id=#UserId# and a.customer_id=#CustomerId#
+    </select>
+    
+    <select id="CheckCertByCode" resultClass="int" parameterClass="hashtable">
+      select count(*) 
+      from t_dex_cert a
+      where 1=1
+      <dynamic>
+        <isNotNull property="UserCode">
+          <isNotEmpty property="UserCode" prepend="and">
+            user_code = #UserCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CustomerCode">
+          <isNotEmpty property="CustomerCode" prepend="and">
+            customer_code = #CustomerCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertStatus">
+          <isNotEmpty property="CertStatus" prepend="and">
+            cert_status = #CertStatus#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <insert id="InsertCert" parameterClass="CertInfo">
+      insert into t_dex_cert
+      (
+      cert_id
+      ,cert_type_id
+      ,user_id
+      ,user_code
+      ,user_name
+      ,customer_code
+      ,customer_id
+      ,cert_pwd
+      ,cert_status
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #CertId#
+      ,#CertTypeId#
+      ,#UserId#
+      ,#UserCode#
+      ,#UserName#
+      ,#CustomerCode#
+      ,#CustomerId#
+      ,#CertPwd#
+      ,#CertStatus#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <update id="UpdateCert" parameterClass="CertInfo">
+      update t_dex_cert
+      set
+      cert_type_id=#CertTypeId#
+      ,user_id=#UserId#
+      ,user_code=#UserCode#
+      ,user_name=#UserName#
+      ,customer_code=#CustomerCode#
+      ,customer_id=#CustomerId#
+      ,cert_pwd=#CertPwd#
+      ,cert_status=#CertStatus#
+      ,modify_time=#ModifyTime#
+      ,modify_user_id=#ModifyUserId#
+      where cert_id=#CertId#
+    </update>
+
+    <update id="UpdateCertByUserId" parameterClass="CertInfo">
+      update t_dex_cert
+      set cert_type_id=cert_type_id 
+      <dynamic>
+        <isNotNull property="UserCode">
+          <isNotEmpty property="UserCode" prepend=",">
+            user_code = #UserCode#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserName">
+          <isNotEmpty property="UserName" prepend=",">
+            user_name = #UserName#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertPwd">
+          <isNotEmpty property="CertPwd" prepend=",">
+            cert_pwd = #CertPwd#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyTime">
+          <isNotEmpty property="ModifyTime" prepend=",">
+            modify_time = #ModifyTime#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend=",">
+            modify_user_id = #ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      where user_id=#UserId#
+    </update>
+
+    <update id="DisableCertByUserId" parameterClass="CertInfo">
+      update t_dex_cert
+      set cert_status=1
+      <dynamic>
+        <isNotNull property="ModifyTime">
+          <isNotEmpty property="ModifyTime" prepend=",">
+            modify_time = #ModifyTime#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="ModifyUserId">
+          <isNotEmpty property="ModifyUserId" prepend=",">
+            modify_user_id = #ModifyUserId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+      where user_id=#UserId#
+    </update>
+    
+    <delete id="DeleteCert" parameterClass="CertInfo">
+      delete t_dex_cert
+      where 1=1
+      and user_code=#UserCode#
+      and customer_code=#CustomerCode#
+      <dynamic>
+        <isNotNull property="CertId">
+          <isNotEmpty property="CertId" prepend="and">
+            cert_id = #CertId#
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </delete>
+
+    <!-- CertTokenInfo -->
+    <select id="GetCertTokens" resultMap="CertTokenInfoResult" parameterClass="hashtable">
+      select a.*
+      from t_dex_cert_token a
+      where 1=1
+      <dynamic>
+        <isNotNull property="CertId">
+          <isNotEmpty property="CertId" prepend="and">
+            a.Cert_Id = #CertId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UserId">
+          <isNotEmpty property="UserId" prepend="and">
+            a.User_Id = #UserId#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CertToken">
+          <isNotEmpty property="CertToken" prepend="and">
+            a.Cert_Token = #CertToken#
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeBegin">
+          <isNotEmpty property="CreateTimeBegin" prepend="and">
+            a.Create_Time &gt;= convert(datetime, #CreateTimeBegin#)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="CreateTimeEnd">
+          <isNotEmpty property="CreateTimeEnd" prepend="and">
+            a.Create_Time &lt;= convert(datetime, #CreateTimeEnd#)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UpdateTimeBegin">
+          <isNotEmpty property="UpdateTimeBegin" prepend="and">
+            a.Update_Time &gt;= convert(datetime, #UpdateTimeBegin#)
+          </isNotEmpty>
+        </isNotNull>
+        <isNotNull property="UpdateTimeEnd">
+          <isNotEmpty property="UpdateTimeEnd" prepend="and">
+            a.Update_Time &lt;= convert(datetime, #UpdateTimeEnd#)
+          </isNotEmpty>
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <select id="GetCertTokenByCertId" resultMap="CertTokenInfoResult" parameterClass="string">
+      select a.*
+      from t_dex_cert_token a
+      where cert_id=#value#
+    </select>
+
+    <insert id="InsertCertToken" parameterClass="CertTokenInfo">
+      insert into t_dex_cert_token
+      (
+      cert_id
+      ,user_id
+      ,cert_token
+      ,create_time
+      ,update_time
+      )
+      values
+      (
+      #CertId#
+      ,#UserId#
+      ,#CertToken#
+      ,#CreateTime#
+      ,#UpdateTime#
+      )
+    </insert>
+
+    <update id="UpdateCertToken" parameterClass="CertTokenInfo">
+      update t_dex_cert_token
+      set
+      cert_token=#CertToken#
+      ,update_time=#UpdateTime#
+      where cert_id=#CertId#
+    </update>
+
+    <delete id="DeleteCertToken" parameterClass="CertTokenInfo">
+      delete t_dex_cert_token
+      where 1=1
+      and cert_id=#CertId#
+    </delete>
+
+    <insert id="InsertCertUnit" parameterClass="CertUnitInfo">
+      insert into t_dex_cert_unit
+      (
+      cert_id
+      ,user_id
+      ,unit_id
+      ,unit_code
+      ,unit_name
+      ,create_time
+      ,create_user_id
+      ,modify_time
+      ,modify_user_id
+      )
+      values
+      (
+      #CertId#
+      ,#UserId#
+      ,#UnitId#
+      ,#UnitCode#
+      ,#UnitName#
+      ,#CreateTime#
+      ,#CreateUserId#
+      ,#ModifyTime#
+      ,#ModifyUserId#
+      )
+    </insert>
+
+    <delete id="DeleteCertUnitsByUserId" parameterClass="string">
+      delete t_dex_cert_unit
+      where 1=1
+      and user_id=#value#
+    </delete>
+    
+  </statements>
+
+</sqlMap>
